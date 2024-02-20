@@ -22,6 +22,6 @@ public class Categories {
     @Column(name = "Categories_Name")
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<PostCategories> postCategories;
+//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+//    private List<PostCategories> postCategories;
 }

@@ -21,7 +21,7 @@ public class Posts { // 게시물 테이블
     private Long id;
 
     // 다(Posts)대일(Users) 관계
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Users_ID")
     private Users user;
 

@@ -43,7 +43,7 @@ public class Users { // 사용자 테이블
 
     // 게시물 테이블과의 일(users)대다(Posts) 관계 설정
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Posts> posts;
+    private List<Posts> posts; // 자바에는 있지만 실제 DB에 가보면 User 테이블에는 POST 정보가 없어
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
