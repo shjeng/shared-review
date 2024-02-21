@@ -10,17 +10,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostCategories {
+public class PostCategorie { // 게시물-카테고리 연결 테이블
+    // 게시물-카테고리 ID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PostCategories_ID")
+    @GeneratedValue
+    @Column(name = "PostCategorie_ID")
     private Long id;
+    
+    // Post테이블 Post_ID 외래키
+    
+    // Categorie 테이블 Categorie_ID 외래키
 
-    @ManyToOne
-    @JoinColumn(name = "Posts_ID")
-    private Posts post;
-
-    @ManyToOne
-    @JoinColumn(name = "Categories_ID")
-    private Categories category;
 }

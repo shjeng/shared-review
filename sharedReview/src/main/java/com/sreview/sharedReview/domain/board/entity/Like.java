@@ -10,17 +10,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Likes {
+public class Like {
+    // 좋아요 ID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Likes_ID")
+    @GeneratedValue
+    @Column(name = "Like_ID")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "Users_ID")
-    private Users user;
+    // User테이블 User_ID 외래키
 
-    @ManyToOne
-    @JoinColumn(name = "Posts_ID")
-    private Posts post;
+    // post테이블 Post_ID 외래키
 }
