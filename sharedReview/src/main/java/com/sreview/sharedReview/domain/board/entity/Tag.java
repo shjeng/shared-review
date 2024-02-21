@@ -6,22 +6,22 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Tags { // 태그 테이블
+public class Tag { // 태그 테이블
+    // 태그 ID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Tags_ID")
+    @GeneratedValue
+    @Column(name = "Tag_ID")
     private Long id;
 
-    @Column(name = "Tags_Name")
+    // 태그 명
+    @Column(name = "Tag_Name")
     private String name;
 
-    // 일대다
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
-    private List<PostTags> postTags;
+//    // 일대다
+//    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
+//    private List<PostTags> postTags;
 }

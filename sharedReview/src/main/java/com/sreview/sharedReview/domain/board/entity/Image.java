@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Images {
+public class Image { // 이미지 테이블
+    // 이미지 ID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Images_ID")
+    @GeneratedValue
+    @Column(name = "Image_ID")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "Posts_ID")
-    private Posts post;
+    // Post테이블 Post_ID 외래키
 
-    @Column(name = "Images_Url")
+    // 이미지 URL
+    @Column(name = "Image_Url")
     private String url;
 }
