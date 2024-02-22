@@ -20,7 +20,10 @@ public class Post { // 게시물 테이블
     private Long id;
 
     // User테이블 User_ID 외래키
-
+    //    // 다(Posts)대일(Users) 관계
+    @ManyToOne
+    @JoinColumn(name = "Users_ID")
+    private User user;
 
     // 게시물 제목
     @Column(name = "Post_Title")
@@ -42,25 +45,8 @@ public class Post { // 게시물 테이블
     @Column(name = "Post_EditDate")
     private LocalDateTime editDate;
 
-
-    //    // 다(Posts)대일(Users) 관계
-//    @ManyToOne
-//    @JoinColumn(name = "Users_ID")
-//    private Users user;
-//
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-//    private List<Images> images;
-//
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-//    private List<Comments> comments;
-//
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-//    private List<PostCategories> postCategories;
-//
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-//    private List<PostTags> postTags;
-
 //    // 게시물 좋아요
 //    @Column(name = "Post_LikesCount")
 //    private int likesCount;
+
 }
