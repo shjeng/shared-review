@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class BoardController {
     private final BoardServcice boardServcice;
 
-    @GetMapping("/test")
-    public String test(Dto dto){ // 스트링으로 했음.
-        return boardServcice.save(dto);
-    }
+//    @GetMapping("/test")
+//    public String test(Dto dto){ // 스트링으로 했음.
+//        return boardServcice.save(dto);
+//    }
 }
