@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -20,8 +22,14 @@ public class Comment { // 댓글 테이블
     private Long id;
 
     // User테이블 - User_ID 외래키
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "Users_ID")
+    private User user;
 
     // Post테이블 - Post_ID 외래키
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "Post_ID")
+    private Post post;
 
     // 댓글 내용
     @Column(name = "Comment_Content", nullable = false)

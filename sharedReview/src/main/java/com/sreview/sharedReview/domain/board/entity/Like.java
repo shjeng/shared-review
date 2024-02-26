@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -18,6 +21,13 @@ public class Like {
     private Long id;
 
     // User테이블 User_ID 외래키
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "Users_ID")
+    private User user;
 
     // post테이블 Post_ID 외래키
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "Post_Id")
+    private Post post;
+
 }
