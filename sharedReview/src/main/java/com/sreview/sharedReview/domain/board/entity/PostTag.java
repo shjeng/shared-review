@@ -21,13 +21,13 @@ public class PostTag { // 게시물-태그 연결 테이블
 
     // Post테이블 Post_ID 외래키
 
-//    // 다대일
-//    @ManyToOne
-//    @JoinColumn(name = "Posts_ID")
-//    private Posts post;
-//
-//    // 다대일
-//    @ManyToOne
-//    @JoinColumn(name = "Tags_ID")
-//    private Tags tag;
+    // 다대일
+    @ManyToOne
+    @JoinColumn(name = "Posts_ID")
+    private Post post;
+
+    // 다대일
+    @ManyToOne
+    @JoinColumn(name = "Tags_ID")
+    private Tag tag;
 }
