@@ -1,12 +1,13 @@
 package com.sreview.sharedReview.domain.jpa.service;
 
-import com.sreview.sharedReview.domain.board.entity.User;
+import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,7 +21,9 @@ public class UserService {
         userRepository.save(user);
         return user.getId();
     }
-
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
 //    public void validateDuplidateUser(User user) {
 //        List<User> findUsers = userRepository.findByNickName(user.getNickname());
 //        if (!findUsers.isEmpty()) {
@@ -28,5 +31,5 @@ public class UserService {
 //        }
 //    }
 
-    public List<User> findUser
+//    public List<User> findUser
 }

@@ -1,7 +1,6 @@
 // 게시물 테이블
-package com.sreview.sharedReview.domain.board.entity;
+package com.sreview.sharedReview.domain.jpa.entity;
 
-import com.sreview.sharedReview.domain.board.dto.PostDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

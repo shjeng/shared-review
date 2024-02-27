@@ -1,12 +1,11 @@
 // 좋아요 테이블
-package com.sreview.sharedReview.domain.board.entity;
+package com.sreview.sharedReview.domain.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity

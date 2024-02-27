@@ -1,6 +1,6 @@
-package com.sreview.sharedReview.domain.board.entity;
+package com.sreview.sharedReview.domain.jpa.entity;
 
-import com.sreview.sharedReview.domain.board.entity.enumType.ADMIN;
+import com.sreview.sharedReview.domain.jpa.entity.enumType.ADMIN;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,9 +1,6 @@
 package com.sreview.sharedReview.domain.jpa.service;
 
-import com.sreview.sharedReview.domain.board.dto.PostDTO;
-import com.sreview.sharedReview.domain.board.entity.Categorie;
-import com.sreview.sharedReview.domain.board.entity.PostEntity;
-import com.sreview.sharedReview.domain.jpa.jpaInterface.CategorieRepository;
+import com.sreview.sharedReview.domain.jpa.entity.PostEntity;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

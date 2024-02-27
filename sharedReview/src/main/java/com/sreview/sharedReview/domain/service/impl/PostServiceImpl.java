@@ -1,8 +1,7 @@
 package com.sreview.sharedReview.domain.service.impl;
 
 import com.sreview.sharedReview.domain.board.dto.PostDTO;
-import com.sreview.sharedReview.domain.board.entity.PostEntity;
-import com.sreview.sharedReview.domain.jpa.jpaInterface.PostRepository;
+import com.sreview.sharedReview.domain.jpa.entity.PostEntity;
 import com.sreview.sharedReview.domain.jpa.service.PostService;
 import com.sreview.sharedReview.domain.service.PostSerivce;
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,5 @@
 // 댓글 테이블
-package com.sreview.sharedReview.domain.board.entity;
+package com.sreview.sharedReview.domain.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
