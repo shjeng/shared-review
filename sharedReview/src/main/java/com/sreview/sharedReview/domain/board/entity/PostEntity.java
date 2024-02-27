@@ -29,15 +29,9 @@ public class PostEntity { // 게시물 테이블
     // 유저 ID
     // User테이블 User_ID 외래키
     //    // 다(Posts)대일(Users) 관계
-<<<<<<< HEAD:sharedReview/src/main/java/com/sreview/sharedReview/domain/board/entity/PostEntity.java
-    @ManyToOne
-    @JoinColumn(name = "User_ID")
-    private Long userId;
-=======
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "Users_ID")
     private User user;
->>>>>>> 4885e4d025715ab12e2988cda83fc92025a5e4f8:sharedReview/src/main/java/com/sreview/sharedReview/domain/board/entity/Post.java
 
     // 게시물 제목
     @Column(name = "Post_Title")
@@ -49,11 +43,7 @@ public class PostEntity { // 게시물 테이블
 
     // 게시물 조회수
     @Column(name = "Post_ViewsCount")
-<<<<<<< HEAD:sharedReview/src/main/java/com/sreview/sharedReview/domain/board/entity/PostEntity.java
-    private Long viewsCount;
-=======
     private int viewsCount;
->>>>>>> 4885e4d025715ab12e2988cda83fc92025a5e4f8:sharedReview/src/main/java/com/sreview/sharedReview/domain/board/entity/Post.java
 
     // 게시물 작성 날짜
     @Column(name = "Post_CreatedAt")
@@ -63,26 +53,6 @@ public class PostEntity { // 게시물 테이블
     @Column(name = "Post_EditDate")
     private LocalDateTime editDate;
 
-<<<<<<< HEAD:sharedReview/src/main/java/com/sreview/sharedReview/domain/board/entity/PostEntity.java
-
-    // PostServiceImpl.java에서 BeanUtils.copyProperties(postDTO, post);로 엔티티 객체로 변환해준거 같아서 일단 주석 처리함
-//    public static PostEntity toSaveEntity(PostDTO postDTO) {
-//        PostEntity postEntity = new PostEntity();
-//        postEntity.setPostId(postDTO.getPostId());
-//        postEntity.setUserId(postDTO.getUserId());
-//
-//        postEntity.setTitle(postDTO.getPostTitle());
-//        postEntity.setContent(postDTO.getPostContent());
-//        postEntity.setViewsCount(postDTO.getViews());
-//        postEntity.setCreatedAt(postDTO.getPostCreatedAt());
-//        postEntity.setEditDate(postDTO.getPostEditDate());
-//        return postEntity;
-//    }
-
-//    // 게시물 좋아요
-//    @Column(name = "Post_LikesCount")
-//    private int likesCount;
-=======
     // 게시물 좋아요
     @OneToMany(mappedBy = "like", cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<>();
@@ -98,6 +68,5 @@ public class PostEntity { // 게시물 테이블
     @JoinColumn(name = "Categorie_ID")
     private Categorie categorie;
 
->>>>>>> 4885e4d025715ab12e2988cda83fc92025a5e4f8:sharedReview/src/main/java/com/sreview/sharedReview/domain/board/entity/Post.java
 
 }

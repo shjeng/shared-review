@@ -1,6 +1,5 @@
 package com.sreview.sharedReview.domain.controller;
 
-<<<<<<< HEAD
 import com.sreview.sharedReview.domain.board.dto.PostDTO;
 import com.sreview.sharedReview.domain.service.PostSerivce;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +19,4 @@ public class PostController {
         // 인덱스 페이지로 이동
         return "index";
     }
-=======
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/post")
-public class PostController {
-
-
->>>>>>> 4885e4d025715ab12e2988cda83fc92025a5e4f8
 }
