@@ -1,10 +1,12 @@
 // 게시물 테이블
 package com.sreview.sharedReview.domain.board.entity;
 
+import com.sreview.sharedReview.domain.board.dto.PostDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,15 +16,17 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity // 엔티티로 사용하겠다
 @Getter // 객체의 필드 값을 반환하는 역할
+@Setter
 @NoArgsConstructor // JPA는 엔티티를 생성할 때 기본 생성자를 사용. 매개변수가 없는 기본 생성자를 생성
 @AllArgsConstructor // 해당 클래스에 모든 필드를 매개변수로 받는 생성자를 자동으로 생성
-public class Post { // 게시물 테이블
+public class PostEntity { // 게시물 테이블
     // 게시물 ID
     @Id
     @GeneratedValue
     @Column(name = "Post_ID")
-    private Long id;
+    private Long postId;
 
+    // 유저 ID
     // User테이블 User_ID 외래키
     //    // 다(Posts)대일(Users) 관계
     @ManyToOne(fetch = LAZY)
