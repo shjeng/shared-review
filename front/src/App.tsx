@@ -1,26 +1,25 @@
+<<<<<<< HEAD
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+=======
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import Container from './layouts/Container';
+import { MAIN_PATH } from './constant';
+>>>>>>> 4885e4d025715ab12e2988cda83fc92025a5e4f8
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  return ( 
+    <Routes>
+      <Route element={<Container/>}>
+        <Route path={MAIN_PATH()} element={<></>} />
+      </Route>
+    </Routes>
+    )
 }
 
 export default App;

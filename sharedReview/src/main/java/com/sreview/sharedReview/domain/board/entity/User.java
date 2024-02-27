@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -39,5 +42,10 @@ public class User {
     @Column(name = "User_CreateDate")
     private Long createDate;
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "like", cascade = CascadeType.ALL)
+    private List<Like> likes = new ArrayList<>();
 
 }
