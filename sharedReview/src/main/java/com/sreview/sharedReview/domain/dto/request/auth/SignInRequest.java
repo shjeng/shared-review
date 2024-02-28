@@ -1,4 +1,4 @@
-package com.sreview.sharedReview.domain.dto.request;
+package com.sreview.sharedReview.domain.dto.request.auth;
 
 import lombok.Getter;
 import lombok.Setter;

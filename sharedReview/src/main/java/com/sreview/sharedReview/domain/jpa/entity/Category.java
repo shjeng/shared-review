@@ -11,23 +11,28 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Categorie {
+public class Category {
     // 카테고리 ID
     @Id
     @GeneratedValue
-    @Column(name = "Categorie_ID")
+    @Column(name = "category_ID")
     private Long id;
 
     // 카테고리 명
-    @Column(name = "Categorie_Name")
+    @Column(name = "category_Name")
     private String name;
 
     // 카테고리 작성자
-    @Column(name = "Categorie_Create_Name")
-    private String createName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // 카테고리 작성 날짜
-    @Column(name = "Categorie_Create_Date")
+    @Column(name = "category_Create_Date")
     private String createDate;
 
+    public Category(String name, User user) {
+        this.name = name;
+        this.user = user;
+    }
 }

@@ -1,6 +1,6 @@
 package com.sreview.sharedReview.domain.service.impl;
 
-import com.sreview.sharedReview.domain.dto.request.SignInRequest;
+import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.response.auto.SignInResponse;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.service.UserService;

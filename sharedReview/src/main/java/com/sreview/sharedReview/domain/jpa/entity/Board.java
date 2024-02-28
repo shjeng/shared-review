@@ -65,7 +65,7 @@ public class Board { // 게시물 테이블
 
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "Categorie_ID")
-    private Categorie categorie;
+    private Category categorie;
 
 
 }

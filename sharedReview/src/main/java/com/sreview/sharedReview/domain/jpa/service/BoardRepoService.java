@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true) // 이건 읽기 전용
 @Service
 @RequiredArgsConstructor
-public class BoardService { // DB에 넣어주는 아이
+public class BoardRepoService { // DB에 넣어주는 아이
 
     private final BoardRepository postRepository;
 

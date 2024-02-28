@@ -1,7 +1,7 @@
 package com.sreview.sharedReview.domain.controller.auth;
 
 
-import com.sreview.sharedReview.domain.dto.request.SignInRequest;
+import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.response.auto.SignInResponse;
 import com.sreview.sharedReview.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;

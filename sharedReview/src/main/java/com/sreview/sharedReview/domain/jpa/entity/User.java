@@ -16,7 +16,7 @@ import java.util.List;
 public class User {
     // 회원 ID
     @Id @GeneratedValue
-    @Column(name = "User_ID")
+    @Column(name = "user_id")
     private Long id;
 
     // 회원 이메일
