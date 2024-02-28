@@ -14,7 +14,7 @@ public class PostCategorie { // 게시물-카테고리 연결 테이블
     // 게시물-카테고리 ID
     @Id
     @GeneratedValue
-    @Column(name = "PostCategorie_ID")
+    @Column(name = "BoardCategorie_ID")
     private Long id;
     
     // Post테이블 Post_ID 외래키

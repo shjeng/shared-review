@@ -18,12 +18,12 @@ import static jakarta.persistence.FetchType.*;
 @Setter
 @NoArgsConstructor // JPA는 엔티티를 생성할 때 기본 생성자를 사용. 매개변수가 없는 기본 생성자를 생성
 @AllArgsConstructor // 해당 클래스에 모든 필드를 매개변수로 받는 생성자를 자동으로 생성
-public class PostEntity { // 게시물 테이블
+public class Board { // 게시물 테이블
     // 게시물 ID
     @Id
     @GeneratedValue
-    @Column(name = "Post_ID")
-    private Long postId;
+    @Column(name = "Board_ID")
+    private Long boardId;
 
     // 유저 ID
     // User테이블 User_ID 외래키
@@ -33,23 +33,23 @@ public class PostEntity { // 게시물 테이블
     private User user;
 
     // 게시물 제목
-    @Column(name = "Post_Title")
+    @Column(name = "Board_Title")
     private String title;
 
     // 게시물 내용
-    @Column(name = "Post_Content")
+    @Column(name = "Board_Content")
     private String content;
 
     // 게시물 조회수
-    @Column(name = "Post_ViewsCount")
+    @Column(name = "Board_ViewsCount")
     private int viewsCount;
 
     // 게시물 작성 날짜
-    @Column(name = "Post_CreatedAt")
+    @Column(name = "Board_CreatedAt")
     private LocalDateTime createdAt;
 
     // 게시물 수정 날짜
-    @Column(name = "Post_EditDate")
+    @Column(name = "Board_EditDate")
     private LocalDateTime editDate;
 
     // 게시물 좋아요
