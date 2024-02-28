@@ -79,19 +79,32 @@
 .dropdown-content {
   position: absolute;
   background-color: #f9f9f9;
-  border: 1px solid black;
+  border: 1px solid rgba(0, 0, 0, 0.134);
+  border-radius: 5px;
   min-width: 160px;
   z-index: 1;
   max-height: 200px; /* 적절한 최대 높이 설정 */
   overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
 }
 
+.dropdown-content-item:hover {
+  background-color: #bbbbbb35;
+}
+
 .dropdown-box {
+  display: flex;
   margin-right: 20px;
   border: 1px solid #bbb;
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 14px;
+}
+
+.dropdown_icon {
+  width: 20px;
+  height: 20px;
+  background-image: url(../../assets/image/dropdown-icon.png);
+  background-size: cover;
 }
 
 .header-category-dropdown {

@@ -21,7 +21,8 @@ const Header = () => {
           <div className="header-category">
             <div className="header-category-dropdown">
               <div className="dropdown-box" onClick={toggleDropdown}>
-                <div className="dropdown_text">카테고리v</div>
+                <div className="dropdown_text">카테고리</div>
+                <div className="dropdown_icon"></div>
               </div>
               {isOpen && (
                 <div className="dropdown-content">
