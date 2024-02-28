@@ -26,7 +26,7 @@ public class Like {
 
     // post테이블 Post_ID 외래키
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "Post_Id")
-    private Post post;
+    @JoinColumn(name = "Board_Id")
+    private Board board;
 
 }

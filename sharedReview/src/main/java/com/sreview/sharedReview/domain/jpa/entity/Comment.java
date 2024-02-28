@@ -28,8 +28,8 @@ public class Comment { // 댓글 테이블
 
     // Post테이블 - Post_ID 외래키
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "Post_ID")
-    private Post post;
+    @JoinColumn(name = "Board_ID")
+    private Board board;
 
     // 댓글 내용
     @Column(name = "Comment_Content", nullable = false)

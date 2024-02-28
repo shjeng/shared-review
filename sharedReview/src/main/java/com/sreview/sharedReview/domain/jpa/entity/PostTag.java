@@ -14,7 +14,7 @@ public class PostTag { // 게시물-태그 연결 테이블
     // 게시물-태그 ID
     @Id
     @GeneratedValue
-    @Column(name = "PostTag_ID")
+    @Column(name = "BoardTag_ID")
     private Long id;
 
     // Tag테이블 Tag_ID 외래키
@@ -23,8 +23,8 @@ public class PostTag { // 게시물-태그 연결 테이블
 
     // 다대일
     @ManyToOne
-    @JoinColumn(name = "Posts_ID")
-    private Post post;
+    @JoinColumn(name = "Board_ID")
+    private Board board;
 
     // 다대일
     @ManyToOne
