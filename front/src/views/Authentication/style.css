@@ -1,30 +1,81 @@
-.login-wrapper {
-  width: 400px;
-  height: 350px;
-  padding: 40px;
-  box-sizing: border-box;
+#sign-in-wrap {
+  width: 630px;
+  height: 800px;
+  margin: auto;
 }
 
-.login-wrapper > h2 {
-  font-size: 24px;
-  color: #6a24fe;
-  margin-bottom: 20px;
+.sign-in-access-options {
+  width: 350px;
+  margin: auto;
 }
-#login-form > input {
-  width: 100%;
-  height: 48px;
-  padding: 0 10px;
-  box-sizing: border-box;
-  margin-bottom: 16px;
-  border-radius: 6px;
-  background-color: #f8f8f8;
+
+.sign-in-access-options ul {
+  list-style: none;
+  justify-content: space-between;
+  display: flex;
+  padding: 0;
 }
-#login-form > input::placeholder {
-  color: #d2d2d2;
+
+.auth-sign-in-top,
+.auth-sign-in-bottom {
+  margin: auto;
 }
-#login-form > input[type="submit"] {
-  color: #fff;
-  font-size: 16px;
-  background-color: #6a24fe;
-  margin-top: 20px;
+
+.sign-in-title {
+  height: 130px;
+  text-align: center;
+  line-height: 200px;
+  font-size: 32px;
+  margin-bottom: 50px;
+}
+
+.sign-in-input-box input {
+  display: block;
+  margin: 20px auto;
+  width: 500px;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid rgb(201, 201, 201);
+}
+
+.sign-in-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  height: 50px;
+  margin: auto;
+  border: 1px solid rgb(201, 201, 201);
+  border-radius: 5px;
+}
+
+.social_login_box {
+  margin: auto;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.social_login_image-g {
+  width: 50px;
+  height: 50px;
+  background-image: url(../../assets/image/google-logo.png);
+  background-position: center;
+  background-size: cover;
+}
+
+.social_login_image-k {
+  width: 50px;
+  height: 50px;
+  background-image: url(../../assets/image/kakao-logo.png);
+  background-position: center;
+  background-size: cover;
+}
+
+.social_login_image-n {
+  width: 50px;
+  height: 50px;
+  background-image: url(../../assets/image/naver-logo.png);
+  background-position: center;
+  background-size: cover;
 }
