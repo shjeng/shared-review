@@ -2,7 +2,9 @@ package com.sreview.sharedReview.domain.controller.auth;
 
 
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
+import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.auto.SignInResponse;
+import com.sreview.sharedReview.domain.dto.response.auto.SignUpResponse;
 import com.sreview.sharedReview.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,11 @@ public class AuthController {
     @PostMapping("/sign-in") // 로그인, 먼저 request dto를 controller에서 받아준다.
     public ResponseEntity<? super SignInResponse> signIn(@RequestBody SignInRequest request){
         return authService.signIn(request);
+    }
+
+    @PostMapping("/sign-up") // 회원가입
+    public ResponseEntity<? super SignUpResponse> signUp(@RequestBody SignUpRequest request){
+        return authService.signUp(request);
     }
 
 }

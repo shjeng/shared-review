@@ -49,12 +49,12 @@ public class BoardServiceImpl implements BoardService {
 
             String getName = request.getName();
             Category category = new Category(getName,user);
-
+            categoryService.save(category);
         }catch (Exception e){
             e.printStackTrace();
 
         }
-        return null;
+        return CategoryWriteResponse.success();
     }
 
     @Override
