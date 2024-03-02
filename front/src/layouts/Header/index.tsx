@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
+import { Navigate, useNavigate } from "react-router-dom";
+import { MAIN_PATH, AUTH_PATH } from "../../constant";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,11 +10,24 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
+  //        function: 네비게이트 함수     //
+  const navigate = useNavigate();
+
+  //      event handler: 로고 클릭 이벤트 처리 함수       //
+  const onLogoClickHandler = () => {
+    navigate(MAIN_PATH());
+  };
+
+  //      event handler: 로그인 클릭 이벤트 처리 함수       //
+  const onLoginClickHandler = () => {
+    navigate(AUTH_PATH());
+  };
+
   const onDropdownCategory = () => {};
   return (
     <div id="header-wrap">
       <div className="header-top-box">
-        <div className="header-left-box">
+        <div className="header-left-box" onClick={onLogoClickHandler}>
           <div className="header-icon"></div>
           <div className="header-logo">{"SReview"}</div>
         </div>
@@ -96,7 +111,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="header-right-box">
+        <div className="header-right-box" onClick={onLoginClickHandler}>
           <div className="header-login-button">{"로그인/회원가입"}</div>
         </div>
       </div>
