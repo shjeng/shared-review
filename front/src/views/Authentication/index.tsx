@@ -13,13 +13,23 @@ const Authentication = () => {
         <div className="auth-sign-in-top">
           <div className="sign-in-title">로그인</div>
           <div className="sign-in-input-box">
-            <input type="text" name="userName" placeholder="Email" />
-            <input type="password" name="userPassword" placeholder="Password" />
+            <input
+              type="text"
+              name="userName"
+              placeholder="이메일 주소를 입력해주세요."
+            />
+            <input
+              type="password"
+              name="userPassword"
+              placeholder="비밀번호를 입력해주세요."
+            />
             <div className="sign-in-login-btn" onClick={test}>
               {"로그인"}
             </div>
           </div>
         </div>
+
+        <hr />
 
         <div className="auth-sign-in-bottom">
           <div className="sign-in-access-options">
@@ -43,9 +53,18 @@ const Authentication = () => {
           </div>
 
           <div className="social_login_box">
-            <div className="social_login_image-g"></div>
-            <div className="social_login_image-k"></div>
-            <div className="social_login_image-n"></div>
+            <div className="social_login_image-box-g">
+              <div className="social_login_image-g"></div>
+              <div className="social_login_title">구글 로그인</div>
+            </div>
+            <div className="social_login_image-box-k">
+              <div className="social_login_image-k"></div>
+              <div className="social_login_title">카카오 로그인</div>
+            </div>
+            <div className="social_login_image-box-n">
+              <div className="social_login_image-n"></div>
+              <div className="social_login_title">네이버 로그인</div>
+            </div>
           </div>
         </div>
       </div>
