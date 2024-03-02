@@ -1,4 +1,10 @@
-import React, { ChangeEvent, KeyboardEvent, forwardRef } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  KeyboardEvent,
+  SetStateAction,
+  forwardRef,
+} from "react";
 import "./style.css";
 
 // interface: Input Box 컴포넌트 Properties
@@ -18,8 +24,9 @@ interface Props {
   onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
 
+//         component: Input Box 컴포넌트         //
 const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
-  // state: properties
+  //         state: Properties         //
   const { label, type, error, placeholder, value, icon, message, readonly } =
     props;
   const { onChange, onButtonClick, onKeyDown } = props;
@@ -30,6 +37,7 @@ const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
     onKeyDown(event);
   };
 
+  // render: Input Box 컴포넌트
   return (
     <div className="inputbox">
       <div className="inputbox-label">{label}</div>
