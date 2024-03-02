@@ -1,7 +1,9 @@
 package com.sreview.sharedReview.domain.service.impl;
 
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
-import com.sreview.sharedReview.domain.dto.response.auto.SignInResponse;
+import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
+import com.sreview.sharedReview.domain.dto.response.auth.SignInResponse;
+import com.sreview.sharedReview.domain.dto.response.auth.SignUpResponse;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.service.UserService;
 import com.sreview.sharedReview.domain.provider.JwtProvider;
@@ -39,5 +41,10 @@ public class AuthServiceImpl implements AuthService{
             SignInResponse.databaseError();
         }
         return SignInResponse.success(token);
+    }
+
+    @Override
+    public ResponseEntity<? super SignUpResponse> signUp(SignUpRequest request) {
+        return null;
     }
 }

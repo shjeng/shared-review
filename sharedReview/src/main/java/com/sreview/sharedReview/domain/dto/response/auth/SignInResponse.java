@@ -1,4 +1,4 @@
-package com.sreview.sharedReview.domain.dto.response.auto;
+package com.sreview.sharedReview.domain.dto.response.auth;
 
 import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
