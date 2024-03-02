@@ -45,7 +45,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 35px 10px 35px;
+  height: 100px;
+  padding: 0px 35px;
 }
 
 .header-left-box,
@@ -58,7 +59,7 @@
 .header-bottom-box {
   display: flex;
   align-items: center;
-  padding: 10px 10px 0px 30px;
+  padding: 5px 0px 0px 30px;
 }
 
 .heder-bottom-item {
