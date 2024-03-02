@@ -14,6 +14,7 @@
   justify-content: space-between;
   display: flex;
   padding: 0;
+  margin: 30px 0;
 }
 
 .auth-sign-in-top,
@@ -31,51 +32,95 @@
 
 .sign-in-input-box input {
   display: block;
-  margin: 20px auto;
-  width: 500px;
+  margin: 30px auto;
+  width: 400px;
   height: 50px;
-  border-radius: 5px;
-  border: 1px solid rgb(201, 201, 201);
+  border-style: none;
+  border-bottom: 1px solid rgb(201, 201, 201);
+  font-size: 17px;
+}
+
+.sign-in-input-box input:focus {
+  /* focus 상태일 때 적용될 스타일 */
+  border-style: none;
+  outline: none; /* 선택 시 브라우저 기본 테두리 제거 */
+  border-bottom: 1px solid rgba(74, 74, 74, 0.757);
 }
 
 .sign-in-login-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 500px;
+  width: 400px;
   height: 50px;
   margin: auto;
   border: 1px solid rgb(201, 201, 201);
-  border-radius: 5px;
+  border-radius: 7px;
 }
 
 .social_login_box {
   margin: auto;
-  width: 300px;
+  width: 400px;
+}
+
+.social_login_image-box-g,
+.social_login_image-box-k,
+.social_login_image-box-n {
+  border-radius: 7px;
+  width: 400px;
+  height: 50px;
   display: flex;
-  justify-content: space-between;
+  margin-top: 12px;
+}
+.social_login_image-box-g {
+  background-color: #eff1f2;
+}
+
+.social_login_image-box-k {
+  background-color: #fddc3f;
+}
+
+.social_login_image-box-n {
+  background-color: #03c75a;
 }
 
 .social_login_image-g {
-  width: 50px;
-  height: 50px;
+  margin: 10px 15px 10px 10px;
+  width: 30px;
+  height: 30px;
   background-image: url(../../assets/image/google-logo.png);
   background-position: center;
   background-size: cover;
 }
 
 .social_login_image-k {
-  width: 50px;
-  height: 50px;
+  margin: 5px 5px 5px 5px;
+  width: 40px;
+  height: 40px;
   background-image: url(../../assets/image/kakao-logo.png);
   background-position: center;
   background-size: cover;
 }
 
 .social_login_image-n {
-  width: 50px;
-  height: 50px;
+  margin: 5px 5px 5px 5px;
+  width: 40px;
+  height: 40px;
   background-image: url(../../assets/image/naver-logo.png);
   background-position: center;
   background-size: cover;
+}
+
+.social_login_title {
+  margin: auto 0px auto 100px;
+  color: #000000ab;
+  font-weight: 600;
+}
+
+hr {
+  width: 450px;
+  background: rgb(195, 195, 195);
+  height: 1px;
+  border: 0;
+  margin: 30px auto;
 }
