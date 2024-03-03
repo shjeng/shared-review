@@ -17,7 +17,6 @@ public class UserService {
     private final UserRepository userRepository;
 
     public Long save(User user) {
-//        validateDuplidateUser(user); // 중복 회원 검증
         userRepository.save(user);
         return user.getId();
     }
@@ -32,4 +31,7 @@ public class UserService {
 //    }
 
 //    public List<User> findUser
+    public Optional<User> findByNickname(String nickname){
+        return userRepository.findByNickname(nickname);
+    }
 }

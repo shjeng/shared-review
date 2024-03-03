@@ -1,7 +1,9 @@
 package com.sreview.sharedReview.domain.service.impl;
 
+import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
+import com.sreview.sharedReview.domain.dto.response.auth.NicknameChkResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignInResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignUpResponse;
 import com.sreview.sharedReview.domain.jpa.entity.User;
@@ -46,5 +48,17 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public ResponseEntity<? super SignUpResponse> signUp(SignUpRequest request) {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<? super NicknameChkResponse> nicknameChk(NicknameChkRequest request) {
+        try{
+            Optional<User> userOptional = userService.findByNickname(request.getNickname());
+            if(userOptional.isPresent()) return NicknameChkResponse.nicknameDuplError();
+        }catch (Exception e){
+            e.printStackTrace();
+            return NicknameChkResponse.databaseError();
+        }
+        return NicknameChkResponse.success(request.getNickname());
     }
 }

@@ -1,6 +1,7 @@
 package com.sreview.sharedReview.domain.controller.auth;
 
 
+import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.auth.NicknameChkResponse;
@@ -34,8 +35,8 @@ public class AuthController {
 //    }
 
     @GetMapping("nickname-chk")
-    public ResponseEntity<? super NicknameChkResponse> nicknameChk(){
-        return null;
+    public ResponseEntity<? super NicknameChkResponse> nicknameChk(@RequestBody NicknameChkRequest request){
+        return authService.nicknameChk(request);
     }
 
     @PostMapping("/sign-in") // 로그인, 먼저 request dto를 controller에서 받아준다.
