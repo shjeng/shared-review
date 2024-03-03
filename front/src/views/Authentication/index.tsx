@@ -2,6 +2,12 @@ import React, { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import "./style.css";
 import InputBox from "../../components/InputBox";
 import SignInRequestDto from "../../apis/request/auth/sign-in-request.dto";
+import { signInRequest } from "../../apis";
+import SignInResponseDto from "../../apis/response/auth/sign-in.response.dto";
+import ResponseDto from "../../apis/response/response.dto";
+import { MAIN_PATH } from "../../constant";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Authentication = () => {
   //          state: 화면 상태        //
@@ -12,6 +18,9 @@ const Authentication = () => {
   const onSignUpLinkClickHandler = () => {
     setView("sign-up");
   };
+
+  //        function: 네비게이트 함수     //
+  const navigate = useNavigate();
 
   const SignIn = () => {
     // state: 이메일 요소 참조 상태 //
@@ -34,6 +43,32 @@ const Authentication = () => {
 
     //      state: 패스워드 상태      //
     const [password, setPassword] = useState<string>("");
+
+    //          state: 쿠키 상태        //
+    const [cookies, setCookie] = useCookies();
+
+    //      function: sign in response 처리 함수    //
+    const signInResponse = (
+      responseBody: SignInResponseDto | ResponseDto | null
+    ) => {
+      if (!responseBody) {
+        alert("네트워크 이상입니다.");
+        return;
+      }
+      const { code } = responseBody;
+      if (code === "VF") alert("모두 입력하세요.");
+      if (code === "DBE") alert("데이터베이스 오류입니다.");
+      if (code === "SF" || code === "VF") setError(true);
+      if (code !== "SU") return;
+
+      const { token, expirationTime } = responseBody as SignInResponseDto;
+      const now = new Date().getTime();
+      const expires = new Date(now + expirationTime * 1000);
+      // 유효시간 : 현재시간 + 백엔드에서 설정한 시간(60분) * 1000
+      setCookie("accessToken", token, { expires, path: MAIN_PATH() });
+      // 'accessToken' : 이름, token 설정, path : 유효경로(MAIN_PATH() 이하의 모든 경로에서 유효함)
+      navigate(MAIN_PATH());
+    };
 
     //      event handler: 이메일 변경 이벤트 처리 함수      //
     // input에 value가 있을때랑 없을때랑 스타일 변화를 위한
@@ -66,17 +101,26 @@ const Authentication = () => {
       }
     };
 
+    //      event handler: 로그인 버튼 클릭 이벤트 처리 함수      //
+    const onSignInButtonClickHandler = () => {
+      console.log("1");
+      const requestBody: SignInRequestDto = { email, password };
+      // signInRequest(resquestBody) == result
+      console.log(requestBody);
+      signInRequest(requestBody).then(signInResponse);
+    };
+
     return (
       <div id="sign-in-wrap">
         <div className="auth-sign-in-top">
-          <div className="sign-in-title">로그인</div>
+          <div className="sign-in-title">{"로그인"}</div>
           <InputBox
             ref={emailRef}
             label="이메일 주소"
             type="text"
             placeholder="이메일 주소를 입력해주세요."
-            error={error}
             value={email}
+            error={error}
             onChange={onEmailChangeHandler}
           />
 
@@ -103,20 +147,16 @@ const Authentication = () => {
             )}
 
             {/* 로그인 버튼 */}
-            <div
-              className={`login_button_off ${
-                isEmailNotEmpty && isPasswordNotEmpty ? "login_button_on" : ""
-              }`}
-            >
-              {"로그인"}
-            </div>
-
-            {/* <div
-              className="black-large-full-button"
-              onClick={onSignInButtonClickHandler}
-            >
-              {"로그인"}
-            </div> */}
+            {isEmailNotEmpty && isPasswordNotEmpty ? (
+              <div
+                className={"login_button_on"}
+                onClick={onSignInButtonClickHandler}
+              >
+                {"로그인"}
+              </div>
+            ) : (
+              <div className={"login_button_off"}>{"로그인"}</div>
+            )}
           </div>
         </div>
 

@@ -7,7 +7,7 @@
 
 .sign-in-access-options {
   width: 350px;
-  margin: 40px auto;
+  margin: 30px auto;
 }
 
 .sign-in-access-options ul {
@@ -15,7 +15,6 @@
   justify-content: space-between;
   display: flex;
   padding: 0;
-  margin: 30px 0;
 }
 
 .auth-sign-in-top,
@@ -180,10 +179,10 @@ hr {
   height: 55px;
   border: 1px solid #7676763c;
   border-radius: 10px;
-
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #0c0c0cbe;
 }
 
 .login_button_on {
@@ -191,10 +190,11 @@ hr {
   height: 55px;
   border: 1px solid #76767600;
   border-radius: 10px;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background-color: #ffd9c2;
+  color: #e6e6e6;
+
+  background-color: #5136ffca;
 }

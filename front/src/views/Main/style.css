@@ -1,6 +1,7 @@
 #main-wrap {
-  width: 100%;
+  max-width: 1440px;
   padding-bottom: 300px; /*or height로 높이주기*/
+  margin: auto;
 }
 
 .main-top-box {
