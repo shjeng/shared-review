@@ -3,13 +3,14 @@ package com.sreview.sharedReview.domain.jpa.jpaInterface;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByNickName(String nickname);
+    Optional<User> findByNickname(String nickname);
 
-    Optional<User> findAll(User user);
+    List<User> findAll();
 
     Optional<User> findByEmail(String email); // email로 user를 찾음.
 //

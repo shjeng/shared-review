@@ -53,14 +53,14 @@ public class Board { // 게시물 테이블
     private LocalDateTime editDate;
 
     // 게시물 좋아요
-    @OneToMany(mappedBy = "like", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<>();
 
     // img
-    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comments",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)

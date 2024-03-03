@@ -22,4 +22,8 @@ public class Image { // 이미지 테이블
     // 이미지 URL
     @Column(name = "Image_Url")
     private String url;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
 }
