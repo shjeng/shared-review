@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface BoardService {
     // 메서드 이름을 categorySave라든지 좀 더 명확하게 하면 좋을듯?
-    ResponseEntity<? super CategoryWriteResponse> categorySave(CategoryWriteRequest request);
+    ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request);
 
-    ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request);
+    ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request,String email);
 }

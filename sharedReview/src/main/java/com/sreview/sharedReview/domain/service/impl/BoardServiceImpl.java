@@ -4,10 +4,11 @@ import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
+import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.Category;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.service.BoardRepoService;
-import com.sreview.sharedReview.domain.jpa.service.CategoryService;
+import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
 import com.sreview.sharedReview.domain.jpa.service.UserService;
 import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepoService boardRepoService;
-    private final CategoryService categoryService;
+    private final CategoryRepoService categoryRepoService;
     private final UserService userService;
 //    @Override
 //    public void savePost(PostDTO postDTO) {
@@ -40,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 //    }
 
     @Override
-    public ResponseEntity<? super CategoryWriteResponse> categorySave(CategoryWriteRequest request) {
+    public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request) {
         try{
             String email = "";
             Optional<User> userOptional = userService.findByEmail(email);
@@ -49,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 
             String getName = request.getName();
             Category category = new Category(getName,user);
-            categoryService.save(category);
+            categoryRepoService.save(category);
         }catch (Exception e){
             e.printStackTrace();
 
@@ -58,9 +59,16 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request) {
+    public ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request,String email) {
         try {
+            Optional<User> userOptional = userService.findByEmail(email);
+            if(userOptional.isEmpty()) return BoardWriteResponse.notExistedUser();
 
+            Category category = categoryRepoService.findByName(request.getCategory()).get();
+            User user = userOptional.get();
+            Board board = BoardWriteRequest.getBoard(request);
+            board.setUserAndCategory(user,category);
+            boardRepoService.save(board);
         } catch (Exception e){
             e.printStackTrace();
             BoardWriteResponse.databaseError();

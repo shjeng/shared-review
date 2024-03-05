@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends BaseEntity{
     // 회원 ID
     @Id @GeneratedValue
     @Column(name = "user_id")
@@ -38,10 +38,5 @@ public class User {
     // 회원 권한
     @Enumerated(EnumType.STRING)
     private ADMIN admin;
-
-    // 회원 가입 날짜
-    @Column(name = "User_CreateDate")
-    private Long createDate;
-
 
 }

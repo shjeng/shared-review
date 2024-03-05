@@ -2,10 +2,7 @@
 package com.sreview.sharedReview.domain.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,15 +12,15 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity // 엔티티로 사용하겠다
 @Getter // 객체의 필드 값을 반환하는 역할
-@Setter
 @NoArgsConstructor // JPA는 엔티티를 생성할 때 기본 생성자를 사용. 매개변수가 없는 기본 생성자를 생성
-@AllArgsConstructor // 해당 클래스에 모든 필드를 매개변수로 받는 생성자를 자동으로 생성
-public class Board { // 게시물 테이블
+public class Board extends BaseEntity{ // 게시물 테이블
     // 게시물 ID
     @Id
     @GeneratedValue
     @Column(name = "Board_ID")
     private Long boardId;
+
+
 
     // 유저 ID
     // User테이블 User_ID 외래키
@@ -42,15 +39,8 @@ public class Board { // 게시물 테이블
 
     // 게시물 조회수
     @Column(name = "Board_ViewsCount")
-    private int viewsCount;
+    private int viewsCount = 0;
 
-    // 게시물 작성 날짜
-    @Column(name = "Board_CreatedAt")
-    private LocalDateTime createdAt;
-
-    // 게시물 수정 날짜
-    @Column(name = "Board_EditDate")
-    private LocalDateTime editDate;
 
     // 게시물 좋아요
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
@@ -67,5 +57,12 @@ public class Board { // 게시물 테이블
     @JoinColumn(name = "Categorie_ID")
     private Category categorie;
 
-
+    public void setTitleContent(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+    public void setUserAndCategory(User user, Category categorie){
+        this.user = user;
+        this.categorie = categorie;
+    }
 }
