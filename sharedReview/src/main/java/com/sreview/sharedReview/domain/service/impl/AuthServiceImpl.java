@@ -3,6 +3,7 @@ package com.sreview.sharedReview.domain.service.impl;
 import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
+import com.sreview.sharedReview.domain.dto.response.auth.GetEmailAuthChk;
 import com.sreview.sharedReview.domain.dto.response.auth.NicknameChkResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignInResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignUpResponse;
@@ -43,6 +44,11 @@ public class AuthServiceImpl implements AuthService{
             SignInResponse.databaseError();
         }
         return SignInResponse.success(token);
+    }
+
+    @Override // 이메일 인증 요청 로직 구현할 예정
+    public ResponseEntity<? super GetEmailAuthChk> getEmailAuth(String email) {
+        return null;
     }
 
     @Override

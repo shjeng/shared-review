@@ -4,6 +4,7 @@ package com.sreview.sharedReview.domain.controller.auth;
 import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
+import com.sreview.sharedReview.domain.dto.response.auth.GetEmailAuthChk;
 import com.sreview.sharedReview.domain.dto.response.auth.NicknameChkResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignInResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignUpResponse;
@@ -34,11 +35,14 @@ public class AuthController {
 //        return response; // 처리된 결과 반환
 //    }
 
-    @GetMapping("nickname-chk")
+    @GetMapping("/nickname-chk")
     public ResponseEntity<? super NicknameChkResponse> nicknameChk(@RequestBody NicknameChkRequest request){
         return authService.nicknameChk(request);
     }
-
+    @GetMapping("/email-auth")
+    public ResponseEntity<? super GetEmailAuthChk> getEmailAuthChk(){
+        return null;
+    }
     @PostMapping("/sign-in") // 로그인, 먼저 request dto를 controller에서 받아준다.
     public ResponseEntity<? super SignInResponse> signIn(@RequestBody SignInRequest request){
         return authService.signIn(request);
