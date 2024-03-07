@@ -103,10 +103,8 @@ const Authentication = () => {
 
     //      event handler: 로그인 버튼 클릭 이벤트 처리 함수      //
     const onSignInButtonClickHandler = () => {
-      console.log("1");
       const requestBody: SignInRequestDto = { email, password };
       // signInRequest(resquestBody) == result
-      console.log(requestBody);
       signInRequest(requestBody).then(signInResponse);
     };
 
@@ -365,29 +363,15 @@ const Authentication = () => {
             <div className="join-Certified-Input-Box">
               <InputBox
                 ref={telNumberRef}
-                label="핸드폰 번호"
+                label="닉네임"
                 type="text"
-                placeholder="핸드폰 번호를 입력해주세요."
+                placeholder="사용하실 닉네임을 입력해주세요."
                 value={telNumber}
                 onChange={onTelNumberChangeHandler}
                 error={isTelNumberError}
                 message={telNumberErrorMessage}
               />
-              <div className="email-certification-btn">{"인증번호 발송"}</div>
-            </div>
-
-            <div className="join-Certified-Input-Box">
-              <InputBox
-                ref={telNumberRef}
-                label="인증번호"
-                type="text"
-                placeholder="인증번호를 입력해주세요."
-                value={telNumberCertified}
-                onChange={onTelNumberChangeHandler}
-                error={isTelNumberError}
-                message={telNumberErrorMessage}
-              />
-              <div className="email-certification-btn">{"인증번호 확인"}</div>
+              <div className="email-certification-btn">{"중복확인"}</div>
             </div>
           </div>
         </div>
