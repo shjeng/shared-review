@@ -2,12 +2,14 @@ import React, { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import "./style.css";
 import InputBox from "../../components/InputBox";
 import SignInRequestDto from "../../apis/request/auth/sign-in-request.dto";
-import { signInRequest } from "../../apis";
+import { signInRequest, signUpRequest } from "../../apis";
 import SignInResponseDto from "../../apis/response/auth/sign-in.response.dto";
 import ResponseDto from "../../apis/response/response.dto";
 import { MAIN_PATH } from "../../constant";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { SignUpRequestDto } from "../../apis/request/auth";
+import SignUpResponseDto from "../../apis/response/auth/sign-up-response.dto";
 
 const Authentication = () => {
   //          state: 화면 상태        //
@@ -103,10 +105,8 @@ const Authentication = () => {
 
     //      event handler: 로그인 버튼 클릭 이벤트 처리 함수      //
     const onSignInButtonClickHandler = () => {
-      console.log("1");
       const requestBody: SignInRequestDto = { email, password };
       // signInRequest(resquestBody) == result
-      console.log(requestBody);
       signInRequest(requestBody).then(signInResponse);
     };
 
@@ -260,21 +260,41 @@ const Authentication = () => {
     const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] =
       useState<string>("");
 
-    //        state: 휴대폰 요소 참조 상태      //
-    const telNumberRef = useRef<HTMLInputElement | null>(null);
+    //        state: 닉네임 요소 참조 상태      //
+    const nicknameRef = useRef<HTMLInputElement | null>(null);
 
-    //        state: 핸드폰 번호 상태           //
-    const [telNumber, setTelNumber] = useState<string>("");
+    //        state: 닉네임 상태           //
+    const [nickname, setNickname] = useState<string>("");
 
-    //        state: 핸드폰 번호 에러 상태       //
-    const [isTelNumberError, setTelNumberError] = useState<boolean>(false);
+    //        state: 닉네임 에러 상태       //
+    const [isNicknameError, setNicknameError] = useState<boolean>(false);
 
-    //        state: 핸드폰 번호 에러 메세지 상태       //
-    const [telNumberErrorMessage, setTelNumberErrorMessage] =
+    //        state: 닉네임 에러 메세지 상태       //
+    const [nicknameErrorMessage, setNicknameErrorMessage] =
       useState<string>("");
 
-    //        state: 핸드폰 번호 상태           //
-    const [telNumberCertified, setTelNumberCertified] = useState<string>("");
+    //        function: sign up response 처리 함수       //
+    const signUpResponse = (
+      responseBody: SignUpResponseDto | ResponseDto | null
+    ) => {
+      if (!responseBody) {
+        alert("네트워크 이상입니다.");
+        return;
+      }
+      const { code } = responseBody;
+      if (code === "DE") {
+        setEmailError(true);
+        setEmailErrorMessage("이미 존재하는 이메일 주소입니다.");
+      }
+      if (code === "DN") {
+        setNicknameError(true);
+        setNicknameErrorMessage("이미 존재하는 닉네임입니다.");
+      }
+      if (code === "VF") alert("모든 값을 입력하세요.");
+      if (code === "DBE") alert("데이터베이스 오류입니다.");
+      if (code !== "SU") return;
+      setView("sign-in");
+    };
 
     // event handler: 이메일 변경 이벤트 처리     //
     const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -305,9 +325,47 @@ const Authentication = () => {
     // event handler: 핸드폰 번호 변경 이벤트 처리      //
     const onTelNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target;
-      setTelNumber(value);
-      setTelNumberError(false);
-      setTelNumberErrorMessage("");
+      setNickname(value);
+      setNicknameError(false);
+      setNicknameErrorMessage("");
+    };
+
+    // event handler: 회원가입 버튼 클릭 이벤트 처리      //
+    const onSignUpButtonClickHandler = () => {
+      // 닉네임
+      const hasNickname = nickname.trim().length !== 0;
+      if (!hasNickname) {
+        setNicknameError(true);
+        setNicknameErrorMessage("닉네임을 입력해주세요.");
+        nicknameRef.current?.focus();
+        return;
+      }
+
+      // 이메일
+      const hasEmail = nickname.trim().length !== 0;
+      if (!hasEmail) {
+        setEmailError(true);
+        setEmailErrorMessage("이메일을 입력해주세요.");
+        emailRef.current?.focus();
+        return;
+      }
+
+      // 패스워드
+      const hasPassword = password.trim().length !== 0;
+      if (!hasPassword) {
+        setPasswordError(true);
+        setPasswordErrorMessage("비밀번호를 입력해주세요.");
+        passwordRef.current?.focus();
+        return;
+      }
+
+      const requestBody: SignUpRequestDto = {
+        email,
+        password,
+        nickname,
+      };
+
+      signUpRequest(requestBody).then(signUpResponse);
     };
     return (
       <div id="sign-up-wrap">
@@ -364,36 +422,27 @@ const Authentication = () => {
 
             <div className="join-Certified-Input-Box">
               <InputBox
-                ref={telNumberRef}
-                label="핸드폰 번호"
+                ref={nicknameRef}
+                label="닉네임"
                 type="text"
-                placeholder="핸드폰 번호를 입력해주세요."
-                value={telNumber}
+                placeholder="사용하실 닉네임을 입력해주세요."
+                value={nickname}
                 onChange={onTelNumberChangeHandler}
-                error={isTelNumberError}
-                message={telNumberErrorMessage}
+                error={isNicknameError}
+                message={nicknameErrorMessage}
               />
-              <div className="email-certification-btn">{"인증번호 발송"}</div>
-            </div>
-
-            <div className="join-Certified-Input-Box">
-              <InputBox
-                ref={telNumberRef}
-                label="인증번호"
-                type="text"
-                placeholder="인증번호를 입력해주세요."
-                value={telNumberCertified}
-                onChange={onTelNumberChangeHandler}
-                error={isTelNumberError}
-                message={telNumberErrorMessage}
-              />
-              <div className="email-certification-btn">{"인증번호 확인"}</div>
+              <div className="email-certification-btn">{"중복확인"}</div>
             </div>
           </div>
         </div>
 
         <div className="auth-join-bottom">
-          <div className="black-large-full-button">{"다음"}</div>
+          <div
+            className="black-large-full-button"
+            onClick={onSignUpButtonClickHandler}
+          >
+            {"가입"}
+          </div>
 
           <div className="auth-cancel-button">{"취소"}</div>
         </div>
