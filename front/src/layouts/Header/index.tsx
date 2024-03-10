@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
 import { Navigate, useNavigate } from "react-router-dom";
-import { MAIN_PATH, AUTH_PATH } from "../../constant";
+import { MAIN_PATH, AUTH_PATH, SIGN_IN_PATH } from "../../constant";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,7 @@ const Header = () => {
 
   //      event handler: 로그인 클릭 이벤트 처리 함수       //
   const onLoginClickHandler = () => {
-    navigate(AUTH_PATH());
+    navigate(SIGN_IN_PATH());
   };
 
   const onDropdownCategory = () => {};

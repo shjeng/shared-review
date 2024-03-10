@@ -67,7 +67,7 @@
 }
 
 .header-login-button {
-  font-size: 12px;
+  font-size: 13px;
   width: 100px;
   height: 45px;
   border: 1px solid black;
@@ -110,4 +110,11 @@
 
 .header-category-dropdown {
   height: 35px;
+}
+
+.header-left-box,
+.header-right-box,
+.header-search-img,
+.header-bottom-box > div {
+  cursor: pointer;
 }
