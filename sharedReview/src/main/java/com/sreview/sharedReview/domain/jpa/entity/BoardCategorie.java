@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostCategorie { // 게시물-카테고리 연결 테이블
+public class BoardCategorie { // 게시물-카테고리 연결 테이블
     // 게시물-카테고리 ID
     @Id
     @GeneratedValue

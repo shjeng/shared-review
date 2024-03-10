@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostTag { // 게시물-태그 연결 테이블
+public class BoardTag { // 게시물-태그 연결 테이블
     // 게시물-태그 ID
     @Id
     @GeneratedValue

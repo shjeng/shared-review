@@ -13,6 +13,24 @@ spring:
         show_sql: true
         format_sql: true
 
+#        이메일 인증 기능 구현하기 위한 데이터들
+  mail:
+    host: smtp.naver.com # stmp.gmail.com
+    port: 587 #  구글은 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+  auth-code-expiration-millis: 9000000
+
 logging:
   level:
     org.hibernate.SQL: debug

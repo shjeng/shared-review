@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Tag { // 태그 테이블
     // 태그 ID
     @Id
@@ -33,5 +33,10 @@ public class Tag { // 태그 테이블
 
     @OneToMany(mappedBy = "parent")
     private List<Tag> children = new ArrayList<>();
+
+    public Tag setTagName(String name) {
+        this.name = name;
+        return this;
+    }
 
 }

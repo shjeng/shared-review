@@ -6,15 +6,18 @@ import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.Category;
+import com.sreview.sharedReview.domain.jpa.entity.Tag;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.service.BoardRepoService;
 import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
+import com.sreview.sharedReview.domain.jpa.service.TagRepoService;
 import com.sreview.sharedReview.domain.jpa.service.UserService;
 import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +27,7 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepoService boardRepoService;
     private final CategoryRepoService categoryRepoService;
     private final UserService userService;
+    private final TagRepoService tagRepoService;
 //    @Override
 //    public void savePost(PostDTO postDTO) {
 //        try{
@@ -68,6 +72,9 @@ public class BoardServiceImpl implements BoardService {
             User user = userOptional.get();
             Board board = BoardWriteRequest.getBoard(request);
             board.setUserAndCategory(user,category);
+            List<Tag> tagList = request.getTagList();
+            tagRepoService.saveAll(tagList);
+
             boardRepoService.save(board);
         } catch (Exception e){
             e.printStackTrace();
