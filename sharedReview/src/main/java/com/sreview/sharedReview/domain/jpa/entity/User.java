@@ -2,20 +2,16 @@ package com.sreview.sharedReview.domain.jpa.entity;
 
 import com.sreview.sharedReview.domain.jpa.entity.enumType.ADMIN;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "user_entity")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class User extends BaseEntity{
+public class User extends BaseEntity {
     // 회원 ID
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "user_id")
     private Long id;
 
@@ -36,7 +32,14 @@ public class User extends BaseEntity{
     private String imageUrl;
 
     // 회원 권한
+//    @ColumnDefault("NORMAL") => default 값을 넣으려고 했는데 오류
     @Enumerated(EnumType.STRING)
-    private ADMIN admin;
+    private ADMIN admin = ADMIN.NORMAL;
 
+    // 초기값 세팅
+    public void setUser(String email, String nickname, String password){
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+    }
 }

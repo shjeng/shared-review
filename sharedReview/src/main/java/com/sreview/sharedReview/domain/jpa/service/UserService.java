@@ -16,6 +16,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public Long save(User user) {
         userRepository.save(user);
         return user.getId();

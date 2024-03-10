@@ -12,6 +12,7 @@ import com.sreview.sharedReview.domain.jpa.service.UserService;
 import com.sreview.sharedReview.domain.provider.JwtProvider;
 import com.sreview.sharedReview.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,25 +22,27 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class AuthServiceImpl implements AuthService{
+@Slf4j
+public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
     private final JwtProvider jwtProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Override
     public ResponseEntity<? super SignInResponse> signIn(SignInRequest request) {
         String token = "";
-        try{
+        try {
             Optional<User> getUser = userService.findByEmail(request.getEmail());
-            if(getUser.isEmpty()) return SignInResponse.loginFail(); // 없는 유저인 경우.
+            if (getUser.isEmpty()) return SignInResponse.loginFail(); // 없는 유저인 경우.
 
             User user = getUser.get();
             String encodedPassword = user.getPassword();
-            boolean isMatched = passwordEncoder.matches(request.getPassword(),encodedPassword);
-            if(!isMatched) return SignInResponse.loginFail();
+            boolean isMatched = passwordEncoder.matches(request.getPassword(), encodedPassword);
+            if (!isMatched) return SignInResponse.loginFail();
 
             jwtProvider.create(user.getEmail());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             SignInResponse.databaseError();
         }
@@ -53,15 +56,31 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public ResponseEntity<? super SignUpResponse> signUp(SignUpRequest request) {
-        return null;
+        try {
+            // 중복 회원(이메일)
+            Optional<User> findExistingUser = userService.findByEmail(request.getEmail());
+            if (findExistingUser.isPresent()) return SignUpResponse.existingUser();
+
+            // 중복 회원(닉네임)
+            findExistingUser = userService.findByNickname(request.getNickname());
+            if (findExistingUser.isPresent()) return SignUpResponse.existingUser();
+
+            String password = passwordEncoder.encode(request.getPassword());
+            User user = SignUpRequest.of(request, password);
+            userService.save(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return SignInResponse.databaseError();
+        }
+        return SignUpResponse.sucess();
     }
 
     @Override
     public ResponseEntity<? super NicknameChkResponse> nicknameChk(NicknameChkRequest request) {
-        try{
+        try {
             Optional<User> userOptional = userService.findByNickname(request.getNickname());
-            if(userOptional.isPresent()) return NicknameChkResponse.nicknameDuplError();
-        }catch (Exception e){
+            if (userOptional.isPresent()) return NicknameChkResponse.nicknameDuplError();
+        } catch (Exception e) {
             e.printStackTrace();
             return NicknameChkResponse.databaseError();
         }

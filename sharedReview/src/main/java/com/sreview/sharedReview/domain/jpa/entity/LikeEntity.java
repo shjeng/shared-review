@@ -12,7 +12,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Like {
+public class LikeEntity {
     // 좋아요 ID
     @Id
     @GeneratedValue

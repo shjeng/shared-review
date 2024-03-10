@@ -4,7 +4,6 @@ package com.sreview.sharedReview.domain.jpa.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class Board extends BaseEntity{ // 게시물 테이블
 
     // 게시물 좋아요
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<Like> likes = new ArrayList<>();
+    private List<LikeEntity> likes = new ArrayList<>();
 
     // img
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)

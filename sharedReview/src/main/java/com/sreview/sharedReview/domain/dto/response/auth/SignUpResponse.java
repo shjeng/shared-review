@@ -18,4 +18,9 @@ public class SignUpResponse extends ResponseDto {
     public static ResponseEntity<SignUpResponse> sucess(){
         return ResponseEntity.status(HttpStatus.OK).body(new SignUpResponse());
     }
+
+    // 중복 회원
+    public static ResponseEntity<ResponseDto> existingUser() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(ResponseCode.DUPLICATE_EMAIL,ResponseMessage.DUPLICATE_EMAIL));
+    }
 }
