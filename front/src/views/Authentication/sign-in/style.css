@@ -160,3 +160,8 @@ hr {
 .social_login_box > div {
   cursor: pointer;
 }
+
+.auth-sign-in-error-box {
+  white-space: "pre-line";
+  margin-bottom: 20px;
+}

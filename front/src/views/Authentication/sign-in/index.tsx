@@ -132,9 +132,7 @@ const SignIn = () => {
           {error && (
             <div className="auth-sign-in-error-box">
               <div className="auth-sign-in-error-message">
-                {
-                  "이메일 주소 또는 비밀번호를 잘못 입력했습니다. \n입력하신 내용을 다시 확인해주세요."
-                }
+                {"이메일 주소 또는 비밀번호를 잘못 입력했습니다."}
               </div>
             </div>
           )}

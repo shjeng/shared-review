@@ -4,7 +4,7 @@ import SignUpResponseDto from "../../../apis/response/auth/sign-up-response.dto"
 import ResponseDto from "../../../apis/response/response.dto";
 import { SIGN_IN_PATH } from "../../../constant";
 import { SignUpRequestDto } from "../../../apis/request/auth";
-import { signUpRequest } from "../../../apis";
+import { sendEmailRequest, signUpRequest } from "../../../apis";
 import InputBox from "../../../components/InputBox";
 import "./style.css";
 
@@ -16,22 +16,30 @@ const SignUp = () => {
 
   //        state: 이메일 요소 참조 상태      //
   const emailRef = useRef<HTMLInputElement | null>(null);
-
-  //        state: 이메일 인증번호 요소 참조 상태      //
-  const emailCertifiedRef = useRef<HTMLInputElement | null>(null);
-
   //        state: 이메일 상태            //
   const [email, setEmail] = useState<string>("");
-
   //        state: 이메일 에러 상태       //
   const [isEmailError, setEmailError] = useState<boolean>(false);
-
   //        state: 이메일 에러 메세지 상태       //
   const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
+  // ============================================================================
+  //        state: 이메일 인증번호 요소 참조 상태      //
+  const emailCertifiedRef = useRef<HTMLInputElement | null>(null);
 
   //        state: 이메일 인증번호 상태            //
   const [emailCertified, setEmailCertified] = useState<string>("");
 
+  //        state: 이메일 에러 상태       //
+  const [isEmailCertifiedError, setIsEmailCertifiedError] =
+    useState<boolean>(false);
+
+  //        state: 이메일 에러 메세지 상태       //
+  const [emailCertifiedErrorMessage, setEmailCertifiedErrorMessage] =
+    useState<string>("");
+
+  //        state: 이메일 인증 상태       //
+  const [verifiedEmail, setVerifiedEmail] = useState<boolean>(false);
+  // ============================================================================
   //        state: 패스워드 요소 참조 상태     //
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -47,7 +55,7 @@ const SignUp = () => {
   const [isPasswordError, setPasswordError] = useState<boolean>(false);
   //        state: 패스워드 에러 메세지 상태       //
   const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
-
+  // ============================================================================
   //        state: 패스워드 확인 요소 참조 상태      //
   const passwordCheckRef = useRef<HTMLInputElement | null>(null);
 
@@ -66,7 +74,7 @@ const SignUp = () => {
   //        state: 패스워드 확인 에러 메세지 상태       //
   const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] =
     useState<string>("");
-
+  // ============================================================================
   //        state: 닉네임 요소 참조 상태      //
   const nicknameRef = useRef<HTMLInputElement | null>(null);
 
@@ -138,21 +146,20 @@ const SignUp = () => {
 
   // event handler: 회원가입 버튼 클릭 이벤트 처리      //
   const onSignUpButtonClickHandler = () => {
-    // 닉네임
-    const hasNickname = nickname.trim().length !== 0;
-    if (!hasNickname) {
-      setNicknameError(true);
-      setNicknameErrorMessage("닉네임을 입력해주세요.");
-      nicknameRef.current?.focus();
-      return;
-    }
-
     // 이메일
-    const hasEmail = nickname.trim().length !== 0;
+    const hasEmail = email.trim().length !== 0;
     if (!hasEmail) {
       setEmailError(true);
       setEmailErrorMessage("이메일을 입력해주세요.");
       emailRef.current?.focus();
+      return;
+    }
+
+    // 이메일 인증
+    if (verifiedEmail) {
+      setIsEmailCertifiedError(true);
+      setEmailCertifiedErrorMessage("이메일 인증을 해주세요");
+      emailCertifiedRef.current?.focus();
       return;
     }
 
@@ -165,6 +172,15 @@ const SignUp = () => {
       return;
     }
 
+    // 닉네임
+    const hasNickname = nickname.trim().length !== 0;
+    if (!hasNickname) {
+      setNicknameError(true);
+      setNicknameErrorMessage("닉네임을 입력해주세요.");
+      nicknameRef.current?.focus();
+      return;
+    }
+
     const requestBody: SignUpRequestDto = {
       email,
       password,
@@ -173,6 +189,20 @@ const SignUp = () => {
 
     signUpRequest(requestBody).then(signUpResponse);
   };
+
+  // event handler: 이메일 인증번호 보내기      //
+  const emailSend = async () => {
+    const clientEmail = emailRef.current!.value;
+    console.log("입력한 메일" + clientEmail);
+
+    sendEmailRequest(clientEmail);
+  };
+
+  // event handler: 이메일 인증번호 일치 확인      //
+  // const handleEmailChange = () => {
+  //   const inputCode = certificationNumberRef.current.value;
+
+  // }
 
   return (
     <div id="sign-up-wrap">
@@ -190,7 +220,7 @@ const SignUp = () => {
               error={isEmailError}
               message={emailErrorMessage}
             />
-            <div className="email-certification-btn" onClick={test}>
+            <div className="email-certification-btn" onClick={emailSend}>
               {"인증번호 발송"}
             </div>
           </div>
@@ -202,7 +232,7 @@ const SignUp = () => {
               type="text"
               placeholder="인증번호를 입력해주세요."
               value={emailCertified}
-              onChange={onEmailChangeHandler}
+              onChange={test}
               error={isEmailError}
               message={emailErrorMessage}
             />

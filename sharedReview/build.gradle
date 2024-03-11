@@ -42,6 +42,9 @@ dependencies {
 
 	// gson
 	implementation 'com.google.code.gson:gson'
+
+	// mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
