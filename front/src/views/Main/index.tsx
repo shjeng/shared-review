@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.css";
 import BoardItem from "../../components/BoardItem";
 
-const index = () => {
+const Main = () => {
+
+  useEffect(()=>{
+    
+  },[])
+
   return (
     <div id="main-wrap">
       <div className="main-top-box">
@@ -43,4 +48,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Main;

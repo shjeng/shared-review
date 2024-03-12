@@ -4,6 +4,7 @@ import SignInResponseDto from "./response/auth/sign-in.response.dto";
 import ResponseDto from "./response/response.dto";
 import { SignUpRequestDto } from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
+import { NicknameDupleChkResponseDto } from "./response/auth";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -31,6 +32,23 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
   return result;
 };
 
+// 닉네임 중복 확인
+const NICKNAME_DUPL_CHK = (nickname: string) =>
+  `${API_DOMAIN}/auth/nickname-chk?nickname=${nickname}`;
+export const nicknameDuplChkRequest = async (nickname: string) => {
+  const result = await axios
+    .get(NICKNAME_DUPL_CHK(nickname))
+    .then((response) => {
+      const responseBody: NicknameDupleChkResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error.response.data) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
 // 회원가입 요청
 export const signUpRequest = async (requestBody: SignUpRequestDto) => {
   const result = await axios
