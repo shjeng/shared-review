@@ -1,6 +1,7 @@
 package com.sreview.sharedReview.domain.controller.auth;
 
 
+import com.sreview.sharedReview.domain.dto.request.auth.EmailAuthRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
@@ -51,6 +52,12 @@ public class AuthController {
     @PostMapping("/sign-up") // 회원가입
     public ResponseEntity<? super SignUpResponse> signUp(@RequestBody SignUpRequest request){
         return authService.signUp(request);
+    }
+
+    @PostMapping("/sign-up/Checkmail") // 이메일 인증 요청
+    public ResponseEntity<? super GetEmailAuthChk> getEmailAuth(@RequestBody EmailAuthRequest request){
+        System.out.println(request);
+        return authService.getEmailAuth(request);
     }
 
 

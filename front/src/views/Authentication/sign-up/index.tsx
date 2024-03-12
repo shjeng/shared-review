@@ -191,7 +191,7 @@ const SignUp = () => {
   };
 
   // event handler: 이메일 인증번호 보내기      //
-  const emailSend = async () => {
+  const emailSend = () => {
     const clientEmail = emailRef.current!.value;
     console.log("입력한 메일" + clientEmail);
 

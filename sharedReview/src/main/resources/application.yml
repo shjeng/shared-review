@@ -15,10 +15,10 @@ spring:
 
 #        이메일 인증 기능 구현하기 위한 데이터들
   mail:
-    host: smtp.naver.com # stmp.gmail.com
+    host: smtp.gmail.com # smtp.naver.com
     port: 587 #  구글은 587
-    username:
-    password:
+    username: qkrgksrl0033@gmail.com
+    password: eiduojsyjxxfwdyn
     properties:
       mail:
         smtp:

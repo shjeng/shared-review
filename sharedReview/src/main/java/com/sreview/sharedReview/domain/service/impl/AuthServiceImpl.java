@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.service.impl;
 
+import com.sreview.sharedReview.domain.dto.request.auth.EmailAuthRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
@@ -50,7 +51,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override // 이메일 인증 요청 로직 구현할 예정
-    public ResponseEntity<? super GetEmailAuthChk> getEmailAuth(String email) {
+    public ResponseEntity<? super GetEmailAuthChk> getEmailAuth(EmailAuthRequest request) {
+        try {
+            // 인증 코드 생성 로직
+            String verificationCode = UserService.generateVerificationCode();
+
+            // 이메일 전송
+            userService.sendVerificationEmail(request.getU_mail(), verificationCode);
+
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace();
+            // 실패 응답 또는 예외 처리 로직 추가
+        }
         return null;
     }
 

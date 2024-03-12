@@ -13,7 +13,7 @@ const authorization = (accessToken: string) => {
 
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
 
-const CHECK_MAIL_URL = () => `${API_DOMAIN}/auth/sign-up//Checkmail`
+const CHECK_MAIL_URL = () => `${API_DOMAIN}/auth/sign-up/Checkmail`;
 
 // 로그인 요청
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
@@ -51,6 +51,7 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
 
 // 인증 이메일 발송
 export const sendEmailRequest = async (clientEmail: string) => {
+  console.log("넘어온 데이터" + clientEmail);
   try {
     const response = await axios.post(CHECK_MAIL_URL(), {
       u_mail: clientEmail,
