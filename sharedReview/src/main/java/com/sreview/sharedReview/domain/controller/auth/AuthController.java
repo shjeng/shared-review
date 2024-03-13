@@ -1,11 +1,7 @@
 package com.sreview.sharedReview.domain.controller.auth;
 
 
-<<<<<<< HEAD
 import com.sreview.sharedReview.domain.dto.request.auth.EmailAuthRequest;
-import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
-=======
->>>>>>> 94a6855faeb27fa4b5810564a5c641dc5b12bae6
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.auth.GetEmailAuthChk;

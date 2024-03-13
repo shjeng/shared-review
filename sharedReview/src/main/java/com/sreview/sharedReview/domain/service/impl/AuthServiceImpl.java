@@ -1,7 +1,6 @@
 package com.sreview.sharedReview.domain.service.impl;
 
 import com.sreview.sharedReview.domain.dto.request.auth.EmailAuthRequest;
-import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.auth.GetEmailAuthChk;
@@ -9,7 +8,7 @@ import com.sreview.sharedReview.domain.dto.response.auth.NicknameChkResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignInResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignUpResponse;
 import com.sreview.sharedReview.domain.jpa.entity.User;
-import com.sreview.sharedReview.domain.jpa.service.UserService;
+import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
 import com.sreview.sharedReview.domain.provider.JwtProvider;
 import com.sreview.sharedReview.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ import java.util.Optional;
 @Slf4j
 public class AuthServiceImpl implements AuthService {
 
-    private final UserService userService;
+    private final UserEntityService userEntityService;
     private final JwtProvider jwtProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -34,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<? super SignInResponse> signIn(SignInRequest request) {
         String token = "";
         try {
-            Optional<User> getUser = userService.findByEmail(request.getEmail());
+            Optional<User> getUser = userEntityService.findByEmail(request.getEmail());
             if (getUser.isEmpty()) return SignInResponse.loginFail(); // 없는 유저인 경우.
 
             User user = getUser.get();
@@ -54,10 +53,10 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<? super GetEmailAuthChk> getEmailAuth(EmailAuthRequest request) {
         try {
             // 인증 코드 생성 로직
-            String verificationCode = UserService.generateVerificationCode();
+            String verificationCode = UserEntityService.generateVerificationCode();
 
             // 이메일 전송
-            userService.sendVerificationEmail(request.getU_mail(), verificationCode);
+            userEntityService.sendVerificationEmail(request.getU_mail(), verificationCode);
 
         } catch (Exception e) {
             // 예외 처리
@@ -71,16 +70,16 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<? super SignUpResponse> signUp(SignUpRequest request) {
         try {
             // 중복 회원(이메일)
-            Optional<User> findExistingUser = userService.findByEmail(request.getEmail());
+            Optional<User> findExistingUser = userEntityService.findByEmail(request.getEmail());
             if (findExistingUser.isPresent()) return SignUpResponse.existingUser();
 
             // 중복 회원(닉네임)
-            findExistingUser = userService.findByNickname(request.getNickname());
+            findExistingUser = userEntityService.findByNickname(request.getNickname());
             if (findExistingUser.isPresent()) return SignUpResponse.existingUser();
 
             String password = passwordEncoder.encode(request.getPassword());
             User user = SignUpRequest.of(request, password);
-            userService.save(user);
+            userEntityService.save(user);
         } catch (Exception e) {
             e.printStackTrace();
             return SignInResponse.databaseError();
@@ -91,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<? super NicknameChkResponse> nicknameChk(String nickname) {
         try {
-            Optional<User> userOptional = userService.findByNickname(nickname);
+            Optional<User> userOptional = userEntityService.findByNickname(nickname);
             if (userOptional.isPresent()) return NicknameChkResponse.nicknameDuplError();
         } catch (Exception e) {
             e.printStackTrace();

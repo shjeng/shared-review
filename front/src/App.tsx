@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
@@ -8,8 +8,19 @@ import Main from "./views/Main";
 import Authentication from "./views/Authentication";
 import SignIn from "./views/Authentication/sign-in";
 import SignUp from "./views/Authentication/sign-up";
+import { useCookies } from "react-cookie";
+import { useLoginUserStore } from "./store";
 
 function App() {
+  const { setLoginUser, resetLoginUser } = useLoginUserStore();
+  const [cookies, setCookies] = useCookies();
+
+  useEffect(() => {
+    if (!cookies.accessToken) {
+      resetLoginUser();
+      return;
+    }
+  }, [cookies.accessToken]);
   return (
     <Routes>
       <Route element={<Container />}>
