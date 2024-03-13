@@ -3,5 +3,6 @@ import SignUpRequestDto from "./sign-up-request.dto";
 
 export type{
   SignInRequestDto,
-  SignUpRequestDto
+  SignUpRequestDto,
+  
 }

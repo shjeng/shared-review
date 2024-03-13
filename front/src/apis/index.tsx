@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SignInRequestDto, SignUpRequestDto } from "./request/auth";
 import ResponseDto from "./response/response.dto";
-import { NicknameChkResponseDto, SignInResponseDto } from "./response/auth";
+import { NicknameDupleChkResponseDto, SignInResponseDto } from "./response/auth";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api/v1`;
@@ -11,12 +11,12 @@ const authorization = (accessToken: string) => {
 // GET //
 
 const NICKNAME_CHK = (nickname: string) =>
-  `${API_DOMAIN}/nickname-chk?nickname=${nickname}`; // 닉네임 중복 확인
+`${API_DOMAIN}/nickname-chk?nickname=${nickname}`; // 닉네임 중복 확인
 export const nicknameDuplChk = async (nickname: string) => {
   const result = await axios
     .get(NICKNAME_CHK(nickname))
     .then((response) => {
-      const responseBody: NicknameChkResponseDto = response.data;
+      const responseBody: NicknameDupleChkResponseDto = response.data;
       return responseBody;
     })
     .catch((error) => {

@@ -1,8 +1,11 @@
 package com.sreview.sharedReview.domain.controller.auth;
 
 
+<<<<<<< HEAD
 import com.sreview.sharedReview.domain.dto.request.auth.EmailAuthRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.NicknameChkRequest;
+=======
+>>>>>>> 94a6855faeb27fa4b5810564a5c641dc5b12bae6
 import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.auth.GetEmailAuthChk;
@@ -11,12 +14,14 @@ import com.sreview.sharedReview.domain.dto.response.auth.SignInResponse;
 import com.sreview.sharedReview.domain.dto.response.auth.SignUpResponse;
 import com.sreview.sharedReview.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -37,20 +42,22 @@ public class AuthController {
 //    }
 
     @GetMapping("/nickname-chk")
-    public ResponseEntity<? super NicknameChkResponse> nicknameChk(@RequestBody NicknameChkRequest request){
-        return authService.nicknameChk(request);
+    public ResponseEntity<? super NicknameChkResponse> nicknameChk(@RequestParam(name = "nickname") String nickname) {
+        return authService.nicknameChk(nickname);
     }
+
     @GetMapping("/email-auth")
-    public ResponseEntity<? super GetEmailAuthChk> getEmailAuthChk(){
+    public ResponseEntity<? super GetEmailAuthChk> getEmailAuthChk() {
         return null;
     }
+
     @PostMapping("/sign-in") // 로그인, 먼저 request dto를 controller에서 받아준다.
-    public ResponseEntity<? super SignInResponse> signIn(@RequestBody SignInRequest request){
+    public ResponseEntity<? super SignInResponse> signIn(@RequestBody SignInRequest request) {
         return authService.signIn(request);
     }
 
     @PostMapping("/sign-up") // 회원가입
-    public ResponseEntity<? super SignUpResponse> signUp(@RequestBody SignUpRequest request){
+    public ResponseEntity<? super SignUpResponse> signUp(@RequestBody SignUpRequest request) {
         return authService.signUp(request);
     }
 

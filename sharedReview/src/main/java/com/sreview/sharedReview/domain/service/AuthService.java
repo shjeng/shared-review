@@ -17,5 +17,5 @@ public interface AuthService {
     ResponseEntity<? super GetEmailAuthChk> getEmailAuth(EmailAuthRequest request);
     ResponseEntity<? super SignUpResponse> signUp(SignUpRequest request);
 
-    ResponseEntity<? super NicknameChkResponse> nicknameChk(NicknameChkRequest request);
+    ResponseEntity<? super NicknameChkResponse> nicknameChk(String nickname);
 }

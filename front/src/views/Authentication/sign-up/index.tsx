@@ -4,9 +4,14 @@ import SignUpResponseDto from "../../../apis/response/auth/sign-up-response.dto"
 import ResponseDto from "../../../apis/response/response.dto";
 import { SIGN_IN_PATH } from "../../../constant";
 import { SignUpRequestDto } from "../../../apis/request/auth";
+<<<<<<< HEAD
 import { sendEmailRequest, signUpRequest } from "../../../apis";
+=======
+import { nicknameDuplChkRequest, signUpRequest } from "../../../apis";
+>>>>>>> 94a6855faeb27fa4b5810564a5c641dc5b12bae6
 import InputBox from "../../../components/InputBox";
 import "./style.css";
+import { NicknameDupleChkResponseDto } from "../../../apis/response/auth";
 
 const SignUp = () => {
   const test = () => {};
@@ -80,7 +85,7 @@ const SignUp = () => {
 
   //        state: 닉네임 상태           //
   const [nickname, setNickname] = useState<string>("");
-
+  const [verifiedNickname, setVerifiedNickname] = useState<string>(""); // 검증된 이메일 
   //        state: 닉네임 에러 상태       //
   const [isNicknameError, setNicknameError] = useState<boolean>(false);
 
@@ -189,6 +194,26 @@ const SignUp = () => {
 
     signUpRequest(requestBody).then(signUpResponse);
   };
+  // event handler: 닉네임 중복체크 
+  const nicknameDuplChk = () => {
+    if(nickname.length === 0) return;
+    nicknameDuplChkRequest(nickname).then(nicknameDuplChkResponse);
+  }
+  const nicknameDuplChkResponse = (responseBody: NicknameDupleChkResponseDto | ResponseDto | null) => {
+    if(!responseBody){
+      alert('네트워크 이상입니다.');
+      return;
+    }
+    const {code} = responseBody;
+    if (code === "DN") {
+      setNicknameError(true);
+      setNicknameErrorMessage("이미 존재하는 닉네임입니다.");
+    }
+    if (code === "DBE") alert("데이터베이스 오류입니다.");
+    if(code !== 'SU') return;
+    const getResponse = responseBody as NicknameDupleChkResponseDto;
+    setVerifiedNickname(getResponse.nickname); // 검증 받은 이메일 저장. 
+  }
 
   // event handler: 이메일 인증번호 보내기      //
   const emailSend = () => {
@@ -272,7 +297,7 @@ const SignUp = () => {
               error={isNicknameError}
               message={nicknameErrorMessage}
             />
-            <div className="nickname-certification-btn">{"중복확인"}</div>
+            <div className="nickname-certification-btn" onClick={nicknameDuplChk}>{"중복확인"}</div>
           </div>
         </div>
       </div>

@@ -89,14 +89,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<? super NicknameChkResponse> nicknameChk(NicknameChkRequest request) {
+    public ResponseEntity<? super NicknameChkResponse> nicknameChk(String nickname) {
         try {
-            Optional<User> userOptional = userService.findByNickname(request.getNickname());
+            Optional<User> userOptional = userService.findByNickname(nickname);
             if (userOptional.isPresent()) return NicknameChkResponse.nicknameDuplError();
         } catch (Exception e) {
             e.printStackTrace();
             return NicknameChkResponse.databaseError();
         }
-        return NicknameChkResponse.success(request.getNickname());
+        return NicknameChkResponse.success(nickname);
     }
 }
