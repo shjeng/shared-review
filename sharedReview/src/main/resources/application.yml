@@ -1,4 +1,7 @@
 spring:
+  config:
+    import: classpath:application-secret.yml
+
   datasource:
     url: jdbc:h2:tcp://localhost/~/sr
     username: sa
@@ -15,10 +18,8 @@ spring:
 
 #        이메일 인증 기능 구현하기 위한 데이터들
   mail:
-    host: smtp.naver.com # stmp.gmail.com
+    host: smtp.gmail.com # smtp.naver.com
     port: 587 #  구글은 587
-    username:
-    password:
     properties:
       mail:
         smtp:

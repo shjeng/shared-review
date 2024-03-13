@@ -46,7 +46,7 @@
 .auth-cancel-button {
   margin: 40px 30px;
   border-radius: 8px;
-  border-color: #bfbaba5f;
+  border: 1px solid #76767656;
   border-style: solid;
   width: 120px;
   height: 50px;

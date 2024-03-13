@@ -14,6 +14,8 @@ const authorization = (accessToken: string) => {
 
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
 
+const CHECK_MAIL_URL = () => `${API_DOMAIN}/auth/sign-up/Checkmail`;
+
 // 로그인 요청
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
 export const signInRequest = async (requestBody: SignInRequestDto) => {
@@ -63,4 +65,19 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
       return responseBody;
     });
   return result;
+};
+
+// 인증 이메일 발송
+export const sendEmailRequest = async (clientEmail: string) => {
+  console.log("넘어온 데이터" + clientEmail);
+  try {
+    const response = await axios.post(CHECK_MAIL_URL(), {
+      u_mail: clientEmail,
+    });
+    alert("인증번호가 발송되었습니다.");
+    console.log("성공", response.data);
+  } catch (error) {
+    alert("인증번호 발송에 실패하였습니다.");
+    console.error("실패", error);
+  }
 };
