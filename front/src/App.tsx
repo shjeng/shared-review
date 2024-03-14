@@ -10,17 +10,30 @@ import SignIn from "./views/Authentication/sign-in";
 import SignUp from "./views/Authentication/sign-up";
 import { useCookies } from "react-cookie";
 import { useLoginUserStore } from "./store";
+import { getLoginUser } from "./apis";
+import { GetLoginUserResponseDto } from "./apis/response/user";
+import ResponseDto from "./apis/response/response.dto";
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
   const [cookies, setCookies] = useCookies();
 
-  useEffect(() => {
-    if (!cookies.accessToken) {
+  const getLoginUserResponse = (
+    responseBody: GetLoginUserResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) return;
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "NU") alert("존재하지 않는 유저");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
       resetLoginUser();
       return;
     }
-  }, [cookies.accessToken]);
+    const { userDto } = responseBody as GetLoginUserResponseDto;
+    console.log(userDto);
+    setLoginUser(userDto);
+  };
   return (
     <Routes>
       <Route element={<Container />}>

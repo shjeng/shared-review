@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { MAIN_PATH, AUTH_PATH, SIGN_IN_PATH } from "../../constant";
+import { useLoginUserStore } from "../../store";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { loginUser } = useLoginUserStore();
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {}, [loginUser]);
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
 
@@ -110,10 +112,13 @@ const Header = () => {
             <div className="header-search-img"></div>
           </div>
         </div>
-
-        <div className="header-right-box" onClick={onLoginClickHandler}>
-          <div className="header-login-button">{"로그인/회원가입"}</div>
-        </div>
+        {loginUser ? (
+          <div>로그인완료!</div>
+        ) : (
+          <div className="header-right-box" onClick={onLoginClickHandler}>
+            <div className="header-login-button">{"로그인/회원가입"}</div>
+          </div>
+        )}
       </div>
 
       <div className="header-bottom-box">

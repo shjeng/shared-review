@@ -5,10 +5,11 @@ import ResponseDto from "./response/response.dto";
 import { SignUpRequestDto } from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
 import { NicknameDupleChkResponseDto } from "./response/auth";
+import { GetLoginUserResponseDto } from "./response/user";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
-const authorization = (accessToken: string) => {
+const authorication = (accessToken: string) => {
   return { headers: { Authorization: `Bearer ${accessToken}` } };
 };
 
@@ -33,7 +34,22 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
     });
   return result;
 };
-
+// 로그인 회원 정보 가져오기
+const GET_USER_URL = () => `${API_DOMAIN}/user/get-login-user`;
+export const getLoginUser = async (accessToken: string) => {
+  const result = await axios
+    .get(GET_USER_URL(), authorication(accessToken))
+    .then((response) => {
+      const responseBody: GetLoginUserResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
 // 닉네임 중복 확인
 const NICKNAME_DUPL_CHK = (nickname: string) =>
   `${API_DOMAIN}/auth/nickname-chk?nickname=${nickname}`;
