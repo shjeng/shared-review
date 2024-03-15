@@ -11,7 +11,7 @@ import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.service.BoardRepoService;
 import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
 import com.sreview.sharedReview.domain.jpa.service.TagRepoService;
-import com.sreview.sharedReview.domain.jpa.service.UserService;
+import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
 import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
 
     private final BoardRepoService boardRepoService;
     private final CategoryRepoService categoryRepoService;
-    private final UserService userService;
+    private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
 //    @Override
 //    public void savePost(PostDTO postDTO) {
@@ -48,7 +48,7 @@ public class BoardServiceImpl implements BoardService {
     public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request) {
         try{
             String email = "";
-            Optional<User> userOptional = userService.findByEmail(email);
+            Optional<User> userOptional = userEntityService.findByEmail(email);
             if(userOptional.isEmpty()) return CategoryWriteResponse.notExistedUser();
             User user = userOptional.get();
 
@@ -65,7 +65,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request,String email) {
         try {
-            Optional<User> userOptional = userService.findByEmail(email);
+            Optional<User> userOptional = userEntityService.findByEmail(email);
             if(userOptional.isEmpty()) return BoardWriteResponse.notExistedUser();
 
             Category category = categoryRepoService.findByName(request.getCategory()).get();
