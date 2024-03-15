@@ -33,6 +33,20 @@
   cursor: pointer;
 }
 
+.email-certification-btn-off {
+  margin: 50px 0px 0px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #76767656;
+  border-radius: 8px;
+  width: 100px;
+  height: 50px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #a0a0a056;
+}
+
 .join_input_box > .inputbox {
   margin-left: 24px;
 }

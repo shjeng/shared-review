@@ -42,7 +42,13 @@ const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
     <div className="inputbox">
       <div className="inputbox-label">{label}</div>
       <div
-        className={error ? "inputbox-container-error" : "inputbox-container"}
+        className={
+          error
+            ? "inputbox-container-error"
+            : readonly
+            ? "inputbox-container-readonly"
+            : "inputbox-container"
+        }
       >
         {readonly ? (
           <input

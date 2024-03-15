@@ -6,6 +6,7 @@ import { SIGN_IN_PATH } from "../../../constant";
 import { SignUpRequestDto } from "../../../apis/request/auth";
 import {
   nicknameDuplChkRequest,
+  sendEmailAuthNumber,
   sendEmailRequest,
   signUpRequest,
 } from "../../../apis";
@@ -91,6 +92,13 @@ const SignUp = () => {
 
   //        state: 닉네임 에러 메세지 상태       //
   const [nicknameErrorMessage, setNicknameErrorMessage] = useState<string>("");
+  // ==========================================================================
+  //        state: 이메일 readonly 상태      //
+  const [emailReadonlyState, setEmailReadonlyState] = useState<boolean>(false);
+
+  //        state: 인증번호 readonly 상태      //
+  const [authNumReadonlyState, setAuthNumReadonlyState] =
+    useState<boolean>(false);
 
   //        function: sign up response 처리 함수       //
   const signUpResponse = (
@@ -113,6 +121,12 @@ const SignUp = () => {
     if (code === "DBE") alert("데이터베이스 오류입니다.");
     if (code !== "SU") return;
     navigate(SIGN_IN_PATH());
+  };
+
+  //        function: 이메일 정규식 처리 함수       //
+  const validateEmail = (email: string): boolean => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   // event handler: 이메일 변경 이벤트 처리     //
@@ -218,18 +232,39 @@ const SignUp = () => {
   };
 
   // event handler: 이메일 인증번호 보내기      //
-  const emailSend = () => {
+  const emailSend = async () => {
     const clientEmail = emailRef.current!.value;
     console.log("입력한 메일" + clientEmail);
 
-    sendEmailRequest(clientEmail);
+    // 이메일 형식 검사
+    if (!validateEmail(clientEmail)) {
+      alert("올바른 이메일 형식이 아닙니다.");
+      return;
+    }
+
+    const success = await sendEmailRequest(clientEmail);
+    if (success) {
+      setEmailReadonlyState(true);
+    }
+  };
+
+  // event handler: 이메일 인증 변경 이벤트 처리     //
+  const handleVerificationCodeChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    // 이메일 인증 코드 입력값 변경 이벤트 처리 함수
+    setEmailCertified(event.target.value);
+    setEmailError(false); // 에러 상태 초기화
+    setEmailErrorMessage(""); // 에러 메시지 초기화
   };
 
   // event handler: 이메일 인증번호 일치 확인      //
-  // const handleEmailChange = () => {
-  //   const inputCode = certificationNumberRef.current.value;
+  const handleVerifyEmail = () => {
+    const emailAuthNumber = emailCertifiedRef.current!.value;
+    console.log("입력한 인증번호" + emailAuthNumber);
 
-  // }
+    sendEmailAuthNumber(emailAuthNumber);
+  };
 
   return (
     <div id="sign-up-wrap">
@@ -246,10 +281,17 @@ const SignUp = () => {
               onChange={onEmailChangeHandler}
               error={isEmailError}
               message={emailErrorMessage}
+              readonly={emailReadonlyState}
             />
-            <div className="email-certification-btn" onClick={emailSend}>
-              {"인증번호 발송"}
-            </div>
+            {emailReadonlyState ? (
+              <div className={"email-certification-btn-off"}>
+                {"인증번호 발송"}
+              </div>
+            ) : (
+              <div className={"email-certification-btn"} onClick={emailSend}>
+                {"인증번호 발송"}
+              </div>
+            )}
           </div>
 
           <div className="join-Certified-Input-Box">
@@ -259,11 +301,17 @@ const SignUp = () => {
               type="text"
               placeholder="인증번호를 입력해주세요."
               value={emailCertified}
-              onChange={test}
+              onChange={handleVerificationCodeChange}
               error={isEmailError}
               message={emailErrorMessage}
+              readonly={authNumReadonlyState}
             />
-            <div className="email-certification-btn">{"인증번호 확인"}</div>
+            <div
+              className="email-certification-btn"
+              onClick={handleVerifyEmail}
+            >
+              {"인증번호 확인"}
+            </div>
           </div>
 
           <InputBox

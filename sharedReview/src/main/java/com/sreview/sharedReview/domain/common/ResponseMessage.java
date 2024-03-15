@@ -13,6 +13,8 @@ public interface ResponseMessage {
     String CERTIFICATION_FAIL = "Certification faild.";
     String NOT_EXISTED_USER = "Not existed user";
     String DUPLICATE_CATEGORY = "Duplicate cateogry";
+    String AUTH_NUMBER_FAILED = "Verification code does not match.";
+
     // 500
     String MAIL_FAIL = "Mail send failed.";
     String DATABASE_ERROR = "Databse error.";
