@@ -199,7 +199,11 @@ const SignUp = () => {
       nicknameRef.current?.focus();
       return;
     }
-
+    if (nickname !== verifiedNickname && verifiedNickname.length === 0) {
+      setNicknameError(true);
+      setNicknameErrorMessage("닉네임 중복 체크를 확인해주세요.");
+      return;
+    }
     const requestBody: SignUpRequestDto = {
       email,
       password,
@@ -227,6 +231,7 @@ const SignUp = () => {
     }
     if (code === "DBE") alert("데이터베이스 오류입니다.");
     if (code !== "SU") return;
+    alert("중복 확인!");
     const getResponse = responseBody as NicknameDupleChkResponseDto;
     setVerifiedNickname(getResponse.nickname); // 검증 받은 이메일 저장.
   };
