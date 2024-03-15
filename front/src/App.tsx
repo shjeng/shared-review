@@ -3,7 +3,13 @@ import logo from "./logo.svg";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Container from "./layouts/Container";
-import { AUTH_PATH, MAIN_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from "./constant";
+import {
+  AUTH_PATH,
+  BOARD_WRITE,
+  MAIN_PATH,
+  SIGN_IN_PATH,
+  SIGN_UP_PATH,
+} from "./constant";
 import Main from "./views/Main";
 import Authentication from "./views/Authentication";
 import SignIn from "./views/Authentication/sign-in";
@@ -13,6 +19,7 @@ import { useLoginUserStore } from "./store";
 import { getLoginUser } from "./apis";
 import { GetLoginUserResponseDto } from "./apis/response/user";
 import ResponseDto from "./apis/response/response.dto";
+import BoardWrite from "./views/BoardWrite";
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -46,7 +53,7 @@ function App() {
       <Route element={<Container />}>
         <Route path={MAIN_PATH()} element={<Main />} />
         <Route path={AUTH_PATH()} element={<Authentication />} />
-
+        <Route path={BOARD_WRITE()} element={<BoardWrite />} />
         <Route path={SIGN_IN_PATH()} element={<SignIn />} />
         <Route path={SIGN_UP_PATH()} element={<SignUp />} />
         {/* <Route path={AUTH_PATH()} element={<Authentication />} /> */}

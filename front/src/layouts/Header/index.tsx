@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Navigate, useNavigate } from "react-router-dom";
-import { MAIN_PATH, AUTH_PATH, SIGN_IN_PATH } from "../../constant";
+import {
+  MAIN_PATH,
+  AUTH_PATH,
+  SIGN_IN_PATH,
+  BOARD_WRITE,
+} from "../../constant";
 import { useLoginUserStore } from "../../store";
 import { useCookies } from "react-cookie";
 
@@ -25,6 +30,8 @@ const Header = () => {
   const onLoginClickHandler = () => {
     navigate(SIGN_IN_PATH());
   };
+
+  //      event handler: 글 작성 페이지 이동    //
 
   const onDropdownCategory = () => {};
   return (
@@ -114,7 +121,10 @@ const Header = () => {
           </div>
         </div>
         {loginUser ? (
-          <div>로그인완료!</div>
+          <>
+            <div>로그인완료!</div>
+            <div onClick={() => navigate(BOARD_WRITE())}>글작성페이지 이동</div>
+          </>
         ) : (
           <div className="header-right-box" onClick={onLoginClickHandler}>
             <div className="header-login-button">{"로그인/회원가입"}</div>
