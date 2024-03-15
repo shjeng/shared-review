@@ -18,6 +18,13 @@ function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
   const [cookies, setCookies] = useCookies();
 
+  useEffect(() => {
+    if (!cookies.accessToken) {
+      resetLoginUser();
+      return;
+    }
+    getLoginUser(cookies.accessToken).then(getLoginUserResponse);
+  }, [cookies.accessToken]);
   const getLoginUserResponse = (
     responseBody: GetLoginUserResponseDto | ResponseDto | null
   ) => {

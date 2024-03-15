@@ -3,15 +3,16 @@ import "./style.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { MAIN_PATH, AUTH_PATH, SIGN_IN_PATH } from "../../constant";
 import { useLoginUserStore } from "../../store";
+import { useCookies } from "react-cookie";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { loginUser } = useLoginUserStore();
+  const [cookies, setCookies] = useCookies();
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {}, [loginUser]);
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
 
