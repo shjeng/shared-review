@@ -1,18 +1,15 @@
 package com.sreview.sharedReview.domain.service.impl;
 
-import com.sreview.sharedReview.domain.dto.request.auth.EmailAuthRequest;
-import com.sreview.sharedReview.domain.dto.request.auth.SignInRequest;
-import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
-import com.sreview.sharedReview.domain.dto.response.auth.GetEmailAuthChk;
-import com.sreview.sharedReview.domain.dto.response.auth.NicknameChkResponse;
-import com.sreview.sharedReview.domain.dto.response.auth.SignInResponse;
-import com.sreview.sharedReview.domain.dto.response.auth.SignUpResponse;
+
+import com.sreview.sharedReview.domain.dto.request.auth.*;
+import com.sreview.sharedReview.domain.dto.response.auth.*;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
 import com.sreview.sharedReview.domain.provider.JwtProvider;
 import com.sreview.sharedReview.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +25,8 @@ public class AuthServiceImpl implements AuthService {
     private final UserEntityService userEntityService;
     private final JwtProvider jwtProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private String verificationCode; // 클래스의 필드로 저장
 
     @Override
     public ResponseEntity<? super SignInResponse> signIn(SignInRequest request) {
@@ -63,7 +62,28 @@ public class AuthServiceImpl implements AuthService {
             e.printStackTrace();
             // 실패 응답 또는 예외 처리 로직 추가
         }
-        return null;
+//        return null;
+        return GetEmailAuthChk.success(request.getU_mail());
+    }
+
+
+    @Override // 이메일 인증번호 일치 확인
+    public ResponseEntity<? super AuthNumberChk> getEmailAuthNumber(EmailAuthNumberRequest request) {
+        try {
+            System.out.println("request.getAuthNumber() : " + request.getAuthNumber());
+            System.out.println("verificationCode : " + verificationCode);
+
+            if (request.getAuthNumber().equals(verificationCode)) {
+                return AuthNumberChk.success(request.getAuthNumber());
+            } else {
+                return AuthNumberChk.failure();
+            }
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace();
+            // 실패 응답 또는 예외 처리 로직 추가
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @Override

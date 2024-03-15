@@ -12,6 +12,7 @@ public interface ResponseCode {
     String SIGN_IN_FAIL = "SF"; // 로그인 실패
     String CERTIFICATION_FAIL = "CF";
     String DUPLICATE_CATEGORY = "DC";
+    String AUTH_NUMBER_FAILED = "ANF"; // 인증번호 불일치
 
     // HTTP Stauts 500
     String MAIL_FAIL = "MF"; // 메일 전송 실패

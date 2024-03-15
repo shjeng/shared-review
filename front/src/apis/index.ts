@@ -17,6 +17,8 @@ const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
 
 const CHECK_MAIL_URL = () => `${API_DOMAIN}/auth/sign-up/Checkmail`;
 
+const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
+
 // 로그인 요청
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
 export const signInRequest = async (requestBody: SignInRequestDto) => {
@@ -92,8 +94,24 @@ export const sendEmailRequest = async (clientEmail: string) => {
     });
     alert("인증번호가 발송되었습니다.");
     console.log("성공", response.data);
+    return true;
   } catch (error) {
     alert("인증번호 발송에 실패하였습니다.");
+    console.error("실패", error);
+  }
+};
+
+// 인증 번호 확인
+export const sendEmailAuthNumber = async (emailAuthNumber: string) => {
+  // 인증번호 확인 버튼 클릭 이벤트 처리 함수
+  try {
+    const response = await axios.post(AUTH_NUMBER_URL(), {
+      authNumber: emailAuthNumber,
+    });
+    alert("이메일 인증에 성공했습니다.");
+    console.log("성공", response.data);
+  } catch (error) {
+    alert("인증번호가 일치하지 않습니다.");
     console.error("실패", error);
   }
 };
