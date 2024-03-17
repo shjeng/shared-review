@@ -52,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<? super GetEmailAuthChk> getEmailAuth(EmailAuthRequest request) {
         try {
             // 인증 코드 생성 로직
-            String verificationCode = UserEntityService.generateVerificationCode();
+            verificationCode = UserEntityService.generateVerificationCode();
 
             // 이메일 전송
             userEntityService.sendVerificationEmail(request.getU_mail(), verificationCode);

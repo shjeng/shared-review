@@ -1,6 +1,6 @@
 spring:
-#  config:
-#    import: classpath:application-secret.yml
+  config:
+    import: classpath:application-secret.yml
 
   datasource:
     url: jdbc:h2:tcp://localhost/~/sr

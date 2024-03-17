@@ -5,8 +5,13 @@ import { MAIN_PATH, AUTH_PATH, SIGN_IN_PATH } from "../../constant";
 import { useLoginUserStore } from "../../store";
 
 const Header = () => {
+  //          state: 로그인 상태        //
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  //          state: 로그인 유저 상태       //
+  const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
+
   const [isOpen, setIsOpen] = useState(false);
-  const { loginUser } = useLoginUserStore();
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -23,6 +28,10 @@ const Header = () => {
   //      event handler: 로그인 클릭 이벤트 처리 함수       //
   const onLoginClickHandler = () => {
     navigate(SIGN_IN_PATH());
+  };
+
+  const nullChk = () => {
+    console.log("로그인 상태 : " + loginUser);
   };
 
   const onDropdownCategory = () => {};
@@ -125,6 +134,7 @@ const Header = () => {
         <div className="heder-bottom-item">식품</div>
         <div className="heder-bottom-item">가전제품</div>
         <div className="heder-bottom-item">가게</div>
+        <div onClick={nullChk}>nullChk</div>
       </div>
     </div>
   );

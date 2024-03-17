@@ -8,6 +8,7 @@ import SignInRequestDto from "../../../apis/request/auth/sign-in-request.dto";
 import { signInRequest } from "../../../apis";
 import InputBox from "../../../components/InputBox";
 import "./style.css";
+import { useLoginUserStore } from "../../../store";
 
 const SignIn = () => {
   const test = () => {};
@@ -98,7 +99,7 @@ const SignIn = () => {
     signInRequest(requestBody).then(signInResponse);
   };
 
-  //      event handler: 로그인 클릭 이벤트 처리 함수       //
+  //      event handler: 회원가입 페이지 이동 핸들러       //
   const onLoginClickHandler = () => {
     navigate(SIGN_UP_PATH());
   };
