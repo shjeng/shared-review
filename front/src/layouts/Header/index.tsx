@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Navigate, useNavigate } from "react-router-dom";
-import { MAIN_PATH, AUTH_PATH, SIGN_IN_PATH } from "../../constant";
+import {
+  MAIN_PATH,
+  AUTH_PATH,
+  SIGN_IN_PATH,
+  BOARD_WRITE,
+} from "../../constant";
 import { useLoginUserStore } from "../../store";
+import { useCookies } from "react-cookie";
 
 const Header = () => {
-  //          state: 로그인 상태        //
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-  //          state: 로그인 유저 상태       //
-  const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
-
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [categoryDrop, setCategoryDrop] = useState(false);
+  const [profileDrop, setprofileDrop] = useState(false);
+  const { loginUser } = useLoginUserStore();
+  const [cookies, setCookies] = useCookies();
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setCategoryDrop(!categoryDrop);
   };
 
-  useEffect(() => {}, [loginUser]);
+  const profileDropdown = () => {
+    setprofileDrop(!profileDrop);
+  };
+
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
 
@@ -30,9 +36,7 @@ const Header = () => {
     navigate(SIGN_IN_PATH());
   };
 
-  const nullChk = () => {
-    console.log("로그인 상태 : " + loginUser);
-  };
+  //      event handler: 글 작성 페이지 이동    //
 
   const onDropdownCategory = () => {};
   return (
@@ -50,7 +54,7 @@ const Header = () => {
                 <div className="dropdown_text">카테고리</div>
                 <div className="dropdown_icon"></div>
               </div>
-              {isOpen && (
+              {categoryDrop && (
                 <div className="dropdown-content">
                   <div
                     className="dropdown-content-item"
@@ -122,7 +126,32 @@ const Header = () => {
           </div>
         </div>
         {loginUser ? (
-          <div>로그인완료!</div>
+          <>
+            <div className="header-right-box" onClick={profileDropdown}>
+              <div className="profile-dropdown-box">
+                <div className="header-right-box-img"></div>
+                <div className="header-right-box-nickName">{`닉네임`}</div>
+                <div className="header-right-box-drop"></div>
+              </div>
+
+              {profileDrop && (
+                <div className="profile-dropdown-content">
+                  <div
+                    className="profile-dropdown-content-item"
+                    onClick={() => navigate(BOARD_WRITE())}
+                  >
+                    글작성
+                  </div>
+                  <div
+                    className="profile-dropdown-content-item"
+                    onClick={onDropdownCategory}
+                  >
+                    1
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
         ) : (
           <div className="header-right-box" onClick={onLoginClickHandler}>
             <div className="header-login-button">{"로그인/회원가입"}</div>
@@ -134,7 +163,6 @@ const Header = () => {
         <div className="heder-bottom-item">식품</div>
         <div className="heder-bottom-item">가전제품</div>
         <div className="heder-bottom-item">가게</div>
-        <div onClick={nullChk}>nullChk</div>
       </div>
     </div>
   );

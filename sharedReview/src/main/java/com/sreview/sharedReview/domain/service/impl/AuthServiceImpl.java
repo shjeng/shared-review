@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
             boolean isMatched = passwordEncoder.matches(request.getPassword(), encodedPassword);
             if (!isMatched) return SignInResponse.loginFail();
 
-            jwtProvider.create(user.getEmail());
+            token = jwtProvider.create(user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
             SignInResponse.databaseError();
