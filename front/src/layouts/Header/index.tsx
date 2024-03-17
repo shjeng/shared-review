@@ -11,11 +11,16 @@ import { useLoginUserStore } from "../../store";
 import { useCookies } from "react-cookie";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [categoryDrop, setCategoryDrop] = useState(false);
+  const [profileDrop, setprofileDrop] = useState(false);
   const { loginUser } = useLoginUserStore();
   const [cookies, setCookies] = useCookies();
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setCategoryDrop(!categoryDrop);
+  };
+
+  const profileDropdown = () => {
+    setprofileDrop(!profileDrop);
   };
 
   //        function: 네비게이트 함수     //
@@ -49,7 +54,7 @@ const Header = () => {
                 <div className="dropdown_text">카테고리</div>
                 <div className="dropdown_icon"></div>
               </div>
-              {isOpen && (
+              {categoryDrop && (
                 <div className="dropdown-content">
                   <div
                     className="dropdown-content-item"
@@ -122,8 +127,30 @@ const Header = () => {
         </div>
         {loginUser ? (
           <>
-            <div>로그인완료!</div>
-            <div onClick={() => navigate(BOARD_WRITE())}>글작성페이지 이동</div>
+            <div className="header-right-box" onClick={profileDropdown}>
+              <div className="profile-dropdown-box">
+                <div className="header-right-box-img"></div>
+                <div className="header-right-box-nickName">{`닉네임`}</div>
+                <div className="header-right-box-drop"></div>
+              </div>
+
+              {profileDrop && (
+                <div className="profile-dropdown-content">
+                  <div
+                    className="profile-dropdown-content-item"
+                    onClick={() => navigate(BOARD_WRITE())}
+                  >
+                    글작성
+                  </div>
+                  <div
+                    className="profile-dropdown-content-item"
+                    onClick={onDropdownCategory}
+                  >
+                    1
+                  </div>
+                </div>
+              )}
+            </div>
           </>
         ) : (
           <div className="header-right-box" onClick={onLoginClickHandler}>

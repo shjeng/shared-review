@@ -264,11 +264,14 @@ const SignUp = () => {
   };
 
   // event handler: 이메일 인증번호 일치 확인      //
-  const handleVerifyEmail = () => {
+  const handleVerifyEmail = async () => {
     const emailAuthNumber = emailCertifiedRef.current!.value;
     console.log("입력한 인증번호" + emailAuthNumber);
 
-    sendEmailAuthNumber(emailAuthNumber);
+    const success = await sendEmailAuthNumber(emailAuthNumber);
+    if (success) {
+      setAuthNumReadonlyState(true);
+    }
   };
 
   return (
@@ -311,12 +314,19 @@ const SignUp = () => {
               message={emailErrorMessage}
               readonly={authNumReadonlyState}
             />
-            <div
-              className="email-certification-btn"
-              onClick={handleVerifyEmail}
-            >
-              {"인증번호 확인"}
-            </div>
+
+            {authNumReadonlyState ? (
+              <div className="email-certification-btn-off">
+                {"인증번호 확인"}
+              </div>
+            ) : (
+              <div
+                className="email-certification-btn"
+                onClick={handleVerifyEmail}
+              >
+                {"인증번호 확인"}
+              </div>
+            )}
           </div>
 
           <InputBox

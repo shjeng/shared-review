@@ -36,6 +36,7 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
     });
   return result;
 };
+
 // 로그인 회원 정보 가져오기
 const GET_USER_URL = () => `${API_DOMAIN}/user/get-login-user`;
 export const getLoginUser = async (accessToken: string) => {
@@ -52,6 +53,7 @@ export const getLoginUser = async (accessToken: string) => {
     });
   return result;
 };
+
 // 닉네임 중복 확인
 const NICKNAME_DUPL_CHK = (nickname: string) =>
   `${API_DOMAIN}/auth/nickname-chk?nickname=${nickname}`;
@@ -69,6 +71,7 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
     });
   return result;
 };
+
 // 회원가입 요청
 export const signUpRequest = async (requestBody: SignUpRequestDto) => {
   const result = await axios
@@ -110,6 +113,7 @@ export const sendEmailAuthNumber = async (emailAuthNumber: string) => {
     });
     alert("이메일 인증에 성공했습니다.");
     console.log("성공", response.data);
+    return true;
   } catch (error) {
     alert("인증번호가 일치하지 않습니다.");
     console.error("실패", error);
