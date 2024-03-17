@@ -9,12 +9,12 @@ import lombok.Setter;
 public class UserDto {
     private String email;
     private String nickname;
-    private String getImageUrl;
+    private String profileImage;
 
-    public UserDto(String email, String nickname, String getImageUrl) {
+    public UserDto(String email, String nickname, String profileImage) {
         this.email = email;
         this.nickname = nickname;
-        this.getImageUrl = getImageUrl;
+        this.profileImage = profileImage;
     }
 
     public static UserDto of(User user){
