@@ -1,4 +1,79 @@
-.editor_box{
-  width: 80%;
+#board-write-wrap {
+  width: 630px;
+  min-height: 900px;
   margin: auto;
+}
+
+.board-title {
+  height: 100px;
+  font-size: 32px;
+  border-bottom: 1px solid black;
+  display: flex;
+  align-items: center;
+}
+
+.board-category {
+  width: 130px;
+  margin: 20px 0px;
+}
+
+.board-dropdown-box {
+  cursor: pointer;
+  display: flex;
+  margin-right: 20px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.board-dropdown-icon {
+  width: 20px;
+  height: 20px;
+  background-image: url(../../assets/image/dropdown-icon.png);
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.board-dropdown-content {
+  position: absolute;
+  background-color: #f9f9f9;
+  border: 1px solid rgba(0, 0, 0, 0.134);
+  border-radius: 5px;
+  min-width: 160px;
+  z-index: 1;
+  max-height: 200px; /* 적절한 최대 높이 설정 */
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
+}
+
+.board-dropdown-content-item:hover {
+  background-color: #bbbbbb35;
+}
+
+.board-write-mid {
+  display: flex;
+}
+
+.board-main-left {
+  width: 100%;
+}
+
+.board-registered {
+  border: 1px solid rgba(0, 0, 0, 0.134);
+  border-radius: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.board-attach-icon {
+  width: 40px;
+  height: 40px;
+  background-image: url(../../assets/image/img-attach.png);
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
