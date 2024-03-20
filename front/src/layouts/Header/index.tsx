@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import {
@@ -15,6 +15,23 @@ const Header = () => {
   const [profileDrop, setprofileDrop] = useState(false);
   const { loginUser } = useLoginUserStore();
   const [cookies, setCookies] = useCookies();
+  const searchInputRef = useRef<any>(null);
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      categoryDrop &&
+      searchInputRef.current &&
+      !searchInputRef.current.contains(e.target as Node)
+    ) {
+      setCategoryDrop(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [categoryDrop]);
+
   const toggleDropdown = () => {
     setCategoryDrop(!categoryDrop);
   };
@@ -36,8 +53,6 @@ const Header = () => {
     navigate(SIGN_IN_PATH());
   };
 
-  //      event handler: 글 작성 페이지 이동    //
-
   const onDropdownCategory = () => {};
   return (
     <div id="header-wrap">
@@ -55,7 +70,7 @@ const Header = () => {
                 <div className="dropdown_icon"></div>
               </div>
               {categoryDrop && (
-                <div className="dropdown-content">
+                <div className="dropdown-content" ref={searchInputRef}>
                   <div
                     className="dropdown-content-item"
                     onClick={onDropdownCategory}
