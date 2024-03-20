@@ -39,7 +39,9 @@ const BoardWrite = () => {
       </div>
       <div className="board-write-mid">
         <div className="board-main-left">
-          <div className="board-input-title"></div>
+          <div className="board-input-title">
+            <input type="text" />
+          </div>
           <div className="editor_box">
             <Editor
               ref={editorRef}
@@ -61,7 +63,7 @@ const BoardWrite = () => {
           <div className="board-registered" onClick={onSubmit}>
             {"등록"}
           </div>
-          <div className="board-attach-icon"></div>
+          <div className="board-attach-icon">1/10</div>
         </div>
       </div>
 
