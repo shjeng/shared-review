@@ -1,10 +1,16 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "./style.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Editor } from "@toast-ui/react-editor";
 
 const BoardWrite = () => {
+  const titleRef = useRef<HTMLInputElement | null>(null);
+
+  const [title, setTitle] = useState<string>();
   const [categoryDrop, setCategoryDrop] = useState(false);
+  const [categorys, setCategorys] = useState<string[]>();
+  const [tags, setTags] = useState<string[]>();
+  const [content, setContent] = useState<string>();
   const toggleDropdown = () => {
     setCategoryDrop(!categoryDrop);
   };
@@ -30,10 +36,10 @@ const BoardWrite = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [categoryDrop]);
-
+  const onTitleChange = () => {};
   const onChange = () => {
     // 에디터 내용 가져옴
-    const content = editorRef.current?.getInstance().getHTML();
+    setContent(editorRef.current?.getInstance().getHTML());
   };
 
   const onSubmit = () => {
@@ -41,6 +47,7 @@ const BoardWrite = () => {
     console.log(content);
   };
 
+  const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {};
   return (
     <div id="board-write-wrap">
       <div className="board-write-top">
@@ -72,7 +79,11 @@ const BoardWrite = () => {
       <div className="board-write-mid">
         <div className="board-main-left">
           <div className="board-input-title">
-            <input type="text" placeholder="제목 어쩌구 어쩌구" />
+            <input
+              type="text"
+              placeholder="제목을 입력해주세요."
+              ref={titleRef}
+            />
           </div>
           <div className="editor_box">
             <Editor
@@ -94,7 +105,12 @@ const BoardWrite = () => {
 
       <div className="board-write-bottom">
         <div className="board-bottom-tag">
-          <input type="text" placeholder="태그를 입력해주세요" />
+          <input
+            type="text"
+            placeholder="태그를 입력해주세요"
+            onKeyDown={tagKeyDown}
+          />
+          <div className="tags_box"></div>
         </div>
       </div>
     </div>
