@@ -6,6 +6,8 @@ import { SignUpRequestDto } from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
 import { NicknameDupleChkResponseDto } from "./response/auth";
 import { GetLoginUserResponseDto } from "./response/user";
+import { BoardWriteRequestDto } from "./request/board";
+import { PostBoardWriteResponseDto } from "./response/board";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -87,7 +89,6 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
     });
   return result;
 };
-
 // 인증 이메일 발송
 export const sendEmailRequest = async (clientEmail: string) => {
   console.log("넘어온 데이터" + clientEmail);
@@ -103,7 +104,6 @@ export const sendEmailRequest = async (clientEmail: string) => {
     console.error("실패", error);
   }
 };
-
 // 인증 번호 확인
 export const sendEmailAuthNumber = async (emailAuthNumber: string) => {
   // 인증번호 확인 버튼 클릭 이벤트 처리 함수
@@ -118,4 +118,23 @@ export const sendEmailAuthNumber = async (emailAuthNumber: string) => {
     alert("인증번호가 일치하지 않습니다.");
     console.error("실패", error);
   }
+};
+// 게시글 작성
+const POST_BOARD = () => `/api/board/write`;
+export const postBoard = async (
+  accessToken: string,
+  requestBody: BoardWriteRequestDto
+) => {
+  const result = await axios
+    .post(POST_BOARD(), requestBody, authorication(accessToken))
+    .then((response) => {
+      const responseBody: PostBoardWriteResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
 };
