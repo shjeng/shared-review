@@ -9,6 +9,7 @@ import {
   MAIN_PATH,
   SIGN_IN_PATH,
   SIGN_UP_PATH,
+  USER_PAGE_PATH,
 } from "./constant";
 import Main from "./views/Main";
 import Authentication from "./views/Authentication";
@@ -21,6 +22,7 @@ import { GetLoginUserResponseDto } from "./apis/response/user";
 import ResponseDto from "./apis/response/response.dto";
 import BoardWrite from "./views/BoardWrite";
 import BoardList from "./views/BoardList";
+import UserPage from "./views/UserPage";
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -58,6 +60,7 @@ function App() {
         <Route path={BOARD_LIST()} element={<BoardList />} />
         <Route path={SIGN_IN_PATH()} element={<SignIn />} />
         <Route path={SIGN_UP_PATH()} element={<SignUp />} />
+        <Route path={USER_PAGE_PATH()} element={<UserPage />} />
         {/* <Route path={AUTH_PATH()} element={<Authentication />} /> */}
       </Route>
     </Routes>
