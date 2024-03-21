@@ -26,6 +26,11 @@ public class BoardController {
     public ResponseEntity<Void> getFavoriteBoardList(){
         return null;
     }
+
+    @GetMapping("/get-category")
+    public ResponseEntity<?> getCategorys(){
+        return null;
+    }
     @PostMapping("/category/create") // 카테고리 저장, @AuthenticationPrincipal 작성 필요
     public ResponseEntity<? super CategoryWriteResponse> createCateogry(@RequestBody CategoryWriteRequest request){
         return boardServcice.saveCategory(request);
