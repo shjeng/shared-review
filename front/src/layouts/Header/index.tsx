@@ -64,13 +64,13 @@ const Header = () => {
 
         <div className="header-middle-box">
           <div className="header-category">
-            <div className="header-category-dropdown">
+            <div className="header-category-dropdown" ref={searchInputRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
                 <div className="dropdown_text">카테고리</div>
                 <div className="dropdown_icon"></div>
               </div>
               {categoryDrop && (
-                <div className="dropdown-content" ref={searchInputRef}>
+                <div className="dropdown-content">
                   <div
                     className="dropdown-content-item"
                     onClick={onDropdownCategory}

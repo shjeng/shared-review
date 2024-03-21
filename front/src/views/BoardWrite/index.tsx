@@ -79,13 +79,13 @@ const BoardWrite = () => {
         <div className="board-title">게시물 작성</div>
 
         <div className="function-line">
-          <div className="board-category">
+          <div className="board-category" ref={searchInputRef}>
             <div className="board-dropdown-box" onClick={toggleDropdown}>
               <div className="board-dropdown-text">카테고리</div>
               <div className="board-dropdown-icon"></div>
             </div>
             {categoryDrop && (
-              <div className="board-dropdown-content" ref={searchInputRef}>
+              <div className="board-dropdown-content">
                 <div className="board-dropdown-content-item" onClick={test}>
                   2
                 </div>
