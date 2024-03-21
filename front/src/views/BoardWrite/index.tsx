@@ -1,16 +1,25 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "./style.css";
-import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Editor } from "@toast-ui/react-editor";
 
 const BoardWrite = () => {
   const titleRef = useRef<HTMLInputElement | null>(null);
+  const tagRef = useRef<HTMLInputElement | null>(null);
 
-  const [title, setTitle] = useState<string>();
+  const [title, setTitle] = useState<string>("");
   const [categoryDrop, setCategoryDrop] = useState(false);
-  const [categorys, setCategorys] = useState<string[]>();
-  const [tags, setTags] = useState<string[]>();
-  const [content, setContent] = useState<string>();
+  const [categorys, setCategorys] = useState<string[]>([]);
+  const [tag, setTag] = useState<string>("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [contentHtml, setContentHtml] = useState<string>();
+  const [contentMarkdouw, setContentMarkdouw] = useState<string>();
   const toggleDropdown = () => {
     setCategoryDrop(!categoryDrop);
   };
@@ -36,10 +45,14 @@ const BoardWrite = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [categoryDrop]);
-  const onTitleChange = () => {};
+  const onTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setTitle(value);
+  };
   const onChange = () => {
-    // 에디터 내용 가져옴
-    setContent(editorRef.current?.getInstance().getHTML());
+    // 에디터 내용 content
+    setContentHtml(editorRef.current?.getInstance().getHTML());
+    setContentMarkdouw(editorRef.current?.getInstance().getMarkdown());
   };
 
   const onSubmit = () => {
@@ -47,7 +60,18 @@ const BoardWrite = () => {
     console.log(content);
   };
 
-  const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {};
+  // event handler:  Tag
+  const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if ((event.key === "Enter" || event.key === "Tab") && tag.length !== 0) {
+      const newTags = [...tags];
+      newTags.push(tag);
+      setTags(newTags);
+    }
+  };
+  const onTagChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setTag(value);
+  };
   return (
     <div id="board-write-wrap">
       <div className="board-write-top">
@@ -83,6 +107,7 @@ const BoardWrite = () => {
               type="text"
               placeholder="제목을 입력해주세요."
               ref={titleRef}
+              onChange={onTitleChange}
             />
           </div>
           <div className="editor_box">
@@ -109,6 +134,8 @@ const BoardWrite = () => {
             type="text"
             placeholder="태그를 입력해주세요"
             onKeyDown={tagKeyDown}
+            onChange={onTagChange}
+            ref={tagRef}
           />
           <div className="tags_box"></div>
         </div>
