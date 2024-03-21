@@ -71,6 +71,7 @@ const BoardWrite = () => {
   const onTagChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setTag(value);
+    tagRef.current?.focus();
   };
   return (
     <div id="board-write-wrap">
@@ -130,6 +131,9 @@ const BoardWrite = () => {
 
       <div className="board-write-bottom">
         <div className="board-bottom-tag">
+          {tags.map((t) => (
+            <div className="tag">#{t}</div>
+          ))}
           <input
             type="text"
             placeholder="태그를 입력해주세요"
@@ -137,7 +141,6 @@ const BoardWrite = () => {
             onChange={onTagChange}
             ref={tagRef}
           />
-          <div className="tags_box"></div>
         </div>
       </div>
     </div>
