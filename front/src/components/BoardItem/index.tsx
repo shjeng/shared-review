@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const index = () => {
+const BoardItem = () => {
   return (
     <div id="board-item-wrap">
       <div className="board-item-top-box">{/* 이미지 넣는건가 */}</div>
@@ -41,4 +41,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default BoardItem;
