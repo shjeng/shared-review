@@ -1,0 +1,61 @@
+.userList {
+  flex: 4;
+}
+
+#userList-wrap {
+  width: 1000px;
+  min-height: 900px;
+  margin: auto;
+}
+
+.userList-top {
+  width: 630px;
+  margin: 30px auto;
+
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.userList-title {
+  font-size: 25px;
+}
+
+.admin-menu-userList,
+.admin-menu-announcement,
+.admin-menu-post,
+.admin-menu-category {
+  margin-top: 12px;
+  font-size: 20px;
+}
+
+.userList-item-delete {
+  width: 20px;
+  height: 20px;
+  background-image: url(../../../assets/image/delete-icon.png);
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 10px;
+}
+
+.userList-item {
+  display: flex;
+}
+.userList-classification {
+  outline: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.userList-mid {
+  display: flex;
+}
+
+.userList-mid-right {
+  width: 820px;
+}
+
+.userList-mid-left {
+  margin-right: 80px;
+}
