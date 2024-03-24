@@ -96,7 +96,6 @@ const BoardWrite = () => {
 
   // 작성 버튼 클릭
   const onSubmit = () => {
-    alert(cookies.accessToken);
     const content2 = editorRef.current?.getInstance().getMarkdown();
     if (!title) {
       titleRef.current?.focus();

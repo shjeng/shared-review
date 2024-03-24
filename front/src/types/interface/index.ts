@@ -1,2 +1,3 @@
 import User from "./user.interface";
-export type { User };
+import Category from "./category.interface";
+export type { User, Category };
