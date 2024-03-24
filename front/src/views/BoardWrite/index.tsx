@@ -8,23 +8,60 @@ import React, {
   useState,
 } from "react";
 import { Editor } from "@toast-ui/react-editor";
+import { getCategorysReqeust, postBoard } from "../../apis";
+import {
+  GetCategorysResponseDto,
+  PostBoardWriteResponseDto,
+} from "../../apis/response/board";
+import ResponseDto from "../../apis/response/response.dto";
+import { Category } from "../../types/interface";
+import { BoardWriteRequestDto } from "../../apis/request/board";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import { BOARD_DETAIL, MAIN_PATH } from "../../constant";
 
 const BoardWrite = () => {
+  const [cookies, seetCookies] = useCookies();
+  const navigator = useNavigate();
   const titleRef = useRef<HTMLInputElement | null>(null);
   const tagRef = useRef<HTMLInputElement | null>(null);
 
   const [title, setTitle] = useState<string>("");
   const [categoryDrop, setCategoryDrop] = useState(false);
-  const [categorys, setCategorys] = useState<string[]>([]);
+  const [category, setCategory] = useState<Category | undefined>();
+  const [categorys, setCategorys] = useState<Category[]>([]);
   const [tag, setTag] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
   const [contentHtml, setContentHtml] = useState<string>();
-  const [contentMarkdouw, setContentMarkdouw] = useState<string>();
+  const [contentMarkdown, setContentMarkdown] = useState<string>();
+
+  const [titleError, setTitleError] = useState<boolean>(false);
+  const [contentError, setContentError] = useState<boolean>(false);
+
+  // Effect: 처음 렌더링 시 카테고리를 가져와줌.
+  useEffect(() => {
+    getCategorysReqeust().then(getCategorysResponse);
+  }, []);
+  const getCategorysResponse = (
+    responseBody: GetCategorysResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+    const result = responseBody as GetCategorysResponseDto;
+    setCategorys(result.categorys);
+  };
+
   const toggleDropdown = () => {
     setCategoryDrop(!categoryDrop);
   };
-
-  const test = () => {};
 
   const editorRef = useRef<Editor>(null);
   const searchInputRef = useRef<any>(null);
@@ -48,18 +85,57 @@ const BoardWrite = () => {
   const onTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setTitle(value);
+    setTitleError(false);
   };
-  const onChange = () => {
+  const onContentChange = () => {
     // 에디터 내용 content
     setContentHtml(editorRef.current?.getInstance().getHTML());
-    setContentMarkdouw(editorRef.current?.getInstance().getMarkdown());
+    setContentMarkdown(editorRef.current?.getInstance().getMarkdown());
+    setContentError(false);
   };
 
+  // 작성 버튼 클릭
   const onSubmit = () => {
+    alert(cookies.accessToken);
+    const content2 = editorRef.current?.getInstance().getMarkdown();
+    if (!title) {
+      titleRef.current?.focus();
+      setTitleError(true);
+    }
+    if (!content2) {
+      editorRef.current?.getInstance().focus();
+      setContentError(true);
+    }
+    if (titleError || contentError) {
+      return;
+    }
     const content = editorRef.current?.getInstance().getHTML();
-    console.log(content);
+    const reqeustBody: BoardWriteRequestDto = {
+      title,
+      contentHtml,
+      contentMarkdown,
+      category,
+      tags,
+    };
+    postBoard(reqeustBody, cookies.accessToken).then(postResponse);
   };
-
+  const postResponse = (
+    responseBody: PostBoardWriteResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code === "NU") alert("회원 정보 확인");
+    if (code !== "SU") {
+      return;
+    }
+    const { boardId } = responseBody as PostBoardWriteResponseDto;
+    navigator(BOARD_DETAIL(boardId));
+  };
   // event handler:  Tag
   const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if ((event.key === "Enter" || event.key === "Tab") && tag.length !== 0) {
@@ -86,12 +162,19 @@ const BoardWrite = () => {
             </div>
             {categoryDrop && (
               <div className="board-dropdown-content">
-                <div className="board-dropdown-content-item" onClick={test}>
-                  2
-                </div>
-                <div className="board-dropdown-content-item" onClick={test}>
-                  oasidjf;oizsdjfo;zsdijzsd;foisjfd;szofdijzdf
-                </div>
+                {categorys.map(
+                  (
+                    category,
+                    index // 카테고리 목록 불러오기.
+                  ) => (
+                    <div
+                      className="board-dropdown-content-item"
+                      onClick={() => {}}
+                    >
+                      {category.categoryName}
+                    </div>
+                  )
+                )}
               </div>
             )}
           </div>
@@ -117,7 +200,7 @@ const BoardWrite = () => {
               initialValue="hello react editor world!"
               previewStyle="vertical"
               height="600px"
-              onChange={onChange}
+              onChange={onContentChange}
               initialEditType="wysiwyg"
               useCommandShortcut={false}
             />
@@ -131,8 +214,13 @@ const BoardWrite = () => {
 
       <div className="board-write-bottom">
         <div className="board-bottom-tag">
-          {tags.map((t) => (
-            <div className="tag">#{t}</div>
+          {tags.map((t, index) => (
+            <div>
+              <div className="tag">#{t}</div>
+              <div className="dd" onClick={() => {}}>
+                X
+              </div>
+            </div>
           ))}
           <input
             type="text"

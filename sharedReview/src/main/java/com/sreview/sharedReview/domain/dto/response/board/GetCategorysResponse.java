@@ -6,6 +6,7 @@ import com.sreview.sharedReview.domain.dto.object.CategoryDto;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -23,5 +24,10 @@ public class GetCategorysResponse extends ResponseDto {
 
     public static ResponseEntity<GetCategorysResponse> success(List<CategoryDto> categorys){
         return ResponseEntity.ok(new GetCategorysResponse(categorys));
+    }
+
+    // 유효성 검사 실패
+    public static ResponseEntity<ResponseDto> fail(){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(ResponseCode.VALIDATION_FAIL, ResponseMessage.VALIDATION_FAIL));
     }
 }

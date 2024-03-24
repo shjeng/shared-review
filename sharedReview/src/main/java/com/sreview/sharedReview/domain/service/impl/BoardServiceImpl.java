@@ -1,9 +1,11 @@
 package com.sreview.sharedReview.domain.service.impl;
 
+import com.sreview.sharedReview.domain.dto.object.CategoryDto;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
+import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.Category;
 import com.sreview.sharedReview.domain.jpa.entity.Tag;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,21 +31,7 @@ public class BoardServiceImpl implements BoardService {
     private final CategoryRepoService categoryRepoService;
     private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
-//    @Override
-//    public void savePost(PostDTO postDTO) {
-//        try{
-//            //
-//            // 기능들 작성
-//            //
-//            Board post = new Board();
-//            BeanUtils.copyProperties(postDTO, post);
-//
-//            postService.save(post);
-//
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 
     @Override
     public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request) {
@@ -63,15 +52,29 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public ResponseEntity<? super GetCategorysResponse> getCategorys() {
+        List<CategoryDto> categorys;
+        try{
+            List<Category> getCategorys = categoryRepoService.findAll();
+            categorys = CategoryDto.ofList(getCategorys);
+        }catch (Exception e){
+            e.printStackTrace();
+            return GetCategorysResponse.databaseError();
+
+        }
+        return GetCategorysResponse.success(categorys);
+    }
+
+    @Override
     public ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request,String email) {
         try {
             Optional<User> userOptional = userEntityService.findByEmail(email);
             if(userOptional.isEmpty()) return BoardWriteResponse.notExistedUser();
 
-            Category category = categoryRepoService.findByName(request.getCategory()).get();
+//            Category category = categoryRepoService.findByName(request.getCategory()).get();
             User user = userOptional.get();
             Board board = BoardWriteRequest.getBoard(request);
-            board.setUserAndCategory(user,category);
+//            board.setUserAndCategory(user,category);
             List<Tag> tagList = request.getTagList();
             tagRepoService.saveAll(tagList);
 
