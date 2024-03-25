@@ -61,5 +61,8 @@ public class AuthController {
     public ResponseEntity<? super AuthNumberChk> getEmailAuthNumber(@RequestBody EmailAuthNumberRequest request){
         return authService.getEmailAuthNumber(request);
     }
-
+    @PostMapping("/test2")
+    public String test(){ // 스트링으로 했음.
+        return "성공?";
+    }
 }

@@ -50,7 +50,6 @@ function App() {
       return;
     }
     const { userDto } = responseBody as GetLoginUserResponseDto;
-    console.log(userDto);
     setLoginUser(userDto);
   };
   return (

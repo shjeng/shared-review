@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true) // 이건 읽기 전용
@@ -22,5 +23,9 @@ public class CategoryRepoService { // DB에 넣어주는 아이
 
     public Optional<Category> findByName(String name){
         return categoryRepository.findByName(name);
+    }
+
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 }

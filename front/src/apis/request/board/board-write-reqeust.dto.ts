@@ -1,6 +1,9 @@
+import { Category } from "../../../types/interface";
+
 export default interface BoardWriteRequestDto {
   title: string;
-  content: string;
-  category: string;
-  taa: string[];
+  contentHtml: string | undefined;
+  contentMarkdown: string | undefined;
+  category: Category | undefined;
+  tags: string[];
 }
