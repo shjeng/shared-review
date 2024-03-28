@@ -141,11 +141,8 @@ export const sendEmailAuthNumber = async (emailAuthNumber: string) => {
   }
 };
 // 게시글 작성
-const POST_BOARD = () => `${API_DOMAIN}/api/board/write`;
-export const postBoard = async (
-  requestBody: BoardWriteRequestDto,
-  accessToken: string
-) => {
+const POST_BOARD = () => `${API_DOMAIN}/board/write`;
+export const postBoard = async (requestBody: BoardWriteRequestDto, accessToken: string) => {
   const result = await axios
     .post(POST_BOARD(), requestBody, authorication(accessToken))
     .then((response) => {

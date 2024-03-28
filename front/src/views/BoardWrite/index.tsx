@@ -122,9 +122,7 @@ const BoardWrite = () => {
     };
     postBoard(reqeustBody, cookies.accessToken).then(postResponse);
   };
-  const postResponse = (
-    responseBody: PostBoardWriteResponseDto | ResponseDto | null
-  ) => {
+  const postResponse = (responseBody: PostBoardWriteResponseDto | ResponseDto | null) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -137,7 +135,7 @@ const BoardWrite = () => {
       return;
     }
     const { boardId } = responseBody as PostBoardWriteResponseDto;
-    navigator(BOARD_DETAIL(boardId));
+    navigator(BOARD_DETAIL('1'));
   };
   // event handler:  Tag
   const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -198,8 +196,7 @@ const BoardWrite = () => {
             />
           </div>
           <div className="editor_box">
-            <Editor
-              ref={editorRef}
+            <Editor ref={editorRef}
               initialValue="hello react editor world!"
               previewStyle="vertical"
               height="600px"

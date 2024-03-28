@@ -3,7 +3,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Container from "./layouts/Container";
 import {
-  AUTH_PATH,
+  AUTH_PATH, BOARD_DETAIL,
   BOARD_LIST,
   BOARD_WRITE,
   MAIN_PATH,
@@ -25,6 +25,7 @@ import BoardWrite from "./views/BoardWrite";
 import BoardList from "./views/BoardList";
 import UserPage from "./views/UserPage";
 import UserList from "./views/Admin/UserList";
+import BoardDetail from "./views/BoardDetail";
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -58,6 +59,7 @@ function App() {
         <Route path={MAIN_PATH()} element={<Main />} />
         <Route path={AUTH_PATH()} element={<Authentication />} />
         <Route path={BOARD_WRITE()} element={<BoardWrite />} />
+        <Route path={BOARD_DETAIL('boardId')} element={<BoardDetail />}/>
         <Route path={BOARD_LIST()} element={<BoardList />} />
         <Route path={SIGN_IN_PATH()} element={<SignIn />} />
         <Route path={SIGN_UP_PATH()} element={<SignUp />} />

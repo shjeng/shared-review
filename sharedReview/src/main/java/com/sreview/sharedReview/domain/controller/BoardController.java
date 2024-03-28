@@ -44,7 +44,7 @@ public class BoardController {
         return boardServcice.saveBoard(request,email);
     }
     @PostMapping("/test")
-    public String test(){ // 스트링으로 했음.
+    public String test(@AuthenticationPrincipal String email){ // 스트링으로 했음.
         return "성공?";
     }
 }
