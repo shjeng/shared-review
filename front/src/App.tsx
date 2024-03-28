@@ -59,7 +59,7 @@ function App() {
         <Route path={MAIN_PATH()} element={<Main />} />
         <Route path={AUTH_PATH()} element={<Authentication />} />
         <Route path={BOARD_WRITE()} element={<BoardWrite />} />
-        <Route path={BOARD_DETAIL('boardId')} element={<BoardDetail />}/>
+        <Route path={BOARD_DETAIL(':boardId')} element={<BoardDetail />}/>
         <Route path={BOARD_LIST()} element={<BoardList />} />
         <Route path={SIGN_IN_PATH()} element={<SignIn />} />
         <Route path={SIGN_UP_PATH()} element={<SignUp />} />
