@@ -1,16 +1,21 @@
-.userList {
-  flex: 4;
+.userList-mid-left > div {
+  width: 100px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.682);
 }
 
+.userList-mid-left {
+  margin-left: 90px;
+}
 #userList-wrap {
-  width: 1000px;
+  width: 1500px;
   min-height: 900px;
   margin: auto;
 }
 
 .userList-top {
   width: 630px;
-  margin: 30px auto;
+  margin: 40px 360px 30px 300px;
 
   height: 50px;
   display: flex;
@@ -21,41 +26,165 @@
   font-size: 25px;
 }
 
-.admin-menu-userList,
-.admin-menu-announcement,
-.admin-menu-post,
-.admin-menu-category {
-  margin-top: 12px;
-  font-size: 20px;
+.userList-mid {
+  display: flex;
+  min-height: 800px;
+}
+.userList-classification,
+.userList-Item {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.098);
 }
 
-.userList-item-delete {
+.userList-item-check-box,
+.checkBox {
+  width: 50px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.userList-item-check-box input,
+.checkBox input {
+  zoom: 1.4;
+}
+
+.classification-id,
+.userList-item-id {
+  display: flex;
+  align-items: center;
+  width: 70px;
+  height: 56px;
+  padding: 0px 10px;
+}
+
+.classification-nickName,
+.userList-item-nickName {
+  display: flex;
+  align-items: center;
+  width: 140px;
+  height: 56px;
+}
+
+.classification-name,
+.userList-item-name {
+  display: flex;
+  align-items: center;
+  width: 130px;
+  height: 56px;
+  padding: 0px 10px;
+}
+
+.classification-email,
+.userList-item-email {
+  display: flex;
+  align-items: center;
+  width: 230px;
+  height: 56px;
+  padding: 0px 10px;
+}
+
+.classification-writerDate,
+.userList-item-writerDate {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 56px;
+  padding: 0px 10px;
+}
+
+.classification-authority,
+.userList-item-authority {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  height: 56px;
+  padding: 0px 10px;
+}
+
+.classification-actions,
+.userList-item-action {
+  display: flex;
+  align-items: center;
+  width: 50px;
+  height: 56px;
+  padding: 0px 10px;
+}
+
+.actions-icon-img {
   width: 20px;
-  height: 20px;
+  height: 30px;
+  /* padding: 20px; */
   background-image: url(../../../assets/image/delete-icon.png);
-  background-size: 60%;
+  background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
-  margin-right: 10px;
+  cursor: pointer;
+  margin-left: 10px;
 }
-
-.userList-item {
-  display: flex;
-}
-.userList-classification {
-  outline: 1px solid black;
-  display: flex;
-  justify-content: space-between;
-}
-
+/*  */
 .userList-mid {
   display: flex;
 }
 
-.userList-mid-right {
-  width: 820px;
+.admin-menu-userList,
+.admin-menu-announcement,
+.admin-menu-post,
+.admin-menu-category {
+  margin-top: 15px;
+  font-size: 20px;
 }
 
-.userList-mid-left {
-  margin-right: 80px;
+.userList-mid-right {
+  margin-left: 110px;
+}
+
+.admin-menu-userList {
+  font-weight: 600;
+}
+
+.userList-classification {
+  background-color: rgba(0, 0, 0, 0.037);
+  border: none;
+}
+
+/* 검색 input */
+
+.userList-search {
+  position: relative;
+  width: 500px;
+  height: 35px;
+}
+
+.userList-search input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.userList-search-img {
+  background-image: url(../../../assets/image/search-icon.png);
+  background-size: cover;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 8px;
+  right: 0px;
+  margin: 0;
+}
+
+.header-left-box,
+.header-right-box,
+.userList-search-img,
+.header-bottom-box > div,
+.dropdown-box {
+  cursor: pointer;
+}
+
+.userList-bottom-top {
+  display: flex;
+  width: 650px;
+  margin: auto;
 }
