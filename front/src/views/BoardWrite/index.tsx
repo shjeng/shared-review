@@ -66,22 +66,26 @@ const BoardWrite = () => {
   const editorRef = useRef<Editor>(null);
   const searchInputRef = useRef<any>(null);
 
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      categoryDrop &&
-      searchInputRef.current &&
-      !searchInputRef.current.contains(e.target as Node)
-    ) {
+  // 카테고리 드롭다운 박스 외부를 클릭했을 때 드롭다운을 닫는 기능
+  const handleClickOutside = () => {
+    if (categoryDrop) {
       setCategoryDrop(false);
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [categoryDrop]);
+  // const handleClickOutside = (e: MouseEvent) => {
+  //   if (categoryDrop && !searchInputRef.current.contains(e.target as Node)) {
+  //     setCategoryDrop(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [categoryDrop]);
+
   const onTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setTitle(value);
@@ -149,7 +153,7 @@ const BoardWrite = () => {
     tagRef.current?.focus();
   };
   return (
-    <div id="board-write-wrap">
+    <div id="board-write-wrap" onClick={handleClickOutside}>
       <div className="board-write-top">
         <div className="board-title">게시물 작성</div>
 
