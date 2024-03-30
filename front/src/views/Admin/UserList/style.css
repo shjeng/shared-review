@@ -175,10 +175,7 @@
   margin: 0;
 }
 
-.header-left-box,
-.header-right-box,
 .userList-search-img,
-.header-bottom-box > div,
 .dropdown-box {
   cursor: pointer;
 }
