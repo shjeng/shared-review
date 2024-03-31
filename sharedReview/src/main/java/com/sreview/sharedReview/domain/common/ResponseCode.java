@@ -8,7 +8,8 @@ public interface ResponseCode {
     String VALIDATION_FAIL = "VF"; // 유효성 검사 실패
     String DUPLICATE_EMAIL = "DM"; // 이메일 중복
     String DUPLICATE_NICKNAME = "DN"; // 중복 닉네임
-    String NOT_EXISTED_USER = "NU"; // 존재하지 않는 유저
+    String NON_EXISTED_USER = "NU"; // 존재하지 않는 유저
+    String NON_EXISTED_BOARD = "NB"; // 존재하지 않는 유저
     String SIGN_IN_FAIL = "SF"; // 로그인 실패
     String CERTIFICATION_FAIL = "CF";
     String DUPLICATE_CATEGORY = "DC";

@@ -21,6 +21,6 @@ public class GetLoginUserResponse extends ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(new GetLoginUserResponse(userDto));
     }
     public static ResponseEntity<ResponseDto> noExistedUser(){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(ResponseCode.NOT_EXISTED_USER, ResponseMessage.NOT_EXISTED_USER));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(ResponseCode.NON_EXISTED_USER, ResponseMessage.NON_EXISTED_USER));
     }
 }

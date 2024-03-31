@@ -17,6 +17,6 @@ public class BoardWriteResponse extends ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(new BoardWriteResponse());
     }
     public static ResponseEntity<ResponseDto> notExistedUser(){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(ResponseCode.NOT_EXISTED_USER, ResponseMessage.NOT_EXISTED_USER));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(ResponseCode.NON_EXISTED_USER, ResponseMessage.NON_EXISTED_USER));
     }
 }

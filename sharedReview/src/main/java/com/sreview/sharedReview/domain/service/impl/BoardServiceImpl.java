@@ -3,6 +3,7 @@ package com.sreview.sharedReview.domain.service.impl;
 import com.sreview.sharedReview.domain.dto.object.CategoryDto;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
+import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
@@ -15,6 +16,7 @@ import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
 import com.sreview.sharedReview.domain.jpa.service.TagRepoService;
 import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
 import com.sreview.sharedReview.domain.service.BoardService;
+import com.sreview.sharedReview.domain.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
     private final CategoryRepoService categoryRepoService;
     private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
-
+    private final MarkdownUtil markdownUtil;
 
     @Override
     public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request) {
@@ -84,6 +86,17 @@ public class BoardServiceImpl implements BoardService {
             BoardWriteResponse.databaseError();
         }
         return BoardWriteResponse.success();
+    }
+
+    @Override
+    public BoardDetailResponse getBoard(Long boardId) {
+        try {
+            Optional<Board> boardOptional = boardRepoService.findById(boardId);
+        } catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return null;
     }
 }
 

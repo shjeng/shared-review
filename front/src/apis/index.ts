@@ -92,6 +92,19 @@ export const getCategorysReqeust = async () => {
   return result;
 };
 
+// 게시글 불러오기
+const GET_BOARD = () => `${API_DOMAIN}/board`;
+export const getBoardRequest = async (boardId: string|bigint) => {
+  const result = await axios.get(GET_BOARD())
+      .then(response => {
+
+      })
+      .catch(error => {
+
+      });
+  return result;
+}
+
 // ===  post  ==== //
 // 회원가입 요청
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;

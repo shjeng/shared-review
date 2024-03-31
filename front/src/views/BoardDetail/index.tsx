@@ -4,7 +4,8 @@ import {useParams} from "react-router-dom";
 const BoardDetail = () => {
     const {boardId} = useParams();
     useEffect(() => {
-    }, []);
+
+    }, [boardId]);
     return (
         <div>
             게시글 상세보기

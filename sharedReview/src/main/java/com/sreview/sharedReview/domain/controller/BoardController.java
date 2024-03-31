@@ -2,6 +2,7 @@ package com.sreview.sharedReview.domain.controller;
 
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
+import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
@@ -36,6 +37,10 @@ public class BoardController {
     public ResponseEntity<? super CategoryWriteResponse> createCateogry(@RequestBody CategoryWriteRequest request){
         return boardServcice.saveCategory(request);
     }
+    @GetMapping("/{boardId}")
+    public ResponseEntity<? super BoardDetailResponse> getBoardDetail(@PathVariable("boardId") Long boardId){
+        return ResponseEntity.ok(boardServcice.getBoard(boardId));
+    }
     @PostMapping("/write") // 게시글 작성
     public ResponseEntity<? super BoardWriteResponse> boardWrite(
             @RequestBody BoardWriteRequest request,
@@ -44,7 +49,8 @@ public class BoardController {
         return boardServcice.saveBoard(request,email);
     }
     @PostMapping("/test")
-    public String test(@AuthenticationPrincipal String email){ // 스트링으로 했음.
-        return "성공?";
+    public ResponseEntity<?> test(){ // 스트링으로 했음.
+        log.info("test");
+        return ResponseEntity.internalServerError().build();
     }
 }

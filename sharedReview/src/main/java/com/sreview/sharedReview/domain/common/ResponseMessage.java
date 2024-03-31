@@ -11,9 +11,11 @@ public interface ResponseMessage {
     String DUPLICATE_NICKNAME = "Duplicate Nickname.";
     String SIGN_IN_FAIL = "Login information mismatch.";
     String CERTIFICATION_FAIL = "Certification faild.";
-    String NOT_EXISTED_USER = "Not existed user";
+    String NON_EXISTED_USER = "NON existed user";
+    String NON_EXISTED_BOARD = "NON existed board";
+    
     String DUPLICATE_CATEGORY = "Duplicate cateogry";
-    String AUTH_NUMBER_FAILED = "Verification code does not match.";
+    String AUTH_NUMBER_FAILED = "Verification code does NON match.";
 
     // 500
     String MAIL_FAIL = "Mail send failed.";

@@ -19,12 +19,14 @@ import { BoardWriteRequestDto } from "../../apis/request/board";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { BOARD_DETAIL, MAIN_PATH } from "../../constant";
+import loginUserStore from "../../store/login-user.store";
 
 const BoardWrite = () => {
   const [cookies, seetCookies] = useCookies();
   const navigator = useNavigate();
   const titleRef = useRef<HTMLInputElement | null>(null);
   const tagRef = useRef<HTMLInputElement | null>(null);
+  const {loginUser} = loginUserStore();
 
   const [title, setTitle] = useState<string>("");
   const [categoryDrop, setCategoryDrop] = useState(false);
@@ -40,6 +42,11 @@ const BoardWrite = () => {
 
   // Effect: 처음 렌더링 시 카테고리를 가져와줌.
   useEffect(() => {
+    if(!loginUser){
+      alert('잘못된 접근입니다.');
+      navigator(MAIN_PATH());
+      return;
+    }
     getCategorysReqeust().then(getCategorysResponse);
   }, []);
   const getCategorysResponse = (
@@ -143,6 +150,12 @@ const BoardWrite = () => {
       const newTags = [...tags];
       newTags.push(tag);
       setTags(newTags);
+    } else if (event.key === 'Backspace') {
+      const deleteTags = [];
+      for(let i=0;i<tags.length-1;i++){
+        deleteTags.push(tags[i]);
+      }
+      setTags(deleteTags);
     }
   };
   const onTagChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -150,6 +163,10 @@ const BoardWrite = () => {
     setTag(value);
     tagRef.current?.focus();
   };
+
+  // tag의 X버튼 누르면
+
+
   return (
     <div id="board-write-wrap" onClick={handleClickOutside}>
       <div className="board-write-top">
