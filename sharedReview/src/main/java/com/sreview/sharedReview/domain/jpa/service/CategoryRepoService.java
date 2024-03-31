@@ -17,11 +17,16 @@ public class CategoryRepoService { // DB에 넣어주는 아이
     private final CategoryRepository categoryRepository;
 
     @Transactional // 이 때 커밋이 나감.
-    public void save(Category categorie){
+    public void save(Category categorie) {
         categoryRepository.save(categorie);
     }
 
-    public Optional<Category> findByName(String name){
+    @Transactional
+    public void saveAll(List<Category> categories) {
+        categoryRepository.saveAll(categories);
+    }
+
+    public Optional<Category> findByName(String name) {
         return categoryRepository.findByName(name);
     }
 
