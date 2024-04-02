@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { USER_LIST_PATH } from "../../../constant";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getUserList } from "../../../apis";
+import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
 
 const UserList = () => {
+  const [users, setUsers] = useState<GetUserListResponseDto[]>([]);
+
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
 
@@ -20,6 +24,19 @@ const UserList = () => {
   };
   const onDropdownCategory = () => {};
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getUserList();
+      if (result && Array.isArray(result.userList)) {
+        setUsers(result.userList);
+        console.error("받은 데이터 : ", result.userList);
+      } else {
+        console.error("Error fetching user list:", result.userList);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div id="userList-wrap">
       <div className="userList-top">
@@ -42,50 +59,32 @@ const UserList = () => {
             </div>
             <div className="classification-id">ID</div>
             <div className="classification-nickName">닉네임</div>
-            <div className="classification-name">사용자 이름</div>
-            <div className="classification-email">사용자 이메일</div>
-            <div className="classification-writerDate">등록일</div>
+            <div className="classification-email">이메일</div>
+            <div className="classification-writerDate">가입일</div>
             <div className="classification-authority">권한</div>
 
             <div className="classification-actions">action</div>
           </div>
 
-          <div className="userList-Item">
-            <div className="checkBox">
-              <input type="checkbox" />
-            </div>
-            <div className="userList-item-id">{"99"}</div>
-            <div className="userList-item-nickName">{"가나다라마"}</div>
-            <div className="userList-item-name">{"박한규"}</div>
-            <div className="userList-item-email">
-              {"sprgmsrl0033@email.com"}
-            </div>
-            <div className="userList-item-writerDate">22. 02. 22</div>
-
-            <div className="userList-item-authority">관리자9</div>
-
-            <div className="userList-item-action">
-              <div className="actions-icon-img"></div>
-            </div>
-          </div>
-
-          <div className="userList-Item">
-            <div className="checkBox">
-              <input type="checkbox" />
-            </div>
-            <div className="userList-item-id">{"99"}</div>
-            <div className="userList-item-nickName">{"가나다라마"}</div>
-            <div className="userList-item-name">{"박한규"}</div>
-            <div className="userList-item-email">
-              {"sprgmsrl0033@email.com"}
-            </div>
-            <div className="userList-item-writerDate">22. 02. 22</div>
-
-            <div className="userList-item-authority">관리자9</div>
-
-            <div className="userList-item-action">
-              <div className="actions-icon-img"></div>
-            </div>
+          <div className="userList-Item-box">
+            {users.map((user, index) => (
+              <div key={index} className="userList-Item">
+                <div className="checkBox">
+                  <input type="checkbox" />
+                </div>
+                <div className="userList-item-id">{user.id}</div>
+                <div className="userList-item-nickName">{user.nickname}</div>
+                <div className="userList-item-email">{user.email}</div>
+                <div className="userList-item-writerDate">
+                  {new Date(user.createDate).toISOString().split("T")[0]}
+                  {/* 날짜형식 백에서 처리하기 */}
+                </div>
+                <div className="userList-item-authority">{user.admin}</div>
+                <div className="userList-item-action">
+                  <div className="actions-icon-img"></div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
