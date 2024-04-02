@@ -11,6 +11,7 @@ import {
   GetCategorysResponseDto,
   PostBoardWriteResponseDto,
 } from "./response/board";
+import UserList from "../types/interface/user-list.interface";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -94,16 +95,30 @@ export const getCategorysReqeust = async () => {
 
 // 게시글 불러오기
 const GET_BOARD = () => `${API_DOMAIN}/board`;
-export const getBoardRequest = async (boardId: string|bigint) => {
-  const result = await axios.get(GET_BOARD())
-      .then(response => {
-
-      })
-      .catch(error => {
-
-      });
+export const getBoardRequest = async (boardId: string | bigint) => {
+  const result = await axios
+    .get(GET_BOARD())
+    .then((response) => {})
+    .catch((error) => {});
   return result;
-}
+};
+
+// 회원 리스트 요청
+
+const USER_LIST_URL = () => `${DOMAIN}/api/user/get-user-list`;
+export const getUserList = async () => {
+  const result = await axios
+    .get(USER_LIST_URL())
+    .then((response) => {
+      const responseBody: UserList[] = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error.response.data) return null;
+      return error.response.data;
+    });
+  return result;
+};
 
 // ===  post  ==== //
 // 회원가입 요청
@@ -155,7 +170,10 @@ export const sendEmailAuthNumber = async (emailAuthNumber: string) => {
 };
 // 게시글 작성
 const POST_BOARD = () => `${API_DOMAIN}/board/write`;
-export const postBoard = async (requestBody: BoardWriteRequestDto, accessToken: string) => {
+export const postBoard = async (
+  requestBody: BoardWriteRequestDto,
+  accessToken: string
+) => {
   const result = await axios
     .post(POST_BOARD(), requestBody, authorication(accessToken))
     .then((response) => {
