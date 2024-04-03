@@ -26,7 +26,7 @@ const BoardWrite = () => {
   const navigator = useNavigate();
   const titleRef = useRef<HTMLInputElement | null>(null);
   const tagRef = useRef<HTMLInputElement | null>(null);
-  const {loginUser} = loginUserStore();
+  const { loginUser } = loginUserStore();
 
   const [title, setTitle] = useState<string>("");
   const [categoryDrop, setCategoryDrop] = useState(false);
@@ -42,8 +42,8 @@ const BoardWrite = () => {
 
   // Effect: 처음 렌더링 시 카테고리를 가져와줌.
   useEffect(() => {
-    if(!loginUser){
-      alert('잘못된 접근입니다.');
+    if (!loginUser) {
+      alert("잘못된 접근입니다.");
       navigator(MAIN_PATH());
       return;
     }
@@ -129,7 +129,9 @@ const BoardWrite = () => {
     };
     postBoard(reqeustBody, cookies.accessToken).then(postResponse);
   };
-  const postResponse = (responseBody: PostBoardWriteResponseDto | ResponseDto | null) => {
+  const postResponse = (
+    responseBody: PostBoardWriteResponseDto | ResponseDto | null
+  ) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -142,7 +144,7 @@ const BoardWrite = () => {
       return;
     }
     const { boardId } = responseBody as PostBoardWriteResponseDto;
-    navigator(BOARD_DETAIL('1'));
+    navigator(BOARD_DETAIL("1"));
   };
   // event handler:  Tag
   const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -150,9 +152,9 @@ const BoardWrite = () => {
       const newTags = [...tags];
       newTags.push(tag);
       setTags(newTags);
-    } else if (event.key === 'Backspace') {
+    } else if (event.key === "Backspace") {
       const deleteTags = [];
-      for(let i=0;i<tags.length-1;i++){
+      for (let i = 0; i < tags.length - 1; i++) {
         deleteTags.push(tags[i]);
       }
       setTags(deleteTags);
@@ -166,7 +168,6 @@ const BoardWrite = () => {
 
   // tag의 X버튼 누르면
 
-
   return (
     <div id="board-write-wrap" onClick={handleClickOutside}>
       <div className="board-write-top">
@@ -179,20 +180,28 @@ const BoardWrite = () => {
               <div className="board-dropdown-icon"></div>
             </div>
             {categoryDrop && (
+              // <div className="board-dropdown-content">
+              //   {categorys.map(
+              //     (
+              //       category,
+              //       index // 카테고리 목록 불러오기.
+              //     ) => (
+              //       <div
+              //         className="board-dropdown-content-item"
+              //         onClick={() => {}}
+              //       >
+              //         {category.categoryName}
+              //       </div>
+              //     )
+              //   )}
+              // </div>
               <div className="board-dropdown-content">
-                {categorys.map(
-                  (
-                    category,
-                    index // 카테고리 목록 불러오기.
-                  ) => (
-                    <div
-                      className="board-dropdown-content-item"
-                      onClick={() => {}}
-                    >
-                      {category.categoryName}
-                    </div>
-                  )
-                )}
+                <div className="board-dropdown-content-item" onClick={() => {}}>
+                  ddd
+                </div>
+                <div className="board-dropdown-content-item" onClick={() => {}}>
+                  ddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+                </div>
               </div>
             )}
           </div>
@@ -213,7 +222,8 @@ const BoardWrite = () => {
             />
           </div>
           <div className="editor_box">
-            <Editor ref={editorRef}
+            <Editor
+              ref={editorRef}
               initialValue="hello react editor world!"
               previewStyle="vertical"
               height="600px"
@@ -231,14 +241,6 @@ const BoardWrite = () => {
 
       <div className="board-write-bottom">
         <div className="board-bottom-tag">
-          {tags.map((t, index) => (
-            <div>
-              <div className="tag">#{t}</div>
-              <div className="dd" onClick={() => {}}>
-                X
-              </div>
-            </div>
-          ))}
           <input
             type="text"
             placeholder="태그를 입력해주세요"
@@ -246,6 +248,14 @@ const BoardWrite = () => {
             onChange={onTagChange}
             ref={tagRef}
           />
+          {tags.map((t, index) => (
+            <div>
+              <div className="tag">#{t}</div>
+              <div className="tag-dekete-icon" onClick={() => {}}>
+                X
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
