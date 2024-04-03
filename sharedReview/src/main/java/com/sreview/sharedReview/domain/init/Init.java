@@ -1,10 +1,14 @@
 package com.sreview.sharedReview.domain.init;
 
+import com.sreview.sharedReview.domain.dto.object.CategoryDto;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
+import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
+import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.Category;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.UserRepository;
 import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
+import com.sreview.sharedReview.domain.service.BoardService;
 import com.sreview.sharedReview.domain.service.impl.AuthServiceImpl;
 import com.sreview.sharedReview.domain.service.impl.UserServiceImpl;
 import jakarta.annotation.PostConstruct;
@@ -22,6 +26,7 @@ public class Init {
     private final AuthServiceImpl authService;
     private final CategoryRepoService categoryRepoService;
     private final UserRepository userRepository;
+    private final BoardService boardService;
 
     @PostConstruct // 의존성 주입이 완료된 후 실행되어야 하는 메서드
     private void init(){
@@ -40,5 +45,17 @@ public class Init {
         categorys.add(cate1);
         categorys.add(cate2);
         categoryRepoService.saveAll(categorys);
+
+        BoardWriteRequest request = new BoardWriteRequest();
+        request.setTitle("제목입니다.");
+        request.setContentMarkdown("<div>디브</div>");
+        request.setContentMarkdown("디브");
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(1L);
+        categoryDto.setCategoryName("컴퓨터");
+        request.setCategory(categoryDto);
+        request.setTags(new ArrayList<>());
+        Board board = new Board();
+
     }
 }

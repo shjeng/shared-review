@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.service.impl;
 
+import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
 import com.sreview.sharedReview.domain.dto.object.CategoryDto;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
@@ -7,10 +8,7 @@ import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
-import com.sreview.sharedReview.domain.jpa.entity.Board;
-import com.sreview.sharedReview.domain.jpa.entity.Category;
-import com.sreview.sharedReview.domain.jpa.entity.Tag;
-import com.sreview.sharedReview.domain.jpa.entity.User;
+import com.sreview.sharedReview.domain.jpa.entity.*;
 import com.sreview.sharedReview.domain.jpa.service.BoardRepoService;
 import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
 import com.sreview.sharedReview.domain.jpa.service.TagRepoService;
@@ -18,6 +16,7 @@ import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
 import com.sreview.sharedReview.domain.service.BoardService;
 import com.sreview.sharedReview.domain.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +26,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepoService boardRepoService;
@@ -89,12 +89,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public BoardDetailResponse getBoard(Long boardId) {
+    public Board getBoard(Long boardId) {
         try {
-            Optional<Board> boardOptional = boardRepoService.findById(boardId);
+            Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsById(boardId);
+//            Optional<Board> boardOptional = boardRepoService.findById(boardId);
+
+            if (boardOptional.isEmpty()) {
+                throw new NonExistBoardException("존재하지 않는 게시물입니다.");
+            }
+            Board board = boardOptional.get();
+            return board;
         } catch (Exception e){
             e.printStackTrace();
-
         }
         return null;
     }

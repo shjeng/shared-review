@@ -6,6 +6,7 @@ import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
+import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,8 @@ public class BoardController {
         return boardServcice.saveCategory(request);
     }
     @GetMapping("/{boardId}")
-    public ResponseEntity<? super BoardDetailResponse> getBoardDetail(@PathVariable("boardId") Long boardId){
+    public ResponseEntity<? super Board> getBoardDetail(@PathVariable("boardId") Long boardId){
+        log.info("boardId = {} ", boardId);
         return ResponseEntity.ok(boardServcice.getBoard(boardId));
     }
     @PostMapping("/write") // 게시글 작성
@@ -48,7 +50,7 @@ public class BoardController {
         log.info("request = {}", request);
         return boardServcice.saveBoard(request,email);
     }
-    @PostMapping("/test")
+    @GetMapping("/test")
     public ResponseEntity<?> test(){ // 스트링으로 했음.
         log.info("test");
         return ResponseEntity.internalServerError().build();
