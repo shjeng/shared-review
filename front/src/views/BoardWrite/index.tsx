@@ -250,7 +250,7 @@ const BoardWrite = () => {
           />
           {tags.map((t, index) => (
             <div>
-              <div className="tag">#{t}</div>
+              <div className="tag-content">#{t}</div>
               <div className="tag-dekete-icon" onClick={() => {}}>
                 X
               </div>
