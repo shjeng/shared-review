@@ -20,14 +20,15 @@ public class BoardWriteRequest {
     private CategoryDto category;
     private List<String> tags;
 
-    public static Board getBoard(BoardWriteRequest request){
+    public static Board getBoard(BoardWriteRequest request) {
         Board boardEntity = new Board();
 //        boardEntity.setTitleContent(request.title, request.content);
         return boardEntity;
     }
-    public List<Tag> getTagList(){
+
+    public List<Tag> getTagList(Board board) {
         List<Tag> tagList = new ArrayList<>();
-        tags.forEach(t->tagList.add(new Tag().setTagName(t)));
+        tags.forEach(t -> tagList.add(new Tag().setNameAndBoard(t, board)));
         return tagList;
     }
 }

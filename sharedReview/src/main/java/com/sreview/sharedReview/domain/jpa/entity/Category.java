@@ -3,6 +3,7 @@ package com.sreview.sharedReview.domain.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +32,7 @@ public class Category {
     @Column(name = "category_Create_Date")
     private String createDate;
 
+    @Builder
     public Category(String name, User user) {
         this.name = name;
         this.user = user;

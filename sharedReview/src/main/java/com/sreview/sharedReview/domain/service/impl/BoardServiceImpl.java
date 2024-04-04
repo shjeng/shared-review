@@ -73,14 +73,19 @@ public class BoardServiceImpl implements BoardService {
             Optional<User> userOptional = userEntityService.findByEmail(email);
             if(userOptional.isEmpty()) return BoardWriteResponse.notExistedUser();
 
-//            Category category = categoryRepoService.findByName(request.getCategory()).get();
+            Optional<Category> categoryOptional = categoryRepoService.findById(request.getCategory().getCategoryId());
+            if (categoryOptional.isEmpty()) {   // 카테고리가 DB에 없는 경우
+                throw new RuntimeException("존재하지 않는 카테고리.");
+            }
+
+            Category category = categoryOptional.get();
             User user = userOptional.get();
             Board board = BoardWriteRequest.getBoard(request);
-//            board.setUserAndCategory(user,category);
-            List<Tag> tagList = request.getTagList();
-            tagRepoService.saveAll(tagList);
+            board.setUserAndCategory(user,category); // 글 작성자와 태그 넣어서 저장해주기
+            List<Tag> tagList = request.getTagList(board);
+            tagRepoService.saveAll(tagList); // 태그 저장
+            boardRepoService.save(board); // 게시물 저장
 
-            boardRepoService.save(board);
         } catch (Exception e){
             e.printStackTrace();
             BoardWriteResponse.databaseError();

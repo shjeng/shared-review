@@ -21,20 +21,15 @@ public class Tag { // 태그 테이블
     @Column(name = "Tag_ID")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
+
     @Column(name = "Tag_Name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent")
-    private Tag parent;
-
-    @Column(name = "depth")
-    private Long depth;
-
-    @OneToMany(mappedBy = "parent")
-    private List<Tag> children = new ArrayList<>();
-
-    public Tag setTagName(String name) {
+    public Tag setNameAndBoard(String name, Board board) {
+        this.board = board;
         this.name = name;
         return this;
     }

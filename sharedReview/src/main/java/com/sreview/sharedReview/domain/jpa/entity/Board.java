@@ -56,7 +56,7 @@ public class Board extends BaseEntity{ // 게시물 테이블
     @JoinColumn(name = "Categorie_ID")
     private Category categorie;
 
-    public void setTitleContent(String title, String content){
+    public void setTitleContent(String title, String content) {
         this.title = title;
         this.content = content;
     }

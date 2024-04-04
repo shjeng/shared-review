@@ -26,6 +26,9 @@ public class CategoryRepoService { // DB에 넣어주는 아이
         categoryRepository.saveAll(categories);
     }
 
+    public Optional<Category> findById(Long id) {
+        return categoryRepository.findById(id);
+    }
     public Optional<Category> findByName(String name) {
         return categoryRepository.findByName(name);
     }
