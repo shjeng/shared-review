@@ -6,6 +6,7 @@ import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
+import com.sreview.sharedReview.domain.jpa.entity.Board;
 import org.springframework.http.ResponseEntity;
 
 public interface BoardService {
@@ -15,6 +16,7 @@ public interface BoardService {
 
     ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request, String email);
 
-    BoardDetailResponse getBoard(Long boardId);
+    Board getBoard(Long boardId);
+//    BoardDetailResponse getBoard(Long boardId);
 
 }

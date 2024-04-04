@@ -70,29 +70,6 @@ const BoardWrite = () => {
     setCategoryDrop(!categoryDrop);
   };
 
-  const editorRef = useRef<Editor>(null);
-  const searchInputRef = useRef<any>(null);
-
-  // 카테고리 드롭다운 박스 외부를 클릭했을 때 드롭다운을 닫는 기능
-  const handleClickOutside = () => {
-    if (categoryDrop) {
-      setCategoryDrop(false);
-    }
-  };
-
-  // const handleClickOutside = (e: MouseEvent) => {
-  //   if (categoryDrop && !searchInputRef.current.contains(e.target as Node)) {
-  //     setCategoryDrop(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [categoryDrop]);
-
   const onTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setTitle(value);
@@ -146,13 +123,38 @@ const BoardWrite = () => {
     const { boardId } = responseBody as PostBoardWriteResponseDto;
     navigator(BOARD_DETAIL("1"));
   };
+
+  const editorRef = useRef<Editor>(null);
+  const searchInputRef = useRef<any>(null);
+
+  // 카테고리 드롭다운 박스 외부를 클릭했을 때 드롭다운을 닫는 기능
+  const handleClickOutside = () => {
+    if (categoryDrop) {
+      setCategoryDrop(false);
+    }
+  };
+
+  // const handleClickOutside = (e: MouseEvent) => {
+  //   if (categoryDrop && !searchInputRef.current.contains(e.target as Node)) {
+  //     setCategoryDrop(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [categoryDrop]);
+
   // event handler:  Tag
   const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if ((event.key === "Enter" || event.key === "Tab") && tag.length !== 0) {
       const newTags = [...tags];
       newTags.push(tag);
       setTags(newTags);
-    } else if (event.key === "Backspace") {
+      setTag("");
+    } else if (event.key === "Backspace" && tag.length === 0) {
       const deleteTags = [];
       for (let i = 0; i < tags.length - 1; i++) {
         deleteTags.push(tags[i]);
@@ -180,28 +182,20 @@ const BoardWrite = () => {
               <div className="board-dropdown-icon"></div>
             </div>
             {categoryDrop && (
-              // <div className="board-dropdown-content">
-              //   {categorys.map(
-              //     (
-              //       category,
-              //       index // 카테고리 목록 불러오기.
-              //     ) => (
-              //       <div
-              //         className="board-dropdown-content-item"
-              //         onClick={() => {}}
-              //       >
-              //         {category.categoryName}
-              //       </div>
-              //     )
-              //   )}
-              // </div>
               <div className="board-dropdown-content">
-                <div className="board-dropdown-content-item" onClick={() => {}}>
-                  ddd
-                </div>
-                <div className="board-dropdown-content-item" onClick={() => {}}>
-                  ddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-                </div>
+                {categorys.map(
+                  (
+                    category,
+                    index // 카테고리 목록 불러오기.
+                  ) => (
+                    <div
+                      className="board-dropdown-content-item"
+                      onClick={() => {}}
+                    >
+                      {category.categoryName}
+                    </div>
+                  )
+                )}
               </div>
             )}
           </div>
