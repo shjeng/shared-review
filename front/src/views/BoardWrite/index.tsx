@@ -1,12 +1,6 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "./style.css";
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, {ChangeEvent, KeyboardEvent, useEffect, useRef, useState,} from "react";
 import { Editor } from "@toast-ui/react-editor";
 import { getCategorysReqeust, postBoard } from "../../apis";
 import {
@@ -50,8 +44,7 @@ const BoardWrite = () => {
     getCategorysReqeust().then(getCategorysResponse);
   }, []);
   const getCategorysResponse = (
-    responseBody: GetCategorysResponseDto | ResponseDto | null
-  ) => {
+    responseBody: GetCategorysResponseDto | ResponseDto | null) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -75,6 +68,9 @@ const BoardWrite = () => {
     setTitle(value);
     setTitleError(false);
   };
+  const onCategoryClick = (category: Category) => {
+    setCategory(category);
+  }
   const onContentChange = () => {
     // 에디터 내용 content
     setContentHtml(editorRef.current?.getInstance().getHTML());
@@ -84,12 +80,13 @@ const BoardWrite = () => {
 
   // 작성 버튼 클릭
   const onSubmit = () => {
+    console.log(contentHtml);
     const content2 = editorRef.current?.getInstance().getMarkdown();
     if (!title) {
       titleRef.current?.focus();
       setTitleError(true);
     }
-    if (!content2) {
+    if (!contentHtml?.trim()) {
       editorRef.current?.getInstance().focus();
       setContentError(true);
     }
@@ -134,18 +131,7 @@ const BoardWrite = () => {
     }
   };
 
-  // const handleClickOutside = (e: MouseEvent) => {
-  //   if (categoryDrop && !searchInputRef.current.contains(e.target as Node)) {
-  //     setCategoryDrop(false);
-  //   }
-  // };
 
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [categoryDrop]);
 
   // event handler:  Tag
   const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -178,20 +164,18 @@ const BoardWrite = () => {
         <div className="function-line">
           <div className="board-category" ref={searchInputRef}>
             <div className="board-dropdown-box" onClick={toggleDropdown}>
-              <div className="board-dropdown-text">카테고리</div>
+              {category ?
+                  <div className="board-dropdown-text">{category?.categoryName}</div> :
+                  <div className="board-dropdown-text">카테고리</div>
+              }
+
               <div className="board-dropdown-icon"></div>
             </div>
             {categoryDrop && (
               <div className="board-dropdown-content">
                 {categorys.map(
-                  (
-                    category,
-                    index // 카테고리 목록 불러오기.
-                  ) => (
-                    <div
-                      className="board-dropdown-content-item"
-                      onClick={() => {}}
-                    >
+                  (category, index) => ( // 카테고리 목록 불러오기.
+                    <div className="board-dropdown-content-item" onClick={() => {}}>
                       {category.categoryName}
                     </div>
                   )
@@ -208,23 +192,10 @@ const BoardWrite = () => {
       <div className="board-write-mid">
         <div className="board-main-left">
           <div className="board-input-title">
-            <input
-              type="text"
-              placeholder="제목을 입력해주세요."
-              ref={titleRef}
-              onChange={onTitleChange}
-            />
+            <input type="text" placeholder="제목을 입력해주세요." ref={titleRef} onChange={onTitleChange}/>
           </div>
           <div className="editor_box">
-            <Editor
-              ref={editorRef}
-              initialValue="hello react editor world!"
-              previewStyle="vertical"
-              height="600px"
-              onChange={onContentChange}
-              initialEditType="wysiwyg"
-              useCommandShortcut={false}
-            />
+            <Editor ref={editorRef} initialValue=" " previewStyle="vertical" height="600px" onChange={onContentChange} initialEditType="wysiwyg" useCommandShortcut={false}/>
           </div>
           <div className="board-main">
             <div className="board-detail"></div>
