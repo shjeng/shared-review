@@ -213,14 +213,14 @@ const BoardWrite = () => {
             onChange={onTagChange}
             ref={tagRef}
           />
-          {tags.map((t, index) => (
-            <div>
-              <div className="tag-content">#{t}</div>
-              <div className="tag-dekete-icon" onClick={() => {}}>
-                X
+          <div className="tag-list-area">
+            {tags.map((t, index) => (
+              <div className="tag-list">
+                <div className="tag-content">#{t}</div>
+                <div className="tag-delete-icon" onClick={() => {}}></div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
