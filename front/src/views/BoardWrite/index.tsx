@@ -224,6 +224,7 @@ const BoardWrite = () => {
               onChange={onContentChange}
               initialEditType="wysiwyg"
               useCommandShortcut={false}
+              hideModeSwitch={true}
             />
           </div>
           <div className="board-main">
