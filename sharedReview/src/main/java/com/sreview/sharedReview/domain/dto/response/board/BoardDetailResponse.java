@@ -3,6 +3,8 @@ package com.sreview.sharedReview.domain.dto.response.board;
 import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.dto.object.BoardDetailDto;
+import com.sreview.sharedReview.domain.dto.object.CommentDto;
+import com.sreview.sharedReview.domain.dto.object.FavoriteDto;
 import com.sreview.sharedReview.domain.dto.object.UserDto;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import lombok.Getter;
@@ -10,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +20,8 @@ import java.time.LocalDateTime;
 public class BoardDetailResponse  extends ResponseDto {
     private UserDto userDto;
     private BoardDetailDto boardDetailDto;
+    private CommentDto commentDto;
+    private List<FavoriteDto> favoriteDto;
 
     public BoardDetailResponse(UserDto userDto, BoardDetailDto boardDetailDto) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);

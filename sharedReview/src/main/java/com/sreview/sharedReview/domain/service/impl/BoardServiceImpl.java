@@ -1,6 +1,7 @@
 package com.sreview.sharedReview.domain.service.impl;
 
 import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
+import com.sreview.sharedReview.domain.dto.object.BoardDetailDto;
 import com.sreview.sharedReview.domain.dto.object.CategoryDto;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
@@ -9,10 +10,7 @@ import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
 import com.sreview.sharedReview.domain.jpa.entity.*;
-import com.sreview.sharedReview.domain.jpa.service.BoardRepoService;
-import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
-import com.sreview.sharedReview.domain.jpa.service.TagRepoService;
-import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
+import com.sreview.sharedReview.domain.jpa.service.*;
 import com.sreview.sharedReview.domain.service.BoardService;
 import com.sreview.sharedReview.domain.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +28,7 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepoService boardRepoService;
+    private final FavoriteRepoService favoriteRepoService;
     private final CategoryRepoService categoryRepoService;
     private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
@@ -96,13 +95,16 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board getBoard(Long boardId) {
         try {
-            Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsById(boardId);
-//            Optional<Board> boardOptional = boardRepoService.findById(boardId);
-
+            Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsUserById(boardId);
             if (boardOptional.isEmpty()) {
                 throw new NonExistBoardException("존재하지 않는 게시물입니다.");
             }
             Board board = boardOptional.get();
+            BoardDetailDto boardDetailDto = new BoardDetailDto();
+            boardDetailDto.ofEntity(board);
+
+            List<Favorite> favorites = favoriteRepoService.findAllByBoard(board);
+
             return board;
         } catch (Exception e){
             e.printStackTrace();
