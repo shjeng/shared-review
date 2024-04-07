@@ -32,7 +32,7 @@ public class Init {
         categoryInit();
         boardInit();
         commentInit();
-//        favoriteInit();
+        favoriteInit();
 
     }
 
