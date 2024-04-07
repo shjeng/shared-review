@@ -22,7 +22,7 @@ public class BoardWriteRequest {
 
     public static Board getBoard(BoardWriteRequest request) {
         Board boardEntity = new Board();
-//        boardEntity.setTitleContent(request.title, request.content);
+        boardEntity.setTitleContent(request.title, request.contentMarkdown);
         return boardEntity;
     }
 

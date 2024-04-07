@@ -1,13 +1,11 @@
 package com.sreview.sharedReview.domain.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Favorite {
     @Id
     @GeneratedValue

@@ -175,7 +175,7 @@ const BoardWrite = () => {
               <div className="board-dropdown-content">
                 {categorys.map(
                   (category, index) => ( // 카테고리 목록 불러오기.
-                    <div className="board-dropdown-content-item" onClick={() => {}}>
+                    <div className="board-dropdown-content-item" onClick={() => onCategoryClick(category)}>
                       {category.categoryName}
                     </div>
                   )

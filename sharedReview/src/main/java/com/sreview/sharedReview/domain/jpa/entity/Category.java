@@ -11,12 +11,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class Category {
+public class Category extends BaseEntity {
     // 카테고리 ID
     @Id
     @GeneratedValue
-    @Column(name = "`category_id`")
+    @Column(name = "category_id")
     private Long id;
 
     // 카테고리 명
@@ -27,10 +26,6 @@ public class Category {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    // 카테고리 작성 날짜
-    @Column(name = "category_Create_Date")
-    private String createDate;
 
     @Builder
     public Category(String name, User user) {

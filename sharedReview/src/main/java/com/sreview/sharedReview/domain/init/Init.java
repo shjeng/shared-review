@@ -11,10 +11,12 @@ import com.sreview.sharedReview.domain.service.impl.AuthServiceImpl;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Component
 public class Init {
 
     private final AuthServiceImpl authService;
@@ -26,38 +28,53 @@ public class Init {
     private final EntityManager em;
     @PostConstruct // 의존성 주입이 완료된 후 실행되어야 하는 메서드
     public void init(){
+        userInit();
+        categoryInit();
+        boardInit();
+        commentInit();
+//        favoriteInit();
+
+    }
+
+    public void userInit(){
         SignUpRequest userRequest = new SignUpRequest();
         userRequest.setEmail("test@naver.com");
         userRequest.setNickname("testNick");
         userRequest.setPassword("123");
         authService.signUp(userRequest);
-
+    }
+    public void categoryInit(){
         Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
         User user = userOptional.get();
-
         Category cate1 = new Category("컴퓨터", user);
         Category cate2 = new Category("미용", user);
         categoryRepoService.save(cate1);
         categoryRepoService.save(cate2);
-        Board board = Board.builder()
-                .title("제목입니다.")
-                .content("<div>내용입니다.<div>")
-                .categorie(cate1)
-                .user(user)
-                .build();
-        boardRepoService.save(board);
-        Comment comment = Comment.builder()
-                .board(board)
-                .user(user)
-                .content("댓글입니다.")
-                .build();
-        commentRepoService.save(comment);
+    }
+    public void boardInit(){
+        Optional<Category> category = categoryRepoService.findByName("컴퓨터");
+        Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
+        User user = userOptional.get();
+        Board board = new Board();
+        board.setTitleContent("제목","내용대충");
+        board.setUserAndCategory(user, category.get());
 
+        boardRepoService.save(board);
+    }
+    public void commentInit(){
+        Optional<Board> boardOptional = boardRepoService.findById(1L);
+        Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
+        Comment comment = new Comment();
+        comment.setUserBoardContent(userOptional.get(), boardOptional.get(), "댓글입니다~");
+        commentRepoService.save(comment);
+    }
+    public void favoriteInit(){
+        Optional<Board> boardOptional = boardRepoService.findById(1L);
+        Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
         Favorite favorite = Favorite.builder()
-                .board(board)
-                .user(user)
+                .user(userOptional.get())
+                .board(boardOptional.get())
                 .build();
         favoriteRepoService.save(favorite);
     }
-
 }
