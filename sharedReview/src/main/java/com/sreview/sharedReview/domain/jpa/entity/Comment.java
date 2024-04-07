@@ -2,7 +2,7 @@
 package com.sreview.sharedReview.domain.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +12,6 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Comment { // 댓글 테이블
     // 댓글 ID
@@ -38,4 +37,11 @@ public class Comment { // 댓글 테이블
     // 댓글 작성 날짜
     @Column(name = "Comment_CreatedAt", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
+
+    @Builder
+    public Comment(User user, Board board, String content) {
+        this.user = user;
+        this.board = board;
+        this.content = content;
+    }
 }

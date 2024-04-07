@@ -17,20 +17,23 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class BoardDetailResponse  extends ResponseDto {
+public class BoardDetailResponse extends ResponseDto {
     private UserDto userDto;
     private BoardDetailDto boardDetailDto;
-    private CommentDto commentDto;
+    private List<CommentDto> commentDtos;
     private List<FavoriteDto> favoriteDto;
 
-    public BoardDetailResponse(UserDto userDto, BoardDetailDto boardDetailDto) {
+
+    public BoardDetailResponse(UserDto userDto, BoardDetailDto boardDetailDto, List<CommentDto> commentDtos, List<FavoriteDto> favoriteDto) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.userDto = userDto;
         this.boardDetailDto = boardDetailDto;
+        this.commentDtos = commentDtos;
+        this.favoriteDto = favoriteDto;
     }
 
     //  다른 방식으로 success 처리 해볼 예정
-    public static BoardDetailResponse success(UserDto userDto, BoardDetailDto boardDetailDto){
-        return new BoardDetailResponse(userDto, boardDetailDto);
+    public static BoardDetailResponse success(UserDto userDto, BoardDetailDto boardDetailDto, List<CommentDto> commentDtos, List<FavoriteDto> favoriteDto) {
+        return new BoardDetailResponse(userDto, boardDetailDto, commentDtos, favoriteDto);
     }
 }

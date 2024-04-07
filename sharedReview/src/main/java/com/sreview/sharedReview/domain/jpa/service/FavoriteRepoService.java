@@ -13,7 +13,11 @@ import java.util.List;
 public class FavoriteRepoService {
     private final FavoriteRepository favoriteRepository;
 
-    public List<Favorite> findAllByBoard(Board board){
+    public void save(Favorite favorite) {
+        favoriteRepository.save(favorite);
+    }
+
+    public List<Favorite> findAllByBoard(Board board) {
         return favoriteRepository.findAllByBoard(board);
     }
 }

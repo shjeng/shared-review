@@ -1,10 +1,13 @@
 package com.sreview.sharedReview.domain.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Favorite {
     @Id
     @GeneratedValue
@@ -19,4 +22,9 @@ public class Favorite {
     @JoinColumn(name = "board_id")
     public Board board;
 
+    @Builder
+    public Favorite(User user, Board board) {
+        this.user = user;
+        this.board = board;
+    }
 }

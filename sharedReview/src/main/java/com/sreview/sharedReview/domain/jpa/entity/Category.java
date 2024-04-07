@@ -16,7 +16,7 @@ public class Category {
     // 카테고리 ID
     @Id
     @GeneratedValue
-    @Column(name = "category_ID")
+    @Column(name = "`category_id`")
     private Long id;
 
     // 카테고리 명

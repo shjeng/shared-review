@@ -1,10 +1,12 @@
 package com.sreview.sharedReview.domain.service.impl;
 
+import com.sreview.sharedReview.domain.common.ResponseCode;
+import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
-import com.sreview.sharedReview.domain.dto.object.BoardDetailDto;
-import com.sreview.sharedReview.domain.dto.object.CategoryDto;
+import com.sreview.sharedReview.domain.dto.object.*;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
+import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
@@ -93,23 +95,32 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Board getBoard(Long boardId) {
+    public ResponseDto getBoard(Long boardId) {
         try {
             Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsUserById(boardId);
             if (boardOptional.isEmpty()) {
                 throw new NonExistBoardException("존재하지 않는 게시물입니다.");
             }
             Board board = boardOptional.get();
+            User writer = board.getUser();
+            UserDto userDto = UserDto.of(writer); // 작성자
+
             BoardDetailDto boardDetailDto = new BoardDetailDto();
-            boardDetailDto.ofEntity(board);
+            boardDetailDto.ofEntity(board); // 게시물 상세 내용
+
+            List<Comment> comments = board.getComments(); // 댓글 리스트 가져오기
+            List<CommentDto> commentDtos = new ArrayList<>();
+            comments.stream().map(c -> commentDtos.add(new CommentDto().of(c, userDto))); // 댓글 리스트
 
             List<Favorite> favorites = favoriteRepoService.findAllByBoard(board);
+            List<FavoriteDto> favoriteDtos = new ArrayList<>();
+            favorites.stream().map(f -> favoriteDtos.add(FavoriteDto.of(f))); // 게시물 좋아요 리스트
 
-            return board;
-        } catch (Exception e){
+            return BoardDetailResponse.success(userDto, boardDetailDto, commentDtos, favoriteDtos);
+        } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseDto(ResponseCode.DATABASE_ERROR, ResponseMessage.DATABASE_ERROR);
         }
-        return null;
     }
 }
 

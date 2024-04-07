@@ -12,6 +12,8 @@ import static jakarta.persistence.FetchType.*;
 @Entity // 엔티티로 사용하겠다
 @Getter // 객체의 필드 값을 반환하는 역할
 @NoArgsConstructor // JPA는 엔티티를 생성할 때 기본 생성자를 사용. 매개변수가 없는 기본 생성자를 생성
+@AllArgsConstructor
+@Builder
 public class Board extends BaseEntity{ // 게시물 테이블
     // 게시물 ID
     @Id
@@ -52,8 +54,9 @@ public class Board extends BaseEntity{ // 게시물 테이블
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Categorie_ID")
+//    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
     private Category categorie;
 
     public void setTitleContent(String title, String content) {
