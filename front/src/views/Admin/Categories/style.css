@@ -14,9 +14,11 @@
 }
 
 .admin-categori-top {
-  width: 630px;
+  width: 730px;
   margin: 40px 360px 30px 410px;
   height: 50px;
+  align-items: center;
+  display: flex;
 }
 
 .admin-categori-title {
@@ -34,6 +36,7 @@
 }
 
 .admin-categori-classification {
+  width: 735px;
   background-color: rgba(0, 0, 0, 0.037);
   border: none;
 }
@@ -66,7 +69,7 @@
 .admin-categori-item-nickName {
   display: flex;
   align-items: center;
-  width: 140px;
+  width: 170px;
   height: 56px;
   justify-content: center;
 }
@@ -75,7 +78,7 @@
 .admin-categori-item-name {
   display: flex;
   align-items: center;
-  width: 130px;
+  width: 140px;
   height: 56px;
   padding: 0px 10px;
   justify-content: center;
@@ -85,7 +88,7 @@
 .admin-categori-item-email {
   display: flex;
   align-items: center;
-  width: 190px;
+  width: 200px;
   height: 56px;
   padding: 0px 10px;
   justify-content: center;
@@ -95,7 +98,7 @@
 .admin-categori-item-writerDate {
   display: flex;
   align-items: center;
-  width: 100px;
+  width: 110px;
   height: 56px;
   padding: 0px 10px;
   justify-content: center;
@@ -105,7 +108,7 @@
 .admin-categori-item-authority {
   display: flex;
   align-items: center;
-  width: 60px;
+  width: 70px;
   height: 56px;
   padding: 0px 10px;
   justify-content: center;
@@ -115,7 +118,7 @@
 .admin-categori-item-action {
   display: flex;
   align-items: center;
-  width: 50px;
+  width: 70px;
   height: 56px;
   padding: 0px 10px;
   justify-content: center;
@@ -139,7 +142,7 @@
 .admin-menu-userList,
 .admin-menu-announcement,
 .admin-menu-post,
-.admin-menu-category {
+.admin-menu-category-bold {
   margin-top: 15px;
   font-size: 20px;
 }
@@ -148,27 +151,27 @@
   margin-left: 220px;
 }
 
-.admin-menu-userList {
+.admin-menu-category-bold {
   font-weight: 600;
 }
 
 /* 검색 input */
 
-.admin-categori-search {
+.admin-search {
   position: relative;
-  width: 700px;
+  width: 500px;
   height: 35px;
 }
 
-.admin-categori-search input {
+.admin-search input {
   width: 100%;
   border: 1px solid #bbb;
   border-radius: 8px;
-  padding: 11px 12px 10px 12px;
+  padding: 10px 12px;
   font-size: 14px;
 }
 
-.admin-categori-search-img {
+.admin-search-img {
   background-image: url(../../../assets/image/search-icon.png);
   background-size: cover;
   position: absolute;
@@ -179,8 +182,9 @@
   margin: 0;
 }
 
-.admin-categori-search-img,
-.dropdown-box {
+.admin-search-img,
+.dropdown-box,
+.admin-categori-add {
   cursor: pointer;
 }
 
@@ -188,4 +192,29 @@
   display: flex;
   width: 650px;
   margin: auto;
+}
+
+.admin-categori-add {
+  border: 1px solid rgba(120, 90, 90, 0.194);
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.admin-categori-search {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.admin-categori-search > input {
+  width: 619px;
+  height: 40px;
+  border: 1px solid rgba(120, 90, 90, 0.194);
+  border-radius: 5px;
+  padding: 0px 10px;
 }

@@ -12,7 +12,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     // 추가적인 쿼리 메서드가 필요하다면 작성
 
 //    @Query("select b from Board b join fetch b.comments c where b.boardId =:boardId")
-//    Optional<Board> findBoardAndCommentsById(@Param("boardId") Long boardId);
-    @Query("select b from Board b left join fetch b.comments c  where b.boardId =:boardId")
-    Optional<Board> findBoardAndCommentsById(@Param("boardId") Long boardId);
+//    Optional<Board> findBoardAndCommentsUserById(@Param("boardId") Long boardId);
+    @Query("select b from Board b left join fetch b.comments c left join fetch c.user where b.boardId =:boardId")
+    Optional<Board> findBoardAndCommentsUserById(@Param("boardId") Long boardId);
 }

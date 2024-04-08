@@ -1,18 +1,18 @@
 package com.sreview.sharedReview.domain.service.impl;
 
+import com.sreview.sharedReview.domain.common.ResponseCode;
+import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
-import com.sreview.sharedReview.domain.dto.object.CategoryDto;
+import com.sreview.sharedReview.domain.dto.object.*;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
+import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
 import com.sreview.sharedReview.domain.jpa.entity.*;
-import com.sreview.sharedReview.domain.jpa.service.BoardRepoService;
-import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
-import com.sreview.sharedReview.domain.jpa.service.TagRepoService;
-import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
+import com.sreview.sharedReview.domain.jpa.service.*;
 import com.sreview.sharedReview.domain.service.BoardService;
 import com.sreview.sharedReview.domain.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +30,7 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepoService boardRepoService;
+    private final FavoriteRepoService favoriteRepoService;
     private final CategoryRepoService categoryRepoService;
     private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
@@ -94,20 +95,32 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Board getBoard(Long boardId) {
+    public ResponseDto getBoard(Long boardId) {
         try {
-            Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsById(boardId);
-//            Optional<Board> boardOptional = boardRepoService.findById(boardId);
-
+            Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsUserById(boardId);
             if (boardOptional.isEmpty()) {
                 throw new NonExistBoardException("존재하지 않는 게시물입니다.");
             }
             Board board = boardOptional.get();
-            return board;
-        } catch (Exception e){
+            User writer = board.getUser();
+            UserDto userDto = UserDto.of(writer); // 작성자
+
+            BoardDetailDto boardDetailDto = new BoardDetailDto();
+            boardDetailDto.ofEntity(board); // 게시물 상세 내용
+
+            List<Comment> comments = board.getComments(); // 댓글 리스트 가져오기
+            List<CommentDto> commentDtos = new ArrayList<>();
+            comments.forEach(c -> commentDtos.add(new CommentDto().of(c, userDto))); // 댓글 리스트
+            log.info("comment  ==== {}", commentDtos.get(0));
+            List<Favorite> favorites = favoriteRepoService.findAllByBoard(board);
+            List<FavoriteDto> favoriteDtos = new ArrayList<>();
+            favorites.forEach(f -> favoriteDtos.add(FavoriteDto.of(f))); // 게시물 좋아요 리스트
+
+            return BoardDetailResponse.success(userDto, boardDetailDto, commentDtos, favoriteDtos);
+        } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseDto(ResponseCode.DATABASE_ERROR, ResponseMessage.DATABASE_ERROR);
         }
-        return null;
     }
 }
 

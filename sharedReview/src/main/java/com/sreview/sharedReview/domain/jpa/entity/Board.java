@@ -52,16 +52,18 @@ public class Board extends BaseEntity{ // 게시물 테이블
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Categorie_ID")
-    private Category categorie;
+//    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+//    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public void setTitleContent(String title, String content) {
         this.title = title;
         this.content = content;
     }
-    public void setUserAndCategory(User user, Category categorie){
+    public void setUserAndCategory(User user, Category category){
         this.user = user;
-        this.categorie = categorie;
+        this.category = category;
     }
 }

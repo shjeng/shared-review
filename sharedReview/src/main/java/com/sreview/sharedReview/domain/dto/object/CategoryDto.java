@@ -20,9 +20,9 @@ public class CategoryDto {
     }
 
     // 엔티티 목록을 Dto 리스트로 변환해주는 메서드
-    public static List<CategoryDto> ofList(List<Category> categories){
+    public static List<CategoryDto> ofList(List<Category> categorys){
         List<CategoryDto> result = new ArrayList<>();
-        for (Category category : categories) {
+        for (Category category : categorys) {
             result.add(new CategoryDto().of(category));
         }
         return result;

@@ -2,6 +2,7 @@ package com.sreview.sharedReview.domain.service;
 
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
+import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
@@ -16,7 +17,7 @@ public interface BoardService {
 
     ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request, String email);
 
-    Board getBoard(Long boardId);
+    ResponseDto getBoard(Long boardId);
 //    BoardDetailResponse getBoard(Long boardId);
 
 }

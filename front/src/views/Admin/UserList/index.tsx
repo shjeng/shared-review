@@ -49,7 +49,10 @@ const UserList = () => {
       </div>
       <div className="userList-mid">
         <div className="userList-mid-left">
-          <div className="admin-menu-userList" onClick={onUserListClickHandler}>
+          <div
+            className="admin-menu-userList-bold"
+            onClick={onUserListClickHandler}
+          >
             회원목록
           </div>
           <div className="admin-menu-announcement">공지사항</div>
@@ -138,9 +141,9 @@ const UserList = () => {
             </div>
           </div>
 
-          <div className="userList-search">
+          <div className="admin-search">
             <input type="text" placeholder="검색어 입력" />
-            <div className="userList-search-img"></div>
+            <div className="admin-search-img"></div>
           </div>
         </div>
       </div>

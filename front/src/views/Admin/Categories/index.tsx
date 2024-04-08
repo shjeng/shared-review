@@ -46,10 +46,6 @@ const Categories = () => {
     <div id="admin-categori-wrap">
       <div className="admin-categori-top">
         <div className="admin-categori-title">카테고리</div>
-        <div className="admin-categori-search">
-          <input type="text" placeholder="추가 내용 입력" />
-          <div className="admin-categori-search-img"></div>
-        </div>
       </div>
       <div className="admin-categori-mid">
         <div className="admin-categori-mid-left">
@@ -59,7 +55,7 @@ const Categories = () => {
           <div className="admin-menu-announcement">공지사항</div>
           <div className="admin-menu-post">게시글목록</div>
           <div
-            className="admin-menu-category"
+            className="admin-menu-category-bold"
             onClick={onCategoriesClickHandler}
           >
             카테고리
@@ -67,15 +63,18 @@ const Categories = () => {
         </div>
 
         <div className="admin-categori-mid-right">
+          <div className="admin-categori-search">
+            <input type="text" placeholder="추가 내용 입력" />
+            <div className="admin-categori-add">추가하기</div>
+          </div>
           <div className="admin-categori-classification">
             <div className="admin-categori-item-check-box">
               <input type="checkbox" />
             </div>
             <div className="admin-categori-id">ID</div>
-            <div className="admin-categori-nickName">닉네임</div>
-            <div className="admin-categori-email">이메일</div>
-            <div className="admin-categori-writerDate">가입일</div>
-            <div className="admin-categori-authority">권한</div>
+            <div className="admin-categori-nickName">카테고리명</div>
+            <div className="admin-categori-email">작성자</div>
+            <div className="admin-categori-writerDate">작성날짜</div>
 
             <div className="admin-categori-actions">action</div>
           </div>
@@ -95,9 +94,7 @@ const Categories = () => {
                   {new Date(user.createDate).toISOString().split("T")[0]}
                   {/* 날짜형식 백에서 처리하기 */}
                 </div>
-                <div className="admin-categori-item-authority">
-                  {user.admin}
-                </div>
+
                 <div className="admin-categori-item-action">
                   <div className="actions-icon-img"></div>
                 </div>
@@ -146,9 +143,9 @@ const Categories = () => {
             </div>
           </div>
 
-          <div className="admin-categori-search">
+          <div className="admin-search">
             <input type="text" placeholder="검색어 입력" />
-            <div className="admin-categori-search-img"></div>
+            <div className="admin-search-img"></div>
           </div>
         </div>
       </div>

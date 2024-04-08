@@ -75,6 +75,9 @@ const BoardWrite = () => {
     setTitle(value);
     setTitleError(false);
   };
+  const onCategoryClick = (category: Category) => {
+    setCategory(category);
+  };
   const onContentChange = () => {
     // 에디터 내용 content
     setContentHtml(editorRef.current?.getInstance().getHTML());
@@ -84,12 +87,13 @@ const BoardWrite = () => {
 
   // 작성 버튼 클릭
   const onSubmit = () => {
+    console.log(contentHtml);
     const content2 = editorRef.current?.getInstance().getMarkdown();
     if (!title) {
       titleRef.current?.focus();
       setTitleError(true);
     }
-    if (!content2) {
+    if (!contentHtml?.trim()) {
       editorRef.current?.getInstance().focus();
       setContentError(true);
     }
@@ -134,19 +138,6 @@ const BoardWrite = () => {
     }
   };
 
-  // const handleClickOutside = (e: MouseEvent) => {
-  //   if (categoryDrop && !searchInputRef.current.contains(e.target as Node)) {
-  //     setCategoryDrop(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [categoryDrop]);
-
   // event handler:  Tag
   const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if ((event.key === "Enter" || event.key === "Tab") && tag.length !== 0) {
@@ -178,7 +169,14 @@ const BoardWrite = () => {
         <div className="function-line">
           <div className="board-category" ref={searchInputRef}>
             <div className="board-dropdown-box" onClick={toggleDropdown}>
-              <div className="board-dropdown-text">카테고리</div>
+              {category ? (
+                <div className="board-dropdown-text">
+                  {category?.categoryName}
+                </div>
+              ) : (
+                <div className="board-dropdown-text">카테고리</div>
+              )}
+
               <div className="board-dropdown-icon"></div>
             </div>
             {categoryDrop && (
@@ -190,7 +188,7 @@ const BoardWrite = () => {
                   ) => (
                     <div
                       className="board-dropdown-content-item"
-                      onClick={() => {}}
+                      onClick={() => onCategoryClick(category)}
                     >
                       {category.categoryName}
                     </div>
@@ -218,13 +216,12 @@ const BoardWrite = () => {
           <div className="editor_box">
             <Editor
               ref={editorRef}
-              initialValue="hello react editor world!"
+              initialValue=" "
               previewStyle="vertical"
               height="600px"
               onChange={onContentChange}
               initialEditType="wysiwyg"
               useCommandShortcut={false}
-              hideModeSwitch={true}
             />
           </div>
           <div className="board-main">
