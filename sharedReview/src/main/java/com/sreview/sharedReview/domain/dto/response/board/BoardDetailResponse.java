@@ -18,22 +18,22 @@ import java.util.List;
 @Setter
 @ToString
 public class BoardDetailResponse extends ResponseDto {
-    private UserDto userDto;
-    private BoardDetailDto boardDetailDto;
-    private List<CommentDto> commentDtos;
-    private List<FavoriteDto> favoriteDto;
+    private UserDto user;
+    private BoardDetailDto boardDetail;
+    private List<CommentDto> comments;
+    private List<FavoriteDto> favorites;
 
 
-    public BoardDetailResponse(UserDto userDto, BoardDetailDto boardDetailDto, List<CommentDto> commentDtos, List<FavoriteDto> favoriteDto) {
+    public BoardDetailResponse(UserDto user, BoardDetailDto boardDetail, List<CommentDto> comments, List<FavoriteDto> favorites) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        this.userDto = userDto;
-        this.boardDetailDto = boardDetailDto;
-        this.commentDtos = commentDtos;
-        this.favoriteDto = favoriteDto;
+        this.user = user;
+        this.boardDetail = boardDetail;
+        this.comments = comments;
+        this.favorites = favorites;
     }
 
     //  다른 방식으로 success 처리 해볼 예정
-    public static BoardDetailResponse success(UserDto userDto, BoardDetailDto boardDetailDto, List<CommentDto> commentDtos, List<FavoriteDto> favoriteDto) {
-        return new BoardDetailResponse(userDto, boardDetailDto, commentDtos, favoriteDto);
+    public static BoardDetailResponse success(UserDto user, BoardDetailDto boardDetail, List<CommentDto> comments, List<FavoriteDto> favorites) {
+        return new BoardDetailResponse(user, boardDetail, comments, favorites);
     }
 }

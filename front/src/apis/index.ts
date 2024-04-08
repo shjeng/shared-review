@@ -7,11 +7,9 @@ import SignUpResponseDto from "./response/auth/sign-up-response.dto";
 import {NicknameDupleChkResponseDto} from "./response/auth";
 import {GetLoginUserResponseDto} from "./response/user";
 import {BoardWriteRequestDto} from "./request/board";
-import {
-    GetCategorysResponseDto,
-    PostBoardWriteResponseDto,
-} from "./response/board";
+import {GetCategorysResponseDto, PostBoardWriteResponseDto,} from "./response/board";
 import UserList from "../types/interface/user-list.interface";
+import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -94,11 +92,10 @@ export const getCategorysReqeust = async () => {
 };
 
 // 게시글 불러오기
-const GET_BOARD = () => `${API_DOMAIN}/board`;
+const GET_BOARD = (boardId: bigint | string) => `${API_DOMAIN}/board/${boardId}`;
 export const getBoardRequest = async (boardId: string | bigint) => {
-    const result = await axios
-        .get(GET_BOARD())
-        .then((response) => {
+    const result = await axios.get(GET_BOARD(boardId))
+        .then((response: GetBoardDetailResponseDto) => {
         })
         .catch((error) => {
         });

@@ -11,12 +11,16 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class BoardDetailDto {
+    private Long boardId;
     private String title;
     private Integer viewCount;
+    private String content;
     private LocalDateTime updateDateTime;
 
     public void ofEntity(Board board) {
+        boardId = board.getBoardId();
         this.title = board.getTitle();
+        content = board.getContent();
         this.viewCount = board.getViewsCount();
         this.updateDateTime = board.getLastModifiedDate();
     }

@@ -1,3 +1,4 @@
 import PostBoardWriteResponseDto from "./post-board-write-response.dto";
 import GetCategorysResponseDto from "./get-categorys-response.dto";
-export type { PostBoardWriteResponseDto, GetCategorysResponseDto };
+import GetBoardDetailResponseDto from "./get-board-detail.response.dto";
+export type { PostBoardWriteResponseDto, GetCategorysResponseDto, GetBoardDetailResponseDto};
