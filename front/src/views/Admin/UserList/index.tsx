@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import { USER_LIST_PATH } from "../../../constant";
+import { CATEGORI_MANAGE_PATH, USER_MANAGE_PATH } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
 import { getUserList } from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
@@ -13,7 +13,12 @@ const UserList = () => {
 
   //      event handler: 로고 클릭 이벤트 처리 함수       //
   const onUserListClickHandler = () => {
-    navigate(USER_LIST_PATH());
+    navigate(USER_MANAGE_PATH());
+  };
+
+  //      event handler: 카테고리 클릭 이벤트 처리 함수       //
+  const onCategoriesClickHandler = () => {
+    navigate(CATEGORI_MANAGE_PATH());
   };
 
   // 카테고리
@@ -44,12 +49,20 @@ const UserList = () => {
       </div>
       <div className="userList-mid">
         <div className="userList-mid-left">
-          <div className="admin-menu-userList">회원목록</div>
-          <div className="admin-menu-announcement">공지사항</div>
-          <div className="admin-menu-post" onClick={onUserListClickHandler}>
-            게시글목록
+          <div
+            className="admin-menu-userList-bold"
+            onClick={onUserListClickHandler}
+          >
+            회원목록
           </div>
-          <div className="admin-menu-category">카테고리</div>
+          <div className="admin-menu-announcement">공지사항</div>
+          <div className="admin-menu-post">게시글목록</div>
+          <div
+            className="admin-menu-category"
+            onClick={onCategoriesClickHandler}
+          >
+            카테고리
+          </div>
         </div>
 
         <div className="userList-mid-right">
@@ -128,9 +141,9 @@ const UserList = () => {
             </div>
           </div>
 
-          <div className="userList-search">
+          <div className="admin-search">
             <input type="text" placeholder="검색어 입력" />
-            <div className="userList-search-img"></div>
+            <div className="admin-search-img"></div>
           </div>
         </div>
       </div>

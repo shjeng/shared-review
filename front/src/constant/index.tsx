@@ -8,4 +8,5 @@ export const SIGN_UP_PATH = () => "/auth/sign-up";
 
 export const USER_PAGE_PATH = () => "/user-page";
 
-export const USER_LIST_PATH = () => "/admin/user-list";
+export const USER_MANAGE_PATH = () => "/admin/user-list";
+export const CATEGORI_MANAGE_PATH = () => "/admin/categori";

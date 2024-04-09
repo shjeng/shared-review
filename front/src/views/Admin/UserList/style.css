@@ -134,7 +134,7 @@
   display: flex;
 }
 
-.admin-menu-userList,
+.admin-menu-userList-bold,
 .admin-menu-announcement,
 .admin-menu-post,
 .admin-menu-category {
@@ -146,7 +146,7 @@
   margin-left: 220px;
 }
 
-.admin-menu-userList {
+.admin-menu-userList-bold {
   font-weight: 600;
 }
 
@@ -157,13 +157,13 @@
 
 /* 검색 input */
 
-.userList-search {
+.admin-search {
   position: relative;
   width: 500px;
   height: 35px;
 }
 
-.userList-search input {
+.admin-search input {
   width: 100%;
   border: 1px solid #bbb;
   border-radius: 8px;
@@ -171,7 +171,7 @@
   font-size: 14px;
 }
 
-.userList-search-img {
+.admin-search-img {
   background-image: url(../../../assets/image/search-icon.png);
   background-size: cover;
   position: absolute;
@@ -182,7 +182,7 @@
   margin: 0;
 }
 
-.userList-search-img,
+.admin-search-img,
 .dropdown-box {
   cursor: pointer;
 }

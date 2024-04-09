@@ -1,6 +1,12 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "./style.css";
-import React, {ChangeEvent, KeyboardEvent, useEffect, useRef, useState,} from "react";
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Editor } from "@toast-ui/react-editor";
 import { getCategorysReqeust, postBoard } from "../../apis";
 import {
@@ -44,7 +50,8 @@ const BoardWrite = () => {
     getCategorysReqeust().then(getCategorysResponse);
   }, []);
   const getCategorysResponse = (
-    responseBody: GetCategorysResponseDto | ResponseDto | null) => {
+    responseBody: GetCategorysResponseDto | ResponseDto | null
+  ) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -70,7 +77,7 @@ const BoardWrite = () => {
   };
   const onCategoryClick = (category: Category) => {
     setCategory(category);
-  }
+  };
   const onContentChange = () => {
     // 에디터 내용 content
     setContentHtml(editorRef.current?.getInstance().getHTML());
@@ -131,8 +138,6 @@ const BoardWrite = () => {
     }
   };
 
-
-
   // event handler:  Tag
   const tagKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if ((event.key === "Enter" || event.key === "Tab") && tag.length !== 0) {
@@ -164,18 +169,27 @@ const BoardWrite = () => {
         <div className="function-line">
           <div className="board-category" ref={searchInputRef}>
             <div className="board-dropdown-box" onClick={toggleDropdown}>
-              {category ?
-                  <div className="board-dropdown-text">{category?.categoryName}</div> :
-                  <div className="board-dropdown-text">카테고리</div>
-              }
+              {category ? (
+                <div className="board-dropdown-text">
+                  {category?.categoryName}
+                </div>
+              ) : (
+                <div className="board-dropdown-text">카테고리</div>
+              )}
 
               <div className="board-dropdown-icon"></div>
             </div>
             {categoryDrop && (
               <div className="board-dropdown-content">
                 {categorys.map(
-                  (category, index) => ( // 카테고리 목록 불러오기.
-                    <div className="board-dropdown-content-item" onClick={() => onCategoryClick(category)}>
+                  (
+                    category,
+                    index // 카테고리 목록 불러오기.
+                  ) => (
+                    <div
+                      className="board-dropdown-content-item"
+                      onClick={() => onCategoryClick(category)}
+                    >
                       {category.categoryName}
                     </div>
                   )
@@ -192,10 +206,23 @@ const BoardWrite = () => {
       <div className="board-write-mid">
         <div className="board-main-left">
           <div className="board-input-title">
-            <input type="text" placeholder="제목을 입력해주세요." ref={titleRef} onChange={onTitleChange}/>
+            <input
+              type="text"
+              placeholder="제목을 입력해주세요."
+              ref={titleRef}
+              onChange={onTitleChange}
+            />
           </div>
           <div className="editor_box">
-            <Editor ref={editorRef} initialValue=" " previewStyle="vertical" height="600px" onChange={onContentChange} initialEditType="wysiwyg" useCommandShortcut={false}/>
+            <Editor
+              ref={editorRef}
+              initialValue=" "
+              previewStyle="vertical"
+              height="600px"
+              onChange={onContentChange}
+              initialEditType="wysiwyg"
+              useCommandShortcut={false}
+            />
           </div>
           <div className="board-main">
             <div className="board-detail"></div>

@@ -3,13 +3,15 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Container from "./layouts/Container";
 import {
-  AUTH_PATH, BOARD_DETAIL,
+  AUTH_PATH,
+  BOARD_DETAIL,
   BOARD_LIST,
   BOARD_WRITE,
+  CATEGORI_MANAGE_PATH,
   MAIN_PATH,
   SIGN_IN_PATH,
   SIGN_UP_PATH,
-  USER_LIST_PATH,
+  USER_MANAGE_PATH,
   USER_PAGE_PATH,
 } from "./constant";
 import Main from "./views/Main";
@@ -26,6 +28,7 @@ import BoardList from "./views/BoardList";
 import UserPage from "./views/UserPage";
 import UserList from "./views/Admin/UserList";
 import BoardDetail from "./views/BoardDetail";
+import Categories from "./views/Admin/Categories";
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -59,12 +62,14 @@ function App() {
         <Route path={MAIN_PATH()} element={<Main />} />
         <Route path={AUTH_PATH()} element={<Authentication />} />
         <Route path={BOARD_WRITE()} element={<BoardWrite />} />
-        <Route path={BOARD_DETAIL(':boardId')} element={<BoardDetail />}/>
+        <Route path={BOARD_DETAIL(":boardId")} element={<BoardDetail />} />
         <Route path={BOARD_LIST()} element={<BoardList />} />
         <Route path={SIGN_IN_PATH()} element={<SignIn />} />
         <Route path={SIGN_UP_PATH()} element={<SignUp />} />
         <Route path={USER_PAGE_PATH()} element={<UserPage />} />
-        <Route path={USER_LIST_PATH()} element={<UserList />} />
+        <Route path={USER_MANAGE_PATH()} element={<UserList />} />
+        <Route path={CATEGORI_MANAGE_PATH()} element={<Categories />} />
+
         {/* <Route path={AUTH_PATH()} element={<Authentication />} /> */}
       </Route>
     </Routes>
