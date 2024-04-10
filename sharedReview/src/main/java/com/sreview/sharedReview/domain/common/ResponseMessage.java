@@ -11,6 +11,8 @@ public interface ResponseMessage {
     String DUPLICATE_NICKNAME = "Duplicate Nickname.";
     String SIGN_IN_FAIL = "Login information mismatch.";
     String CERTIFICATION_FAIL = "Certification faild.";
+
+    String BAD_REQUEST = "Bad Request.";
     String NON_EXISTED_CATEGORY = "Non existed category"; // 존재하지 않는 카테고리
     String NON_EXISTED_USER = "Non existed user";
     String NON_EXISTED_BOARD = "Non existed board";

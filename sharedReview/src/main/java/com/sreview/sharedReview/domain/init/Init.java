@@ -56,7 +56,7 @@ public class Init {
         Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
         User user = userOptional.get();
         Board board = new Board();
-        board.setTitleContent("제목","내용대충");
+        board.setTitleContent("제목","<div>내용대충</div>");
         board.setUserAndCategory(user, category.get());
 
         boardRepoService.save(board);

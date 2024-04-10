@@ -101,8 +101,15 @@ const GET_BOARD = (boardId: bigint | string) =>
 export const getBoardRequest = async (boardId: string | bigint) => {
   const result = await axios
     .get(GET_BOARD(boardId))
-    .then((response: GetBoardDetailResponseDto) => {})
-    .catch((error) => {});
+    .then((response) => {
+      const responseBody: GetBoardDetailResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
   return result;
 };
 
