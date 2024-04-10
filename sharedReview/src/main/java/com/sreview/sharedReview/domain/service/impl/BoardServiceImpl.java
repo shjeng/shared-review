@@ -115,7 +115,11 @@ public class BoardServiceImpl implements BoardService {
             List<FavoriteDto> favoriteDtos = new ArrayList<>();
             favorites.forEach(f -> favoriteDtos.add(FavoriteDto.of(f))); // 게시물 좋아요 리스트
 
-            return BoardDetailResponse.success(userDto, boardDetailDto, commentDtos, favoriteDtos);
+            List<TagDto> tagDtos = new ArrayList<>();
+            List<Tag> allByBoard = tagRepoService.findAllByBoard(board);
+            allByBoard.stream().forEach(t->tagDtos.add(new TagDto().ofEntity(t)));
+
+            return BoardDetailResponse.success(userDto, boardDetailDto, commentDtos, favoriteDtos,tagDtos);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseDto(ResponseCode.DATABASE_ERROR, ResponseMessage.DATABASE_ERROR);
