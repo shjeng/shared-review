@@ -11,6 +11,7 @@ import {GetCategorysResponseDto, PostBoardWriteResponseDto,} from "./response/bo
 import UserList from "../types/interface/user-list.interface";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 
+
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
 const authorication = (accessToken: string) => {
@@ -95,9 +96,14 @@ export const getCategorysReqeust = async () => {
 const GET_BOARD = (boardId: bigint | string) => `${API_DOMAIN}/board/${boardId}`;
 export const getBoardRequest = async (boardId: string | bigint) => {
     const result = await axios.get(GET_BOARD(boardId))
-        .then((response: GetBoardDetailResponseDto) => {
+        .then((response) => {
+            const responseBody: GetBoardDetailResponseDto = response.data;
+            return responseBody;
         })
         .catch((error) => {
+            if(!error) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
         });
     return result;
 };

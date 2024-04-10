@@ -28,6 +28,6 @@ public class RestApiExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ResponseDto> badRequestException(RuntimeException e) {
         log.error("Bad Request(Runtime Exception)");
-        return ResponseEntity.badRequest().body(new ResponseDto(ResponseCode.NON_EXISTED_CATEGORY, ResponseMessage.NON_EXISTED_CATEGORY));
+        return ResponseEntity.badRequest().body(new ResponseDto(ResponseCode.BAD_REQUEST, ResponseMessage.BAD_REQUEST));
     }
 }

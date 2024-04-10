@@ -111,7 +111,6 @@ public class BoardServiceImpl implements BoardService {
             List<Comment> comments = board.getComments(); // 댓글 리스트 가져오기
             List<CommentDto> commentDtos = new ArrayList<>();
             comments.forEach(c -> commentDtos.add(new CommentDto().of(c, userDto))); // 댓글 리스트
-            log.info("comment  ==== {}", commentDtos.get(0));
             List<Favorite> favorites = favoriteRepoService.findAllByBoard(board);
             List<FavoriteDto> favoriteDtos = new ArrayList<>();
             favorites.forEach(f -> favoriteDtos.add(FavoriteDto.of(f))); // 게시물 좋아요 리스트
