@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { CATEGORI_MANAGE_PATH, USER_MANAGE_PATH } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import { getUserList } from "../../../apis";
+import { getCategorieList, getUserList } from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
 
 const Categories = () => {
@@ -31,7 +31,7 @@ const Categories = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getUserList();
+      const result = await getCategorieList();
       if (result && Array.isArray(result.userList)) {
         setUsers(result.userList);
         console.error("받은 데이터 : ", result.userList);
