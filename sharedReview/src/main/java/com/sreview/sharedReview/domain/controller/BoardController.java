@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
     private final BoardService boardServcice;
 
-    @GetMapping("/get-list")
+    @GetMapping("")
     public ResponseEntity<Void> getBoardList(){
+
         return null;
     }
     @GetMapping("/get-list/favorite")

@@ -11,6 +11,7 @@ import com.sreview.sharedReview.domain.jpa.entity.Board;
 import org.springframework.http.ResponseEntity;
 
 public interface BoardService {
+    ResponseDto getBoardList();
     ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request);
 
     ResponseEntity<? super GetCategorysResponse> getCategorys();

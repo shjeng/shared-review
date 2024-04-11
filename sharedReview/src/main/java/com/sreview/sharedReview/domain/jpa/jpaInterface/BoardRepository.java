@@ -13,6 +13,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 //    @Query("select b from Board b join fetch b.comments c where b.boardId =:boardId")
 //    Optional<Board> findBoardAndCommentsUserById(@Param("boardId") Long boardId);
+
+    @Query("select b from Board b order by b.createDate desc limit 10")
+    List<Board> findLatestBoards();
+
     @Query("select b from Board b left join fetch b.comments c left join fetch c.user where b.boardId =:boardId")
     Optional<Board> findBoardAndCommentsUserById(@Param("boardId") Long boardId);
 }

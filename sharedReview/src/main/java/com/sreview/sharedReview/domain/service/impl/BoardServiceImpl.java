@@ -37,6 +37,12 @@ public class BoardServiceImpl implements BoardService {
     private final MarkdownUtil markdownUtil;
 
     @Override
+    public ResponseDto getBoardList() {
+
+        return null;
+    }
+
+    @Override
     public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request) {
         try{
             String email = "";
