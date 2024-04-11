@@ -4,6 +4,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import {getBoardRequest} from "../../apis";
 import {MAIN_PATH} from "../../constant";
 import {GetBoardDetailResponseDto} from "../../apis/response/board";
+import { BOARD_LIST, MAIN_PATH } from "../../constant";
+
 import ResponseDto from "../../apis/response/response.dto";
 import {ResponseCode} from "../../types/enum";
 import loginUserStore from "../../store/login-user.store";
@@ -23,6 +25,7 @@ const BoardDetail = () => {
     const [favorites, setFavorites] = useState<Favorite[]>([]);
     const [writer, setWriter] = useState<User>();
     const [tags, setTags] = useState<Tag[]>([]);
+
 
     const [isMyPost, setIsMyPost] = useState<boolean>(false);
     useEffect(() => {
@@ -64,41 +67,104 @@ const BoardDetail = () => {
         }
     };
 
+  //      event handler: 회원목록 클릭 이벤트 처리 함수       //
+  const onBoardListClickHandler = () => {
+    navigator(BOARD_LIST());
+  };
 
-    return (
-        <div id="board-detail-wrap">
-            <div className="board-detail-content">
-                <div className="board-detail-top">
-                    <div className="board-detail-top-left">
-                        <div className="board-detail-title">{title}</div>
-                        <div className="board-detail-category">{category}</div>
-                    </div>
-                    <div className="board-detail-top-right">
-                        <div className="board-detail-create-date">{updateDateTime}</div>
-                    </div>
-                </div>
 
-                <div className="board-detail-mid">
-                    <div className="board-detail-mid-left">
-                        <div className="board-detail-profile-img"></div>
-                        <div className="board-detail-profile-name">{writer?.nickname}</div>
-                    </div>
+  
+  return (
+    <div id="board-detail-wrap">
+      <div className="board-detail-content">
+        <div className="board-detail-top">
+          <div className="board-detail-top-left">
+            <div className="board-detail-title">{title}</div>
+            <div className="board-detail-category">{category}</div>
+          </div>
 
-                    <div className="board-detail-mid-right">
-                        <div className="board-detail-views-icon"></div>
-                        <div className="board-detail-views-count">{viewCount}</div>
-                    </div>
-                </div>
-
-                <div className="board-detail-bottom">
-                    <div className="board-detail" dangerouslySetInnerHTML={{__html: content}}></div>
-                </div>
-            </div>
-            <div className="board-list-btn-container">
-                <div className="board-list-btn">목록으로</div>
-            </div>
+          {/* <div className="board-detail-mid-left"> */}
+          <div className="board-detail-top-right">
+            <div className="board-detail-profile-img"></div>
+            <div className="board-detail-profile-name">{writer?.nickname}</div>
+          </div>
         </div>
-    );
+
+        <div className="board-detail-mid">
+          <div className="board-detail" dangerouslySetInnerHTML={{__html: content}}></div>
+          <div className="border-detail-tag">
+            <div className="border-detail-tag-item">#식품</div>
+            <div className="border-detail-tag-item">#식품</div>
+          </div>
+
+          <div className="board-detail-info">
+            <div className="board-detail-info-left">
+              <div className="board-detail-create-date">
+                {updateDateTime}
+              </div>
+            </div>
+            <div className="board-detail-info-right">
+              <div className="board-detail-views-icon"></div>
+              <div className="board-detail-views-count">{viewCount}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="board-detail-bottom">
+          <div className="board-detail-interactions">
+            <div className="board-detail-like">
+              <div className="board-deatil-like-icon"></div>
+              <div className="board-deatil-like-count">3</div>
+            </div>
+
+            <div className="board-detail-comment">
+              <div className="board-detail-comment-icon"></div>
+              <div className="board-detail-comment-count">5</div>
+            </div>
+          </div>
+
+          <div className="board-detail-comment-write">
+            <textarea
+              className="board-detail-comment-textarea"
+              placeholder="댓글을 입력해주세요."
+              maxLength={255}
+              rows={4}
+            />
+            <div className="comment-write-btn">등록</div>
+          </div>
+
+          <div className="board-detail-comment-list">
+            <div className="board-detail-comment-item">
+              <div className="board-comment-item-nickname">닉네임1</div>
+              <div className="board-comment-item-detail">
+                댓글 내용 어쩌구 저쩌구
+              </div>
+              <div className="board-comment-item-date">
+                2024. 04. 10. 21:44:37
+              </div>
+            </div>
+
+            <div className="board-detail-comment-item">
+              <div className="board-comment-item-nickname">닉네임1</div>
+              <div className="board-comment-item-detail">
+                댓글 내용 어쩌구 저쩌구
+              </div>
+              <div className="board-comment-item-date">
+                2024. 04. 10. 21:44:37
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="board-detail-comment-paging">1 2</div> */}
+        </div>
+      </div>
+      <div className="board-list-btn-container">
+        <div className="board-list-btn" onClick={onBoardListClickHandler}>
+          목록으로
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default BoardDetail;
