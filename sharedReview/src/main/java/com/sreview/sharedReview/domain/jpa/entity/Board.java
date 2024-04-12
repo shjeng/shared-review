@@ -40,10 +40,16 @@ public class Board extends BaseEntity{ // 게시물 테이블
     @Column(name = "Board_ViewsCount")
     private int viewsCount = 0;
 
+    @Column(name = "comment_count")
+    private Integer commentCount = 0;
+
+    @Column(name = "favorite_count")
+    private Integer favoriteCount = 0;
 
     // 게시물 좋아요
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<LikeEntity> likes = new ArrayList<>();
+
 
     // img
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)

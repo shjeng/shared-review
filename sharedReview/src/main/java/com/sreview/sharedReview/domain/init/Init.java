@@ -8,6 +8,7 @@ import com.sreview.sharedReview.domain.jpa.service.CategoryRepoService;
 import com.sreview.sharedReview.domain.jpa.service.CommentRepoService;
 import com.sreview.sharedReview.domain.jpa.service.FavoriteRepoService;
 import com.sreview.sharedReview.domain.service.impl.AuthServiceImpl;
+import com.sreview.sharedReview.domain.util.MarkdownUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class Init {
     private final BoardRepoService boardRepoService;
     private final CommentRepoService commentRepoService;
     private final FavoriteRepoService favoriteRepoService;
-    private final EntityManager em;
+    private final MarkdownUtil markdownUtil;
     @PostConstruct // 의존성 주입이 완료된 후 실행되어야 하는 메서드
     public void init(){
         userInit();

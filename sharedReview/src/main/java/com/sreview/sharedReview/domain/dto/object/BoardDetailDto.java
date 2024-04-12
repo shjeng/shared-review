@@ -15,12 +15,14 @@ public class BoardDetailDto {
     private String title;
     private Integer viewCount;
     private String content;
+    private String category;
     private LocalDateTime updateDateTime;
 
     public void ofEntity(Board board) {
         boardId = board.getBoardId();
         this.title = board.getTitle();
         content = board.getContent();
+        category = board.getCategory().getName();
         this.viewCount = board.getViewsCount();
         this.updateDateTime = board.getLastModifiedDate();
     }
