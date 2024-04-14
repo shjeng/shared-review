@@ -2,7 +2,6 @@ import "./style.css";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {getBoardRequest} from "../../apis";
-import {MAIN_PATH} from "../../constant";
 import {GetBoardDetailResponseDto} from "../../apis/response/board";
 import { BOARD_LIST, MAIN_PATH } from "../../constant";
 

@@ -11,6 +11,7 @@ import com.sreview.sharedReview.domain.jpa.entity.Board;
 import org.springframework.http.ResponseEntity;
 
 public interface BoardService {
+    ResponseDto getBoardListLatest();
     ResponseDto getBoardList();
     ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request);
 
@@ -19,6 +20,4 @@ public interface BoardService {
     ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request, String email);
 
     ResponseDto getBoard(Long boardId);
-//    BoardDetailResponse getBoard(Long boardId);
-
 }

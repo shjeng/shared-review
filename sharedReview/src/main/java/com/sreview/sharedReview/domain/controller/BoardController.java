@@ -2,10 +2,8 @@ package com.sreview.sharedReview.domain.controller;
 
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
-import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
-import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
-import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
-import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
+import com.sreview.sharedReview.domain.dto.response.ResponseDto;
+import com.sreview.sharedReview.domain.dto.response.board.*;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +19,9 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
     private final BoardService boardServcice;
 
-    @GetMapping("")
-    public ResponseEntity<Void> getBoardList(){
-
-        return null;
+    @GetMapping("/latest")
+    public ResponseEntity<? super BoardListResponse> getBoardListLatest(){
+        return ResponseEntity.ok(boardServcice.getBoardListLatest());
     }
     @GetMapping("/get-list/favorite")
     public ResponseEntity<Void> getFavoriteBoardList(){

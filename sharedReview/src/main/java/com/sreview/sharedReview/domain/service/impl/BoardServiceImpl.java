@@ -7,22 +7,22 @@ import com.sreview.sharedReview.domain.dto.object.*;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
-import com.sreview.sharedReview.domain.dto.response.board.BoardDetailResponse;
-import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
-import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
-import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
+import com.sreview.sharedReview.domain.dto.response.board.*;
 import com.sreview.sharedReview.domain.jpa.entity.*;
 import com.sreview.sharedReview.domain.jpa.service.*;
 import com.sreview.sharedReview.domain.service.BoardService;
 import com.sreview.sharedReview.domain.util.MarkdownUtil;
+import com.sun.jdi.InternalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,13 +34,24 @@ public class BoardServiceImpl implements BoardService {
     private final CategoryRepoService categoryRepoService;
     private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
-    private final MarkdownUtil markdownUtil;
 
     @Override
     public ResponseDto getBoardList() {
-
         return null;
     }
+
+    @Override
+    public ResponseDto getBoardListLatest() {
+        try {
+            List<Board> latestBoards = boardRepoService.findLatestBoards();
+            List<BoardDto> boardDtos = latestBoards.stream().map(l -> new BoardDto().of(l)).toList();
+            return BoardListResponse.success(boardDtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
+        }
+    }
+
 
     @Override
     public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request) {
