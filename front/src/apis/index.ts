@@ -14,6 +14,7 @@ import {
 import UserList from "../types/interface/user-list.interface";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 import CategorieList from "../types/interface/categorie-list.interface";
+import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -130,17 +131,38 @@ export const getUserList = async () => {
 };
 
 // 카테고리 리스트 요청
-const CATEGORIE_LIST_URL = () => `${DOMAIN}/api/user/get-categorie-list`;
-export const getCategorieList = async () => {
+// const CATEGORIE_LIST_URL = () => `${DOMAIN}/api/user/get-categorie-list`;
+// export const getCategorieList = async () => {
+//   const result = await axios
+//     .get(CATEGORIE_LIST_URL())
+//     .then((response) => {
+//       const responseBody: CategorieList[] = response.data;
+//       return responseBody;
+//     })
+//     .catch((error) => {
+//       if (!error.response.data) return null;
+//       return error.response.data;
+//     });
+//   return result;
+// };
+
+// 카테고리 리스트 요청
+const CATEGORIE_LIST_URL = () => `${API_DOMAIN}/board/get-categorys`;
+export const getAdminCategorysReqeust = async () => {
   const result = await axios
     .get(CATEGORIE_LIST_URL())
     .then((response) => {
-      const responseBody: CategorieList[] = response.data;
+      const responseBody: GetAdminCategorysResponseDto = response.data;
+      console.log(
+        "index.ts responseBody : ",
+        JSON.stringify(responseBody, null, 2)
+      ); // 여기를 수정
       return responseBody;
     })
     .catch((error) => {
       if (!error.response.data) return null;
-      return error.response.data;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
     });
   return result;
 };

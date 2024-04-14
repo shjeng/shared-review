@@ -165,3 +165,7 @@ hr {
   white-space: "pre-line";
   margin-bottom: 20px;
 }
+
+.auth-sign-in-error-message {
+  color: red;
+}
