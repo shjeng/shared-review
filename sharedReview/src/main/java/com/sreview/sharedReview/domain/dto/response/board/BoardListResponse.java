@@ -15,12 +15,21 @@ public class BoardListResponse extends ResponseDto {
     private List<BoardDto> boards;
     private String condition;
 
+    public BoardListResponse(List<BoardDto> boardDtoList) {
+        super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        boards = boardDtoList;
+    }
+
     public BoardListResponse(List<BoardDto> boardDtoList, String condition) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         boards = boardDtoList;
         this.condition = condition;
     }
+
     public static BoardListResponse success(List<BoardDto> boardDtoList, String condition) {
         return new BoardListResponse(boardDtoList, condition);
+    }
+    public static BoardListResponse success(List<BoardDto> boardDtoList) {
+        return new BoardListResponse(boardDtoList);
     }
 }
