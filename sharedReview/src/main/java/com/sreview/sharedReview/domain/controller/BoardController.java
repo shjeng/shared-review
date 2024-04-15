@@ -23,6 +23,10 @@ public class BoardController {
     public ResponseEntity<? super BoardListResponse> getBoardListLatest(){
         return ResponseEntity.ok(boardServcice.getBoardListLatest());
     }
+    @GetMapping("/favoriteTop3")
+    public ResponseEntity<? super BoardListResponse> getFavoriteBoardTop3(@RequestParam("dateCondition") String condition){
+        return ResponseEntity.ok(boardServcice.getFaoviteBoardTop3(condition));
+    }
     @GetMapping("/get-list/favorite")
     public ResponseEntity<Void> getFavoriteBoardList(){
         return null;

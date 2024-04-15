@@ -36,7 +36,20 @@ public class BoardServiceImpl implements BoardService {
     private final TagRepoService tagRepoService;
 
     @Override
-    public ResponseDto getBoardList() {
+    public ResponseDto getFaoviteBoardTop3(String condition) {
+        try {
+            List<Board> favoriteBoardTop3 = new ArrayList<>();
+            List<BoardDto> list = new ArrayList<>();
+            if(condition.equals("week")){
+                favoriteBoardTop3 = boardRepoService.findFavoriteBoardTop3();
+            } else{
+                favoriteBoardTop3 = boardRepoService.findFavoriteBoardTop3(condition);
+            }
+            list = favoriteBoardTop3.stream().map(l -> new BoardDto().of(l)).toList();
+            return BoardListResponse.success(list, condition);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
