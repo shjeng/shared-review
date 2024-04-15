@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface BoardService {
     ResponseDto getBoardListLatest();
-    ResponseDto getBoardList();
+    ResponseDto getFaoviteBoardTop3(String condition);
     ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request);
 
     ResponseEntity<? super GetCategorysResponse> getCategorys();

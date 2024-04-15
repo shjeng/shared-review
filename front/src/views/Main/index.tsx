@@ -2,26 +2,42 @@ import React, {useEffect, useState} from "react";
 import "./style.css";
 import BoardItem from "../../components/BoardItem";
 import {Board} from "../../types/interface";
-import {getBoardLatestList} from "../../apis";
+import {getBoardLatestList, getFavoriteBoardTop3} from "../../apis";
 import ResponseDto from "../../apis/response/response.dto";
-import {GetBoardLatestListResponseDto} from "../../apis/response/board";
 import {ResponseUtil} from "../../utils";
+import BoardListResponse from "../../apis/response/board/get-board-latest-list-response.dto";
 
 const Main = () => {
+  const [favoriteBoardTop3ForWeek, setFavoriteBoardTop3ForWeek] = useState<Board[]>([]);
+  const [favoriteBoardTop3ForMonth, setFavoriteBoardTop3Month] = useState<Board[]>([]);
   const [latestBoards, setLatestBoards] = useState<Board[]>([]);
   useEffect(()=>{
     getBoardLatestList().then(getBoardLatestListResponse);
+    getFavoriteBoardTop3('week').then(getFavoriteBoardTop3Response); // 일주일동안 인기 게시물
+    getFavoriteBoardTop3('month').then(getFavoriteBoardTop3Response);
   },[])
 
-  const getBoardLatestListResponse = (responseBody: null | ResponseDto | GetBoardLatestListResponseDto) => {
+  const getBoardLatestListResponse = (responseBody: null | ResponseDto | BoardListResponse) => {
     const result = ResponseUtil(responseBody);
     if(!result){
       return;
     }
-    const latestResult = result as GetBoardLatestListResponseDto;
+    const latestResult = result as BoardListResponse;
     setLatestBoards(latestResult.boards);
   }
-
+  const getFavoriteBoardTop3Response = (responseBody: null | ResponseDto | BoardListResponse) => {
+    const result = ResponseUtil(responseBody);
+    if(!result){
+      return;
+    }
+    const resultBody = result as BoardListResponse;
+    if (resultBody.condition === 'week') {
+      setFavoriteBoardTop3ForWeek(resultBody.boards);
+    }
+    if (resultBody.condition === 'month') {
+      setFavoriteBoardTop3Month(resultBody.boards);
+    }
+  }
   return (
     <div id="main-wrap">
       <div className="main-top-box">
