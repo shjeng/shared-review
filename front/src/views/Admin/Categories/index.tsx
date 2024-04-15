@@ -2,8 +2,13 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { CATEGORI_MANAGE_PATH, USER_MANAGE_PATH } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import { getCategorieList, getUserList } from "../../../apis";
+import { getCategorysReqeust, getUserList } from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
+import { GetCategorysResponseDto } from "../../../apis/response/board";
+import ResponseDto from "../../../apis/response/response.dto";
+import { Category } from "../../../types/interface";
+import CategorieList from "../../../types/interface/categorie-list.interface";
+import GetAdminCategorysResponseDto from "../../../apis/response/board/get-admin-categorys-response.dto";
 
 const Categories = () => {
   const [users, setUsers] = useState<GetUserListResponseDto[]>([]);
@@ -29,19 +34,28 @@ const Categories = () => {
   };
   const onDropdownCategory = () => {};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await getCategorieList();
-      if (result && Array.isArray(result.userList)) {
-        setUsers(result.userList);
-        console.error("받은 데이터 : ", result.userList);
-      } else {
-        console.error("Error fetching user list:", result.userList);
-      }
-    };
+  const [categorys, setCategorys] = useState<Category[]>([]);
 
-    fetchData();
+  useEffect(() => {
+    getCategorysReqeust().then(getCategorysResponse);
   }, []);
+  const getCategorysResponse = (
+    responseBody: GetCategorysResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+    const result = responseBody as GetCategorysResponseDto;
+    setCategorys(result.categorys);
+  };
+
   return (
     <div id="admin-categori-wrap">
       <div className="admin-categori-top">
@@ -63,43 +77,58 @@ const Categories = () => {
         </div>
 
         <div className="admin-categori-mid-right">
-          <div className="admin-categori-search">
-            <input type="text" placeholder="추가 내용 입력" />
-            <div className="admin-categori-add">추가하기</div>
-          </div>
-          <div className="admin-categori-classification">
-            <div className="admin-categori-item-check-box">
-              <input type="checkbox" />
+          <div className="admin-categori-mid-right-top">
+            <div className="admin-categori-search">
+              <input type="text" placeholder="추가 내용 입력" />
+              <div className="admin-categori-add">추가하기</div>
             </div>
-            <div className="admin-categori-id">ID</div>
-            <div className="admin-categori-nickName">카테고리명</div>
-            <div className="admin-categori-email">작성자</div>
-            <div className="admin-categori-writerDate">작성날짜</div>
+            <div className="admin-categori-classification">
+              <div className="admin-categori-item-check-box">
+                <input type="checkbox" />
+              </div>
+              <div className="admin-categori-id">ID</div>
+              <div className="admin-categori-nickName">카테고리명</div>
+              <div className="admin-categori-email">작성자</div>
+              <div className="admin-categori-writerDate">작성날짜</div>
 
-            <div className="admin-categori-actions">action</div>
+              <div className="admin-categori-actions">action</div>
+            </div>
+
+            <div className="admin-categori-Item-box">
+              {categorys.map((category, index) => (
+                <div key={index} className="userList-Item">
+                  <div className="checkBox">
+                    <input type="checkbox" />
+                  </div>
+                  <div className="admin-categori-item-id">
+                    {category.categoryName}
+                  </div>
+                  <div className="admin-categori-item-nickName">
+                    {category.categoryName}
+                  </div>
+                  <div className="admin-categori-item-email">
+                    {category.categoryName}
+                  </div>
+                  <div className="admin-categori-item-writerDate">
+                    {category.categoryName}
+                    {/* {
+                      new Date(categorys.categoryName)
+                        .toISOString()
+                        .split("T")[0]
+                    } */}
+                    {/* 날짜형식 백에서 처리하기 */}
+                  </div>
+
+                  <div className="admin-categori-item-action">
+                    <div className="actions-icon-img"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="admin-categori-Item-box">
-            {users.map((user, index) => (
-              <div key={index} className="userList-Item">
-                <div className="checkBox">
-                  <input type="checkbox" />
-                </div>
-                <div className="admin-categori-item-id">{user.id}</div>
-                <div className="admin-categori-item-nickName">
-                  {user.nickname}
-                </div>
-                <div className="admin-categori-item-email">{user.email}</div>
-                <div className="admin-categori-item-writerDate">
-                  {new Date(user.createDate).toISOString().split("T")[0]}
-                  {/* 날짜형식 백에서 처리하기 */}
-                </div>
-
-                <div className="admin-categori-item-action">
-                  <div className="actions-icon-img"></div>
-                </div>
-              </div>
-            ))}
+          <div className="admin-categori-mid-right-bottom">
+            <div className="admin-categori-delete-btn">삭제</div>
           </div>
         </div>
       </div>

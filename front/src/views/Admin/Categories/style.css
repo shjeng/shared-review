@@ -218,3 +218,21 @@
   border-radius: 5px;
   padding: 0px 10px;
 }
+
+.admin-categori-delete-btn {
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  width: 100px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin-categori-mid-right-top {
+  min-height: 800px;
+}
+
+.admin-categori-mid-right-bottom {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -9,6 +9,10 @@ import {
 } from "../../constant";
 import { useLoginUserStore } from "../../store";
 import { useCookies } from "react-cookie";
+import { getCategorysReqeust } from "../../apis";
+import { GetCategorysResponseDto } from "../../apis/response/board";
+import ResponseDto from "../../apis/response/response.dto";
+import { Category } from "../../types/interface";
 
 const Header = () => {
   const [categoryDrop, setCategoryDrop] = useState(false);
@@ -16,6 +20,12 @@ const Header = () => {
   const { loginUser } = useLoginUserStore();
   const [cookies, setCookies] = useCookies();
   const searchInputRef = useRef<any>(null);
+  const [categorys, setCategorys] = useState<Category[]>([]);
+  const [category, setCategory] = useState<Category | undefined>();
+
+  const onCategoryClick = (category: Category) => {
+    setCategory(category);
+  };
   const handleClickOutside = (e: MouseEvent) => {
     if (
       categoryDrop &&
@@ -31,6 +41,30 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [categoryDrop]);
+
+  // =========================================================
+  // Effect: 처음 렌더링 시 카테고리를 가져와줌.
+  useEffect(() => {
+    getCategorysReqeust().then(getCategorysResponse);
+  }, []);
+  const getCategorysResponse = (
+    responseBody: GetCategorysResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+    const result = responseBody as GetCategorysResponseDto;
+    setCategorys(result.categorys);
+  };
+
+  // =========================================================
 
   const toggleDropdown = () => {
     setCategoryDrop(!categoryDrop);
@@ -71,66 +105,19 @@ const Header = () => {
               </div>
               {categoryDrop && (
                 <div className="dropdown-content">
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    2
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    oasidjf;oizsdjfo;zsdijzsd;foisjfd;szofdijzdf
-                  </div>
+                  {categorys.map(
+                    (
+                      category,
+                      index // 카테고리 목록 불러오기.
+                    ) => (
+                      <div
+                        className="board-dropdown-content-item"
+                        onClick={() => onCategoryClick(category)}
+                      >
+                        {category.categoryName}
+                      </div>
+                    )
+                  )}
                 </div>
               )}
             </div>

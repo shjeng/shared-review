@@ -104,6 +104,14 @@ const SignIn = () => {
     navigate(SIGN_UP_PATH());
   };
 
+  //      event handler: 패스워드 인풋 키 다운 이벤트 처리      //
+  const onPasswordKeyDownHandler = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key !== "Enter") return;
+    onSignInButtonClickHandler();
+  };
+
   return (
     <div id="sign-in-wrap">
       <div className="auth-sign-in-top">
@@ -127,6 +135,7 @@ const SignIn = () => {
           value={password}
           onChange={onPasswordChangeHandler}
           onButtonClick={onPasswordButtonClickHandler}
+          onKeyDown={onPasswordKeyDownHandler}
         />
 
         <div className="auth-card-bottom">

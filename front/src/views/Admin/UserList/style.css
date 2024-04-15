@@ -146,6 +146,11 @@
   margin-left: 220px;
 }
 
+.userList-mid-right-bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .admin-menu-userList-bold {
   font-weight: 600;
 }
@@ -191,4 +196,18 @@
   display: flex;
   width: 650px;
   margin: auto;
+}
+
+.userList-delete-btn {
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  width: 100px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userList-mid-right-top {
+  min-height: 800px;
 }

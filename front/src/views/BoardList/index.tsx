@@ -1,10 +1,16 @@
 import React from "react";
 import "./style.css";
+import { useNavigate } from "react-router-dom";
+import { BOARD_WRITE } from "../../constant";
 const BoardList = () => {
+  const navigator = useNavigate();
+  const onBoardWriteClickHandler = () => {
+    navigator(BOARD_WRITE());
+  };
   return (
     <div id="board-list-wrap">
       <div className="board-list-top">
-        <div className="list-write-btn">
+        <div className="list-write-btn" onClick={onBoardWriteClickHandler}>
           <div className="list-write-btn-icon"></div>
           작성하기
         </div>

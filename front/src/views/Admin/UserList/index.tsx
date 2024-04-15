@@ -2,11 +2,21 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { CATEGORI_MANAGE_PATH, USER_MANAGE_PATH } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import { getUserList } from "../../../apis";
+import { getCategorysReqeust, getUserList } from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
+import { Category } from "../../../types/interface";
+import { GetCategorysResponseDto } from "../../../apis/response/board";
+import ResponseDto from "../../../apis/response/response.dto";
 
 const UserList = () => {
   const [users, setUsers] = useState<GetUserListResponseDto[]>([]);
+  const [selectAll, setSelectAll] = useState<boolean>();
+  const [category, setCategory] = useState<Category | undefined>();
+  const [categorys, setCategorys] = useState<Category[]>([]);
+
+  const onCategoryClick = (category: Category) => {
+    setCategory(category);
+  };
 
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
@@ -42,6 +52,46 @@ const UserList = () => {
 
     fetchData();
   }, []);
+
+  // Effect: 처음 렌더링 시 카테고리를 가져와줌.
+  useEffect(() => {
+    getCategorysReqeust().then(getCategorysResponse);
+  }, []);
+  const getCategorysResponse = (
+    responseBody: GetCategorysResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+    const result = responseBody as GetCategorysResponseDto;
+    setCategorys(result.categorys);
+  };
+
+  // 전체 선택/해제 함수
+  const toggleSelectAll = () => {
+    setSelectAll(!selectAll);
+    const updatedUsers = users.map((user) => ({
+      ...user,
+      selected: !selectAll,
+    }));
+    setUsers(updatedUsers);
+  };
+
+  // 개별 체크박스 선택 함수
+  const toggleSelectUser = (index: number) => {
+    const updatedUsers = [...users];
+    updatedUsers[index].selected = !updatedUsers[index].selected;
+    setUsers(updatedUsers);
+    const allChecked = updatedUsers.every((user) => user.selected);
+    setSelectAll(allChecked);
+  };
   return (
     <div id="userList-wrap">
       <div className="userList-top">
@@ -66,38 +116,52 @@ const UserList = () => {
         </div>
 
         <div className="userList-mid-right">
-          <div className="userList-classification">
-            <div className="userList-item-check-box">
-              <input type="checkbox" />
-            </div>
-            <div className="classification-id">ID</div>
-            <div className="classification-nickName">닉네임</div>
-            <div className="classification-email">이메일</div>
-            <div className="classification-writerDate">가입일</div>
-            <div className="classification-authority">권한</div>
+          <div className="userList-mid-right-top">
+            <div className="userList-classification">
+              <div className="userList-item-check-box">
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={toggleSelectAll}
+                />
+              </div>
+              <div className="classification-id">ID</div>
+              <div className="classification-nickName">닉네임</div>
+              <div className="classification-email">이메일</div>
+              <div className="classification-writerDate">가입일</div>
+              <div className="classification-authority">권한</div>
 
-            <div className="classification-actions">action</div>
+              <div className="classification-actions">action</div>
+            </div>
+
+            <div className="userList-Item-box">
+              {users.map((user, index) => (
+                <div key={index} className="userList-Item">
+                  <div className="checkBox">
+                    <input
+                      type="checkbox"
+                      checked={user.selected || false}
+                      onChange={() => toggleSelectUser(index)}
+                    />
+                  </div>
+                  <div className="userList-item-id">{user.id}</div>
+                  <div className="userList-item-nickName">{user.nickname}</div>
+                  <div className="userList-item-email">{user.email}</div>
+                  <div className="userList-item-writerDate">
+                    {new Date(user.createDate).toISOString().split("T")[0]}
+                    {/* 날짜형식 백에서 처리하기 */}
+                  </div>
+                  <div className="userList-item-authority">{user.admin}</div>
+                  <div className="userList-item-action">
+                    <div className="actions-icon-img"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="userList-Item-box">
-            {users.map((user, index) => (
-              <div key={index} className="userList-Item">
-                <div className="checkBox">
-                  <input type="checkbox" />
-                </div>
-                <div className="userList-item-id">{user.id}</div>
-                <div className="userList-item-nickName">{user.nickname}</div>
-                <div className="userList-item-email">{user.email}</div>
-                <div className="userList-item-writerDate">
-                  {new Date(user.createDate).toISOString().split("T")[0]}
-                  {/* 날짜형식 백에서 처리하기 */}
-                </div>
-                <div className="userList-item-authority">{user.admin}</div>
-                <div className="userList-item-action">
-                  <div className="actions-icon-img"></div>
-                </div>
-              </div>
-            ))}
+          <div className="userList-mid-right-bottom">
+            <div className="userList-delete-btn">삭제</div>
           </div>
         </div>
       </div>
@@ -112,30 +176,19 @@ const UserList = () => {
               </div>
               {categoryDrop && (
                 <div className="dropdown-content">
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    2
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    oasidjf;oizsdjfo;zsdijzsd;foisjfd;szofdijzdf
-                  </div>
+                  {categorys.map(
+                    (
+                      category,
+                      index // 카테고리 목록 불러오기.
+                    ) => (
+                      <div
+                        className="board-dropdown-content-item"
+                        onClick={() => onCategoryClick(category)}
+                      >
+                        {category.categoryName}
+                      </div>
+                    )
+                  )}
                 </div>
               )}
             </div>
