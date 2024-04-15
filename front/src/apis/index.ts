@@ -8,6 +8,7 @@ import { NicknameDupleChkResponseDto } from "./response/auth";
 import { GetLoginUserResponseDto } from "./response/user";
 import { BoardWriteRequestDto } from "./request/board";
 import {
+  GetBoardLatestListResponseDto,
   GetCategorysResponseDto,
   PostBoardWriteResponseDto,
 } from "./response/board";
@@ -72,9 +73,7 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
       return responseBody;
     })
     .catch((error) => {
-      if (!error.response.data) return null;
-      const responseBody: ResponseDto = error.response.data;
-      return responseBody;
+      return errorResponse(error);
     });
   return result;
 };
@@ -86,6 +85,7 @@ export const getCategorysReqeust = async () => {
     .get(GET_CATEGORYS())
     .then((response) => {
       const responseBody: GetCategorysResponseDto = response.data;
+      console.log("responseBody : ", JSON.stringify(responseBody));
       return responseBody;
     })
     .catch((error) => {
@@ -113,7 +113,20 @@ export const getBoardRequest = async (boardId: string | bigint) => {
     });
   return result;
 };
-
+// 최신 게시물 불러오기
+const GET_BOARD_LATEST_LIST = () => `/api/board/latest`;
+export const getBoardLatestList = async () => {
+  const result = await axios
+    .get(GET_BOARD_LATEST_LIST())
+    .then((response) => {
+      const responseBody: GetBoardLatestListResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+  return result;
+};
 // 회원 리스트 요청
 const USER_LIST_URL = () => `${DOMAIN}/api/user/get-user-list`;
 export const getUserList = async () => {
@@ -131,38 +144,17 @@ export const getUserList = async () => {
 };
 
 // 카테고리 리스트 요청
-// const CATEGORIE_LIST_URL = () => `${DOMAIN}/api/user/get-categorie-list`;
-// export const getCategorieList = async () => {
-//   const result = await axios
-//     .get(CATEGORIE_LIST_URL())
-//     .then((response) => {
-//       const responseBody: CategorieList[] = response.data;
-//       return responseBody;
-//     })
-//     .catch((error) => {
-//       if (!error.response.data) return null;
-//       return error.response.data;
-//     });
-//   return result;
-// };
-
-// 카테고리 리스트 요청
-const CATEGORIE_LIST_URL = () => `${API_DOMAIN}/board/get-categorys`;
-export const getAdminCategorysReqeust = async () => {
+const CATEGORIE_LIST_URL = () => `${DOMAIN}/api/user/get-categorie-list`;
+export const getCategorieList = async () => {
   const result = await axios
     .get(CATEGORIE_LIST_URL())
     .then((response) => {
-      const responseBody: GetAdminCategorysResponseDto = response.data;
-      console.log(
-        "index.ts responseBody : ",
-        JSON.stringify(responseBody, null, 2)
-      ); // 여기를 수정
+      const responseBody: CategorieList[] = response.data;
       return responseBody;
     })
     .catch((error) => {
       if (!error.response.data) return null;
-      const responseBody: ResponseDto = error.response.data;
-      return responseBody;
+      return error.response.data;
     });
   return result;
 };
@@ -233,4 +225,10 @@ export const postBoard = async (
       return responseBody;
     });
   return result;
+};
+
+const errorResponse = (error: null | any) => {
+  if (!error) return null;
+  const responseBody: ResponseDto = error.response.data;
+  return responseBody;
 };

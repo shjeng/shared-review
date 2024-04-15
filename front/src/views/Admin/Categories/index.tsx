@@ -2,11 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { CATEGORI_MANAGE_PATH, USER_MANAGE_PATH } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import {
-  getAdminCategorysReqeust,
-  getCategorysReqeust,
-  getUserList,
-} from "../../../apis";
+import { getCategorysReqeust, getUserList } from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
 import { GetCategorysResponseDto } from "../../../apis/response/board";
 import ResponseDto from "../../../apis/response/response.dto";
@@ -38,27 +34,13 @@ const Categories = () => {
   };
   const onDropdownCategory = () => {};
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const result = await getCategorieList();
-  //     if (result && Array.isArray(result.userList)) {
-  //       setUsers(result.userList);
-  //       console.error("받은 데이터 : ", result.userList);
-  //     } else {
-  //       console.error("Error fetching user list:", result.userList);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  const [adminCategorys, setAdminCategorys] = useState<CategorieList[]>([]);
+  const [categorys, setCategorys] = useState<Category[]>([]);
 
   useEffect(() => {
-    getAdminCategorysReqeust().then(getCategorysResponse);
+    getCategorysReqeust().then(getCategorysResponse);
   }, []);
   const getCategorysResponse = (
-    responseBody: GetAdminCategorysResponseDto | ResponseDto | null
+    responseBody: GetCategorysResponseDto | ResponseDto | null
   ) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
@@ -70,9 +52,8 @@ const Categories = () => {
     if (code !== "SU") {
       return;
     }
-    const result = responseBody as GetAdminCategorysResponseDto;
-    setAdminCategorys(result.adminCategorys);
-    console.log("받아온 카테고리 데이터", JSON.stringify(result, null, 2));
+    const result = responseBody as GetCategorysResponseDto;
+    setCategorys(result.categorys);
   };
 
   return (
@@ -114,22 +95,22 @@ const Categories = () => {
             </div>
 
             <div className="admin-categori-Item-box">
-              {adminCategorys.map((categorys, index) => (
+              {categorys.map((category, index) => (
                 <div key={index} className="userList-Item">
                   <div className="checkBox">
                     <input type="checkbox" />
                   </div>
                   <div className="admin-categori-item-id">
-                    {categorys.categoryName}
+                    {category.categoryName}
                   </div>
                   <div className="admin-categori-item-nickName">
-                    {categorys.categoryName}
+                    {category.categoryName}
                   </div>
                   <div className="admin-categori-item-email">
-                    {categorys.categoryName}
+                    {category.categoryName}
                   </div>
                   <div className="admin-categori-item-writerDate">
-                    {categorys.categoryName}
+                    {category.categoryName}
                     {/* {
                       new Date(categorys.categoryName)
                         .toISOString()

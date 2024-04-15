@@ -8,15 +8,17 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 @Getter
 public class BoardListResponse extends ResponseDto {
-    private BoardDto boardDto;
+    private List<BoardDto> boards;
 
-    public BoardListResponse(BoardDto boardDto) {
+    public BoardListResponse(List<BoardDto> boardDtoList) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        this.boardDto = boardDto;
+        boards = boardDtoList;
     }
-    public static ResponseEntity<BoardListResponse> success(BoardDto boardDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(new BoardListResponse(boardDto));
+    public static BoardListResponse success(List<BoardDto> boardDtoList) {
+        return new BoardListResponse(boardDtoList);
     }
 }

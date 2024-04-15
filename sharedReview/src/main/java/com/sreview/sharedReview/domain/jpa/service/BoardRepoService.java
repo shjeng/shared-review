@@ -16,6 +16,7 @@ public class BoardRepoService { // DB에 넣어주는 아이
 
     private final BoardRepository boardRepository;
 
+
     public List<Board> findLatestBoards(){
         return boardRepository.findLatestBoards();
     }
