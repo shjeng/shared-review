@@ -21,6 +21,7 @@ public class BoardController {
 
     @GetMapping("/latest")
     public ResponseEntity<? super BoardListResponse> getBoardListLatest(){
+        log.info("latest = ");
         return ResponseEntity.ok(boardServcice.getBoardListLatest());
     }
     @GetMapping("/favoriteTop3")
