@@ -25,8 +25,6 @@ public class UserController {
 
     @GetMapping("/get-user-list") // 유저 리스트
     public ResponseEntity<? super GetUserListResponse> getAllUsers(){
-
-        System.out.println("컨트롤러에서 내보내는 값 : "+userService.getAllUsers());
-        return userService.getAllUsers();
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 }

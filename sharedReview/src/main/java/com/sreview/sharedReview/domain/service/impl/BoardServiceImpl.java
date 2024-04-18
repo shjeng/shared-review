@@ -11,18 +11,15 @@ import com.sreview.sharedReview.domain.dto.response.board.*;
 import com.sreview.sharedReview.domain.jpa.entity.*;
 import com.sreview.sharedReview.domain.jpa.service.*;
 import com.sreview.sharedReview.domain.service.BoardService;
-import com.sreview.sharedReview.domain.util.MarkdownUtil;
 import com.sun.jdi.InternalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -153,6 +150,18 @@ public class BoardServiceImpl implements BoardService {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseDto(ResponseCode.DATABASE_ERROR, ResponseMessage.DATABASE_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseDto getAllBoards() {
+        try {
+            List<Board> allBoards = boardRepoService.findAll(); // 모든 게시물 가져오기
+            List<BoardDto> boardDtos = allBoards.stream().map(l -> new BoardDto().of(l)).toList(); // BoardDto로 변환
+            return BoardListResponse.success(boardDtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
         }
     }
 }

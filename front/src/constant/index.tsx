@@ -10,3 +10,4 @@ export const USER_PAGE_PATH = () => "/user-page";
 
 export const USER_MANAGE_PATH = () => "/admin/user-list";
 export const CATEGORI_MANAGE_PATH = () => "/admin/categori";
+export const ADMIN_BOARD_LIST = () => "/admin/board-list";

@@ -6,16 +6,20 @@ import {
   USER_MANAGE_PATH,
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import { getCategorysReqeust, getUserList } from "../../../apis";
+import {
+  getAdminBoardListRequest,
+  getCategorysReqeust,
+  getUserList,
+} from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
-import { Category } from "../../../types/interface";
+import { Board, Category } from "../../../types/interface";
 import { GetCategorysResponseDto } from "../../../apis/response/board";
 import ResponseDto from "../../../apis/response/response.dto";
-import AdminBoardList from "../AdminBoardList";
-import UserList from "../../../types/interface/user-list.interface";
+import GetAdminBoardResponseDto from "../../../apis/response/board/get-admin-board-list-response.dto";
+import AdminBoard from "../../../types/interface/admin-board.interface";
 
-const AdminUserList = () => {
-  const [users, setUsers] = useState<UserList[]>([]);
+const AdminBoardList = () => {
+  const [boards, setBoards] = useState<AdminBoard[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>();
   const [category, setCategory] = useState<Category | undefined>();
   const [categorys, setCategorys] = useState<Category[]>([]);
@@ -41,43 +45,44 @@ const AdminUserList = () => {
     navigate(ADMIN_BOARD_LIST());
   };
 
+  // 관리자 페이지(게시글목록) - 게시글 목록 요청
+  useEffect(() => {
+    getAdminBoardListRequest().then(getAdminBoardListResponse);
+  }, []);
+  const getAdminBoardListResponse = (
+    responseBody: GetAdminBoardResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+
+    const { code } = responseBody;
+    console.log("BoardList code 값 : ", JSON.stringify(code, null, 2));
+
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+    const result = responseBody as GetAdminBoardResponseDto;
+    setBoards(result.boards);
+    console.log(
+      "result.boardList값 : ",
+      JSON.stringify(result.boards, null, 2)
+    ); // 객체의 구조를 확인
+  };
+
+  // =========================================================
+
   // 카테고리
   const [categoryDrop, setCategoryDrop] = useState(false);
   const searchInputRef = useRef<any>(null);
   const toggleDropdown = () => {
     setCategoryDrop(!categoryDrop);
   };
-  const onDropdownCategory = () => {};
 
-  // 관리자 페이지(회원목록) - 회원목록 요청
-  useEffect(() => {
-    console.log("getUserList 함수 호출");
-    getUserList().then(getAdminUserListResponse);
-  }, []);
-  const getAdminUserListResponse = (
-    responseBody: GetUserListResponseDto | ResponseDto | null
-  ) => {
-    if (!responseBody) {
-      alert("서버로부터 응답이 없습니다.");
-      return;
-    }
-    const { code } = responseBody;
-    console.log("responseBody 값 : ", JSON.stringify(responseBody, null, 2));
-    console.log("UserList code 값 : ", code); // code 값 확인
-    if (code === "VF") alert("유효성 검사 실패");
-    if (code === "DBE") alert("데이터베이스 오류");
-    if (code !== "SU") {
-      return;
-    }
-    const result = responseBody as GetUserListResponseDto;
-    setUsers(result.userList);
-    console.log(
-      "result.userList값 : ",
-      JSON.stringify(result.userList, null, 2)
-    ); // 객체의 구조를 확인
-  };
-
-  // Effect: 처음 렌더링 시 카테고리를 가져와줌.
+  // 하단 카테고리 목록
   useEffect(() => {
     getCategorysReqeust().then(getCategorysResponse);
   }, []);
@@ -101,37 +106,34 @@ const AdminUserList = () => {
   // 전체 선택/해제 함수
   const toggleSelectAll = () => {
     setSelectAll(!selectAll);
-    const updatedUsers = users.map((user) => ({
-      ...user,
+    const updatedBoards = boards.map((board) => ({
+      ...board,
       selected: !selectAll,
     }));
-    setUsers(updatedUsers);
+    setBoards(updatedBoards);
   };
-
   // 개별 체크박스 선택 함수
   const toggleSelectUser = (index: number) => {
-    const updatedUsers = [...users];
-    updatedUsers[index].selected = !updatedUsers[index].selected;
-    setUsers(updatedUsers);
-    const allChecked = updatedUsers.every((user) => user.selected);
+    const updatedBoards = [...boards];
+    updatedBoards[index].selected = !updatedBoards[index].selected;
+    setBoards(updatedBoards);
+    const allChecked = updatedBoards.every((board) => board.selected);
     setSelectAll(allChecked);
   };
+
   return (
-    <div id="userList-wrap">
-      <div className="userList-top">
-        <div className="userList-title">회원목록</div>
+    <div id="admin-wrap">
+      <div className="admin-top">
+        <div className="admin-title">게시글목록</div>
       </div>
-      <div className="userList-mid">
-        <div className="userList-mid-left">
-          <div
-            className="admin-menu-userList-bold"
-            onClick={onUserListClickHandler}
-          >
+      <div className="admin-mid">
+        <div className="admin-mid-left">
+          <div className="admin-menu-userList" onClick={onUserListClickHandler}>
             회원목록
           </div>
           <div className="admin-menu-announcement">공지사항</div>
           <div
-            className="admin-menu-post"
+            className="admin-menu-post-bold"
             onClick={onAdminBoardListClickHandler}
           >
             게시글목록
@@ -144,10 +146,10 @@ const AdminUserList = () => {
           </div>
         </div>
 
-        <div className="userList-mid-right">
-          <div className="userList-mid-right-top">
-            <div className="userList-classification">
-              <div className="userList-item-check-box">
+        <div className="admin-mid-right">
+          <div className="admin-mid-right-top">
+            <div className="admin-classification">
+              <div className="admin-item-check-box">
                 <input
                   type="checkbox"
                   checked={selectAll}
@@ -155,33 +157,35 @@ const AdminUserList = () => {
                 />
               </div>
               <div className="classification-id">ID</div>
+              <div className="classification-email">제목</div>
               <div className="classification-nickName">닉네임</div>
-              <div className="classification-email">이메일</div>
-              <div className="classification-writerDate">가입일</div>
-              <div className="classification-authority">권한</div>
-
+              <div className="classification-writerDate">작성일</div>
               <div className="classification-actions">action</div>
             </div>
 
-            <div className="userList-Item-box">
-              {users.map((user, index) => (
-                <div key={index} className="userList-Item">
+            <div className="admin-Item-box">
+              {boards.map((board, index) => (
+                <div key={index} className="admin-Item">
                   <div className="checkBox">
                     <input
                       type="checkbox"
-                      checked={user.selected || false}
+                      checked={board.selected || false}
                       onChange={() => toggleSelectUser(index)}
                     />
                   </div>
-                  <div className="userList-item-id">{user.id}</div>
-                  <div className="userList-item-nickName">{user.nickname}</div>
-                  <div className="userList-item-email">{user.email}</div>
-                  <div className="userList-item-writerDate">
-                    {new Date(user.writeDateTime).toISOString().split("T")[0]}
-                    {/* 날짜형식 백에서 처리하기 */}
+                  <div className="admin-item-id">{board.boardId}</div>
+                  <div className="admin-item-title">{board.title}</div>
+                  <div className="admin-item-nickName">
+                    {board.userDto.nickname}
                   </div>
-                  <div className="userList-item-authority">{user.admin}</div>
-                  <div className="userList-item-action">
+                  <div className="admin-item-writerDate">
+                    {board.writeDateTime
+                      ? new Date(board.writeDateTime)
+                          .toISOString()
+                          .split("T")[0]
+                      : "Invalid Date"}
+                  </div>
+                  <div className="admin-item-action">
                     <div className="actions-icon-img"></div>
                   </div>
                 </div>
@@ -189,14 +193,14 @@ const AdminUserList = () => {
             </div>
           </div>
 
-          <div className="userList-mid-right-bottom">
-            <div className="userList-delete-btn">삭제</div>
+          <div className="admin-mid-right-bottom">
+            <div className="admin-delete-btn">삭제</div>
           </div>
         </div>
       </div>
 
-      <div className="userList-bottom">
-        <div className="userList-bottom-top">
+      <div className="admin-bottom">
+        <div className="admin-bottom-top">
           <div className="header-category">
             <div className="header-category-dropdown" ref={searchInputRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
@@ -233,4 +237,4 @@ const AdminUserList = () => {
   );
 };
 
-export default AdminUserList;
+export default AdminBoardList;
