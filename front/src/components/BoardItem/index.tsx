@@ -1,43 +1,48 @@
 import React from "react";
 import "./style.css";
 import {Board} from "../../types/interface";
+import {useLocation, useNavigate} from "react-router-dom";
+import {BOARD_DETAIL} from "../../constant";
 
 interface Props{
   board: Board
 }
 const BoardItem = ({board}: Props) => {
+  const navigator = useNavigate();
+  const detailView = () => {
+    navigator(BOARD_DETAIL(board.boardId));
+  }
   return (
-    <div id="board-item-wrap">
+    <div id="board-item-wrap" onClick={detailView}>
       <div className="board-item-top-box">{/* 이미지 넣는건가 */}</div>
 
       <div className="board-item-middle-box">
-        <div className="board-item-title">제목입니다.</div>
+        <div className="board-item-title">{board.title}</div>
       </div>
 
       <div className="board-item-bottom-box">
         <div className="board-item-profile">
-          <div className="board-item-profile-image"></div>
+          <div className="board-item-profile-image">{board.user.profileImage}</div>
           <div className="board-item-write-box">
-            <div className="board-item-nickname">닉네임</div>
-            <div className="board-item-write-date">2014.09.09</div>
+            <div className="board-item-nickname">{board.user.nickname}</div>
+            <div className="board-item-write-date">{board.updateDateTime}</div>
           </div>
         </div>
 
         <div className="board-item-counts">
           <div className="comment-count-box">
             <div className="comment-count-image"></div>
-            <div className="comment-count">{`3`}</div>
+            <div className="comment-count">{board.commentCount}</div>
           </div>
 
           <div className="like-count-box">
             <div className="like-count-image"></div>
-            <div className="like-count">{`1`}</div>
+            <div className="like-count">{board.favoriteCount}</div>
           </div>
 
           <div className="view-count-box">
             <div className="view-count-image"></div>
-
-            <div className="view-count">{`10`}</div>
+            <div className="view-count">{board.viewCount}</div>
           </div>
         </div>
       </div>
