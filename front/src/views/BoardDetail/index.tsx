@@ -20,12 +20,17 @@ const BoardDetail = () => {
   const [viewCount, setViewCount] = useState<number>(0);
   const [updateDateTime, setUpdateDateTime] = useState<string>("");
   const [category, setCategory] = useState<string>("");
+  const [commentCount, setCommentCount] = useState<number>(0)
   const [comments, setComments] = useState<Comment[]>([]);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
+  const [favoriteCount, setFavoriteCount] = useState<number>(0);
   const [writer, setWriter] = useState<User>();
   const [tags, setTags] = useState<Tag[]>([]);
-
   const [isMyPost, setIsMyPost] = useState<boolean>(false);
+
+  const [nicknameDrop, setNicknameDrop] = useState<boolean>(false);
+
+  //  처름 렌더링 될 때
   useEffect(() => {
     if (!boardId) {
       alert("잘못된 접근입니다.");
@@ -34,9 +39,7 @@ const BoardDetail = () => {
     }
     getBoardRequest(boardId).then(getBoardResponse);
   }, [boardId]);
-  const getBoardResponse = (
-    responseBody: GetBoardDetailResponseDto | ResponseDto | null
-  ) => {
+  const getBoardResponse = (responseBody: GetBoardDetailResponseDto | ResponseDto | null) => {
     if (!responseBody) {
       alert("네트워크 오류");
       navigator(MAIN_PATH());
@@ -65,6 +68,11 @@ const BoardDetail = () => {
     }
   };
 
+  // 닉네임 클릭 이벤트
+  const nicknameClickEvent = () => {
+    setNicknameDrop(!nicknameDrop);
+  }
+
   //      event handler: 회원목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {
     navigator(BOARD_LIST());
@@ -82,7 +90,13 @@ const BoardDetail = () => {
           {/* <div className="board-detail-mid-left"> */}
           <div className="board-detail-top-right">
             <div className="board-detail-profile-img"></div>
-            <div className="board-detail-profile-name">{writer?.nickname}</div>
+            <div className="board-detail-profile-name" onClick={nicknameClickEvent}>{writer?.nickname}</div>
+            {nicknameDrop &&
+            <>
+              <div>유저가 작성한 글 보기</div>
+              <div>유저 정보 가기</div>
+            </>
+            }
           </div>
         </div>
 
@@ -92,8 +106,9 @@ const BoardDetail = () => {
             dangerouslySetInnerHTML={{ __html: content }}
           ></div>
           <div className="border-detail-tag">
-            <div className="border-detail-tag-item">#식품</div>
-            <div className="border-detail-tag-item">#식품</div>
+            {tags.map(tag =>
+            <div className="border-detail-tag-item" onClick={()=>{}}>#{tag.name}</div>
+            )}
           </div>
 
           <div className="board-detail-info">
@@ -113,25 +128,26 @@ const BoardDetail = () => {
         <div className="board-detail-bottom">
           <div className="board-detail-interactions">
             <div className="board-detail-like">
-              <div className="board-deatil-like-icon"></div>
-              <div className="board-deatil-like-count">3</div>
+              {favorites.findIndex(favorite => favorite.userEmail === loginUser?.email) === -1 ?
+                  <div>좋아요X 아이콘 보여주어야함.</div> :
+                  <div className="board-deatil-like-icon"></div>
+              }
+              <div className="board-deatil-like-count">{favoriteCount}</div>
             </div>
 
             <div className="board-detail-comment">
               <div className="board-detail-comment-icon"></div>
-              <div className="board-detail-comment-count">5</div>
+              <div className="board-detail-comment-count">{commentCount}</div>
             </div>
           </div>
 
-          <div className="board-detail-comment-write">
-            <textarea
-              className="board-detail-comment-textarea"
-              placeholder="댓글을 입력해주세요."
-              maxLength={255}
-              rows={4}
-            />
-            <div className="comment-write-btn">등록</div>
-          </div>
+          {loginUser &&
+            <div className="board-detail-comment-write">
+              <textarea className="board-detail-comment-textarea" placeholder="댓글을 입력해주세요." maxLength={255} rows={4}/>
+              <div className="comment-write-btn">등록</div>
+            </div>
+          }
+
 
           <div className="board-detail-comment-list">
             <div className="board-detail-comment-item">
