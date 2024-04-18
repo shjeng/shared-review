@@ -42,10 +42,6 @@
   margin-bottom: 20px;
 }
 
-.recent-board-item-box:hover {
-  background-color: #e5e5e5;
-}
-
 .recent-board-item-top {
   display: flex;
   padding: 18px 0px 12px 0px;

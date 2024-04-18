@@ -18,7 +18,7 @@ public class BoardDto {
     private Integer viewCount;
     private String backImg;
     private LocalDateTime writeDateTime;
-    private UserDto userDto;
+    private UserDto user;
 
     public BoardDto of(Board board){
         this.boardId = board.getBoardId();
@@ -28,7 +28,7 @@ public class BoardDto {
         viewCount = board.getViewsCount();
         backImg = null; //  나중에 이미지 업로드 기능 추가하면 ㄴ넣어야함.
         writeDateTime = board.getLastModifiedDate();
-        userDto = UserDto.of(board.getUser());
+        user = UserDto.of(board.getUser());
         return this;
     }
 }

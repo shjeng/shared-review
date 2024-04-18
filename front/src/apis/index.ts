@@ -87,7 +87,6 @@ export const getCategorysReqeust = async () => {
     .get(GET_CATEGORYS())
     .then((response) => {
       const responseBody: GetCategorysResponseDto = response.data;
-
       return responseBody;
     })
     .catch((error) => {
@@ -116,7 +115,7 @@ export const getBoardRequest = async (boardId: string | bigint) => {
   return result;
 };
 // 최신 게시물 불러오기
-const GET_BOARD_LATEST_LIST = () => `/api/board/latest`;
+const GET_BOARD_LATEST_LIST = () => `${API_DOMAIN}/board/latest`;
 export const getBoardLatestList = async () => {
   const result = await axios
     .get(GET_BOARD_LATEST_LIST())
@@ -129,7 +128,7 @@ export const getBoardLatestList = async () => {
     });
   return result;
 };
-const GET_FAVORITE_BOARD_TOP3 = () => `/api/board/favoriteTop3`;
+const GET_FAVORITE_BOARD_TOP3 = () => `${API_DOMAIN}/board/favoriteTop3`;
 export const getFavoriteBoardTop3 = async (date: string) => {
   const result = await axios
     .get(GET_FAVORITE_BOARD_TOP3(), { params: { dateCondition: date } })
@@ -178,6 +177,38 @@ export const getAdminBoardListRequest = async () => {
     });
   return result;
 };
+
+// // 회원 리스트 요청
+// const USER_LIST_URL = () => `${DOMAIN}/api/user/get-user-list`;
+// export const getUserList = async () => {
+//     const result = await axios
+//         .get(USER_LIST_URL())
+//         .then((response) => {
+//             const responseBody: UserList[] = response.data;
+//             return responseBody;
+//         })
+//         .catch((error) => {
+//             if (!error.response.data) return null;
+//             return error.response.data;
+//         });
+//     return result;
+// };
+
+// // 카테고리 리스트 요청
+// const CATEGORIE_LIST_URL = () => `${DOMAIN}/api/user/get-categorie-list`;
+// export const getCategorieList = async () => {
+//     const result = await axios
+//         .get(CATEGORIE_LIST_URL())
+//         .then((response) => {
+//             const responseBody: CategorieList[] = response.data;
+//             return responseBody;
+//         })
+//         .catch((error) => {
+//             if (!error.response.data) return null;
+//             return error.response.data;
+//         });
+//     return result;
+// };
 
 // ===  post  ==== //
 // 회원가입 요청
@@ -243,6 +274,23 @@ export const postBoard = async (
       if (!error) return null;
       const responseBody: ResponseDto = error.response.data;
       return responseBody;
+    });
+  return result;
+};
+// 댓글 작성
+const COMMENT_WRITE = () => `${API_DOMAIN}/board/comment`;
+export const commentWrite = async (
+  requestBody: Comment,
+  accessToken: string
+) => {
+  const result = await axios
+    .post(COMMENT_WRITE(), requestBody, authorication(accessToken))
+    .then((response) => {
+      const responseBody: ResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      return errorResponse(error);
     });
   return result;
 };

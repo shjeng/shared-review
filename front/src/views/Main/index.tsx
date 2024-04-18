@@ -6,6 +6,7 @@ import {getBoardLatestList, getFavoriteBoardTop3} from "../../apis";
 import ResponseDto from "../../apis/response/response.dto";
 import {ResponseUtil} from "../../utils";
 import BoardListResponse from "../../apis/response/board/get-board-latest-list-response.dto";
+import BoardItem2 from "../../components/BoardItem2";
 
 const Main = () => {
   const [favoriteBoardTop3ForWeek, setFavoriteBoardTop3ForWeek] = useState<Board[]>([]);
@@ -23,9 +24,10 @@ const Main = () => {
       return;
     }
     const latestResult = result as BoardListResponse;
+    console.log(latestResult.boards);
     setLatestBoards(latestResult.boards);
   }
-  
+
   const getFavoriteBoardTop3Response = (responseBody: null | ResponseDto | BoardListResponse) => {
     const result = ResponseUtil(responseBody);
     if(!result){
@@ -52,27 +54,25 @@ const Main = () => {
         <div className="board-top">
           <div className="board-top-title">이번달 인기 게시물</div>
           <div className="board-top-item-list">
-            <BoardItem />
-            <BoardItem />
-            <BoardItem />
+            {favoriteBoardTop3ForWeek.map(week =>
+              <BoardItem board={week} />
+            )}
           </div>
         </div>
 
         <div className="board-middle">
           <div className="board-middle-title">이번주 인기 게시물</div>
           <div className="board-middle-item-list">
-            <BoardItem />
-            <BoardItem />
-            <BoardItem />
+            {favoriteBoardTop3ForMonth.map(month => <BoardItem board={month}/> )}
           </div>
         </div>
 
         <div className="board-bottom">
           <div className="board-bottom-title">오늘의 인기 게시물</div>
           <div className="board-bottom-item-list">
-            <BoardItem />
-            <BoardItem />
-            <BoardItem />
+            {favoriteBoardTop3ForMonth.map(month =>
+                <BoardItem board={month}/>
+            )}
           </div>
         </div>
       </div>
@@ -80,32 +80,9 @@ const Main = () => {
       <div className="main-bottom-box">
         <div className="board-bottom-title">최신 게시물</div>
         <div className="recent-board-item-list">
-          <div className="recent-board-item-box">
-            <div className="recent-board-item-top">
-              <div className="recent-board-item-title">
-                {"한국에서 가장 불쌍하다는 학번"}
-              </div>
-              <div className="recent-board-item-comment"> {"[5]"}</div>
-            </div>
-            <div className="recent-board-item-bottom">
-              <div className="recent-board-item-category">{"유머"}</div>
-              <div className="recent-board-item-timeInfo">{"9시간 전"}</div>
-              <div className="recent-board-item-nickname">{"춘식쿤"}</div>
-            </div>
-          </div>
-          <div className="recent-board-item-box">
-            <div className="recent-board-item-top">
-              <div className="recent-board-item-title">
-                {"한국에서 가장 불쌍하다는 학번"}
-              </div>
-              <div className="recent-board-item-comment"> {"[5]"}</div>
-            </div>
-            <div className="recent-board-item-bottom">
-              <div className="recent-board-item-category">{"유머"}</div>
-              <div className="recent-board-item-timeInfo">{"9시간 전"}</div>
-              <div className="recent-board-item-nickname">{"춘식쿤"}</div>
-            </div>
-          </div>
+          {latestBoards.map(latest =>
+              <BoardItem2 board={latest}/>
+          )}
         </div>
       </div>
     </div>

@@ -1,7 +1,11 @@
 import React from "react";
 import "./style.css";
+import {Board} from "../../types/interface";
 
-const BoardItem = () => {
+interface Props{
+  board: Board
+}
+const BoardItem = ({board}: Props) => {
   return (
     <div id="board-item-wrap">
       <div className="board-item-top-box">{/* 이미지 넣는건가 */}</div>
