@@ -1,12 +1,16 @@
 package com.sreview.sharedReview.domain.service.impl;
 
+import com.sreview.sharedReview.domain.dto.object.BoardDto;
+import com.sreview.sharedReview.domain.dto.object.UserAdminDto;
 import com.sreview.sharedReview.domain.dto.object.UserDto;
+import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.UserRepository;
 import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
 import com.sreview.sharedReview.domain.service.UserService;
+import com.sun.jdi.InternalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,9 +42,16 @@ public class UserServiceImpl implements UserService {
 
 
     @Override // user 정보 가져옴
-    public ResponseEntity<GetUserListResponse> getAllUsers() {
-        List<User> userList = userRepository.findAll();
-        System.out.println("UserServiceImpl getAllUsers() 보내는 값 : " + userList);
-        return GetUserListResponse.success(userList);
+    public ResponseDto getAllUsers() {
+        try {
+            List<User> userList = userRepository.findAll();
+            List<UserAdminDto> userDtos = userList.stream().map(l -> new UserAdminDto().of(l)).toList(); // BoardDto로 변환
+
+            return GetUserListResponse.success(userDtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
+        }
     }
+
 }

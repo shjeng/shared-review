@@ -3,6 +3,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Container from "./layouts/Container";
 import {
+  ADMIN_BOARD_LIST,
   AUTH_PATH,
   BOARD_DETAIL,
   BOARD_LIST,
@@ -26,9 +27,10 @@ import ResponseDto from "./apis/response/response.dto";
 import BoardWrite from "./views/BoardWrite";
 import BoardList from "./views/BoardList";
 import UserPage from "./views/UserPage";
-import UserList from "./views/Admin/UserList";
 import BoardDetail from "./views/BoardDetail";
 import Categories from "./views/Admin/Categories";
+import AdminBoardList from "./views/Admin/AdminBoardList";
+import AdminUserList from "./views/Admin/UserList";
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -67,8 +69,9 @@ function App() {
         <Route path={SIGN_IN_PATH()} element={<SignIn />} />
         <Route path={SIGN_UP_PATH()} element={<SignUp />} />
         <Route path={USER_PAGE_PATH()} element={<UserPage />} />
-        <Route path={USER_MANAGE_PATH()} element={<UserList />} />
+        <Route path={USER_MANAGE_PATH()} element={<AdminUserList />} />
         <Route path={CATEGORI_MANAGE_PATH()} element={<Categories />} />
+        <Route path={ADMIN_BOARD_LIST()} element={<AdminBoardList />} />
 
         {/* <Route path={AUTH_PATH()} element={<Authentication />} /> */}
       </Route>

@@ -20,4 +20,7 @@ public interface BoardService {
     ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request, String email);
 
     ResponseDto getBoard(Long boardId);
+
+    ResponseDto getAllBoards();
+
 }

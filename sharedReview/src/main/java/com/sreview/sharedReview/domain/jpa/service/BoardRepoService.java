@@ -42,4 +42,8 @@ public class BoardRepoService { // DB에 넣어주는 아이
     public Optional<Board> findBoardAndCommentsUserById(Long boardId) {
         return boardRepository.findBoardAndCommentsUserById(boardId);
     }
+
+    public List<Board> findAll() {
+        return boardRepository.findAll();
+    }
 }

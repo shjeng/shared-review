@@ -57,4 +57,9 @@ public class BoardController {
         log.info("test");
         return ResponseEntity.internalServerError().build();
     }
+
+    @GetMapping("/total-list")
+    public ResponseEntity<? super BoardListResponse> getAllBoards(){
+        return ResponseEntity.ok(boardServcice.getAllBoards());
+    }
 }

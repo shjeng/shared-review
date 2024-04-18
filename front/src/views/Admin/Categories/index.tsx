@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import { CATEGORI_MANAGE_PATH, USER_MANAGE_PATH } from "../../../constant";
+import {
+  ADMIN_BOARD_LIST,
+  CATEGORI_MANAGE_PATH,
+  USER_MANAGE_PATH,
+} from "../../../constant";
 import { useEffect, useRef, useState } from "react";
 import { getCategorysReqeust, getUserList } from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
@@ -15,15 +19,14 @@ const Categories = () => {
 
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
-
-  //      event handler: 회원목록 클릭 이벤트 처리 함수       //
   const onUserListClickHandler = () => {
     navigate(USER_MANAGE_PATH());
   };
-
-  //      event handler: 카테고리 클릭 이벤트 처리 함수       //
   const onCategoriesClickHandler = () => {
     navigate(CATEGORI_MANAGE_PATH());
+  };
+  const onAdminBoardListClickHandler = () => {
+    navigate(ADMIN_BOARD_LIST());
   };
 
   // 카테고리
@@ -67,7 +70,12 @@ const Categories = () => {
             회원목록
           </div>
           <div className="admin-menu-announcement">공지사항</div>
-          <div className="admin-menu-post">게시글목록</div>
+          <div
+            className="admin-menu-post"
+            onClick={onAdminBoardListClickHandler}
+          >
+            게시글목록
+          </div>
           <div
             className="admin-menu-category-bold"
             onClick={onCategoriesClickHandler}
