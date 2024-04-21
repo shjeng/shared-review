@@ -18,14 +18,18 @@ import java.util.List;
 public class BoardListResponse extends ResponseDto {
     private List<BoardDto> boards;
     private String condition;
-    private Page<Board> boardPage;
+    private Page<BoardDto> boardPage;
 
     public BoardListResponse(List<BoardDto> boardDtoList) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         boards = boardDtoList;
     }
+    public BoardListResponse(Page<BoardDto> boardPage) {
+        super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        this.boardPage = boardPage;
+    }
 
-    public BoardListResponse(List<BoardDto> boardDtoList, Page<Board> boardPage) {
+    public BoardListResponse(List<BoardDto> boardDtoList, Page<BoardDto> boardPage) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         boards = boardDtoList;
         this.boardPage = boardPage;
@@ -40,10 +44,13 @@ public class BoardListResponse extends ResponseDto {
     public static BoardListResponse success(List<BoardDto> boardDtoList, String condition) {
         return new BoardListResponse(boardDtoList, condition);
     }
-    public static BoardListResponse success(List<BoardDto> boardDtoList, Page<Board> boardPage) {
+    public static BoardListResponse success(List<BoardDto> boardDtoList, Page<BoardDto> boardPage) {
         return new BoardListResponse(boardDtoList, boardPage);
     }
     public static BoardListResponse success(List<BoardDto> boardDtoList) {
+        return new BoardListResponse(boardDtoList);
+    }
+    public static BoardListResponse success(Page<BoardDto> boardDtoList) {
         return new BoardListResponse(boardDtoList);
     }
 }

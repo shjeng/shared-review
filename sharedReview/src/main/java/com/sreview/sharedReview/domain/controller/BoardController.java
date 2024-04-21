@@ -8,6 +8,8 @@ import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -60,8 +62,8 @@ public class BoardController {
     }
 
     @GetMapping("/total-list")
-    public ResponseEntity<? super BoardListResponse> getAllBoards(){
-        BoardListResponse allBoards = (BoardListResponse) boardServcice.getAllBoards();
+    public ResponseEntity<? super BoardListResponse> getAllBoards(@PageableDefault(size = 20)Pageable pageable){
+        BoardListResponse allBoards = (BoardListResponse) boardServcice.getAllBoards(pageable);
         System.out.println("allBoards =" + allBoards.toString());
         return ResponseEntity.ok(allBoards);
     }

@@ -8,6 +8,7 @@ import com.sreview.sharedReview.domain.dto.response.board.BoardWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.CategoryWriteResponse;
 import com.sreview.sharedReview.domain.dto.response.board.GetCategorysResponse;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface BoardService {
@@ -23,6 +24,6 @@ public interface BoardService {
 
     ResponseDto getBoard(Long boardId);
 
-    ResponseDto getAllBoards();
+    ResponseDto getAllBoards(Pageable pageable);
 
 }

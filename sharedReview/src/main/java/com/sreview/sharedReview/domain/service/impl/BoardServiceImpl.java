@@ -167,15 +167,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseDto getAllBoards() {
+    public ResponseDto getAllBoards(Pageable pageable) {
         try {
-            Pageable pageable = PageRequest.of(0, 10);
             Page<Board> allBoards = boardRepoService.findAll(pageable); // 모든 게시물 가져오기
-            allBoards.getContent().stream().forEach(m-> System.out.println("test === " + m.getBoardId()));
-//            Page<BoardDto> boardDtoPage = allBoards.map(b -> new BoardDto().of(b));
-            List<BoardDto> boardDtos = allBoards.stream().map(l -> new BoardDto().of(l)).toList(); // BoardDto로 변환
-            System.out.println("boardDtos === " + boardDtos.size());
-            return BoardListResponse.success(boardDtos, allBoards);
+            Page<BoardDto> result = allBoards.map(b -> new BoardDto().of(b));
+            return BoardListResponse.success(result);
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalException();
