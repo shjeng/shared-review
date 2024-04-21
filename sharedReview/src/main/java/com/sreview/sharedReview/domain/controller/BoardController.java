@@ -61,6 +61,8 @@ public class BoardController {
 
     @GetMapping("/total-list")
     public ResponseEntity<? super BoardListResponse> getAllBoards(){
-        return ResponseEntity.ok(boardServcice.getAllBoards());
+        BoardListResponse allBoards = (BoardListResponse) boardServcice.getAllBoards();
+        System.out.println("allBoards =" + allBoards.toString());
+        return ResponseEntity.ok(allBoards);
     }
 }

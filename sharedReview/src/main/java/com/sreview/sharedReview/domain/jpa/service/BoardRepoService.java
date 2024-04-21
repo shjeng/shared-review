@@ -3,6 +3,8 @@ package com.sreview.sharedReview.domain.jpa.service;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,9 @@ public class BoardRepoService { // DB에 넣어주는 아이
         return boardRepository.findBoardAndCommentsUserById(boardId);
     }
 
+    public Page<Board> findAll(Pageable pageable) {
+        return boardRepository.findAll(pageable);
+    }
     public List<Board> findAll() {
         return boardRepository.findAll();
     }

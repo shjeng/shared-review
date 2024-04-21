@@ -93,8 +93,10 @@ const BoardDetail = () => {
             <div className="board-detail-profile-name" onClick={nicknameClickEvent}>{writer?.nickname}</div>
             {nicknameDrop &&
             <>
-              <div>유저가 작성한 글 보기</div>
-              <div>유저 정보 가기</div>
+              <div className="user-information-box">
+                <div className="user-information-box-child" onClick={()=>{}}>유저 글</div>
+                <div className="user-information-box-child">유저 정보</div>
+              </div>
             </>
             }
           </div>

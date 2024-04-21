@@ -14,6 +14,9 @@ import com.sreview.sharedReview.domain.service.BoardService;
 import com.sun.jdi.InternalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -46,8 +49,18 @@ public class BoardServiceImpl implements BoardService {
             return BoardListResponse.success(list, condition);
         } catch (Exception e) {
             e.printStackTrace();
+            return null; //  나중에 에러처리 어떻게 할지 정하면 지울 예정
         }
-        return null;
+    }
+
+    @Override
+    public ResponseDto findBoardByUser(String userEmail) {
+        try {
+
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -156,9 +169,13 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseDto getAllBoards() {
         try {
-            List<Board> allBoards = boardRepoService.findAll(); // 모든 게시물 가져오기
+            Pageable pageable = PageRequest.of(0, 10);
+            Page<Board> allBoards = boardRepoService.findAll(pageable); // 모든 게시물 가져오기
+            allBoards.getContent().stream().forEach(m-> System.out.println("test === " + m.getBoardId()));
+//            Page<BoardDto> boardDtoPage = allBoards.map(b -> new BoardDto().of(b));
             List<BoardDto> boardDtos = allBoards.stream().map(l -> new BoardDto().of(l)).toList(); // BoardDto로 변환
-            return BoardListResponse.success(boardDtos);
+            System.out.println("boardDtos === " + boardDtos.size());
+            return BoardListResponse.success(boardDtos, allBoards);
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalException();
