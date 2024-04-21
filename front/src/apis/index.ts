@@ -18,6 +18,7 @@ import CategorieList from "../types/interface/categorie-list.interface";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
 import GetAdminBoardResponseDto from "./response/board/get-admin-board-list-response.dto";
 import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
+import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -177,6 +178,19 @@ export const getAdminBoardListRequest = async () => {
     });
   return result;
 };
+
+// 유저 페이지
+const INCREASE_VIEW_COUNT_REQUEST = (boardId: string | bigint) => `${API_DOMAIN}/board/${boardId}/view-count`;
+export const increaseViewCountRequest = async (boardId: string | bigint) => {
+    return await axios.get(INCREASE_VIEW_COUNT_REQUEST(boardId))
+        .then(response => {
+            const responseBody: IncreaseViewCountResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            return errorResponse(error);
+        })
+}
 
 // // 회원 리스트 요청
 // const USER_LIST_URL = () => `${DOMAIN}/api/user/get-user-list`;

@@ -1,14 +1,15 @@
 import "./style.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getBoardRequest } from "../../apis";
-import { GetBoardDetailResponseDto } from "../../apis/response/board";
-import { BOARD_LIST, MAIN_PATH } from "../../constant";
+import {getBoardRequest, increaseViewCountRequest} from "../../apis";
+import {GetBoardDetailResponseDto, IncreaseViewCountResponseDto} from "../../apis/response/board";
+import {BOARD_LIST, MAIN_PATH, USER_BOARD, USER_PAGE_PATH} from "../../constant";
 
 import ResponseDto from "../../apis/response/response.dto";
 import { ResponseCode } from "../../types/enum";
 import loginUserStore from "../../store/login-user.store";
 import { Category, Comment, Favorite, Tag, User } from "../../types/interface";
+import {ResponseUtil} from "../../utils";
 
 const BoardDetail = () => {
   const { boardId } = useParams();
@@ -52,7 +53,6 @@ const BoardDetail = () => {
     if (code !== ResponseCode.SUCCESS) {
       navigator(MAIN_PATH());
     }
-    console.log(responseBody); // 테스트용
     const result = responseBody as GetBoardDetailResponseDto;
     setTitle(result.boardDetail.title);
     setContent(result.boardDetail.content);
@@ -72,12 +72,39 @@ const BoardDetail = () => {
   const nicknameClickEvent = () => {
     setNicknameDrop(!nicknameDrop);
   }
-
+  const userInfo = () => {
+    if(!writer){
+      return;
+    }
+    navigator(USER_PAGE_PATH(writer.email));
+  }
+  const userBoard = () => {
+    if(!writer){
+      return;
+    }
+    navigator(USER_BOARD(writer.email));
+  }
   //      event handler: 회원목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {
     navigator(BOARD_LIST());
   };
 
+  let effectFlag = true;
+  useEffect(()=>{
+    if(!boardId) return;
+    if(effectFlag){
+      effectFlag = false;
+      return;
+    }
+    increaseViewCountRequest(boardId).then(increaseViewCountResponse);
+  },[boardId]);
+  const increaseViewCountResponse = (response: IncreaseViewCountResponseDto|ResponseDto| null) => {
+      const result = ResponseUtil(response)
+      if(!result){
+          return;
+      }
+      const increaseViewCountResult = result as IncreaseViewCountResponseDto;
+  }
   return (
     <div id="board-detail-wrap">
       <div className="board-detail-content">
@@ -89,13 +116,16 @@ const BoardDetail = () => {
 
           {/* <div className="board-detail-mid-left"> */}
           <div className="board-detail-top-right">
+            {writer?.profileImage ?
+            <div></div>:
             <div className="board-detail-profile-img"></div>
+            }
             <div className="board-detail-profile-name" onClick={nicknameClickEvent}>{writer?.nickname}</div>
             {nicknameDrop &&
             <>
               <div className="user-information-box">
-                <div className="user-information-box-child" onClick={()=>{}}>유저 글</div>
-                <div className="user-information-box-child">유저 정보</div>
+                <div className="user-information-box-child" onClick={userBoard}>유저 글</div>
+                <div className="user-information-box-child" onClick={userInfo}>유저 정보</div>
               </div>
             </>
             }
