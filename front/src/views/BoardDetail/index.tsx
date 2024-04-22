@@ -103,7 +103,9 @@ const BoardDetail = () => {
       if(!result){
           return;
       }
-      const increaseViewCountResult = result as IncreaseViewCountResponseDto;
+    const increaseViewCountResult = result as IncreaseViewCountResponseDto;
+    setViewCount(increaseViewCountResult.viewCount);
+
   }
   return (
     <div id="board-detail-wrap">

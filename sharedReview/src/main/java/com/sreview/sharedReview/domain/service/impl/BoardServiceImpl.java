@@ -35,6 +35,7 @@ public class BoardServiceImpl implements BoardService {
     private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
 
+    // get
     @Override
     public ResponseDto getFaoviteBoardTop3(String condition) {
         try {
@@ -108,6 +109,19 @@ public class BoardServiceImpl implements BoardService {
         return GetCategorysResponse.success(categorys);
     }
 
+    @Override
+    public ResponseDto increaseViewcount(Long boardId) {
+        Optional<Board> boardOptional = boardRepoService.findById(boardId);
+        if (boardOptional.isEmpty()) {
+            throw new NonExistBoardException("존재하지 않는 게시물입니다.");
+        }
+        Board board = boardOptional.get();
+        board.increaseViewCount();
+        boardRepoService.save(board);
+        return IncreaseViewCountResponse.success(board.getViewsCount());
+    }
+
+    // post
     @Override
     public ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request,String email) {
         try {

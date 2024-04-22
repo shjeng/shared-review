@@ -180,7 +180,7 @@ export const getAdminBoardListRequest = async () => {
 };
 
 // 유저 페이지
-const INCREASE_VIEW_COUNT_REQUEST = (boardId: string | bigint) => `${API_DOMAIN}/board/${boardId}/view-count`;
+const INCREASE_VIEW_COUNT_REQUEST = (boardId: string | bigint) => `${API_DOMAIN}/board/increase-view-count/${boardId}`;
 export const increaseViewCountRequest = async (boardId: string | bigint) => {
     return await axios.get(INCREASE_VIEW_COUNT_REQUEST(boardId))
         .then(response => {

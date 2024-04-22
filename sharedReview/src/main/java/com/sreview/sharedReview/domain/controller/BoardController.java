@@ -35,6 +35,10 @@ public class BoardController {
         return null;
     }
 
+    @GetMapping("/view-count/{boardId}")
+    public ResponseEntity<?> increaseViewCount(@PathVariable("boardId")Long boardId){
+        return ResponseEntity.ok(boardServcice.increaseViewcount(boardId));
+    }
     @GetMapping("/get-categorys") // 카테고리 목록 불러오는 메서드
     public ResponseEntity<? super GetCategorysResponse> getCategorys(){
         return boardServcice.getCategorys();
