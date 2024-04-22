@@ -89,7 +89,10 @@ const BoardDetail = () => {
 
           {/* <div className="board-detail-mid-left"> */}
           <div className="board-detail-top-right">
-            <div className="board-detail-profile-img"></div>
+            {writer?.profileImage ?
+                <div className="board-detail-profile-img"></div>:
+                <div className="board-detail-profile-img"></div>
+            }
             <div className="board-detail-profile-name" onClick={nicknameClickEvent}>{writer?.nickname}</div>
             {nicknameDrop &&
             <>
