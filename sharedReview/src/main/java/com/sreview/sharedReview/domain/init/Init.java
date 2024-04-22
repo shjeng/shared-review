@@ -43,6 +43,10 @@ public class Init {
         userRequest.setNickname("testNick");
         userRequest.setPassword("123");
         authService.signUp(userRequest);
+        User user = userRepository.findByEmail(userRequest.getEmail()).get();
+        user.setProfileImage("https://opgg-static.akamaized.net/meta/images/lol/14.8.1/champion/Azir.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto,f_webp,w_160,h_160&v=1710914129937");
+        userRepository.save(user);
+
     }
     public void categoryInit(){
         Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
