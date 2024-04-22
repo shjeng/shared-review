@@ -71,7 +71,7 @@ const BoardDetail = () => {
   };
 
   // 닉네임 클릭 이벤트
-  const nicknameClickEvent = () => {
+  const writerClickEvent = () => {
     setNicknameDrop(!nicknameDrop);
   };
 
@@ -90,18 +90,18 @@ const BoardDetail = () => {
           </div>
 
           {/* <div className="board-detail-mid-left"> */}
-          <div className="board-detail-top-right">
+          <div className="board-detail-top-right" onClick={writerClickEvent}>
             {writer?.profileImage ? (
-              <div className="board-detail-profile-img"></div>
+              <div className="board-detail-profile-img-box">
+                <div
+                  className="profile-img"
+                  style={{ backgroundImage: `url(${writer.profileImage})` }}
+                ></div>
+              </div>
             ) : (
               <div className="board-detail-profile-img"></div>
             )}
-            <div
-              className="board-detail-profile-name"
-              onClick={nicknameClickEvent}
-            >
-              {writer?.nickname}
-            </div>
+            <div className="board-detail-profile-name">{writer?.nickname}</div>
             {nicknameDrop && (
               <>
                 <div className="user-information-box">

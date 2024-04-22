@@ -42,4 +42,8 @@ public class User extends BaseEntity {
         this.nickname = nickname;
         this.password = password;
     }
+    public void setProfileImage(String imageUrl){
+        this.imageUrl = imageUrl;
+
+    }
 }
