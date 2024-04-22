@@ -20,7 +20,7 @@ const BoardDetail = () => {
   const [viewCount, setViewCount] = useState<number>(0);
   const [updateDateTime, setUpdateDateTime] = useState<string>("");
   const [category, setCategory] = useState<string>("");
-  const [commentCount, setCommentCount] = useState<number>(0)
+  const [commentCount, setCommentCount] = useState<number>(0);
   const [comments, setComments] = useState<Comment[]>([]);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [favoriteCount, setFavoriteCount] = useState<number>(0);
@@ -39,7 +39,9 @@ const BoardDetail = () => {
     }
     getBoardRequest(boardId).then(getBoardResponse);
   }, [boardId]);
-  const getBoardResponse = (responseBody: GetBoardDetailResponseDto | ResponseDto | null) => {
+  const getBoardResponse = (
+    responseBody: GetBoardDetailResponseDto | ResponseDto | null
+  ) => {
     if (!responseBody) {
       alert("네트워크 오류");
       navigator(MAIN_PATH());
@@ -71,7 +73,7 @@ const BoardDetail = () => {
   // 닉네임 클릭 이벤트
   const writerClickEvent = () => {
     setNicknameDrop(!nicknameDrop);
-  }
+  };
 
   //      event handler: 회원목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {
@@ -89,21 +91,30 @@ const BoardDetail = () => {
 
           {/* <div className="board-detail-mid-left"> */}
           <div className="board-detail-top-right" onClick={writerClickEvent}>
-            {writer?.profileImage ?
-                <div className="board-detail-profile-img-box">
-                  <div className="profile-img" style={{backgroundImage: `url(${writer.profileImage})`}}></div>
-                </div>:
-                <div className="board-detail-profile-img"></div>
-            }
-            <div className="board-detail-profile-name">{writer?.nickname}</div>
-            {nicknameDrop &&
-            <>
-              <div className="user-information-box">
-                <div className="user-information-box-child" onClick={()=>{}}>유저 글</div>
-                <div className="user-information-box-child">유저 정보</div>
+            {writer?.profileImage ? (
+              <div className="board-detail-profile-img-box">
+                <div
+                  className="profile-img"
+                  style={{ backgroundImage: `url(${writer.profileImage})` }}
+                ></div>
               </div>
-            </>
-            }
+            ) : (
+              <div className="board-detail-profile-img"></div>
+            )}
+            <div className="board-detail-profile-name">{writer?.nickname}</div>
+            {nicknameDrop && (
+              <>
+                <div className="user-information-box">
+                  <div
+                    className="user-information-box-child"
+                    onClick={() => {}}
+                  >
+                    유저 글
+                  </div>
+                  <div className="user-information-box-child">유저 정보</div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -113,9 +124,11 @@ const BoardDetail = () => {
             dangerouslySetInnerHTML={{ __html: content }}
           ></div>
           <div className="border-detail-tag">
-            {tags.map(tag =>
-            <div className="border-detail-tag-item" onClick={()=>{}}>#{tag.name}</div>
-            )}
+            {tags.map((tag) => (
+              <div className="border-detail-tag-item" onClick={() => {}}>
+                #{tag.name}
+              </div>
+            ))}
           </div>
 
           <div className="board-detail-info">
@@ -135,10 +148,13 @@ const BoardDetail = () => {
         <div className="board-detail-bottom">
           <div className="board-detail-interactions">
             <div className="board-detail-like">
-              {favorites.findIndex(favorite => favorite.userEmail === loginUser?.email) === -1 ?
-                  <div>좋아요X 아이콘 보여주어야함.</div> :
-                  <div className="board-deatil-like-icon"></div>
-              }
+              {favorites.findIndex(
+                (favorite) => favorite.userEmail === loginUser?.email
+              ) === -1 ? (
+                <div className="board-deatil-like-icon"></div>
+              ) : (
+                <div className="board-deatil-like-icon"></div>
+              )}
               <div className="board-deatil-like-count">{favoriteCount}</div>
             </div>
 
@@ -148,13 +164,17 @@ const BoardDetail = () => {
             </div>
           </div>
 
-          {loginUser &&
+          {loginUser && (
             <div className="board-detail-comment-write">
-              <textarea className="board-detail-comment-textarea" placeholder="댓글을 입력해주세요." maxLength={255} rows={4}/>
+              <textarea
+                className="board-detail-comment-textarea"
+                placeholder="댓글을 입력해주세요."
+                maxLength={255}
+                rows={4}
+              />
               <div className="comment-write-btn">등록</div>
             </div>
-          }
-
+          )}
 
           <div className="board-detail-comment-list">
             <div className="board-detail-comment-item">
