@@ -44,6 +44,8 @@ server:
       enabled: true
     session:
       tracking-modes: cookie
+file:
+  path: C:/upload/
 
 jwt:
   secretKey: S3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3y

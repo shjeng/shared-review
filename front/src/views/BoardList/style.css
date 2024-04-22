@@ -101,3 +101,14 @@
 .board-list-top {
   margin: 30px 0px;
 }
+
+.list-write-title {
+  font-size: 25px;
+
+  margin: 40px 0px;
+}
+
+.board-list-bottom {
+  display: flex;
+  justify-content: flex-end;
+}

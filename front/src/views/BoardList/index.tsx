@@ -10,10 +10,7 @@ const BoardList = () => {
   return (
     <div id="board-list-wrap">
       <div className="board-list-top">
-        <div className="list-write-btn" onClick={onBoardWriteClickHandler}>
-          <div className="list-write-btn-icon"></div>
-          작성하기
-        </div>
+        <div className="list-write-title">게시물</div>
       </div>
       <div className="board-list-mid">
         <div className="board-items">
@@ -86,6 +83,13 @@ const BoardList = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="board-list-bottom">
+        <div className="list-write-btn" onClick={onBoardWriteClickHandler}>
+          <div className="list-write-btn-icon"></div>
+          작성하기
         </div>
       </div>
     </div>

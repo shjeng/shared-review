@@ -21,7 +21,7 @@ const BoardDetail = () => {
   const [viewCount, setViewCount] = useState<number>(0);
   const [updateDateTime, setUpdateDateTime] = useState<string>("");
   const [category, setCategory] = useState<string>("");
-  const [commentCount, setCommentCount] = useState<number>(0)
+  const [commentCount, setCommentCount] = useState<number>(0);
   const [comments, setComments] = useState<Comment[]>([]);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [favoriteCount, setFavoriteCount] = useState<number>(0);
@@ -69,7 +69,7 @@ const BoardDetail = () => {
   };
 
   // 닉네임 클릭 이벤트
-  const nicknameClickEvent = () => {
+  const writerClickEvent = () => {
     setNicknameDrop(!nicknameDrop);
   }
   const userInfo = () => {
@@ -115,20 +115,31 @@ const BoardDetail = () => {
           </div>
 
           {/* <div className="board-detail-mid-left"> */}
-          <div className="board-detail-top-right">
-            {writer?.profileImage ?
-            <div></div>:
-            <div className="board-detail-profile-img"></div>
-            }
-            <div className="board-detail-profile-name" onClick={nicknameClickEvent}>{writer?.nickname}</div>
-            {nicknameDrop &&
-            <>
-              <div className="user-information-box">
-                <div className="user-information-box-child" onClick={userBoard}>유저 글</div>
-                <div className="user-information-box-child" onClick={userInfo}>유저 정보</div>
+          <div className="board-detail-top-right" onClick={writerClickEvent}>
+            {writer?.profileImage ? (
+              <div className="board-detail-profile-img-box">
+                <div
+                  className="profile-img"
+                  style={{ backgroundImage: `url(${writer.profileImage})` }}
+                ></div>
               </div>
-            </>
-            }
+            ) : (
+              <div className="board-detail-profile-img"></div>
+            )}
+            <div className="board-detail-profile-name">{writer?.nickname}</div>
+            {nicknameDrop && (
+              <>
+                <div className="user-information-box">
+                  <div
+                    className="user-information-box-child"
+                    onClick={() => {}}
+                  >
+                    유저 글
+                  </div>
+                  <div className="user-information-box-child">유저 정보</div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -138,9 +149,11 @@ const BoardDetail = () => {
             dangerouslySetInnerHTML={{ __html: content }}
           ></div>
           <div className="border-detail-tag">
-            {tags.map(tag =>
-            <div className="border-detail-tag-item" onClick={()=>{}}>#{tag.name}</div>
-            )}
+            {tags.map((tag) => (
+              <div className="border-detail-tag-item" onClick={() => {}}>
+                #{tag.name}
+              </div>
+            ))}
           </div>
 
           <div className="board-detail-info">
@@ -160,10 +173,13 @@ const BoardDetail = () => {
         <div className="board-detail-bottom">
           <div className="board-detail-interactions">
             <div className="board-detail-like">
-              {favorites.findIndex(favorite => favorite.userEmail === loginUser?.email) === -1 ?
-                  <div>좋아요X 아이콘 보여주어야함.</div> :
-                  <div className="board-deatil-like-icon"></div>
-              }
+              {favorites.findIndex(
+                (favorite) => favorite.userEmail === loginUser?.email
+              ) === -1 ? (
+                <div className="board-deatil-like-icon"></div>
+              ) : (
+                <div className="board-deatil-like-icon"></div>
+              )}
               <div className="board-deatil-like-count">{favoriteCount}</div>
             </div>
 
@@ -173,13 +189,17 @@ const BoardDetail = () => {
             </div>
           </div>
 
-          {loginUser &&
+          {loginUser && (
             <div className="board-detail-comment-write">
-              <textarea className="board-detail-comment-textarea" placeholder="댓글을 입력해주세요." maxLength={255} rows={4}/>
+              <textarea
+                className="board-detail-comment-textarea"
+                placeholder="댓글을 입력해주세요."
+                maxLength={255}
+                rows={4}
+              />
               <div className="comment-write-btn">등록</div>
             </div>
-          }
-
+          )}
 
           <div className="board-detail-comment-list">
             <div className="board-detail-comment-item">
