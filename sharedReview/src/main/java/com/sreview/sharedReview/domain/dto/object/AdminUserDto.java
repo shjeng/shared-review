@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class UserAdminDto {
+public class AdminUserDto {
     private Long id;
     private String nickname;
     private String email;
@@ -18,7 +18,7 @@ public class UserAdminDto {
     private ADMIN admin;
 
 
-    public UserAdminDto of(User user) {
+    public AdminUserDto of(User user) {
         id = user.getId();
         nickname = user.getNickname();
         email = user.getEmail();
