@@ -117,9 +117,18 @@
   border-radius: 10px;
   border: 1px solid #c7c7c7;
   cursor: pointer;
-}
 
+}
+.del-btn{
+  background-color: rgba(208, 0, 0, 0.80);
+  color: #ffffff;
+}
+.del-btn:hover{
+  background-color: rgba(208, 0, 0, 0.75);
+}
 .board-list-btn-container {
+  padding-bottom: 20px;
+  gap: 10px;
   display: flex;
   justify-content: flex-end;
 }
@@ -188,7 +197,7 @@
 }
 
 .board-detail-comment-textarea {
-  width: 80%;
+  width: 93%;
   height: 70px;
   padding: 15px;
   resize: none;
@@ -197,9 +206,18 @@
   outline: none;
   border-radius: 7px;
 }
-
-.board-detail-comment-write {
+.board-detail-comment-write-left-box{
+  width: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.board-detail-comment-write {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .board-detail-interactions {
@@ -209,12 +227,16 @@
 
 .comment-write-btn {
   width: 15%;
-  margin-left: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 80px;
+  border-radius: 45%;
 }
-
+.error-msg{
+  color: #ff0000;
+  padding-left: 10px;
+}
 .board-detail-comment-item {
   margin-top: 30px;
   border-bottom: 1px solid #c7c7c7;
@@ -232,4 +254,8 @@
 .board-comment-item-nickname {
   font-weight: bold;
   font-size: 19px;
+}
+
+.error{
+  border: 1px solid #ff0000;
 }

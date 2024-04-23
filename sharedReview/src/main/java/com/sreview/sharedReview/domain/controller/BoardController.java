@@ -35,7 +35,7 @@ public class BoardController {
         return null;
     }
 
-    @GetMapping("/view-count/{boardId}")
+    @GetMapping("/increase-view-count/{boardId}")
     public ResponseEntity<?> increaseViewCount(@PathVariable("boardId")Long boardId){
         return ResponseEntity.ok(boardServcice.increaseViewcount(boardId));
     }

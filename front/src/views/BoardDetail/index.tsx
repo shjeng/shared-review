@@ -1,5 +1,5 @@
 import "./style.css";
-import React, { useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {getBoardRequest, increaseViewCountRequest} from "../../apis";
 import {GetBoardDetailResponseDto, IncreaseViewCountResponseDto} from "../../apis/response/board";
@@ -16,6 +16,8 @@ const BoardDetail = () => {
   const navigator = useNavigate();
   const { loginUser } = loginUserStore();
 
+  const commentRef = useRef<HTMLTextAreaElement| null>(null);
+
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [viewCount, setViewCount] = useState<number>(0);
@@ -31,6 +33,8 @@ const BoardDetail = () => {
 
   const [nicknameDrop, setNicknameDrop] = useState<boolean>(false);
 
+  const [comment, setComment] = useState<string | null>();
+  const [commentError, setCommentError] = useState<boolean>(false);
   //  처름 렌더링 될 때
   useEffect(() => {
     if (!boardId) {
@@ -84,7 +88,18 @@ const BoardDetail = () => {
     }
     navigator(USER_BOARD(writer.email));
   }
-  //      event handler: 회원목록 클릭 이벤트 처리 함수       //
+
+  const commentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const {value} = event.target;
+    setComment(value);
+    setCommentError(false);
+  }
+  const commentSubmitBtnClick = () => {
+    if (!comment){
+      setCommentError(true);
+    }
+  }
+  //      event handler: 게시글 목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {
     navigator(BOARD_LIST());
   };
@@ -132,13 +147,8 @@ const BoardDetail = () => {
             {nicknameDrop && (
               <>
                 <div className="user-information-box">
-                  <div
-                    className="user-information-box-child"
-                    onClick={() => {}}
-                  >
-                    유저 글
-                  </div>
-                  <div className="user-information-box-child">유저 정보</div>
+                  <div className="user-information-box-child" onClick={userBoard}>유저 글</div>
+                  <div className="user-information-box-child" onClick={userInfo}>유저 정보</div>
                 </div>
               </>
             )}
@@ -191,16 +201,18 @@ const BoardDetail = () => {
             </div>
           </div>
 
-          {loginUser && (
+          {!loginUser && (
+            <>
             <div className="board-detail-comment-write">
-              <textarea
-                className="board-detail-comment-textarea"
-                placeholder="댓글을 입력해주세요."
-                maxLength={255}
-                rows={4}
-              />
-              <div className="comment-write-btn">등록</div>
+              <div className="board-detail-comment-write-left-box">
+                <textarea className={"board-detail-comment-textarea" + (commentError ? " error" : "")} placeholder="댓글을 입력해주세요." maxLength={255} rows={4} ref={commentRef} onChange={commentChange}/>
+                <div className="comment-write-btn" onClick={commentSubmitBtnClick}>등록</div>
+              </div>
             </div>
+              {commentError &&
+                <div className={"error-msg"}>댓글을 입력해주세요.</div>
+                }
+            </>
           )}
 
           <div className="board-detail-comment-list">
@@ -229,7 +241,17 @@ const BoardDetail = () => {
         </div>
       </div>
       <div className="board-list-btn-container">
-        <div className="board-list-btn" onClick={onBoardListClickHandler}>
+        {isMyPost &&
+        <>
+        <div className="del-btn board-list-btn" onClick={onBoardListClickHandler}>
+          삭제
+        </div>
+        <div className="update-btn board-list-btn" onClick={onBoardListClickHandler}>
+          수정
+        </div>
+        </>
+        }
+        <div className="board-list-btn" onClick={commentSubmitBtnClick}>
           목록으로
         </div>
       </div>
