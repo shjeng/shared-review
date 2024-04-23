@@ -14,7 +14,7 @@ import {
 } from "./response/board";
 import UserList from "../types/interface/user-list.interface";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
-import CategorieList from "../types/interface/categorie-list.interface";
+import CategorieList from "../types/interface/admin-categorie.interface";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
 import GetAdminBoardResponseDto from "./response/board/get-admin-board-list-response.dto";
 import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
@@ -88,6 +88,25 @@ export const getCategorysReqeust = async () => {
     .get(GET_CATEGORYS())
     .then((response) => {
       const responseBody: GetCategorysResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error.response.data) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
+
+// 관리자 페이지 카테고리 목록 불러오기
+const GET_ADMIN_CATEGORYS = () => `${API_DOMAIN}/board/admin/get-categorys`;
+export const getAdminCategorysReqeust = async () => {
+  const result = await axios
+    .get(GET_ADMIN_CATEGORYS())
+    .then((response) => {
+      const responseBody: GetAdminCategorysResponseDto = response.data;
+      console.log("백에서 받아온 전체 응답 데이터:", response.data);
+
       return responseBody;
     })
     .catch((error) => {
@@ -180,49 +199,19 @@ export const getAdminBoardListRequest = async () => {
 };
 
 // 유저 페이지
-const INCREASE_VIEW_COUNT_REQUEST = (boardId: string | bigint) => `${API_DOMAIN}/board/increase-view-count/${boardId}`;
+const INCREASE_VIEW_COUNT_REQUEST = (boardId: string | bigint) =>
+  `${API_DOMAIN}/board/increase-view-count/${boardId}`;
 export const increaseViewCountRequest = async (boardId: string | bigint) => {
-    return await axios.get(INCREASE_VIEW_COUNT_REQUEST(boardId))
-        .then(response => {
-            const responseBody: IncreaseViewCountResponseDto = response.data;
-            return responseBody;
-        })
-        .catch(error => {
-            return errorResponse(error);
-        })
-}
-
-// // 회원 리스트 요청
-// const USER_LIST_URL = () => `${DOMAIN}/api/user/get-user-list`;
-// export const getUserList = async () => {
-//     const result = await axios
-//         .get(USER_LIST_URL())
-//         .then((response) => {
-//             const responseBody: UserList[] = response.data;
-//             return responseBody;
-//         })
-//         .catch((error) => {
-//             if (!error.response.data) return null;
-//             return error.response.data;
-//         });
-//     return result;
-// };
-
-// // 카테고리 리스트 요청
-// const CATEGORIE_LIST_URL = () => `${DOMAIN}/api/user/get-categorie-list`;
-// export const getCategorieList = async () => {
-//     const result = await axios
-//         .get(CATEGORIE_LIST_URL())
-//         .then((response) => {
-//             const responseBody: CategorieList[] = response.data;
-//             return responseBody;
-//         })
-//         .catch((error) => {
-//             if (!error.response.data) return null;
-//             return error.response.data;
-//         });
-//     return result;
-// };
+  return await axios
+    .get(INCREASE_VIEW_COUNT_REQUEST(boardId))
+    .then((response) => {
+      const responseBody: IncreaseViewCountResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+};
 
 // ===  post  ==== //
 // 회원가입 요청

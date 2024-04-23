@@ -6,17 +6,19 @@ import {
   USER_MANAGE_PATH,
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import { getCategorysReqeust, getUserList } from "../../../apis";
+import {
+  getAdminCategorysReqeust,
+  getCategorysReqeust,
+  getUserList,
+} from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
 import { GetCategorysResponseDto } from "../../../apis/response/board";
 import ResponseDto from "../../../apis/response/response.dto";
 import { Category } from "../../../types/interface";
-import CategorieList from "../../../types/interface/categorie-list.interface";
+import CategorieList from "../../../types/interface/admin-categorie.interface";
 import GetAdminCategorysResponseDto from "../../../apis/response/board/get-admin-categorys-response.dto";
 
 const Categories = () => {
-  const [users, setUsers] = useState<GetUserListResponseDto[]>([]);
-
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
   const onUserListClickHandler = () => {
@@ -37,13 +39,14 @@ const Categories = () => {
   };
   const onDropdownCategory = () => {};
 
-  const [categorys, setCategorys] = useState<Category[]>([]);
+  const [categorys, setCategorys] = useState<CategorieList[]>([]);
 
+  // 백엔드 통신
   useEffect(() => {
-    getCategorysReqeust().then(getCategorysResponse);
+    getAdminCategorysReqeust().then(getCategorysResponse);
   }, []);
   const getCategorysResponse = (
-    responseBody: GetCategorysResponseDto | ResponseDto | null
+    responseBody: GetAdminCategorysResponseDto | ResponseDto | null
   ) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
@@ -55,7 +58,10 @@ const Categories = () => {
     if (code !== "SU") {
       return;
     }
-    const result = responseBody as GetCategorysResponseDto;
+    const result = responseBody as GetAdminCategorysResponseDto;
+    console.log(
+      "2. 백에서 받아온 result.adminCategorys 데이터 : " + result.categorys
+    );
     setCategorys(result.categorys);
   };
 
@@ -109,22 +115,20 @@ const Categories = () => {
                     <input type="checkbox" />
                   </div>
                   <div className="admin-categori-item-id">
-                    {category.categoryName}
+                    {category.categoryId}
                   </div>
                   <div className="admin-categori-item-nickName">
                     {category.categoryName}
                   </div>
                   <div className="admin-categori-item-email">
-                    {category.categoryName}
+                    {category.userNickname}
                   </div>
                   <div className="admin-categori-item-writerDate">
-                    {category.categoryName}
-                    {/* {
-                      new Date(categorys.categoryName)
+                    {
+                      new Date(category.writeDateTime)
                         .toISOString()
                         .split("T")[0]
-                    } */}
-                    {/* 날짜형식 백에서 처리하기 */}
+                    }
                   </div>
 
                   <div className="admin-categori-item-action">

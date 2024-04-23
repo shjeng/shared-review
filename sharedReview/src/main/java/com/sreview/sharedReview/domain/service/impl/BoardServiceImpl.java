@@ -110,6 +110,22 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public ResponseEntity<? super AdminCategotyResponse> getAdminCategorys() {
+        List<AdminCategoryDto> categorys;
+        try{
+            List<Category> getCategorys = categoryRepoService.findAll();
+
+
+            categorys = AdminCategoryDto.ofList(getCategorys);
+        }catch (Exception e){
+            e.printStackTrace();
+            return AdminCategotyResponse.databaseError();
+
+        }
+        return AdminCategotyResponse.success(categorys);
+    }
+
+    @Override
     public ResponseDto increaseViewcount(Long boardId) {
         Optional<Board> boardOptional = boardRepoService.findById(boardId);
         if (boardOptional.isEmpty()) {

@@ -1,7 +1,6 @@
 package com.sreview.sharedReview.domain.service.impl;
 
-import com.sreview.sharedReview.domain.dto.object.BoardDto;
-import com.sreview.sharedReview.domain.dto.object.UserAdminDto;
+import com.sreview.sharedReview.domain.dto.object.AdminUserDto;
 import com.sreview.sharedReview.domain.dto.object.UserDto;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
@@ -45,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public ResponseDto getAllUsers() {
         try {
             List<User> userList = userRepository.findAll();
-            List<UserAdminDto> userDtos = userList.stream().map(l -> new UserAdminDto().of(l)).toList(); // BoardDto로 변환
+            List<AdminUserDto> userDtos = userList.stream().map(l -> new AdminUserDto().of(l)).toList(); // BoardDto로 변환
 
             return GetUserListResponse.success(userDtos);
         } catch (Exception e) {

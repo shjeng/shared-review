@@ -43,6 +43,12 @@ public class BoardController {
     public ResponseEntity<? super GetCategorysResponse> getCategorys(){
         return boardServcice.getCategorys();
     }
+
+    @GetMapping("/admin/get-categorys") // 관리자 페이지 카테고리
+    public ResponseEntity<? super AdminCategotyResponse> getAdminCategorys(){
+        return boardServcice.getAdminCategorys();
+    }
+
     @PostMapping("/category/create") // 카테고리 저장, @AuthenticationPrincipal 작성 필요
     public ResponseEntity<? super CategoryWriteResponse> createCateogry(@RequestBody CategoryWriteRequest request){
         return boardServcice.saveCategory(request);

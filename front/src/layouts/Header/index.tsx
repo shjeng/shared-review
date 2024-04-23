@@ -156,7 +156,7 @@ const Header = () => {
           </>
         ) : (
           <div className="header-right-box" onClick={onLoginClickHandler}>
-            <div className="header-login-button">{"로그인/회원가입"}</div>
+            <div className="header-login-button">{"로그인 / 회원가입"}</div>
           </div>
         )}
       </div>
