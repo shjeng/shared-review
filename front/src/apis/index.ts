@@ -19,6 +19,8 @@ import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-r
 import GetAdminBoardResponseDto from "./response/board/get-admin-board-list-response.dto";
 import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
+import GetBoardResponseDto from "./response/board/get-board-list-response.dto";
+import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -176,18 +178,34 @@ export const getUserList = async () => {
   return result;
 };
 
-// 관리자 페이지(게시글목록) - 게시글 목록 요청
-const ADMIN_BOARD_LIST = () => `${API_DOMAIN}/board/total-list`;
-export const getAdminBoardListRequest = async () => {
+// 관리자 페이지(게시글목록) - 게시글 목록 요청 <<- 수정 전
+// const ADMIN_BOARD_LIST = () => `${API_DOMAIN}/board/admin/board-list`;
+// export const getAdminBoardListRequest = async () => {
+//   const result = await axios
+//     .get(ADMIN_BOARD_LIST())
+//     .then((response) => {
+//       const responseBody: GetAdminBoardResponseDto = response.data;
+//       console.log("받아온 데이터 콘솔 출력 : ", responseBody); // 받아온 데이터 콘솔에 출력
+//       console.log(
+//         "responseBody 구조 확인 : ",
+//         JSON.stringify(responseBody, null, 2)
+//       ); // 객체의 구조를 확인
+//       return responseBody;
+//     })
+//     .catch((error) => {
+//       return errorResponse(error);
+//     });
+//   return result;
+// };
+
+// 게시글 목록 요청
+const BOARD_LIST = () => `${API_DOMAIN}/board/board-list`;
+export const getBoardListRequest = async () => {
   const result = await axios
-    .get(ADMIN_BOARD_LIST())
+    .get(BOARD_LIST())
     .then((response) => {
-      const responseBody: GetAdminBoardResponseDto = response.data;
-      console.log("받아온 데이터 콘솔 출력 : ", responseBody); // 받아온 데이터 콘솔에 출력
-      console.log(
-        "responseBody 구조 확인 : ",
-        JSON.stringify(responseBody, null, 2)
-      ); // 객체의 구조를 확인
+      const responseBody: GetBoardListResponseDto = response.data;
+      console.log("ts : ", JSON.stringify(responseBody, null, 2)); // 객체의 구조를 확인
       return responseBody;
     })
     .catch((error) => {

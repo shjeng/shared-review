@@ -71,7 +71,7 @@ public class BoardController {
         return ResponseEntity.internalServerError().build();
     }
 
-    @GetMapping("/total-list")
+    @GetMapping("/board-list")
     public ResponseEntity<? super BoardListResponse> getAllBoards(@PageableDefault(size = 20)Pageable pageable){
         BoardListResponse allBoards = (BoardListResponse) boardServcice.getAllBoards(pageable);
         System.out.println("allBoards =" + allBoards.toString());

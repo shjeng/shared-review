@@ -7,7 +7,7 @@ import {
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
 import {
-  getAdminBoardListRequest,
+  getBoardListRequest,
   getCategorysReqeust,
   getUserList,
 } from "../../../apis";
@@ -47,7 +47,7 @@ const AdminBoardList = () => {
 
   // 관리자 페이지(게시글목록) - 게시글 목록 요청
   useEffect(() => {
-    getAdminBoardListRequest().then(getAdminBoardListResponse);
+    getBoardListRequest().then(getAdminBoardListResponse);
   }, []);
   const getAdminBoardListResponse = (
     responseBody: GetAdminBoardResponseDto | ResponseDto | null
@@ -67,10 +67,7 @@ const AdminBoardList = () => {
     }
     const result = responseBody as GetAdminBoardResponseDto;
     setBoards(result.boards);
-    console.log(
-      "result.boardList값 : ",
-      JSON.stringify(result.boards, null, 2)
-    ); // 객체의 구조를 확인
+    console.log("result : ", JSON.stringify(result, null, 2)); // 객체의 구조를 확인
   };
 
   // =========================================================

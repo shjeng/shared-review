@@ -51,7 +51,6 @@ const AdminUserList = () => {
 
   // 관리자 페이지(회원목록) - 회원목록 요청
   useEffect(() => {
-    console.log("getUserList 함수 호출");
     getUserList().then(getAdminUserListResponse);
   }, []);
   const getAdminUserListResponse = (
@@ -62,8 +61,6 @@ const AdminUserList = () => {
       return;
     }
     const { code } = responseBody;
-    console.log("responseBody 값 : ", JSON.stringify(responseBody, null, 2));
-    console.log("UserList code 값 : ", code); // code 값 확인
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
     if (code !== "SU") {
@@ -71,10 +68,6 @@ const AdminUserList = () => {
     }
     const result = responseBody as GetUserListResponseDto;
     setUsers(result.userList);
-    console.log(
-      "result.userList값 : ",
-      JSON.stringify(result.userList, null, 2)
-    ); // 객체의 구조를 확인
   };
 
   // Effect: 처음 렌더링 시 카테고리를 가져와줌.

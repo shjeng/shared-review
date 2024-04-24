@@ -10,4 +10,5 @@ export default interface Board {
   favoriteCount: number;
   updateDateTime: string;
   user: User;
+  writeDateTime: string;
 }
