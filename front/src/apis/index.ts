@@ -105,8 +105,6 @@ export const getAdminCategorysReqeust = async () => {
     .get(GET_ADMIN_CATEGORYS())
     .then((response) => {
       const responseBody: GetAdminCategorysResponseDto = response.data;
-      console.log("백에서 받아온 전체 응답 데이터:", response.data);
-
       return responseBody;
     })
     .catch((error) => {
