@@ -2,19 +2,13 @@ import axios from "axios";
 import SignInRequestDto from "./request/auth/sign-in-request.dto";
 import SignInResponseDto from "./response/auth/sign-in.response.dto";
 import ResponseDto from "./response/response.dto";
-import { SignUpRequestDto } from "./request/auth";
+import {SignUpRequestDto} from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
-import { NicknameDupleChkResponseDto } from "./response/auth";
-import { GetLoginUserResponseDto } from "./response/user";
-import { BoardWriteRequestDto } from "./request/board";
-import {
-  BoardListResponse,
-  GetCategorysResponseDto,
-  PostBoardWriteResponseDto,
-} from "./response/board";
-import UserList from "../types/interface/user-list.interface";
+import {NicknameDupleChkResponseDto} from "./response/auth";
+import {GetLoginUserResponseDto} from "./response/user";
+import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
+import {BoardListResponse, GetCategorysResponseDto, PostBoardWriteResponseDto,} from "./response/board";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
-import CategorieList from "../types/interface/admin-categorie.interface";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
 import GetAdminBoardResponseDto from "./response/board/get-admin-board-list-response.dto";
 import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
@@ -298,12 +292,8 @@ export const postBoard = async (
 };
 // 댓글 작성
 const COMMENT_WRITE = () => `${API_DOMAIN}/board/comment`;
-export const commentWrite = async (
-  requestBody: Comment,
-  accessToken: string
-) => {
-  const result = await axios
-    .post(COMMENT_WRITE(), requestBody, authorication(accessToken))
+export const commentWrite = async (requestBody: CommentWriteRequestDto , accessToken: string) => {
+  const result = await axios.post(COMMENT_WRITE(), requestBody, authorication(accessToken))
     .then((response) => {
       const responseBody: ResponseDto = response.data;
       return responseBody;

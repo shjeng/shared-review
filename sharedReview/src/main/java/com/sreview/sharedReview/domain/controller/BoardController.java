@@ -2,6 +2,7 @@ package com.sreview.sharedReview.domain.controller;
 
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
+import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
@@ -48,22 +49,15 @@ public class BoardController {
     public ResponseEntity<? super AdminCategotyResponse> getAdminCategorys(){
         return boardServcice.getAdminCategorys();
     }
-
-    @PostMapping("/category/create") // 카테고리 저장, @AuthenticationPrincipal 작성 필요
-    public ResponseEntity<? super CategoryWriteResponse> createCateogry(@RequestBody CategoryWriteRequest request){
-        return boardServcice.saveCategory(request);
-    }
     @GetMapping("/{boardId}")
     public ResponseEntity<? super Board> getBoardDetail(@PathVariable("boardId") Long boardId){
         log.info("boardId = {} ", boardId);
         return ResponseEntity.ok(boardServcice.getBoard(boardId));
     }
-    @PostMapping("/write") // 게시글 작성
-    public ResponseEntity<? super BoardWriteResponse> boardWrite(
-            @RequestBody BoardWriteRequest request,
-            @AuthenticationPrincipal String email){
-        log.info("request = {}", request);
-        return boardServcice.saveBoard(request,email);
+
+    @PostMapping("/category/create") // 카테고리 저장, @AuthenticationPrincipal 작성 필요
+    public ResponseEntity<? super CategoryWriteResponse> createCateogry(@RequestBody CategoryWriteRequest request){
+        return boardServcice.saveCategory(request);
     }
     @GetMapping("/test")
     public ResponseEntity<?> test(){ // 스트링으로 했음.
@@ -76,5 +70,16 @@ public class BoardController {
         BoardListResponse allBoards = (BoardListResponse) boardServcice.getAllBoards(pageable);
         System.out.println("allBoards =" + allBoards.toString());
         return ResponseEntity.ok(allBoards);
+    }
+    @GetMapping("/comment")
+    public ResponseEntity<?> commentWrite(@AuthenticationPrincipal String email, @RequestBody CommentWriteRequest request){
+        return null;
+    }
+    @PostMapping("/write") // 게시글 작성
+    public ResponseEntity<? super BoardWriteResponse> boardWrite(
+            @RequestBody BoardWriteRequest request,
+            @AuthenticationPrincipal String email){
+        log.info("request = {}", request);
+        return boardServcice.saveBoard(request,email);
     }
 }

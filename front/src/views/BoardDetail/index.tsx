@@ -1,8 +1,12 @@
 import "./style.css";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {getBoardRequest, increaseViewCountRequest} from "../../apis";
-import {GetBoardDetailResponseDto, IncreaseViewCountResponseDto} from "../../apis/response/board";
+import {commentWrite, getBoardRequest, increaseViewCountRequest} from "../../apis";
+import {
+  CommentWriteResponseDto,
+  GetBoardDetailResponseDto,
+  IncreaseViewCountResponseDto
+} from "../../apis/response/board";
 import {BOARD_LIST, MAIN_PATH, USER_BOARD, USER_PAGE_PATH} from "../../constant";
 
 import ResponseDto from "../../apis/response/response.dto";
@@ -10,11 +14,14 @@ import { ResponseCode } from "../../types/enum";
 import loginUserStore from "../../store/login-user.store";
 import { Category, Comment, Favorite, Tag, User } from "../../types/interface";
 import {ResponseUtil} from "../../utils";
+import {CommentWriteRequestDto} from "../../apis/request/board";
+import {useCookies} from "react-cookie";
 
 const BoardDetail = () => {
   const { boardId } = useParams();
   const navigator = useNavigate();
   const { loginUser } = loginUserStore();
+  const [cookies, setCookies]= useCookies();
 
   const commentRef = useRef<HTMLTextAreaElement| null>(null);
 
@@ -97,7 +104,21 @@ const BoardDetail = () => {
   const commentSubmitBtnClick = () => {
     if (!comment){
       setCommentError(true);
+      return;
     }
+    const requestBody: CommentWriteRequestDto = {
+      boardId: boardId,
+      content: comment
+    }
+    commentWrite(requestBody, cookies.accessToken).then(commentWriteResponse);
+  }
+  const commentWriteResponse = async (response: CommentWriteResponseDto | ResponseDto | null) => {
+    const result = ResponseUtil(response);
+    if(!result){
+      return;
+    }
+    const commentWriteResponse = result as CommentWriteResponseDto;
+    setComments(commentWriteResponse.comments);
   }
   //      event handler: 게시글 목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {

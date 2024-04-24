@@ -1,3 +1,3 @@
 import BoardWriteRequestDto from "./board-write-reqeust.dto";
-
-export type { BoardWriteRequestDto };
+import CommentWriteRequestDto from "./comment-write-request.dto"
+export type { BoardWriteRequestDto, CommentWriteRequestDto };
