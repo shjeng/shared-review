@@ -6,12 +6,7 @@ import {
   USER_MANAGE_PATH,
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import {
-  getAdminCategorysReqeust,
-  getCategorysReqeust,
-  getUserList,
-} from "../../../apis";
-import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
+import { getAdminCategorysReqeust, getCategorysReqeust } from "../../../apis";
 import { GetCategorysResponseDto } from "../../../apis/response/board";
 import ResponseDto from "../../../apis/response/response.dto";
 import { Category } from "../../../types/interface";
@@ -31,21 +26,47 @@ const Categories = () => {
     navigate(ADMIN_BOARD_LIST());
   };
 
-  // 카테고리
+  // 하단 카테고리 관련
   const [categoryDrop, setCategoryDrop] = useState(false);
   const searchInputRef = useRef<any>(null);
   const toggleDropdown = () => {
     setCategoryDrop(!categoryDrop);
   };
-  const onDropdownCategory = () => {};
+  const [category, setCategory] = useState<Category | undefined>();
+  const onCategoryClick = (category: Category) => {
+    setCategory(category);
+    console.log("category값 : ", JSON.stringify(category, null, 2));
+  };
 
-  const [categorys, setCategorys] = useState<CategorieList[]>([]);
+  const [categorys, setCategorys] = useState<Category[]>([]);
 
-  // 백엔드 통신
   useEffect(() => {
-    getAdminCategorysReqeust().then(getCategorysResponse);
+    getCategorysReqeust().then(getCategorysResponse);
   }, []);
   const getCategorysResponse = (
+    responseBody: GetCategorysResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+    const result = responseBody as GetCategorysResponseDto;
+    setCategorys(result.categorys);
+  };
+
+  // ===================================================
+  const [adminCategorys, setAdminCategorys] = useState<CategorieList[]>([]);
+  // 백엔드 통신
+  useEffect(() => {
+    getAdminCategorysReqeust().then(getAdminCategorysResponse);
+  }, []);
+  const getAdminCategorysResponse = (
     responseBody: GetAdminCategorysResponseDto | ResponseDto | null
   ) => {
     if (!responseBody) {
@@ -59,11 +80,9 @@ const Categories = () => {
       return;
     }
     const result = responseBody as GetAdminCategorysResponseDto;
-    console.log(
-      "2. 백에서 받아온 result.adminCategorys 데이터 : " + result.categorys
-    );
-    setCategorys(result.categorys);
+    setAdminCategorys(result.categorys);
   };
+  // ===================================================
 
   return (
     <div id="admin-categori-wrap">
@@ -109,7 +128,7 @@ const Categories = () => {
             </div>
 
             <div className="admin-categori-Item-box">
-              {categorys.map((category, index) => (
+              {adminCategorys.map((category, index) => (
                 <div key={index} className="userList-Item">
                   <div className="checkBox">
                     <input type="checkbox" />
@@ -155,30 +174,19 @@ const Categories = () => {
               </div>
               {categoryDrop && (
                 <div className="dropdown-content">
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    2
-                  </div>
-                  <div
-                    className="dropdown-content-item"
-                    onClick={onDropdownCategory}
-                  >
-                    oasidjf;oizsdjfo;zsdijzsd;foisjfd;szofdijzdf
-                  </div>
+                  {categorys.map(
+                    (
+                      category,
+                      index // 카테고리 목록 불러오기.
+                    ) => (
+                      <div
+                        className="board-dropdown-content-item"
+                        onClick={() => onCategoryClick(category)}
+                      >
+                        {category.categoryName}
+                      </div>
+                    )
+                  )}
                 </div>
               )}
             </div>
