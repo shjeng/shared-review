@@ -61,8 +61,8 @@ const Categories = () => {
   };
 
   // ===================================================
-  const [adminCategorys, setAdminCategorys] = useState<CategorieList[]>([]);
   // 백엔드 통신
+  const [adminCategorys, setAdminCategorys] = useState<CategorieList[]>([]);
   useEffect(() => {
     getAdminCategorysReqeust().then(getAdminCategorysResponse);
   }, []);
@@ -80,6 +80,10 @@ const Categories = () => {
       return;
     }
     const result = responseBody as GetAdminCategorysResponseDto;
+    console.log(
+      "result.categorys : ",
+      JSON.stringify(result.categorys, null, 2)
+    ); // 객체의 구조를 확인
     setAdminCategorys(result.categorys);
   };
   // ===================================================
