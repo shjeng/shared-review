@@ -71,9 +71,10 @@ public class BoardController {
         System.out.println("allBoards =" + allBoards.toString());
         return ResponseEntity.ok(allBoards);
     }
-    @GetMapping("/comment")
+    @PostMapping("/comment")
     public ResponseEntity<?> commentWrite(@AuthenticationPrincipal String email, @RequestBody CommentWriteRequest request){
-        return null;
+        log.info("request = {}", request);
+        return ResponseEntity.ok(boardServcice.commentWrite(email, request));
     }
     @PostMapping("/write") // 게시글 작성
     public ResponseEntity<? super BoardWriteResponse> boardWrite(

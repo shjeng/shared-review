@@ -75,4 +75,5 @@ public class Board extends BaseEntity{ // 게시물 테이블
     public void increaseViewCount(){
         this.viewsCount++;
     }
+
 }

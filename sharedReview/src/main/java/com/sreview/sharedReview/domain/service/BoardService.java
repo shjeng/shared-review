@@ -2,6 +2,7 @@ package com.sreview.sharedReview.domain.service;
 
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
+import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
@@ -28,5 +29,6 @@ public interface BoardService {
 
     ResponseDto getAdminBoards();
 
+    ResponseDto commentWrite(String writerEmail, CommentWriteRequest request);
 
 }

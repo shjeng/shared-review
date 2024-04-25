@@ -6,6 +6,7 @@ import com.sreview.sharedReview.domain.common.customexception.NonExistBoardExcep
 import com.sreview.sharedReview.domain.dto.object.*;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
+import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
 import com.sreview.sharedReview.domain.jpa.entity.*;
@@ -34,7 +35,7 @@ public class BoardServiceImpl implements BoardService {
     private final CategoryRepoService categoryRepoService;
     private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
-
+    private final CommentRepoService commentRepoService;
     // get
     @Override
     public ResponseDto getFaoviteBoardTop3(String condition) {
@@ -222,6 +223,31 @@ public class BoardServiceImpl implements BoardService {
         }catch (Exception e){
             e.printStackTrace();
             throw new InternalException();
+        }
+    }
+
+    @Override
+    public ResponseDto commentWrite(String writerEmail ,CommentWriteRequest request) {
+        try {
+            Optional<User> userOptional = userEntityService.findByEmail(writerEmail);
+            if (userOptional.isEmpty()) {
+                throw new RuntimeException("존재하지 않는 유저입니다.");
+            }
+            Comment comment = new Comment();
+            Optional<Board> boardOptional = boardRepoService.findById(request.getBoardId());
+            if (boardOptional.isEmpty()) {
+                throw new RuntimeException("존재하지 않는 게시물입니다.");
+            }
+            Board board = boardOptional.get();
+            comment.setUserBoardContent(userOptional.get(), board, request.getContent());
+            commentRepoService.save(comment);
+//            commentRepoService.
+
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+//            return null;
+            throw new RuntimeException("에러입니다.");
         }
     }
 }

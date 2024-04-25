@@ -222,7 +222,7 @@ const BoardDetail = () => {
             </div>
           </div>
 
-          {!loginUser && (
+          {loginUser && (
             <>
             <div className="board-detail-comment-write">
               <div className="board-detail-comment-write-left-box">
