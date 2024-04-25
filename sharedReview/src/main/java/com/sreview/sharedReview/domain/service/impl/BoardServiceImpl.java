@@ -241,9 +241,14 @@ public class BoardServiceImpl implements BoardService {
             Board board = boardOptional.get();
             comment.setUserBoardContent(userOptional.get(), board, request.getContent());
             commentRepoService.save(comment);
-//            commentRepoService.
+            if (request.getCurrentPage() == null) {
+                request.setCurrentPage(0);
+            }
+            Pageable pageable = PageRequest.of(request.getCurrentPage(), 30);
 
-            return null;
+            Page<Comment> commentsByBoard = commentRepoService.findCommentsByBoard(board, pageable);
+            Page<CommentDto> result = commentsByBoard.map(c -> CommentDto.of(c, UserDto.of(c.getUser())));
+            return CommentResponse.success(result);
         } catch (Exception e) {
             e.printStackTrace();
 //            return null;

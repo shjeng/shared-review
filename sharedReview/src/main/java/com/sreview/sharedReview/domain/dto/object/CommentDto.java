@@ -16,7 +16,7 @@ public class CommentDto {
     private String content;
     private UserDto userDto; // 댓글 작성자?
 
-    public CommentDto of(Comment comment, UserDto userDto){
+    public static CommentDto of(Comment comment, UserDto userDto){
         return CommentDto.builder()
                 .commentId(comment.getId())
                 .content(comment.getContent())
