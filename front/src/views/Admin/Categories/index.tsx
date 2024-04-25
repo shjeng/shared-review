@@ -74,6 +74,7 @@ const Categories = () => {
       return;
     }
     const { code } = responseBody;
+    console.log("!!!!!!!!!code!!!!!!!!! : " + code);
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
     if (code !== "SU") {

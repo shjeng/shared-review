@@ -82,4 +82,12 @@ public class BoardController {
         log.info("request = {}", request);
         return boardServcice.saveBoard(request,email);
     }
+
+    @GetMapping("/admin/board-list") // 관리자 페이지 - 게시물 리스트 불러옴
+    public ResponseEntity<? super AdminBoardListResponse> getAdminBoards(){
+        System.out.println("ResponseEntity.ok(boardServcice.getAdminBoards()) : "+ResponseEntity.ok(boardServcice.getAdminBoards()));
+        return ResponseEntity.ok(boardServcice.getAdminBoards());
+    }
+
+
 }
