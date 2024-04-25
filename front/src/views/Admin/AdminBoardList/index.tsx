@@ -7,6 +7,7 @@ import {
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
 import {
+  getAdminBoardListRequest,
   getBoardListRequest,
   getCategorysReqeust,
   getUserList,
@@ -47,7 +48,7 @@ const AdminBoardList = () => {
 
   // 관리자 페이지(게시글목록) - 게시글 목록 요청
   useEffect(() => {
-    getBoardListRequest().then(getAdminBoardListResponse);
+    getAdminBoardListRequest().then(getAdminBoardListResponse);
   }, []);
   const getAdminBoardListResponse = (
     responseBody: GetAdminBoardResponseDto | ResponseDto | null
@@ -173,7 +174,7 @@ const AdminBoardList = () => {
                   <div className="admin-item-id">{board.boardId}</div>
                   <div className="admin-item-title">{board.title}</div>
                   <div className="admin-item-nickName">
-                    {board.userDto.nickname}
+                    {board.user.nickname}
                   </div>
                   <div className="admin-item-writerDate">
                     {board.writeDateTime

@@ -207,6 +207,23 @@ public class BoardServiceImpl implements BoardService {
             throw new InternalException();
         }
     }
+    @Override
+    public ResponseDto getAdminBoards() {
+        try{
+            List<Board> getBoards = boardRepoService.findAll();
+
+
+            List<AdminBoardDto> boardDtos = getBoards.stream().map(l -> new AdminBoardDto().of(l)).toList(); // BoardDto로 변환
+
+//            boards = AdminBoardDto.ofList(getBoards);
+            System.out.println("AdminBoardListResponse.success(boardDtos); : " + AdminBoardListResponse.success(boardDtos));
+            return AdminBoardListResponse.success(boardDtos);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new InternalException();
+        }
+    }
 }
 
 

@@ -26,4 +26,7 @@ public interface BoardService {
     ResponseDto increaseViewcount(Long boardId);
     ResponseDto getAllBoards(Pageable pageable);
 
+    ResponseDto getAdminBoards();
+
+
 }
