@@ -183,7 +183,6 @@ export const getAdminBoardListRequest = async () => {
     .get(ADMIN_BOARD_LIST())
     .then((response) => {
       const responseBody: GetAdminBoardResponseDto = response.data;
-      console.log("받아온 데이터 콘솔 출력 : ", responseBody); // 받아온 데이터 콘솔에 출력
       console.log(
         "responseBody 구조 확인 : ",
         JSON.stringify(responseBody, null, 2)

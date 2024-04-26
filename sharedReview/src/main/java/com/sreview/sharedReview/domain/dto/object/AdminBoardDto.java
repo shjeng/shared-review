@@ -28,5 +28,12 @@ public class AdminBoardDto {
         return this;
     }
 
+    public static List<AdminBoardDto> ofList(List<Board> boards){
+        List<AdminBoardDto> result = new ArrayList<>();
+        for (Board board : boards) {
+            result.add(new AdminBoardDto().of(board));
+        }
+        return result;
+    }
 
 }

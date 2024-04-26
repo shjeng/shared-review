@@ -4,12 +4,15 @@ import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.dto.object.AdminBoardDto;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
-import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class AdminBoardListResponse extends ResponseDto {
     private List<AdminBoardDto> boards;
 
@@ -19,11 +22,9 @@ public class AdminBoardListResponse extends ResponseDto {
         this.boards = boards;
     }
 
-    public static AdminBoardListResponse success(List<AdminBoardDto> boards){
-        System.out.println("return new AdminBoardListResponse(boards); : " + new AdminBoardListResponse(boards));
-
-        return new AdminBoardListResponse(boards);
-
+    public static ResponseEntity<AdminBoardListResponse> success(List<AdminBoardDto> boards){
+        System.out.println("return ResponseEntity.ok(new AdminBoardListResponse(boards)); : " + ResponseEntity.ok(new AdminBoardListResponse(boards)));
+        return ResponseEntity.ok(new AdminBoardListResponse(boards));
     }
 
     // 유효성 검사 실패
