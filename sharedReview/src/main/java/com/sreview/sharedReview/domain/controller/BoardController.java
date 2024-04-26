@@ -76,9 +76,9 @@ public class BoardController {
     // page = 0부터 시작.
     // sort 조건 추가 가능
     @PostMapping("/comment")
-    public ResponseEntity<?> commentWrite(@AuthenticationPrincipal String email, @PageableDefault(size = 1, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable,
+    public ResponseEntity<?> commentWrite(@AuthenticationPrincipal String email, @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable,
                                           @RequestBody CommentWriteRequest request){
-        log.info("request = {}", request);
+        log.info("request = {} / page = {}", request, pageable);
         return ResponseEntity.ok(boardServcice.commentWrite(email, request, pageable));
     }
     @PostMapping("/write") // 게시글 작성
