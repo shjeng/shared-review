@@ -40,7 +40,7 @@ public class WebSecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authorizeHttpRequests(request -> request
-                        .requestMatchers("/", "/api/auth/**", "/api/search/**", "/file/**","/api/board/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/", "/api/auth/**", "/api/search/**", "/file/**","/api/board/**").permitAll()
 //                        .requestMatchers(HttpMethod.POST,"/","/api/board/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/board/**", "/api/user/*").permitAll()
                         .anyRequest().authenticated()
