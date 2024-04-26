@@ -6,6 +6,7 @@ import com.sreview.sharedReview.domain.common.customexception.NonExistBoardExcep
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -25,6 +26,16 @@ public class RestApiExceptionHandler {
         return ResponseEntity.badRequest().body(new ResponseDto(ResponseCode.NON_EXISTED_BOARD, ResponseMessage.NON_EXISTED_BOARD));
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ResponseDto> runtimeException(RuntimeException e) {
+        log.error("Run time exception: {}", e.getMessage());
+        return ResponseEntity.badRequest().build();
+    }
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ResponseDto> MissingServletRequestParameterException(MissingServletRequestParameterException e) {
+        log.error("MissingServletRequestParameterException: {}", e.getMessage());
+        return ResponseEntity.badRequest().build();
+    }
 //    @ExceptionHandler(RuntimeException.class)
 //    public ResponseEntity<ResponseDto> badRequestException(RuntimeException e) {
 //        log.error("Bad Request(Runtime Exception)");

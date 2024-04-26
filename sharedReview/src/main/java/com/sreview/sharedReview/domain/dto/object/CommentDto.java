@@ -2,7 +2,6 @@ package com.sreview.sharedReview.domain.dto.object;
 
 
 import com.sreview.sharedReview.domain.jpa.entity.Comment;
-import com.sreview.sharedReview.domain.jpa.entity.User;
 import lombok.*;
 
 @Getter
