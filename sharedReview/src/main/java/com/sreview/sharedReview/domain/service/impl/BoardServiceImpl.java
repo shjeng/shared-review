@@ -115,9 +115,8 @@ public class BoardServiceImpl implements BoardService {
         List<AdminCategoryDto> categorys;
         try{
             List<Category> getCategorys = categoryRepoService.findAll();
-
-
             categorys = AdminCategoryDto.ofList(getCategorys);
+            System.out.println("categorys : " + categorys);
         }catch (Exception e){
             e.printStackTrace();
             return AdminCategotyResponse.databaseError();
@@ -209,21 +208,19 @@ public class BoardServiceImpl implements BoardService {
         }
     }
     @Override
-    public ResponseDto getAdminBoards() {
+    public ResponseEntity<? super AdminBoardListResponse> getAdminBoards() {
+        List<AdminBoardDto> boards;
         try{
             List<Board> getBoards = boardRepoService.findAll();
-
-
-            List<AdminBoardDto> boardDtos = getBoards.stream().map(l -> new AdminBoardDto().of(l)).toList(); // BoardDto로 변환
-
-//            boards = AdminBoardDto.ofList(getBoards);
-            System.out.println("AdminBoardListResponse.success(boardDtos); : " + AdminBoardListResponse.success(boardDtos));
-            return AdminBoardListResponse.success(boardDtos);
-
+            boards = AdminBoardDto.ofList(getBoards);
+//            List<AdminBoardDto> boardDtos = getBoards.stream().map(l -> new AdminBoardDto().of(l)).toList(); // BoardDto로 변환
+//            System.out.println("AdminBoardListResponse.success(boardDtos); : " + AdminBoardListResponse.success(boardDtos));
+//            return AdminBoardListResponse.success(boardDtos);
         }catch (Exception e){
             e.printStackTrace();
             throw new InternalException();
         }
+        return AdminBoardListResponse.success(boards);
     }
 
     @Override

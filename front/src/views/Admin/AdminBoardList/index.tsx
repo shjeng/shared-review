@@ -60,6 +60,7 @@ const AdminBoardList = () => {
 
     const { code } = responseBody;
     console.log("BoardList code 값 : ", JSON.stringify(code, null, 2));
+    console.log("aaaaaaaa");
 
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
@@ -67,8 +68,10 @@ const AdminBoardList = () => {
       return;
     }
     const result = responseBody as GetAdminBoardResponseDto;
-    setBoards(result.boards);
+    console.log("bbbbbbbb");
     console.log("result : ", JSON.stringify(result, null, 2)); // 객체의 구조를 확인
+
+    setBoards(result.boards);
   };
 
   // =========================================================
