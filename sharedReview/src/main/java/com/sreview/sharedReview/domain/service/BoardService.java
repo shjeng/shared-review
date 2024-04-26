@@ -29,6 +29,6 @@ public interface BoardService {
 
     ResponseEntity<? super AdminBoardListResponse> getAdminBoards();
 
-    ResponseDto commentWrite(String writerEmail, CommentWriteRequest request);
+    ResponseDto commentWrite(String writerEmail, CommentWriteRequest request, Pageable pageable);
 
 }

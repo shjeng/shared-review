@@ -224,7 +224,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseDto commentWrite(String writerEmail ,CommentWriteRequest request) {
+    public ResponseDto commentWrite(String writerEmail ,CommentWriteRequest request, Pageable pageable) {
         try {
             Optional<User> userOptional = userEntityService.findByEmail(writerEmail);
             if (userOptional.isEmpty()) {
@@ -241,7 +241,6 @@ public class BoardServiceImpl implements BoardService {
             if (request.getCurrentPage() == null) {
                 request.setCurrentPage(0);
             }
-            Pageable pageable = PageRequest.of(request.getCurrentPage(), 30);
 
             Page<Comment> commentsByBoard = commentRepoService.findCommentsByBoard(board, pageable);
             Page<CommentDto> result = commentsByBoard.map(c -> CommentDto.of(c, UserDto.of(c.getUser())));

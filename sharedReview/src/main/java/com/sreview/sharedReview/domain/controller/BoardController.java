@@ -10,6 +10,7 @@ import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -71,10 +72,14 @@ public class BoardController {
         System.out.println("allBoards =" + allBoards.toString());
         return ResponseEntity.ok(allBoards);
     }
+    // size = 조회할 데이터 수
+    // page = 0부터 시작.
+    // sort 조건 추가 가능
     @PostMapping("/comment")
-    public ResponseEntity<?> commentWrite(@AuthenticationPrincipal String email, @RequestBody CommentWriteRequest request){
+    public ResponseEntity<?> commentWrite(@AuthenticationPrincipal String email, @PageableDefault(size = 1, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable,
+                                          @RequestBody CommentWriteRequest request){
         log.info("request = {}", request);
-        return ResponseEntity.ok(boardServcice.commentWrite(email, request));
+        return ResponseEntity.ok(boardServcice.commentWrite(email, request, pageable));
     }
     @PostMapping("/write") // 게시글 작성
     public ResponseEntity<? super BoardWriteResponse> boardWrite(
