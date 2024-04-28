@@ -31,4 +31,6 @@ public interface BoardService {
 
     ResponseDto commentWrite(String writerEmail, CommentWriteRequest request, Pageable pageable);
 
+    ResponseDto deleteBoard(Long boardId, String email);
+
 }

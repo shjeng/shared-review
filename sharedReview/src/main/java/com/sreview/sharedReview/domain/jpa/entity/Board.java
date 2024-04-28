@@ -1,6 +1,7 @@
 // 게시물 테이블
 package com.sreview.sharedReview.domain.jpa.entity;
 
+import com.sreview.sharedReview.domain.jpa.entity.enumType.DELETE;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,6 +47,8 @@ public class Board extends BaseEntity{ // 게시물 테이블
     @Column(name = "favorite_count")
     private Integer favoriteCount = 0;
 
+    @Enumerated(EnumType.STRING)
+    private DELETE deleteYn = DELETE.N;
     // 게시물 좋아요
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<LikeEntity> likes = new ArrayList<>();

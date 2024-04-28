@@ -127,11 +127,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public ResponseDto increaseViewcount(Long boardId) {
-        Optional<Board> boardOptional = boardRepoService.findById(boardId);
-        if (boardOptional.isEmpty()) {
-            throw new NonExistBoardException("존재하지 않는 게시물입니다.");
-        }
-        Board board = boardOptional.get();
+        Board board = boardRepoService.findById(boardId);
+
         board.increaseViewCount();
         boardRepoService.save(board);
         return IncreaseViewCountResponse.success(board.getViewsCount());
@@ -228,11 +225,8 @@ public class BoardServiceImpl implements BoardService {
                 throw new RuntimeException("존재하지 않는 유저입니다.");
             }
             Comment comment = new Comment();
-            Optional<Board> boardOptional = boardRepoService.findById(request.getBoardId());
-            if (boardOptional.isEmpty()) {
-                throw new RuntimeException("존재하지 않는 게시물입니다.");
-            }
-            Board board = boardOptional.get();
+            Board board = boardRepoService.findById(request.getBoardId());
+
             comment.setUserBoardContent(userOptional.get(), board, request.getContent());
             commentRepoService.save(comment);
             if (request.getCurrentPage() == null) {
@@ -246,6 +240,23 @@ public class BoardServiceImpl implements BoardService {
             e.printStackTrace();
 //            return null;
             throw new RuntimeException("에러입니다.");
+        }
+    }
+
+    @Override
+    public ResponseDto deleteBoard(Long boardId, String email) {
+        try {
+            Board board = boardRepoService.findById(boardId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
+        }
+        return null;
+    }
+
+    private void optionalBoardChk(Optional<Board> boardOptional){
+        if (boardOptional.isEmpty()) {
+            throw new NonExistBoardException("존재하지 않는 게시물입니다.");
         }
     }
 }

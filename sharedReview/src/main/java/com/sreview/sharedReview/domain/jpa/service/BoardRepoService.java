@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.jpa.service;
 
+import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,10 @@ public class BoardRepoService { // DB에 넣어주는 아이
         boardRepository.save(postEntity);
     }
 
-    public Optional<Board> findById(Long boardId) {
-        return boardRepository.findById(boardId);
+    public Board findById(Long boardId) {
+        Optional<Board> boardOptional = boardRepository.findById(boardId);
+        optionalBoardChk(boardOptional);
+        return boardOptional.get();
     }
 
     public Optional<Board> findBoardAndCommentsUserById(Long boardId) {
@@ -50,5 +53,11 @@ public class BoardRepoService { // DB에 넣어주는 아이
     }
     public List<Board> findAll() {
         return boardRepository.findAll();
+    }
+
+    private void optionalBoardChk(Optional<Board> boardOptional){
+        if (boardOptional.isEmpty()) {
+            throw new NonExistBoardException("존재하지 않는 게시물입니다.");
+        }
     }
 }

@@ -93,8 +93,9 @@ public class BoardController {
     }
 
     @DeleteMapping("/{boardId}")
-    public ResponseEntity<?> deleteBoard(@PathVariable("boardId") Long boardId){
+    public ResponseEntity<?> deleteBoard(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email){
         log.info("delete board Id = {}", boardId);
+        boardServcice.deleteBoard(boardId, email);
         return null;
     }
 

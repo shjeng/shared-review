@@ -10,7 +10,6 @@ import com.sreview.sharedReview.domain.jpa.service.FavoriteRepoService;
 import com.sreview.sharedReview.domain.service.impl.AuthServiceImpl;
 import com.sreview.sharedReview.domain.util.MarkdownUtil;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -67,18 +66,18 @@ public class Init {
         boardRepoService.save(board);
     }
     public void commentInit(){
-        Optional<Board> boardOptional = boardRepoService.findById(1L);
+        Board board = boardRepoService.findById(1L);
         Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
         Comment comment = new Comment();
-        comment.setUserBoardContent(userOptional.get(), boardOptional.get(), "댓글입니다~");
+        comment.setUserBoardContent(userOptional.get(), board, "댓글입니다~");
         commentRepoService.save(comment);
     }
     public void favoriteInit(){
-        Optional<Board> boardOptional = boardRepoService.findById(1L);
+        Board board = boardRepoService.findById(1L);
         Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
         Favorite favorite = Favorite.builder()
                 .user(userOptional.get())
-                .board(boardOptional.get())
+                .board(board)
                 .build();
         favoriteRepoService.save(favorite);
     }
