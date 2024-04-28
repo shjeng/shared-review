@@ -6,28 +6,15 @@ import {
   USER_MANAGE_PATH,
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import {
-  getAdminBoardListRequest,
-  getBoardListRequest,
-  getCategorysReqeust,
-  getUserList,
-} from "../../../apis";
-import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
-import { Board, Category } from "../../../types/interface";
-import { GetCategorysResponseDto } from "../../../apis/response/board";
+import { getAdminBoardListRequest, getCategorysReqeust } from "../../../apis";
 import ResponseDto from "../../../apis/response/response.dto";
 import GetAdminBoardResponseDto from "../../../apis/response/board/get-admin-board-list-response.dto";
 import AdminBoard from "../../../types/interface/admin-board.interface";
+import SearchInputBox from "../../../components/SearchInputBox";
 
 const AdminBoardList = () => {
   const [boards, setBoards] = useState<AdminBoard[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>();
-  const [category, setCategory] = useState<Category | undefined>();
-  const [categorys, setCategorys] = useState<Category[]>([]);
-
-  const onCategoryClick = (category: Category) => {
-    setCategory(category);
-  };
 
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
@@ -75,34 +62,6 @@ const AdminBoardList = () => {
 
   // =========================================================
 
-  // 카테고리
-  const [categoryDrop, setCategoryDrop] = useState(false);
-  const searchInputRef = useRef<any>(null);
-  const toggleDropdown = () => {
-    setCategoryDrop(!categoryDrop);
-  };
-
-  // 하단 카테고리 목록
-  useEffect(() => {
-    getCategorysReqeust().then(getCategorysResponse);
-  }, []);
-  const getCategorysResponse = (
-    responseBody: GetCategorysResponseDto | ResponseDto | null
-  ) => {
-    if (!responseBody) {
-      alert("서버로부터 응답이 없습니다.");
-      return;
-    }
-    const { code } = responseBody;
-    if (code === "VF") alert("유효성 검사 실패");
-    if (code === "DBE") alert("데이터베이스 오류");
-    if (code !== "SU") {
-      return;
-    }
-    const result = responseBody as GetCategorysResponseDto;
-    setCategorys(result.categorys);
-  };
-
   // 전체 선택/해제 함수
   const toggleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -148,6 +107,8 @@ const AdminBoardList = () => {
 
         <div className="admin-mid-right">
           <div className="admin-mid-right-top">
+            <SearchInputBox />
+
             <div className="admin-classification">
               <div className="admin-item-check-box">
                 <input
@@ -199,40 +160,7 @@ const AdminBoardList = () => {
         </div>
       </div>
 
-      <div className="admin-bottom">
-        <div className="admin-bottom-top">
-          <div className="header-category">
-            <div className="header-category-dropdown" ref={searchInputRef}>
-              <div className="dropdown-box" onClick={toggleDropdown}>
-                <div className="dropdown_text">카테고리</div>
-                <div className="dropdown_icon"></div>
-              </div>
-              {categoryDrop && (
-                <div className="dropdown-content">
-                  {categorys.map(
-                    (
-                      category,
-                      index // 카테고리 목록 불러오기.
-                    ) => (
-                      <div
-                        className="board-dropdown-content-item"
-                        onClick={() => onCategoryClick(category)}
-                      >
-                        {category.categoryName}
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="admin-search">
-            <input type="text" placeholder="검색어 입력" />
-            <div className="admin-search-img"></div>
-          </div>
-        </div>
-      </div>
+      <div className="admin-bottom"></div>
     </div>
   );
 };
