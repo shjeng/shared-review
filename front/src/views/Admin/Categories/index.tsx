@@ -74,6 +74,13 @@ const Categories = () => {
     setSelectAll(allChecked);
   };
 
+  const userDefinedColumns = [
+    { label: "ID", field: "id" },
+    { label: "카테고리명", field: "title" },
+    { label: "작성자", field: "nickName" },
+    { label: "작성날짜", field: "writeDateTime" },
+  ];
+
   return (
     <div id="admin-categori-wrap">
       <div className="admin-categori-top">
@@ -102,7 +109,7 @@ const Categories = () => {
         <div className="admin-categori-mid-right">
           <div className="admin-categori-mid-right-top">
             <div className="admin-categori-feature-container">
-              <SearchInputBox />
+              <SearchInputBox columns={userDefinedColumns} />
 
               <div className="admin-categori-add-container">
                 <input type="text" placeholder="추가 내용 입력" />
@@ -117,10 +124,16 @@ const Categories = () => {
                   onChange={toggleSelectAll}
                 />
               </div>
-              <div className="admin-categori-id">ID</div>
-              <div className="admin-categori-nickName">카테고리명</div>
+              {/* <div className="admin-categori-id">ID</div>
+              <div className="admin-categori-name">카테고리명</div>
               <div className="admin-categori-email">작성자</div>
-              <div className="admin-categori-writerDate">작성날짜</div>
+              <div className="admin-categori-writerDate">작성날짜</div> */}
+
+              {userDefinedColumns.map(({ label, field }) => (
+                <div key={field} className={`categori-classification-${field}`}>
+                  {label}
+                </div>
+              ))}
 
               <div className="admin-categori-actions">action</div>
             </div>
@@ -138,10 +151,10 @@ const Categories = () => {
                   <div className="admin-categori-item-id">
                     {category.categoryId}
                   </div>
-                  <div className="admin-categori-item-nickName">
+                  <div className="admin-categori-item-title">
                     {category.categoryName}
                   </div>
-                  <div className="admin-categori-item-email">
+                  <div className="admin-categori-item-nickName">
                     {category.userNickname}
                   </div>
                   <div className="admin-categori-item-writerDate">

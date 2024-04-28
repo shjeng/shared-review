@@ -5,8 +5,12 @@ import { getCategorysReqeust } from "../../apis";
 import { GetCategorysResponseDto } from "../../apis/response/board";
 import ResponseDto from "../../apis/response/response.dto";
 
-const SearchInputBox = () => {
-  // 하단 카테고리 관련
+// interface: Input Box 컴포넌트 Properties
+interface Props {
+  columns: { label: string; field: string }[];
+}
+
+const SearchInputBox = ({ columns }: Props) => {
   const [categoryDrop, setCategoryDrop] = useState(false);
   const searchInputRef = useRef<any>(null);
   const toggleDropdown = () => {
@@ -45,21 +49,20 @@ const SearchInputBox = () => {
         <div className="header-category">
           <div className="header-category-dropdown" ref={searchInputRef}>
             <div className="dropdown-box" onClick={toggleDropdown}>
-              <div className="dropdown_text">카테고리</div>
+              <div className="dropdown_text">옵션</div>
               <div className="dropdown_icon"></div>
             </div>
             {categoryDrop && (
               <div className="dropdown-content">
-                {categorys.map(
+                {columns.map(
                   (
-                    category,
-                    index // 카테고리 목록 불러오기.
+                    { label, field } // 구조 분해 할당을 통해 label과 field 추출
                   ) => (
                     <div
+                      key={field} // 각 요소에 고유한 key를 설정해주어야 합니다.
                       className="board-dropdown-content-item"
-                      onClick={() => onCategoryClick(category)}
                     >
-                      {category.categoryName}
+                      {label} {/* label 출력 */}
                     </div>
                   )
                 )}

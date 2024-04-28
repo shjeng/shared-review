@@ -80,6 +80,12 @@ const AdminBoardList = () => {
     setSelectAll(allChecked);
   };
 
+  const userDefinedColumns = [
+    { label: "ID", field: "id" },
+    { label: "제목", field: "title" },
+    { label: "닉네임", field: "nickName" },
+    { label: "작성일", field: "writerDate" },
+  ];
   return (
     <div id="admin-wrap">
       <div className="admin-top">
@@ -107,7 +113,7 @@ const AdminBoardList = () => {
 
         <div className="admin-mid-right">
           <div className="admin-mid-right-top">
-            <SearchInputBox />
+            <SearchInputBox columns={userDefinedColumns} />
 
             <div className="admin-classification">
               <div className="admin-item-check-box">
@@ -117,10 +123,12 @@ const AdminBoardList = () => {
                   onChange={toggleSelectAll}
                 />
               </div>
-              <div className="classification-id">ID</div>
-              <div className="classification-email">제목</div>
-              <div className="classification-nickName">닉네임</div>
-              <div className="classification-writerDate">작성일</div>
+              {userDefinedColumns.map(({ label, field }) => (
+                <div key={field} className={`classification-${field}`}>
+                  {label}
+                </div>
+              ))}
+
               <div className="classification-actions">action</div>
             </div>
 

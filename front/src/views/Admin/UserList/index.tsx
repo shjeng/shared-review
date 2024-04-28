@@ -72,6 +72,14 @@ const AdminUserList = () => {
     const allChecked = updatedUsers.every((user) => user.selected);
     setSelectAll(allChecked);
   };
+
+  const userDefinedColumns = [
+    { label: "ID", field: "id" },
+    { label: "닉네임", field: "nickName" },
+    { label: "이메일", field: "email" },
+    { label: "가입일", field: "writerDate" },
+    { label: "권한", field: "authority" },
+  ];
   return (
     <div id="userList-wrap">
       <div className="userList-top">
@@ -102,7 +110,7 @@ const AdminUserList = () => {
 
         <div className="userList-mid-right">
           <div className="userList-mid-right-top">
-            <SearchInputBox />
+            <SearchInputBox columns={userDefinedColumns} />
 
             <div className="userList-classification">
               <div className="userList-item-check-box">
@@ -112,11 +120,17 @@ const AdminUserList = () => {
                   onChange={toggleSelectAll}
                 />
               </div>
-              <div className="classification-id">ID</div>
+              {/* <div className="classification-id">ID</div>
               <div className="classification-nickName">닉네임</div>
               <div className="classification-email">이메일</div>
               <div className="classification-writerDate">가입일</div>
-              <div className="classification-authority">권한</div>
+              <div className="classification-authority">권한</div> */}
+
+              {userDefinedColumns.map(({ label, field }) => (
+                <div key={field} className={`classification-${field}`}>
+                  {label}
+                </div>
+              ))}
 
               <div className="classification-actions">action</div>
             </div>
