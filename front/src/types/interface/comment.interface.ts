@@ -4,4 +4,5 @@ export default interface Comment{
     commentId: bigint;
     content: string;
     user: User;
+    createDateTime: string;
 }

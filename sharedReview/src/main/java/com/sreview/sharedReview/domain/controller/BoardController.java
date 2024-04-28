@@ -3,7 +3,6 @@ package com.sreview.sharedReview.domain.controller;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
-import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.service.BoardService;
@@ -92,4 +91,11 @@ public class BoardController {
     public ResponseEntity<? super AdminBoardListResponse> getAdminBoards(){
         return boardServcice.getAdminBoards();
     }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<?> deleteBoard(@PathVariable("boardId") Long boardId){
+        log.info("delete board Id = {}", boardId);
+        return null;
+    }
+
 }

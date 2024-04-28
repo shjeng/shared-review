@@ -16,6 +16,7 @@ import { Category, Comment, Favorite, Tag, User } from "../../types/interface";
 import {ResponseUtil} from "../../utils";
 import {CommentWriteRequestDto} from "../../apis/request/board";
 import {useCookies} from "react-cookie";
+import CommentItem from "../../components/CommentItem";
 
 const BoardDetail = () => {
   const { boardId } = useParams();
@@ -118,7 +119,7 @@ const BoardDetail = () => {
       return;
     }
     const commentWriteResponse = result as CommentWriteResponseDto;
-    setComments(commentWriteResponse.comments);
+    setComments(commentWriteResponse.comments.content);
   }
   //      event handler: 게시글 목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {
@@ -156,10 +157,7 @@ const BoardDetail = () => {
           <div className="board-detail-top-right" onClick={writerClickEvent}>
             {writer?.profileImage ? (
               <div className="board-detail-profile-img-box">
-                <div
-                  className="profile-img"
-                  style={{ backgroundImage: `url(${writer.profileImage})` }}
-                ></div>
+                <div className="profile-img" style={{ backgroundImage: `url(${writer.profileImage})` }}></div>
               </div>
             ) : (
               <div className="board-detail-profile-img"></div>
@@ -237,25 +235,12 @@ const BoardDetail = () => {
           )}
 
           <div className="board-detail-comment-list">
-            <div className="board-detail-comment-item">
-              <div className="board-comment-item-nickname">닉네임1</div>
-              <div className="board-comment-item-detail">
-                댓글 내용 어쩌구 저쩌구
-              </div>
-              <div className="board-comment-item-date">
-                2024. 04. 10. 21:44:37
-              </div>
-            </div>
-
-            <div className="board-detail-comment-item">
-              <div className="board-comment-item-nickname">닉네임1</div>
-              <div className="board-comment-item-detail">
-                댓글 내용 어쩌구 저쩌구
-              </div>
-              <div className="board-comment-item-date">
-                2024. 04. 10. 21:44:37
-              </div>
-            </div>
+            {comments.map(comment =>
+                <>
+                <CommentItem comment={comment} />
+                <CommentItem comment={comment} />
+                </>
+            )}
           </div>
 
           {/* <div className="board-detail-comment-paging">1 2</div> */}

@@ -1,0 +1,44 @@
+.comment-item-wrap {
+    display: flex;
+    margin-top: 30px;
+    border-bottom: 1px solid #c7c7c7;
+    flex-direction: column;
+    padding-bottom: 10px;
+    gap: 5px;
+}
+.comment-item-top{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.comment-user-box{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.comment-profile-img-box {
+    width: 30px;
+    height: 30px;
+}
+.pointer{
+    cursor: pointer;
+}
+.comment-item-detail{
+    font-size: 17px;
+    padding-left: 5px;
+}
+
+.comment-item-date {
+    font-size: 12px;
+}
+
+.comment-item-nickname {
+    font-size: 15px;
+}
+.height-line-box{
+    height: 15px;
+}
+.height-line{
+    height: 100%;
+    border-left: 1px solid gray;
+}

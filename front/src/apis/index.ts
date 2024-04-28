@@ -8,7 +8,7 @@ import {NicknameDupleChkResponseDto} from "./response/auth";
 import {GetLoginUserResponseDto} from "./response/user";
 import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
 import {
-    BoardListResponse,
+    BoardListResponse, CommentWriteResponseDto,
     GetCategorysResponseDto,
     PostBoardWriteResponseDto,
 } from "./response/board";
@@ -314,7 +314,7 @@ export const commentWrite = async (requestBody: CommentWriteRequestDto, accessTo
         })
         // .post(COMMENT_WRITE(), requestBody, authorication(accessToken))
         .then((response) => {
-            const responseBody: ResponseDto = response.data;
+            const responseBody: CommentWriteResponseDto = response.data;
             return responseBody;
         })
         .catch((error) => {
@@ -322,6 +322,21 @@ export const commentWrite = async (requestBody: CommentWriteRequestDto, accessTo
         });
     return result;
 };
+
+// delete
+const DELETE_BOARD = (boardId: string | bigint) => `/${boardId}`;
+export const deleteBoard = async (boardId: string| bigint, accessToken: string)=> {
+    const result = await axios.delete(DELETE_BOARD(boardId),{...tokenAndPageConfig.token(accessToken)})
+        .then((response)=>{
+            const responseBody: ResponseDto = response.data;
+            return responseBody
+        })
+        .catch((error) => {
+           return errorResponse(error)
+        });
+    return result;
+
+}
 
 const errorResponse = (error: null | any) => {
     if (!error) return null;
