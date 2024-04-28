@@ -16,8 +16,8 @@
 .admin-top {
   width: 630px;
   margin: 40px 360px 30px 410px;
-
   height: 50px;
+
   display: flex;
   align-items: center;
 }
@@ -69,11 +69,11 @@
   justify-content: center;
 }
 
-.classification-email,
+.classification-title,
 .admin-item-title {
   display: flex;
   align-items: center;
-  width: 190px;
+  width: 300px;
   height: 56px;
   padding: 0px 10px;
   justify-content: center;
@@ -152,31 +152,6 @@
 
 /* 검색 input */
 
-.admin-search {
-  position: relative;
-  width: 500px;
-  height: 35px;
-}
-
-.admin-search input {
-  width: 100%;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
-
-.admin-search-img {
-  background-image: url(../../../assets/image/search-icon.png);
-  background-size: cover;
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  top: 8px;
-  right: 0px;
-  margin: 0;
-}
-
 .admin-search-img,
 .dropdown-box {
   cursor: pointer;
@@ -200,4 +175,5 @@
 
 .admin-mid-right-top {
   min-height: 800px;
+  width: 735px;
 }
