@@ -19,7 +19,6 @@ public class AdminBoardDto {
     private UserDto user;
     private LocalDateTime writeDateTime;
 
-
     public AdminBoardDto of(Board board){
         this.boardId = board.getBoardId();
         this.title = board.getTitle();
@@ -35,5 +34,4 @@ public class AdminBoardDto {
         }
         return result;
     }
-
 }

@@ -68,7 +68,6 @@ const AdminBoardList = () => {
       return;
     }
     const result = responseBody as GetAdminBoardResponseDto;
-    console.log("bbbbbbbb");
     console.log("result : ", JSON.stringify(result, null, 2)); // 객체의 구조를 확인
 
     setBoards(result.boards);
