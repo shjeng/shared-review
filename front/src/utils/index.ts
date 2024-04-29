@@ -1,3 +1,5 @@
+import Pageable from "../types/interface/pageable.interface";
+
 export const ResponseUtil = (responseBody: any) => {
     const { code } = responseBody;
     if (code === "VF") alert("유효성 검사 실패");
@@ -6,4 +8,9 @@ export const ResponseUtil = (responseBody: any) => {
         return false;
     }
     return responseBody;
+}
+
+export const pagination = (pageable: Pageable<any>) => {
+
+    return;
 }

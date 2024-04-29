@@ -9,5 +9,6 @@ export default interface Pageable<T> {
     },
     offset: number;
     paged: boolean;
-    unpaged: boolean
+    unpaged: boolean,
+    totalElements: number
 }

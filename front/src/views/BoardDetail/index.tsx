@@ -17,6 +17,9 @@ import {ResponseUtil} from "../../utils";
 import {CommentWriteRequestDto} from "../../apis/request/board";
 import {useCookies} from "react-cookie";
 import CommentItem from "../../components/CommentItem";
+import Pagination from "../../components/Pagination";
+import Pageable from "../../types/interface/pageable.interface";
+import usePagination from "../../hooks/pagination.hook";
 
 const BoardDetail = () => {
   const { boardId } = useParams();
@@ -43,6 +46,10 @@ const BoardDetail = () => {
 
   const [comment, setComment] = useState<string | null>();
   const [commentError, setCommentError] = useState<boolean>(false);
+
+  const [pageable, setPageable] = useState<Pageable<any> | undefined>();
+
+  const {setCurrentPage, setTotalCount, setCountPerItem} = usePagination(5);
   //  처름 렌더링 될 때
   useEffect(() => {
     if (!boardId) {
@@ -120,11 +127,17 @@ const BoardDetail = () => {
     }
     const commentWriteResponse = result as CommentWriteResponseDto;
     setComments(commentWriteResponse.comments.content);
+    setCurrentPage(commentWriteResponse.comments.pageNumber);
+    setTotalCount(commentWriteResponse.comments.totalElements)
+    setCountPerItem(commentWriteResponse.comments.pageSize);
+
+    // console.log()
   }
   //      event handler: 게시글 목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {
     navigator(BOARD_LIST());
   };
+
 
   let effectFlag = true;
   useEffect(()=>{
@@ -242,8 +255,8 @@ const BoardDetail = () => {
                 </>
             )}
           </div>
-
-          {/* <div className="board-detail-comment-paging">1 2</div> */}
+          {/*{pageable &&*/}
+          {/* <Pagination currentPage={currentPage} currentSection={currentSection} setCurrentPage={setCurrentPage} setCurrentSection={setCurrentSection} viewPageList={viewPageList} totalSection={totalSection}></Pagination>}*/}
         </div>
       </div>
       <div className="board-list-btn-container">
