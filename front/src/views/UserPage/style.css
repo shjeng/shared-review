@@ -30,7 +30,7 @@
   width: 200px;
   height: 200px;
   margin-right: 40px;
-  background-image: url(../../assets/image/board-item-profile-img.png);
+  background-image: url(../../assets/image/default-profile.png);
   background-position: center;
   background-size: cover;
 }

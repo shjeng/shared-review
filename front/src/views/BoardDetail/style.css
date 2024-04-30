@@ -94,7 +94,7 @@
 .board-detail-profile-img {
   width: 30px;
   height: 30px;
-  background-image: url(../../assets/image/board-item-profile-img.png);
+  background-image: url(../../assets/image/default-profile.png);
   background-size: 100% 100%;
   /*margin-right: 10px;*/
 }
@@ -117,13 +117,12 @@
   border-radius: 10px;
   border: 1px solid #c7c7c7;
   cursor: pointer;
-
 }
-.del-btn{
-  background-color: rgba(208, 0, 0, 0.80);
+.del-btn {
+  background-color: rgba(208, 0, 0, 0.8);
   color: #ffffff;
 }
-.del-btn:hover{
+.del-btn:hover {
   background-color: rgba(208, 0, 0, 0.75);
 }
 .board-list-btn-container {
@@ -206,7 +205,7 @@
   outline: none;
   border-radius: 7px;
 }
-.board-detail-comment-write-left-box{
+.board-detail-comment-write-left-box {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -233,7 +232,7 @@
   height: 80px;
   border-radius: 45%;
 }
-.error-msg{
+.error-msg {
   color: #ff0000;
   padding-left: 10px;
 }
@@ -252,6 +251,6 @@
   font-size: 19px;
 }
 
-.error{
+.error {
   border: 1px solid #ff0000;
 }
