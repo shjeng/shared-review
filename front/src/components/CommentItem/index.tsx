@@ -48,7 +48,7 @@ const CommentItem = ({ comment }: Props) => {
           <div className="height-line"></div>
         </div>
         <div className="comment-item-date">{createDateTime}</div>
-        <div className="pointer">삭제버튼 자리</div>
+        <div className="comment-item-delete pointer"></div>
       </div>
 
       <div className="comment-item-detail">{comment.content}</div>

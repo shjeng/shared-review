@@ -49,23 +49,16 @@ const SearchInputBox = ({ columns }: Props) => {
         <div className="header-category">
           <div className="header-category-dropdown" ref={searchInputRef}>
             <div className="dropdown-box" onClick={toggleDropdown}>
-              <div className="dropdown_text">옵션</div>
+              <div className="dropdown_text">검색</div>
               <div className="dropdown_icon"></div>
             </div>
             {categoryDrop && (
               <div className="dropdown-content">
-                {columns.map(
-                  (
-                    { label, field } // 구조 분해 할당을 통해 label과 field 추출
-                  ) => (
-                    <div
-                      key={field} // 각 요소에 고유한 key를 설정해주어야 합니다.
-                      className="board-dropdown-content-item"
-                    >
-                      {label} {/* label 출력 */}
-                    </div>
-                  )
-                )}
+                {columns.map(({ label, field }) => (
+                  <div key={field} className="board-dropdown-content-item">
+                    {label}
+                  </div>
+                ))}
               </div>
             )}
           </div>
