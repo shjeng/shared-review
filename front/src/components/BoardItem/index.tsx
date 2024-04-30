@@ -1,17 +1,17 @@
 import React from "react";
 import "./style.css";
-import {Board} from "../../types/interface";
-import {useLocation, useNavigate} from "react-router-dom";
-import {BOARD_DETAIL} from "../../constant";
+import { Board } from "../../types/interface";
+import { useLocation, useNavigate } from "react-router-dom";
+import { BOARD_DETAIL } from "../../constant";
 
-interface Props{
-  board: Board
+interface Props {
+  board: Board;
 }
-const BoardItem = ({board}: Props) => {
+const BoardItem = ({ board }: Props) => {
   const navigator = useNavigate();
   const detailView = () => {
     navigator(BOARD_DETAIL(board.boardId));
-  }
+  };
   return (
     <div id="board-item-wrap" onClick={detailView}>
       <div className="board-item-top-box">{/* 이미지 넣는건가 */}</div>
@@ -22,7 +22,14 @@ const BoardItem = ({board}: Props) => {
 
       <div className="board-item-bottom-box">
         <div className="board-item-profile">
-          <div className="board-item-profile-image">{board.user.profileImage}</div>
+          {board.user.profileImage ? (
+            <div
+              className="board-item-profile-image"
+              style={{ backgroundImage: `url(${board.user.profileImage})` }}
+            ></div>
+          ) : (
+            <div className="board-item-profile-image-default"></div>
+          )}
           <div className="board-item-write-box">
             <div className="board-item-nickname">{board.user.nickname}</div>
             <div className="board-item-write-date">{board.updateDateTime}</div>
