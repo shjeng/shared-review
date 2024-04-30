@@ -58,11 +58,19 @@
   margin-right: 5px;
 }
 
-.board-item-profile-image {
+.board-item-profile-image-default {
   width: 40px;
   height: 40px;
   background-image: url(../../assets/image/boarditem-profile.png);
   background-size: cover;
+  margin-right: 10px;
+}
+
+.board-item-profile-image {
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  border-radius: 50%;
   margin-right: 10px;
 }
 

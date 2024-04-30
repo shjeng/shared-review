@@ -1,26 +1,27 @@
-import React from 'react';
+import React from "react";
 import "./style.css";
-import {Board} from "../../types/interface";
+import { Board } from "../../types/interface";
 
-interface Props{
-    board: Board
+interface Props {
+  board: Board;
 }
-const BoardItem2 = ({board}: Props) => {
-    return (
-        <div className="recent-board-item-box">
-            <div className="recent-board-item-top">
-                <div className="recent-board-item-title">
-                    {board.title}
-                </div>
-                <div className="recent-board-item-comment"> {board.commentCount}</div>
-            </div>
-            <div className="recent-board-item-bottom">
-                <div className="recent-board-item-category">{board.category}</div>
-                <div className="recent-board-item-timeInfo">{board.updateDateTime}</div>
-                <div className="recent-board-item-nickname">{board.user.nickname}</div>
-            </div>
+const BoardItem2 = ({ board }: Props) => {
+  console.log(board);
+  return (
+    <div className="recent-board-item-box">
+      <div className="recent-board-item-top">
+        <div className="recent-board-item-title">{board.title}</div>
+        <div className="recent-board-item-comment"> {board.commentCount}</div>
+      </div>
+      <div className="recent-board-item-bottom">
+        <div className="recent-board-item-category">{board.category}</div>
+        <div className="recent-board-item-timeInfo">
+          {new Date(board.writeDateTime).toISOString().split("T")[0]}
         </div>
-    );
+        <div className="recent-board-item-nickname">{board.user.nickname}</div>
+      </div>
+    </div>
+  );
 };
 
 export default BoardItem2;
