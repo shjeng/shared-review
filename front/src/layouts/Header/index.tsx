@@ -25,6 +25,7 @@ const Header = () => {
 
   const onCategoryClick = (category: Category) => {
     setCategory(category);
+    setCategoryDrop(false);
   };
   const handleClickOutside = (e: MouseEvent) => {
     if (
@@ -88,6 +89,7 @@ const Header = () => {
   };
 
   const onDropdownCategory = () => {};
+
   return (
     <div id="header-wrap">
       <div className="header-top-box">
@@ -100,7 +102,10 @@ const Header = () => {
           <div className="header-category">
             <div className="header-category-dropdown" ref={searchInputRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
-                <div className="dropdown_text">카테고리</div>
+                {/* <div className="dropdown_text">카테고리</div> */}
+                <div className="dropdown_text">
+                  {category?.categoryName || "카테고리"}
+                </div>
                 <div className="dropdown_icon"></div>
               </div>
               {categoryDrop && (
@@ -132,7 +137,9 @@ const Header = () => {
             <div className="header-right-box" onClick={profileDropdown}>
               <div className="profile-dropdown-box">
                 <div className="header-right-box-img"></div>
-                <div className="header-right-box-nickName">{`닉네임`}</div>
+                <div className="header-right-box-nickName">
+                  {loginUser.nickname}
+                </div>
                 <div className="header-right-box-drop"></div>
               </div>
 

@@ -6,7 +6,6 @@ interface Props {
   board: Board;
 }
 const BoardItem2 = ({ board }: Props) => {
-  console.log(board);
   return (
     <div className="recent-board-item-box">
       <div className="recent-board-item-top">
