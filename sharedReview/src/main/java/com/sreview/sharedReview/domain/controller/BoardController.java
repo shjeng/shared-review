@@ -71,6 +71,12 @@ public class BoardController {
         System.out.println("allBoards =" + allBoards.toString());
         return ResponseEntity.ok(allBoards);
     }
+    @GetMapping("/comments/{boardId}")
+    public ResponseEntity<?> getComments(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable,
+                                          @RequestBody CommentWriteRequest request){
+        log.info("request = {} / page = {}", request, pageable);
+        return null;
+    }
     // size = 조회할 데이터 수
     // page = 0부터 시작.
     // sort 조건 추가 가능

@@ -1,9 +1,9 @@
 import "./style.css";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {commentWrite, getBoardRequest, increaseViewCountRequest} from "../../apis";
+import {commentWrite, getBoardRequest, getComments, increaseViewCountRequest} from "../../apis";
 import {
-  CommentWriteResponseDto,
+  CommentResponseDto,
   GetBoardDetailResponseDto,
   IncreaseViewCountResponseDto
 } from "../../apis/response/board";
@@ -49,7 +49,9 @@ const BoardDetail = () => {
 
   const [pageable, setPageable] = useState<Pageable<any> | undefined>();
 
-  const {setCurrentPage, setTotalCount, setCountPerItem} = usePagination(5);
+  const {section, setCurrentPage, setTotalCount, setCountPerItem, countPerPage, countPerItem,
+    start, end,totalSection, pageList, currentPage, setSection}
+      = usePagination(5);
   //  처름 렌더링 될 때
   useEffect(() => {
     if (!boardId) {
@@ -120,16 +122,16 @@ const BoardDetail = () => {
     }
     commentWrite(requestBody, cookies.accessToken).then(commentWriteResponse);
   }
-  const commentWriteResponse = async (response: CommentWriteResponseDto | ResponseDto | null) => {
+  const commentWriteResponse = async (response: CommentResponseDto | ResponseDto | null) => {
     const result = ResponseUtil(response);
     if(!result){
       return;
     }
-    const commentWriteResponse = result as CommentWriteResponseDto;
+    const commentWriteResponse = result as CommentResponseDto;
     setComments(commentWriteResponse.comments.content);
-    setCurrentPage(commentWriteResponse.comments.pageNumber);
+    setCurrentPage(commentWriteResponse.comments.pageNumber + 1);
     setTotalCount(commentWriteResponse.comments.totalElements)
-    setCountPerItem(commentWriteResponse.comments.pageSize);
+    setCountPerItem(commentWriteResponse.comments.content.length);
 
     // console.log()
   }
@@ -138,6 +140,12 @@ const BoardDetail = () => {
     navigator(BOARD_LIST());
   };
 
+  const pageButtonClick = () => {
+    getComments(currentPage).then(pageButtonClickResponse);
+  };
+  const pageButtonClickResponse = (pageButtonClickResponse: CommentResponseDto | ResponseDto | null) => {
+
+  }
 
   let effectFlag = true;
   useEffect(()=>{
@@ -255,8 +263,7 @@ const BoardDetail = () => {
                 </>
             )}
           </div>
-          {/*{pageable &&*/}
-          {/* <Pagination currentPage={currentPage} currentSection={currentSection} setCurrentPage={setCurrentPage} setCurrentSection={setCurrentSection} viewPageList={viewPageList} totalSection={totalSection}></Pagination>}*/}
+           <Pagination currentPage={currentPage} section={section} setCurrentPage={setCurrentPage}  totalSection={totalSection} countPerPage={countPerPage} pageList={pageList} pageClick={pageButtonClick}></Pagination>
         </div>
       </div>
       <div className="board-list-btn-container">

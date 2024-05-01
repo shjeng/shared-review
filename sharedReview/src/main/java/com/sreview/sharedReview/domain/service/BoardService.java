@@ -30,6 +30,7 @@ public interface BoardService {
     ResponseEntity<? super AdminBoardListResponse> getAdminBoards();
 
     ResponseDto commentWrite(String writerEmail, CommentWriteRequest request, Pageable pageable);
+//    ResponseDto getComments()
 
     ResponseDto deleteBoard(Long boardId, String email);
 

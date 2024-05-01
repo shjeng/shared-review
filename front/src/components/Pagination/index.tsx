@@ -4,20 +4,19 @@ import './style.css';
 //      interface: 페이지네이션 컴포넌트 Properties       //
 interface Props{
   currentPage: number;
-  currentSection: number;
+  section: number;
+  countPerPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  setCurrentSection: Dispatch<SetStateAction<number>>;
-
-  viewPageList: number[];
   totalSection: number;
-
+  pageList: number[];
+  pageClick: () => void;
 }
 
 //      component: 페이지네이션 컴포넌트      //
 const Pagination = (props: Props) => {
   //          state: Properties         //
-  const {currentPage, currentSection, viewPageList, totalSection} = props;
-  const {setCurrentPage, setCurrentSection} = props;
+  const {currentPage, section, totalSection, countPerPage, pageList} = props;
+  const {setCurrentPage,pageClick } = props;
 
   //          event handler: 페이지 번호 클릭 이벤트 클릭       //
   const onPageClickHandler = (page: number) => {
@@ -25,21 +24,18 @@ const Pagination = (props: Props) => {
   }
   //          event handler: 이전 클릭 이벤트 클릭       //
   const onPreviousClickHandler = () => {
-    if(currentSection === 1 ) return;
-    setCurrentPage((currentSection -1) * 10);
-    setCurrentSection(currentSection -1);
+    if(section === 1 ) return;
+    setCurrentPage((section - 1 ) * countPerPage + 1);
   }
   //          event handler: 다음 클릭 이벤트 클릭       //
   const onNextClickHandler = () => {
-    if(currentSection === totalSection) return;
-    setCurrentPage(currentSection * 10 + 1);
-    setCurrentSection(currentSection + 1);
+    if(section === totalSection) return;
+    setCurrentPage(section * countPerPage + 1);
   }
-
   //          render: 게시물 상세 하단 컴포넌트 렌더링    //
   return (
       <div id='pagination-wrapper'>
-        {currentSection > 1 &&
+        {section > 1 &&
             <>
               <div className='pagination-change-link-box'>
                 <div className='icon-box-small'>
@@ -50,11 +46,11 @@ const Pagination = (props: Props) => {
               <div className='pagination-divider'>{'\|'}</div>
             </>
         }
-        {viewPageList.map(page => page === currentPage ?
+        {pageList.map(page => page === currentPage ?
             <div className='pagination-text-active'>{page}</div> :
-            <div className='pagination-text' onClick={() => onPageClickHandler(page)}>{page}</div>
+            <div className='pagination-text' onClick={pageClick}>{page}</div>
         )}
-        {currentSection < totalSection &&
+        {section < totalSection &&
             <>
               <div className='pagination-divider'>{'\|'}</div>
               <div className='pagination-change-link-box'>

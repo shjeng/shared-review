@@ -8,7 +8,7 @@ import {NicknameDupleChkResponseDto} from "./response/auth";
 import {GetLoginUserResponseDto} from "./response/user";
 import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
 import {
-    BoardListResponse, CommentWriteResponseDto,
+    BoardListResponse, CommentResponseDto,
     GetCategorysResponseDto,
     PostBoardWriteResponseDto,
 } from "./response/board";
@@ -17,7 +17,6 @@ import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-r
 import GetAdminBoardResponseDto from "./response/board/get-admin-board-list-response.dto";
 import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
-import GetBoardResponseDto from "./response/board/get-board-list-response.dto";
 import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
 
 const DOMAIN = "http://localhost:8080";
@@ -314,7 +313,7 @@ export const commentWrite = async (requestBody: CommentWriteRequestDto, accessTo
         })
         // .post(COMMENT_WRITE(), requestBody, authorication(accessToken))
         .then((response) => {
-            const responseBody: CommentWriteResponseDto = response.data;
+            const responseBody: CommentResponseDto = response.data;
             return responseBody;
         })
         .catch((error) => {
@@ -322,7 +321,20 @@ export const commentWrite = async (requestBody: CommentWriteRequestDto, accessTo
         });
     return result;
 };
+// 댓글 불러오기
+const GET_COMMENTS = () => `${API_DOMAIN}/board/comments`;
+export const getComments = async (page: number) => {
+    const result = await axios.get(GET_COMMENTS(), pageParam(page))
+        .then(response => {
+            const responseBody: CommentResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            return errorResponse(error);
+        });
+    return result;
 
+}
 // delete
 const DELETE_BOARD = (boardId: string | bigint) => `/${boardId}`;
 export const deleteBoard = async (boardId: string| bigint, accessToken: string)=> {
