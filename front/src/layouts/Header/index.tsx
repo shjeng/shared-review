@@ -162,9 +162,14 @@ const Header = () => {
       </div>
 
       <div className="header-bottom-box">
-        <div className="heder-bottom-item">식품</div>
-        <div className="heder-bottom-item">가전제품</div>
-        <div className="heder-bottom-item">가게</div>
+        {categorys.map(
+          (
+            category,
+            index // 카테고리 목록 불러오기.
+          ) => (
+            <div className="heder-bottom-item">{category.categoryName}</div>
+          )
+        )}
       </div>
     </div>
   );

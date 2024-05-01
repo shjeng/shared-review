@@ -27,8 +27,6 @@ const BoardList = () => {
     }
 
     const { code } = responseBody;
-    console.log("code : " + code);
-
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
     if (code !== "SU") {
@@ -36,10 +34,6 @@ const BoardList = () => {
     }
     const result = responseBody as GetBoardListResponseDto;
     setBoards(result.boardPage.content);
-    console.log(
-      "tsx result.boardPage.content : ",
-      JSON.stringify(result.boardPage.content, null, 2)
-    ); // 객체의 구조를 확인
   };
 
   const formatDate = (dateTimeString: string): string => {
@@ -53,6 +47,11 @@ const BoardList = () => {
       hour12: false,
     });
   };
+
+  console.log(
+    "JSON.stringify(boards, null, 2) : ",
+    JSON.stringify(boards, null, 2)
+  ); // 객체의 구조를 확인
 
   return (
     <div id="board-list-wrap">
