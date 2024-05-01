@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
-import { Category } from "../../types/interface";
-import { getCategorysReqeust } from "../../apis";
-import { GetCategorysResponseDto } from "../../apis/response/board";
-import ResponseDto from "../../apis/response/response.dto";
 
 // interface: Input Box 컴포넌트 Properties
 interface Props {
@@ -11,36 +7,16 @@ interface Props {
 }
 
 const SearchInputBox = ({ columns }: Props) => {
-  const [categoryDrop, setCategoryDrop] = useState(false);
+  const [searchDrop, setSearchDrop] = useState(false);
   const searchInputRef = useRef<any>(null);
   const toggleDropdown = () => {
-    setCategoryDrop(!categoryDrop);
+    setSearchDrop(!searchDrop);
   };
-  const [category, setCategory] = useState<Category | undefined>();
-  const onCategoryClick = (category: Category) => {
-    setCategory(category);
-  };
+  const [search, setSearch] = useState<string>("검색기준");
 
-  const [categorys, setCategorys] = useState<Category[]>([]);
-
-  useEffect(() => {
-    getCategorysReqeust().then(getCategorysResponse);
-  }, []);
-  const getCategorysResponse = (
-    responseBody: GetCategorysResponseDto | ResponseDto | null
-  ) => {
-    if (!responseBody) {
-      alert("서버로부터 응답이 없습니다.");
-      return;
-    }
-    const { code } = responseBody;
-    if (code === "VF") alert("유효성 검사 실패");
-    if (code === "DBE") alert("데이터베이스 오류");
-    if (code !== "SU") {
-      return;
-    }
-    const result = responseBody as GetCategorysResponseDto;
-    setCategorys(result.categorys);
+  const onSearchClick = (search: string) => {
+    setSearch(search);
+    setSearchDrop(false);
   };
 
   return (
@@ -49,13 +25,17 @@ const SearchInputBox = ({ columns }: Props) => {
         <div className="header-category">
           <div className="header-category-dropdown" ref={searchInputRef}>
             <div className="dropdown-box" onClick={toggleDropdown}>
-              <div className="dropdown_text">검색</div>
+              <div className="dropdown_text">{search}</div>
               <div className="dropdown_icon"></div>
             </div>
-            {categoryDrop && (
+            {searchDrop && (
               <div className="dropdown-content">
                 {columns.map(({ label, field }) => (
-                  <div key={field} className="board-dropdown-content-item">
+                  <div
+                    key={field}
+                    className="board-dropdown-content-item"
+                    onClick={() => onSearchClick(label)}
+                  >
                     {label}
                   </div>
                 ))}
