@@ -50,8 +50,7 @@ public class BoardController {
         return boardServcice.getAdminCategorys();
     }
     @GetMapping("/{boardId}")
-    public ResponseEntity<? super Board> getBoardDetail(@PathVariable("boardId") Long boardId){
-        log.info("boardId = {} ", boardId);
+    public ResponseEntity<? super BoardDetailResponse> getBoardDetail(@PathVariable("boardId") Long boardId){
         return ResponseEntity.ok(boardServcice.getBoard(boardId));
     }
 

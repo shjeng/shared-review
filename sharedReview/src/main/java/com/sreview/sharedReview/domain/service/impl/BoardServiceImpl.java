@@ -164,27 +164,25 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseDto getBoard(Long boardId) {
         try {
-            Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsUserById(boardId);
-            if (boardOptional.isEmpty()) {
-                throw new NonExistBoardException("존재하지 않는 게시물입니다.");
-            }
-            Board board = boardOptional.get();
+//            Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsUserById(boardId);
+            Board board = boardRepoService.findById(boardId);
             User writer = board.getUser();
             UserDto userDto = UserDto.of(writer); // 작성자
 
             BoardDetailDto boardDetailDto = new BoardDetailDto();
             boardDetailDto.ofEntity(board); // 게시물 상세 내용
 
-            List<Comment> comments = board.getComments(); // 댓글 리스트 가져오기
-            List<CommentDto> commentDtos = new ArrayList<>();
-            comments.forEach(c -> commentDtos.add(new CommentDto().of(c, userDto))); // 댓글 리스트
+            Pageable pageable = PageRequest.of(0, 10);
+            Page<Comment> comments = commentRepoService.findCommentsByBoard(board, pageable);
+
+            Page<CommentDto> commentDtos = comments.map(c -> CommentDto.of(c, userDto));
             List<Favorite> favorites = favoriteRepoService.findAllByBoard(board);
             List<FavoriteDto> favoriteDtos = new ArrayList<>();
             favorites.forEach(f -> favoriteDtos.add(FavoriteDto.of(f))); // 게시물 좋아요 리스트
 
             List<TagDto> tagDtos = new ArrayList<>();
-            List<Tag> allByBoard = tagRepoService.findAllByBoard(board);
-            allByBoard.stream().forEach(t->tagDtos.add(new TagDto().ofEntity(t)));
+            List<Tag> tags = tagRepoService.findAllByBoard(board);
+            tags.stream().map(t -> new TagDto().ofEntity(t));
 
             return BoardDetailResponse.success(userDto, boardDetailDto, commentDtos, favoriteDtos,tagDtos);
         } catch (Exception e) {

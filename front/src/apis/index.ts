@@ -322,9 +322,9 @@ export const commentWrite = async (requestBody: CommentWriteRequestDto, accessTo
     return result;
 };
 // 댓글 불러오기
-const GET_COMMENTS = () => `${API_DOMAIN}/board/comments`;
-export const getComments = async (page: number) => {
-    const result = await axios.get(GET_COMMENTS(), pageParam(page))
+const GET_COMMENTS = (boardId: bigint | string) => `${API_DOMAIN}/board/comments/${boardId}`;
+export const getComments = async (page: number, boardId: string | bigint) => {
+    const result = await axios.get(GET_COMMENTS(boardId), pageParam(page))
         .then(response => {
             const responseBody: CommentResponseDto = response.data;
             return responseBody;

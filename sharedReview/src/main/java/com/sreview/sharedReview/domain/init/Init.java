@@ -68,9 +68,11 @@ public class Init {
     public void commentInit(){
         Board board = boardRepoService.findById(1L);
         Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
-        Comment comment = new Comment();
-        comment.setUserBoardContent(userOptional.get(), board, "댓글입니다~");
-        commentRepoService.save(comment);
+        for (int i = 0; i < 20; i++) {
+            Comment comment = new Comment();
+            comment.setUserBoardContent(userOptional.get(), board, "댓글입니다~" + i);
+            commentRepoService.save(comment);
+        }
     }
     public void favoriteInit(){
         Board board = boardRepoService.findById(1L);

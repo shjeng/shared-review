@@ -44,9 +44,10 @@ public class BoardRepoService { // DB에 넣어주는 아이
         return boardOptional.get();
     }
 
-    public Optional<Board> findBoardAndCommentsUserById(Long boardId) {
-        return boardRepository.findBoardAndCommentsUserById(boardId);
-    }
+//    public Optional<Board> findBoardAndCommentsUserById(Long boardId) {
+//        return boardRepository.findBoardAndCommentsUserById(boardId);
+//    }
+
 
     public Page<Board> findAll(Pageable pageable) {
         return boardRepository.findAll(pageable);

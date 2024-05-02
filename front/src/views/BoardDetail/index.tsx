@@ -80,10 +80,13 @@ const BoardDetail = () => {
     setViewCount(result.boardDetail.viewCount);
     setUpdateDateTime(result.boardDetail.updateDateTime);
     setCategory(result.boardDetail.category);
-    setComments(result.comments);
+    setComments(result.comments.content);
     setFavorites(result.favorites);
     setWriter(result.user);
     setTags(result.tags);
+    setTotalCount(result.comments.totalElements);
+    setCountPerItem(result.comments.size);
+    setCurrentPage(result.comments.pageable.pageNumber + 1);
     if (writer?.email === loginUser?.email) {
       setIsMyPost(true);
     }
@@ -129,7 +132,7 @@ const BoardDetail = () => {
     }
     const commentWriteResponse = result as CommentResponseDto;
     setComments(commentWriteResponse.comments.content);
-    setCurrentPage(commentWriteResponse.comments.pageNumber + 1);
+    setCurrentPage(commentWriteResponse.comments.pageable.pageNumber + 1);
     setTotalCount(commentWriteResponse.comments.totalElements)
     setCountPerItem(commentWriteResponse.comments.content.length);
 
@@ -141,7 +144,10 @@ const BoardDetail = () => {
   };
 
   const pageButtonClick = () => {
-    getComments(currentPage).then(pageButtonClickResponse);
+    if(!boardId) {
+      return;
+    }
+    getComments(currentPage, boardId).then(pageButtonClickResponse);
   };
   const pageButtonClickResponse = (pageButtonClickResponse: CommentResponseDto | ResponseDto | null) => {
 
@@ -258,7 +264,6 @@ const BoardDetail = () => {
           <div className="board-detail-comment-list">
             {comments.map(comment =>
                 <>
-                <CommentItem comment={comment} />
                 <CommentItem comment={comment} />
                 </>
             )}

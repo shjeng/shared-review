@@ -25,6 +25,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findBoardByUser(@Param("email") String userEmail);
     @Query("select b from Board b where b.createDate >= :weekAgo order by b.favoriteCount desc, b.createDate desc limit 10")
     List<Board> findFavoriteBoardTop3(@Param("weekAgo") LocalDateTime weekAgo);
-    @Query("select b from Board b left join fetch b.comments c left join fetch c.user where b.boardId =:boardId")
-    Optional<Board> findBoardAndCommentsUserById(@Param("boardId") Long boardId);
+//    @Query("select b from Board b left join fetch b.comments c left join fetch c.user where b.boardId =:boardId")
+//    Optional<Board> findBoardAndCommentsUserById(@Param("boardId") Long boardId);
 }

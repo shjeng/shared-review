@@ -7,6 +7,7 @@ import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,11 +18,11 @@ import java.util.List;
 public class BoardDetailResponse extends ResponseDto {
     private UserDto user;
     private BoardDetailDto boardDetail;
-    private List<CommentDto> comments;
+    private Page<CommentDto> comments;
     private List<FavoriteDto> favorites;
     private List<TagDto> tags;
 
-    public BoardDetailResponse(UserDto user, BoardDetailDto boardDetail, List<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags) {
+    public BoardDetailResponse(UserDto user, BoardDetailDto boardDetail, Page<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.user = user;
         this.boardDetail = boardDetail;
@@ -31,7 +32,7 @@ public class BoardDetailResponse extends ResponseDto {
     }
 
     //  다른 방식으로 success 처리 해볼 예정
-    public static BoardDetailResponse success(UserDto user, BoardDetailDto boardDetail, List<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags) {
+    public static BoardDetailResponse success(UserDto user, BoardDetailDto boardDetail, Page<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags) {
         return new BoardDetailResponse(user, boardDetail, comments, favorites, tags);
     }
 }
