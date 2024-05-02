@@ -7,6 +7,7 @@ interface Props{
   section: number;
   countPerPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  setSection: Dispatch<SetStateAction<number>>;
   totalSection: number;
   pageList: number[];
   pageClick: () => void;
@@ -16,7 +17,7 @@ interface Props{
 const Pagination = (props: Props) => {
   //          state: Properties         //
   const {currentPage, section, totalSection, countPerPage, pageList} = props;
-  const {setCurrentPage,pageClick } = props;
+  const {setCurrentPage,pageClick, setSection } = props;
 
   //          event handler: 페이지 번호 클릭 이벤트 클릭       //
   const onPageClickHandler = (page: number) => {
