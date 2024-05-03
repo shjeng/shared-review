@@ -4,10 +4,9 @@ import './style.css';
 //      interface: 페이지네이션 컴포넌트 Properties       //
 interface Props{
   currentPage: number;
-  section: number;
+  currentSection: number;
   countPerPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  setSection: Dispatch<SetStateAction<number>>;
   totalSection: number;
   pageList: number[];
   pageClick: () => void;
@@ -16,8 +15,8 @@ interface Props{
 //      component: 페이지네이션 컴포넌트      //
 const Pagination = (props: Props) => {
   //          state: Properties         //
-  const {currentPage, section, totalSection, countPerPage, pageList} = props;
-  const {setCurrentPage,pageClick, setSection } = props;
+  const {currentPage, currentSection, totalSection, countPerPage, pageList} = props;
+  const {setCurrentPage,pageClick } = props;
 
   //          event handler: 페이지 번호 클릭 이벤트 클릭       //
   const onPageClickHandler = (page: number) => {
@@ -25,18 +24,18 @@ const Pagination = (props: Props) => {
   }
   //          event handler: 이전 클릭 이벤트 클릭       //
   const onPreviousClickHandler = () => {
-    if(section === 1 ) return;
-    setCurrentPage((section - 1 ) * countPerPage + 1);
+    if(currentSection === 1 ) return;
+    setCurrentPage((currentSection - 1 ) * countPerPage + 1);
   }
   //          event handler: 다음 클릭 이벤트 클릭       //
   const onNextClickHandler = () => {
-    if(section === totalSection) return;
-    setCurrentPage(section * countPerPage + 1);
+    if(currentSection === totalSection) return;
+    setCurrentPage(currentSection * countPerPage + 1);
   }
   //          render: 게시물 상세 하단 컴포넌트 렌더링    //
   return (
       <div id='pagination-wrapper'>
-        {section > 1 &&
+        {currentSection > 1 &&
             <>
               <div className='pagination-change-link-box'>
                 <div className='icon-box-small'>
@@ -47,11 +46,12 @@ const Pagination = (props: Props) => {
               <div className='pagination-divider'>{'\|'}</div>
             </>
         }
+        <div>{pageList.length}</div>
         {pageList.map(page => page === currentPage ?
             <div className='pagination-text-active'>{page}</div> :
             <div className='pagination-text' onClick={pageClick}>{page}</div>
         )}
-        {section < totalSection &&
+        {currentSection < totalSection &&
             <>
               <div className='pagination-divider'>{'\|'}</div>
               <div className='pagination-change-link-box'>

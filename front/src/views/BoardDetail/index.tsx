@@ -22,6 +22,7 @@ import Pageable from "../../types/interface/pageable.interface";
 import usePagination from "../../hooks/pagination.hook";
 
 const BoardDetail = () => {
+    const countPerPage = 5;
     const {boardId} = useParams();
     const navigator = useNavigate();
     const {loginUser} = loginUserStore();
@@ -49,8 +50,9 @@ const BoardDetail = () => {
 
     const [pageable, setPageable] = useState<Pageable<any> | undefined>();
 
-    const {startPage, endPage, currentPage, setCurrentPage, setCurrentSection, setTotalCount, setCountPerItem}
-        = usePagination(5);
+    const {startPage, endPage, currentPage, pageList, currentSection, totalSection
+        , setCurrentPage, setCurrentSection, setTotalCount, setCountPerItem}
+        = usePagination(countPerPage);
     //  처름 렌더링 될 때
     useEffect(() => {
         if (!boardId) {
@@ -83,9 +85,9 @@ const BoardDetail = () => {
         setFavorites(result.favorites);
         setWriter(result.user);
         setTags(result.tags);
-        setCurrentPage(result.comments.pageable.pageNumber + 1);
         setTotalCount(result.comments.totalElements);
         setCountPerItem(result.comments.size);
+        setCurrentPage(result.comments.pageable.pageNumber + 1);
         if (writer?.email === loginUser?.email) {
             setIsMyPost(true);
         }
@@ -270,7 +272,7 @@ const BoardDetail = () => {
                             </>
                         )}
                     </div>
-                    {/*<Pagination currentPage={currentPage} section={section} setCurrentPage={setCurrentPage}  totalSection={totalSection} countPerPage={countPerPage} pageList={pageList} pageClick={pageButtonClick}></Pagination>*/}
+                    <Pagination currentPage={currentPage} currentSection={currentSection} setCurrentPage={setCurrentPage} totalSection={totalSection} countPerPage={countPerPage} pageList={pageList} pageClick={pageButtonClick}></Pagination>
                 </div>
             </div>
             <div className="board-list-btn-container">
