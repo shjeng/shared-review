@@ -142,11 +142,12 @@ const BoardDetail = () => {
         navigator(BOARD_LIST());
     };
 
-    const pageButtonClick = () => {
+    const pageButtonClick = (page:number) => {
         if (!boardId) {
             return;
         }
-        getComments(currentPage, boardId).then(pageButtonClickResponse);
+        getComments(page-1, boardId).then(pageButtonClickResponse);
+        setCurrentPage(page);
     };
     const pageButtonClickResponse = (pageButtonClickResponse: CommentResponseDto | ResponseDto | null) => {
 

@@ -71,9 +71,8 @@ public class BoardController {
         return ResponseEntity.ok(allBoards);
     }
     @GetMapping("/comments/{boardId}")
-    public ResponseEntity<?> getComments(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable,
-                                          @RequestBody CommentWriteRequest request){
-        log.info("request = {} / page = {}", request, pageable);
+    public ResponseEntity<?> getComments(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable){
+        log.info("page = {}", pageable);
         return null;
     }
     // size = 조회할 데이터 수

@@ -68,7 +68,7 @@ public class Init {
     public void commentInit(){
         Board board = boardRepoService.findById(1L);
         Optional<User> userOptional = userRepository.findByEmail("test@naver.com");
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 25; i++) {
             Comment comment = new Comment();
             comment.setUserBoardContent(userOptional.get(), board, "댓글입니다~" + i);
             commentRepoService.save(comment);

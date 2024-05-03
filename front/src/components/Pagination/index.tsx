@@ -9,7 +9,7 @@ interface Props{
   setCurrentPage: Dispatch<SetStateAction<number>>;
   totalSection: number;
   pageList: number[];
-  pageClick: () => void;
+  pageClick: (page:number) => void;
 }
 
 //      component: 페이지네이션 컴포넌트      //
@@ -18,10 +18,6 @@ const Pagination = (props: Props) => {
   const {currentPage, currentSection, totalSection, countPerPage, pageList} = props;
   const {setCurrentPage,pageClick } = props;
 
-  //          event handler: 페이지 번호 클릭 이벤트 클릭       //
-  const onPageClickHandler = (page: number) => {
-    setCurrentPage(page);
-  }
   //          event handler: 이전 클릭 이벤트 클릭       //
   const onPreviousClickHandler = () => {
     if(currentSection === 1 ) return;
@@ -46,10 +42,9 @@ const Pagination = (props: Props) => {
               <div className='pagination-divider'>{'\|'}</div>
             </>
         }
-        <div>{pageList.length}</div>
         {pageList.map(page => page === currentPage ?
             <div className='pagination-text-active'>{page}</div> :
-            <div className='pagination-text' onClick={pageClick}>{page}</div>
+            <div className='pagination-text' onClick={() => pageClick(page)}>{page}</div>
         )}
         {currentSection < totalSection &&
             <>
