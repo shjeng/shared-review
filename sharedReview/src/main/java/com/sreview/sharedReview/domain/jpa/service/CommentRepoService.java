@@ -22,4 +22,5 @@ public class CommentRepoService {
     }
 
     public Page<Comment> findCommentsByBoard(Board board, Pageable pageable){return commentRepository.findCommentsByBoard(board, pageable);}
+    public Page<Comment> findCommentsByBoardId(Long boardId, Pageable pageable){return commentRepository.findCommentsByBoardId(boardId, pageable);}
 }

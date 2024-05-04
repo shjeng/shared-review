@@ -126,7 +126,7 @@ const BoardDetail = () => {
         }
         commentWrite(requestBody, cookies.accessToken).then(commentWriteResponse);
     }
-    const commentWriteResponse = async (response: CommentResponseDto | ResponseDto | null) => {
+    const commentWriteResponse = (response: CommentResponseDto | ResponseDto | null) => {
         const result = ResponseUtil(response);
         if (!result) {
             return;
@@ -147,10 +147,15 @@ const BoardDetail = () => {
             return;
         }
         getComments(page-1, boardId).then(pageButtonClickResponse);
-        setCurrentPage(page);
     };
-    const pageButtonClickResponse = (pageButtonClickResponse: CommentResponseDto | ResponseDto | null) => {
-
+    const pageButtonClickResponse = (response: CommentResponseDto | ResponseDto | null) => {
+        const result = ResponseUtil(response);
+        if (!result) {
+            return;
+        }
+        const commentResponse = result as CommentResponseDto;
+        setComments(commentResponse.comments.content);
+        setCurrentPage(commentResponse.comments.pageable.pageNumber + 1);
     }
 
     let effectFlag = true;

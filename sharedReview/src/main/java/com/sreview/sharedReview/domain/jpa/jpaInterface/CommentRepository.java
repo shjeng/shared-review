@@ -14,4 +14,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("SELECT c FROM Comment c WHERE c.board =:board")
     Page<Comment> findCommentsByBoard(@Param("board") Board board, Pageable pageable);
 
+    @Query("SELECT c FROM Comment c WHERE c.board.boardId =:boardId")
+    Page<Comment> findCommentsByBoardId(@Param("boardId") Long boardId, Pageable pageable);
+
 }

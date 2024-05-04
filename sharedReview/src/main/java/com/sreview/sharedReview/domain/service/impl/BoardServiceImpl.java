@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,18 @@ public class BoardServiceImpl implements BoardService {
             return null;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @Override
+    public ResponseDto getComments(Long boardId, Pageable pageable) {
+        try {
+            Page<Comment> comments = commentRepoService.findCommentsByBoardId(boardId, pageable);
+            Page<CommentDto> commentDtos = comments.map(c -> CommentDto.of(c, UserDto.of(c.getUser())));
+            return CommentResponse.success(commentDtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
         }
     }
 
@@ -172,7 +185,7 @@ public class BoardServiceImpl implements BoardService {
             BoardDetailDto boardDetailDto = new BoardDetailDto();
             boardDetailDto.ofEntity(board); // 게시물 상세 내용
 
-            Pageable pageable = PageRequest.of(0, 10);
+            Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC,"id"));
             Page<Comment> comments = commentRepoService.findCommentsByBoard(board, pageable);
 
             Page<CommentDto> commentDtos = comments.map(c -> CommentDto.of(c, userDto));

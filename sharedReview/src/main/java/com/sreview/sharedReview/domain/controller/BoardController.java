@@ -3,6 +3,7 @@ package com.sreview.sharedReview.domain.controller;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
+import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.service.BoardService;
@@ -60,20 +61,19 @@ public class BoardController {
     }
     @GetMapping("/test")
     public ResponseEntity<?> test(){ // 스트링으로 했음.
-        log.info("test");
         return ResponseEntity.internalServerError().build();
     }
 
     @GetMapping("/board-list")
     public ResponseEntity<? super BoardListResponse> getAllBoards(@PageableDefault(size = 20)Pageable pageable){
         BoardListResponse allBoards = (BoardListResponse) boardServcice.getAllBoards(pageable);
-        System.out.println("allBoards =" + allBoards.toString());
         return ResponseEntity.ok(allBoards);
     }
     @GetMapping("/comments/{boardId}")
-    public ResponseEntity<?> getComments(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable){
+    public ResponseEntity<? super CommentResponse> getComments(@PathVariable("boardId") Long boardId, @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable){
         log.info("page = {}", pageable);
-        return null;
+        ResponseDto result = boardServcice.getComments(boardId, pageable);
+        return ResponseEntity.ok(result);
     }
     // size = 조회할 데이터 수
     // page = 0부터 시작.
