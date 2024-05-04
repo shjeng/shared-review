@@ -3,6 +3,7 @@ import "./style.css";
 import {
   ADMIN_BOARD_LIST,
   CATEGORI_MANAGE_PATH,
+  MAIN_PATH,
   USER_MANAGE_PATH,
 } from "../../../constant";
 import { useEffect, useState } from "react";
@@ -11,8 +12,12 @@ import ResponseDto from "../../../apis/response/response.dto";
 import CategorieList from "../../../types/interface/admin-categorie.interface";
 import GetAdminCategorysResponseDto from "../../../apis/response/board/get-admin-categorys-response.dto";
 import SearchInputBox from "../../../components/SearchInputBox";
+import { useLoginUserStore } from "../../../store";
+import SearchResultsPage from "../../../components/SearchResultsPage";
 
-const Categories = () => {
+const AdminCategories = () => {
+  const { loginUser } = useLoginUserStore();
+
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
   const onUserListClickHandler = () => {
@@ -29,6 +34,11 @@ const Categories = () => {
   // 백엔드 통신
   const [adminCategorys, setAdminCategorys] = useState<CategorieList[]>([]);
   useEffect(() => {
+    // if (!loginUser) {
+    //   alert("잘못된 접근입니다.");
+    //   navigate(MAIN_PATH());
+    //   return;
+    // }
     getAdminCategorysReqeust().then(getAdminCategorysResponse);
   }, []);
   const getAdminCategorysResponse = (
@@ -180,8 +190,10 @@ const Categories = () => {
       </div>
 
       <div className="admin-categori-bottom"></div>
+
+      <SearchResultsPage />
     </div>
   );
 };
 
-export default Categories;
+export default AdminCategories;
