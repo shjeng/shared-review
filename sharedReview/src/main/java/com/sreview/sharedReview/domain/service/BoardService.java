@@ -5,7 +5,6 @@ import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
-import com.sreview.sharedReview.domain.jpa.entity.Board;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
@@ -33,5 +32,7 @@ public interface BoardService {
 
     ResponseDto getComments(Long boardId, Pageable pageable);
     ResponseDto deleteBoard(Long boardId, String email);
+
+    void deleteComment(Long commentId, String email);
 
 }

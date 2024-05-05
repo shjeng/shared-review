@@ -14,23 +14,25 @@ public class Comment extends BaseEntity{ // 댓글 테이블
     // 댓글 ID
     @Id
     @GeneratedValue
-    @Column(name = "Comment_ID")
+    @Column(name = "comment_id")
     private Long id;
 
     // User테이블 - User_ID 외래키
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "Users_ID")
+    @JoinColumn(name = "users_id")
     private User user;
 
     // Post테이블 - Post_ID 외래키
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "Board_ID")
+    @JoinColumn(name = "board_id")
     private Board board;
 
     // 댓글 내용
-    @Column(name = "Comment_Content", nullable = false)
+    @Column(name = "comment_content", nullable = false)
     private String content;
 
+    @Column(name = "comment_delete_status")
+    private String deleteStatus = "N";
 
 
     public void setUserBoardContent(User user, Board board, String content) {

@@ -5,6 +5,7 @@ import loginUserStore from "../../store/login-user.store";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { USER_BOARD } from "../../constant";
+import {deleteComment} from "../../apis";
 
 interface Props {
   comment: Comment;
@@ -12,8 +13,9 @@ interface Props {
 
 const CommentItem = ({ comment }: Props) => {
   const navigator = useNavigate();
-
   const [createDateTime, setCreateDateTime] = useState<string | null>("");
+  const { loginUser } = loginUserStore();
+
   const timeFormat = moment(comment.createDateTime).format(
     "YYYY. MM. DD HH:mm:ss"
   );
@@ -25,7 +27,14 @@ const CommentItem = ({ comment }: Props) => {
   const userBoard = () => {
     navigator(USER_BOARD(comment.user.email));
   };
-  const { loginUser } = loginUserStore();
+  const deleteCommentClick = () => {
+    if (!loginUser) {
+      return;
+    }
+    deleteComment(comment.commentId,loginUser?.email).then(deleteCommentResponse);
+  }
+  const deleteCommentResponse = () => {
+  }
   return (
     <div className="comment-item-wrap">
       <div className="comment-item-top">
@@ -48,7 +57,8 @@ const CommentItem = ({ comment }: Props) => {
           <div className="height-line"></div>
         </div>
         <div className="comment-item-date">{createDateTime}</div>
-        <div className="comment-item-delete pointer"></div>
+        {loginUser?.email === comment.user.email &&
+        <div className="comment-item-delete pointer" onClick={deleteCommentClick}></div>}
       </div>
 
       <div className="comment-item-detail">{comment.content}</div>

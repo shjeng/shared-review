@@ -265,9 +265,16 @@ public class BoardServiceImpl implements BoardService {
         return null;
     }
 
-    private void optionalBoardChk(Optional<Board> boardOptional){
-        if (boardOptional.isEmpty()) {
-            throw new NonExistBoardException("존재하지 않는 게시물입니다.");
+    @Override
+    public void deleteComment(Long commentId, String email) {
+        try {
+            Boolean b = commentRepoService.updateDeleteStatusY(commentId, email);
+            if (!b) {
+                throw new RuntimeException("댓글 삭제에 실패했습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
         }
     }
 }

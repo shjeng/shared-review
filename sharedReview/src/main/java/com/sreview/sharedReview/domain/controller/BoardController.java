@@ -96,11 +96,17 @@ public class BoardController {
         return boardServcice.getAdminBoards();
     }
 
-    @DeleteMapping("/{boardId}")
+    @DeleteMapping("/board/{boardId}")
     public ResponseEntity<?> deleteBoard(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email){
         log.info("delete board Id = {}", boardId);
         boardServcice.deleteBoard(boardId, email);
         return null;
+    }
+
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable("commentId") Long commentId, @AuthenticationPrincipal String email) {
+        boardServcice.deleteComment(commentId, email);
+        return ResponseEntity.ok().build();
     }
 
 }
