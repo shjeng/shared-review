@@ -166,12 +166,12 @@ public class BoardServiceImpl implements BoardService {
             List<Tag> tagList = request.getTagList(board);
             tagRepoService.saveAll(tagList); // 태그 저장
             boardRepoService.save(board); // 게시물 저장
-
+            return BoardWriteResponse.success(board.getBoardId());
         } catch (Exception e){
             e.printStackTrace();
-            BoardWriteResponse.databaseError();
+            throw new InternalException();
         }
-        return BoardWriteResponse.success();
+
     }
 
     @Override
@@ -269,6 +269,8 @@ public class BoardServiceImpl implements BoardService {
     public void deleteComment(Long commentId, String email) {
         try {
             Boolean b = commentRepoService.updateDeleteStatusY(commentId, email);
+            System.out.println("BoardServiceImpl.deleteComment");
+            System.out.println(b);
             if (!b) {
                 throw new RuntimeException("댓글 삭제에 실패했습니다.");
             }
