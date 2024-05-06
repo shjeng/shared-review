@@ -6,15 +6,21 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { USER_BOARD } from "../../constant";
 import {deleteComment} from "../../apis";
+import {useCookies} from "react-cookie";
+import ResponseDto from "../../apis/response/response.dto";
+import {ResponseUtil} from "../../utils";
+import {AxiosResponse} from "axios";
 
 interface Props {
   comment: Comment;
+  reRenderComment: ()=>void;
 }
 
-const CommentItem = ({ comment }: Props) => {
+const CommentItem = ({ comment, reRenderComment }: Props) => {
   const navigator = useNavigate();
   const [createDateTime, setCreateDateTime] = useState<string | null>("");
   const { loginUser } = loginUserStore();
+  const [cookies, setCookies] = useCookies();
 
   const timeFormat = moment(comment.createDateTime).format(
     "YYYY. MM. DD HH:mm:ss"
@@ -31,9 +37,17 @@ const CommentItem = ({ comment }: Props) => {
     if (!loginUser) {
       return;
     }
-    deleteComment(comment.commentId,loginUser?.email).then(deleteCommentResponse);
+    deleteComment(comment.commentId,cookies.accessToken).then(deleteCommentResponse);
   }
-  const deleteCommentResponse = () => {
+  const deleteCommentResponse = (response: AxiosResponse | ResponseDto | null) => {
+    if (!response) {
+      return;
+    }
+    const result = response as AxiosResponse;
+    if (result.status === 200) {
+      reRenderComment();
+    }
+
   }
   return (
     <div className="comment-item-wrap">

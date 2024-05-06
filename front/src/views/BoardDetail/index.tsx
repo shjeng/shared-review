@@ -156,6 +156,7 @@ const BoardDetail = () => {
         const commentResponse = result as CommentResponseDto;
         setComments(commentResponse.comments.content);
         setCurrentPage(commentResponse.comments.pageable.pageNumber + 1);
+        setTotalCount(commentResponse.comments.totalElements);
     }
 
     let effectFlag = true;
@@ -175,6 +176,9 @@ const BoardDetail = () => {
         const increaseViewCountResult = result as IncreaseViewCountResponseDto;
         setViewCount(increaseViewCountResult.viewCount);
 
+    }
+    const deleteComment = () => {
+        pageButtonClick(currentPage);
     }
     return (
         <div id="board-detail-wrap">
@@ -274,7 +278,7 @@ const BoardDetail = () => {
                     <div className="board-detail-comment-list">
                         {comments.map(comment =>
                             <>
-                                <CommentItem comment={comment}/>
+                                <CommentItem comment={comment} reRenderComment={deleteComment}/>
                             </>
                         )}
                     </div>
