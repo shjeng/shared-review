@@ -17,7 +17,7 @@ public class  Board extends BaseEntity{ // 게시물 테이블
     // 게시물 ID
     @Id
     @GeneratedValue
-    @Column(name = "Board_ID")
+    @Column(name = "board_id")
     private Long boardId;
 
 
@@ -63,7 +63,7 @@ public class  Board extends BaseEntity{ // 게시물 테이블
 
 //    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
 //    @OneToOne(cascade = CascadeType.ALL)
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 

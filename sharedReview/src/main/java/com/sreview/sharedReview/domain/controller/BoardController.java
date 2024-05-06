@@ -105,6 +105,7 @@ public class BoardController {
 
     @DeleteMapping("/comment/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable("commentId") Long commentId, @AuthenticationPrincipal String email) {
+        System.out.println("BoardController.deleteComment");
         boardServcice.deleteComment(commentId, email);
         return ResponseEntity.ok().build();
     }

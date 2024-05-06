@@ -124,7 +124,7 @@ const BoardWrite = () => {
       return;
     }
     const { boardId } = responseBody as PostBoardWriteResponseDto;
-    navigator(BOARD_DETAIL("1"));
+    navigator(BOARD_DETAIL(boardId));
   };
 
   const editorRef = useRef<Editor>(null);
