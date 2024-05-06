@@ -3,17 +3,19 @@ import "./style.css";
 import {
   ADMIN_BOARD_LIST,
   CATEGORI_MANAGE_PATH,
+  MAIN_PATH,
   USER_MANAGE_PATH,
 } from "../../constant";
 import { useEffect, useState } from "react";
-import CategorieList from "../../types/interface/admin-categorie.interface";
-import { getAdminCategorysReqeust } from "../../apis";
-import GetAdminCategorysResponseDto from "../../apis/response/board/get-admin-categorys-response.dto";
+import { getAdminCategorysReqeust, getCategorysReqeust } from "../../apis";
 import ResponseDto from "../../apis/response/response.dto";
-import SearchInputBox from "../SearchInputBox";
+import CategorieList from "../../types/interface/admin-categorie.interface";
+import GetAdminCategorysResponseDto from "../../apis/response/board/get-admin-categorys-response.dto";
+import SearchInputBox from "../../components/SearchInputBox";
+import { useLoginUserStore } from "../../store";
 
 const SearchResultsPage = () => {
-  const test = () => {};
+  const { loginUser } = useLoginUserStore();
 
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
@@ -31,6 +33,11 @@ const SearchResultsPage = () => {
   // 백엔드 통신
   const [adminCategorys, setAdminCategorys] = useState<CategorieList[]>([]);
   useEffect(() => {
+    // if (!loginUser) {
+    //   alert("잘못된 접근입니다.");
+    //   navigate(MAIN_PATH());
+    //   return;
+    // }
     getAdminCategorysReqeust().then(getAdminCategorysResponse);
   }, []);
   const getAdminCategorysResponse = (
@@ -41,7 +48,6 @@ const SearchResultsPage = () => {
       return;
     }
     const { code } = responseBody;
-    console.log("!!!!!!!!!code!!!!!!!!! : " + code);
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
     if (code !== "SU") {
@@ -77,11 +83,29 @@ const SearchResultsPage = () => {
   };
 
   const userDefinedColumns = [
-    { label: "ID", field: "id" },
-    { label: "카테고리명", field: "title" },
-    { label: "작성자", field: "nickName" },
+    { label: "ID", field: "categoryId" },
+    { label: "카테고리", field: "categoryName" },
+    { label: "작성자", field: "userNickname" },
     { label: "작성날짜", field: "writeDateTime" },
   ];
+
+  const handleSearch = (inputValue: string, searchValue: string) => {
+    // 검색 로직을 구현합니다.
+    // console.log("Input Value:", inputValue);
+    console.log("Search Value:", searchValue);
+
+    const filteredCategories = adminCategorys.filter((category) =>
+      category[searchValue as keyof CategorieList]
+        ?.toString()
+        .includes(inputValue)
+    );
+
+    console.log(
+      "filteredCategories : ",
+      JSON.stringify(filteredCategories, null, 2)
+    );
+  };
+
   return (
     <div id="admin-categori-wrap">
       <div className="admin-categori-top">
@@ -110,7 +134,12 @@ const SearchResultsPage = () => {
         <div className="admin-categori-mid-right">
           <div className="admin-categori-mid-right-top">
             <div className="admin-categori-feature-container">
-              <SearchInputBox columns={userDefinedColumns} />
+              <SearchInputBox
+                columns={userDefinedColumns}
+                onSearch={(inputValue, searchValue) =>
+                  handleSearch(inputValue, searchValue)
+                }
+              />
 
               <div className="admin-categori-add-container">
                 <input type="text" placeholder="추가 내용 입력" />
@@ -125,6 +154,10 @@ const SearchResultsPage = () => {
                   onChange={toggleSelectAll}
                 />
               </div>
+              {/* <div className="admin-categori-id">ID</div>
+              <div className="admin-categori-name">카테고리명</div>
+              <div className="admin-categori-email">작성자</div>
+              <div className="admin-categori-writerDate">작성날짜</div> */}
 
               {userDefinedColumns.map(({ label, field }) => (
                 <div key={field} className={`categori-classification-${field}`}>
@@ -177,6 +210,8 @@ const SearchResultsPage = () => {
       </div>
 
       <div className="admin-categori-bottom"></div>
+
+      {/* <SearchResultsPage /> */}
     </div>
   );
 };

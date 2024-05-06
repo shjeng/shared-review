@@ -12,7 +12,7 @@ const UserBoard = () => {
     <div>
       <div className="user-board-main-bottom-box">
         <div className="user-bottom-title">"{`**님`}" 게시글</div>
-        <SearchInputBox columns={userDefinedColumns} />
+        {/* <SearchInputBox columns={userDefinedColumns} /> */}
         <div className="user-board-item-list">
           <div className="user-board-item-box">
             <div className="user-board-item-top">

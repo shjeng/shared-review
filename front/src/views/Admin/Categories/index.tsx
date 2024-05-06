@@ -49,7 +49,6 @@ const AdminCategories = () => {
       return;
     }
     const { code } = responseBody;
-    console.log("!!!!!!!!!code!!!!!!!!! : " + code);
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
     if (code !== "SU") {
@@ -85,11 +84,28 @@ const AdminCategories = () => {
   };
 
   const userDefinedColumns = [
-    { label: "ID", field: "id" },
-    { label: "카테고리명", field: "title" },
-    { label: "작성자", field: "nickName" },
+    { label: "ID", field: "categoryId" },
+    { label: "카테고리", field: "categoryName" },
+    { label: "작성자", field: "userNickname" },
     { label: "작성날짜", field: "writeDateTime" },
   ];
+
+  const handleSearch = (inputValue: string, searchValue: string) => {
+    // 검색 로직을 구현합니다.
+    // console.log("Input Value:", inputValue);
+    console.log("Search Value:", searchValue);
+
+    const filteredCategories = adminCategorys.filter((category) =>
+      category[searchValue as keyof CategorieList]
+        ?.toString()
+        .includes(inputValue)
+    );
+
+    console.log(
+      "filteredCategories : ",
+      JSON.stringify(filteredCategories, null, 2)
+    );
+  };
 
   return (
     <div id="admin-categori-wrap">
@@ -119,7 +135,12 @@ const AdminCategories = () => {
         <div className="admin-categori-mid-right">
           <div className="admin-categori-mid-right-top">
             <div className="admin-categori-feature-container">
-              <SearchInputBox columns={userDefinedColumns} />
+              <SearchInputBox
+                columns={userDefinedColumns}
+                onSearch={(inputValue, searchValue) =>
+                  handleSearch(inputValue, searchValue)
+                }
+              />
 
               <div className="admin-categori-add-container">
                 <input type="text" placeholder="추가 내용 입력" />
@@ -191,7 +212,7 @@ const AdminCategories = () => {
 
       <div className="admin-categori-bottom"></div>
 
-      <SearchResultsPage />
+      {/* <SearchResultsPage /> */}
     </div>
   );
 };

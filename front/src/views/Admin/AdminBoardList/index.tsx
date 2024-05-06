@@ -113,7 +113,7 @@ const AdminBoardList = () => {
 
         <div className="admin-mid-right">
           <div className="admin-mid-right-top">
-            <SearchInputBox columns={userDefinedColumns} />
+            {/* <SearchInputBox columns={userDefinedColumns} /> */}
 
             <div className="admin-classification">
               <div className="admin-item-check-box">
