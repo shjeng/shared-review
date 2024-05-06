@@ -55,7 +55,7 @@
   zoom: 1.4;
 }
 
-.categori-classification-id,
+.categori-classification-categoryId,
 .admin-categori-item-id {
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@
   justify-content: center;
 }
 
-.categori-classification-nickName,
+.categori-classification-userNickname,
 .admin-categori-item-nickName {
   display: flex;
   align-items: center;
@@ -74,7 +74,7 @@
   justify-content: center;
 }
 
-.categori-classification-title,
+.categori-classification-categoryName,
 .admin-categori-item-title {
   display: flex;
   align-items: center;

@@ -32,7 +32,7 @@ public class Category extends BaseEntity {
     @OneToMany(mappedBy = "category")
     private List<Board> boards;
     @Builder
-    public Category(String name, User user) {
+    public Category(String  name, User user) {
         this.name = name;
         this.user = user;
     }
