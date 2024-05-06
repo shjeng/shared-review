@@ -357,11 +357,11 @@ export const deleteBoard = async (
         });
     return result;
 };
-const DELETE_COMMENT = (commentId: bigint | string) => `${API_DOMAIN}/comment/${commentId}`;
+const DELETE_COMMENT = (commentId: bigint | string) => `${API_DOMAIN}/board/comment/${commentId}`;
 export const deleteComment = async (commentId: bigint | string, accessToken: string) => {
     const result = await axios.delete(DELETE_COMMENT(commentId), {...tokenAndPageConfig.token(accessToken)})
         .then(response => {
-            return response.data as ResponseDto;
+            return response;
         })
         .catch(error => {
             return errorResponse(error);

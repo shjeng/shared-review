@@ -16,8 +16,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("SELECT c FROM Comment c WHERE c.board.boardId =:boardId AND c.deleteStatus = 'N'")
     Page<Comment> findCommentsByBoardId(@Param("boardId") Long boardId, Pageable pageable);
-
-    @Query("UPDATE Comment c SET c.deleteStatus = 'Y' WHERE c.id = :commentId AND c.user.email = :userEmail")
-    boolean updateDeleteStatusY(@Param("commentId") Long commentId, @Param("userEmail") String userEmail);
-
 }

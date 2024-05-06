@@ -40,4 +40,7 @@ public class Comment extends BaseEntity{ // 댓글 테이블
         this.board = board;
         this.content = content;
     }
+    public void delete() {
+        deleteStatus = "Y";
+    }
 }

@@ -129,7 +129,6 @@ public class BoardServiceImpl implements BoardService {
         try{
             List<Category> getCategorys = categoryRepoService.findAll();
             categorys = AdminCategoryDto.ofList(getCategorys);
-            System.out.println("categorys : " + categorys);
         }catch (Exception e){
             e.printStackTrace();
             return AdminCategotyResponse.databaseError();
@@ -268,12 +267,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void deleteComment(Long commentId, String email) {
         try {
-            Boolean b = commentRepoService.updateDeleteStatusY(commentId, email);
-            System.out.println("BoardServiceImpl.deleteComment");
-            System.out.println(b);
-            if (!b) {
-                throw new RuntimeException("댓글 삭제에 실패했습니다.");
-            }
+            commentRepoService.updateDeleteStatusY(commentId, email);
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalException();
