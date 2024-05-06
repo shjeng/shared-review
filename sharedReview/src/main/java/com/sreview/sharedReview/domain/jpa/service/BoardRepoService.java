@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +23,9 @@ public class BoardRepoService { // DB에 넣어주는 아이
 
     public List<Board> findLatestBoards() {
         return boardRepository.findLatestBoards();
+    }
+    public Page<Board> findLatestBoards(Pageable pageable) {
+        return boardRepository.findLatestBoards(pageable);
     }
 
     public List<Board> findFavoriteBoardTop3() {

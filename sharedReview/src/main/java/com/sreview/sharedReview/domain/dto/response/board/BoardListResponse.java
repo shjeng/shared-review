@@ -4,12 +4,9 @@ import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.dto.object.BoardDto;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
-import com.sreview.sharedReview.domain.jpa.entity.Board;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

@@ -21,6 +21,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query("select b from Board b order by b.createDate desc limit 10")
     List<Board> findLatestBoards();
+    @Query("select b from Board b")
+    Page<Board> findLatestBoards(Pageable pageable);
     @Query("select b from Board b where b.user.email =:email")
     List<Board> findBoardByUser(@Param("email") String userEmail);
     @Query("select b from Board b where b.createDate >= :weekAgo order by b.favoriteCount desc, b.createDate desc limit 10")

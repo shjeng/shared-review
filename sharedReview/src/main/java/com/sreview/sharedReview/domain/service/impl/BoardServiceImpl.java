@@ -81,8 +81,9 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseDto getBoardListLatest() {
         try {
-            List<Board> latestBoards = boardRepoService.findLatestBoards();
-            List<BoardDto> boardDtos = latestBoards.stream().map(l -> new BoardDto().of(l)).toList();
+            Pageable pageable = PageRequest.of(0, 10 ,Sort.by(Sort.Direction.DESC, "id"));
+            Page<Board> latestBoards = boardRepoService.findLatestBoards(pageable);
+            Page<BoardDto> boardDtos = latestBoards.map(l -> new BoardDto().of(l));
             return BoardListResponse.success(boardDtos);
         } catch (Exception e) {
             e.printStackTrace();

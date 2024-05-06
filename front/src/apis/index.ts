@@ -236,6 +236,18 @@ export const increaseViewCountRequest = async (boardId: string | bigint) => {
             return errorResponse(error);
         });
 };
+// 유저 게시물 가져오기
+const USER_BOARD = (userEmail: string) => `${API_DOMAIN}/user/${userEmail}/board`;
+// const USER_BOARD = (userEmail: string) => `${API_DOMAIN}/user/${userEmail}`;
+export const getUserBoard = async (userEmail: string, currentPage: number) => {
+    return await axios.get(USER_BOARD(userEmail), pageParam(currentPage))
+        .then(response=>{
+            return response.data as BoardListResponse;
+        })
+        .catch(error=>{
+            return errorResponse(error);
+        })
+}
 
 // ===  post  ==== //
 // 회원가입 요청

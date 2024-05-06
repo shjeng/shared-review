@@ -25,7 +25,7 @@ const Main = () => {
     }
     const latestResult = result as BoardListResponse;
     console.log(latestResult.boards);
-    setLatestBoards(latestResult.boards);
+    setLatestBoards(latestResult.boardPage.content);
   }
 
   const getFavoriteBoardTop3Response = (responseBody: null | ResponseDto | BoardListResponse) => {

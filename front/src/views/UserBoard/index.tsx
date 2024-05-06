@@ -1,7 +1,35 @@
-import SearchInputBox from "../../components/SearchInputBox";
 import "./style.css";
+import {useEffect, useState} from "react";
+import {getUserBoard} from "../../apis";
+import {useParams} from "react-router-dom";
+import {Board} from "../../types/interface";
+import {BoardListResponse} from "../../apis/response/board";
+import ResponseDto from "../../apis/response/response.dto";
+import {ResponseUtil} from "../../utils";
 
 const UserBoard = () => {
+  const [boards, setBoards] = useState<Board[]>([]);
+  const {userEmail} = useParams();
+  useEffect(() => {
+    if (!userEmail){
+      alert('잘못된 접근입니다.');
+      return;
+    }
+    getBoards(userEmail, 1);
+  }, []);
+
+
+  const getBoards = (userEmail: string, currentPage: number) => {
+    getUserBoard(userEmail, currentPage - 1).then(getUserBoardResponse);
+  }
+  const getUserBoardResponse = (response: BoardListResponse | ResponseDto | null) => {
+    const result = ResponseUtil(response);
+    if (!result) {
+      return;
+    }
+    const boardListResponse = result as BoardListResponse;
+    setBoards(boardListResponse.boardPage.content);
+  }
   const userDefinedColumns = [
     { label: "글번호", field: "id" },
     { label: "제목", field: "title" },
