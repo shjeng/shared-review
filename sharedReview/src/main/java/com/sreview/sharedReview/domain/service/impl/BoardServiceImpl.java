@@ -2,7 +2,6 @@ package com.sreview.sharedReview.domain.service.impl;
 
 import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
-import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
 import com.sreview.sharedReview.domain.dto.object.*;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
@@ -137,6 +136,24 @@ public class BoardServiceImpl implements BoardService {
         }
         return AdminCategotyResponse.success(categorys);
     }
+
+//    @Override
+//    public ResponseEntity<?> getAdminCategorySearch(String searchValue, String inputValue) {
+//        System.out.println("받아온 데이터 : " + searchValue + inputValue);
+//        return null;
+//        List<AdminCategoryDto> categorys;
+//        try {
+//            // 검색 기준에 따라 데이터를 필터링하여 가져오는 로직을 작성합니다.
+//            List<Category> filteredCategorys = categoryRepoService.findByName(searchValue, inputValue);
+//
+//            // DTO로 변환
+//            categorys = AdminCategoryDto.ofList(filteredCategorys);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return AdminCategotyResponse.databaseError();
+//        }
+//        return AdminCategotyResponse.success(categorys);
+//    }
 
     @Override
     public ResponseDto increaseViewcount(Long boardId) {

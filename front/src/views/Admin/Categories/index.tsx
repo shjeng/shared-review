@@ -7,7 +7,11 @@ import {
   USER_MANAGE_PATH,
 } from "../../../constant";
 import { useEffect, useState } from "react";
-import { getAdminCategorysReqeust, getCategorysReqeust } from "../../../apis";
+import {
+  getAdminCategorySearchReqeust,
+  getAdminCategorysReqeust,
+  getCategorysReqeust,
+} from "../../../apis";
 import ResponseDto from "../../../apis/response/response.dto";
 import CategorieList from "../../../types/interface/admin-categorie.interface";
 import GetAdminCategorysResponseDto from "../../../apis/response/board/get-admin-categorys-response.dto";
@@ -91,20 +95,23 @@ const AdminCategories = () => {
   ];
 
   const handleSearch = (inputValue: string, searchValue: string) => {
-    // 검색 로직을 구현합니다.
-    // console.log("Input Value:", inputValue);
-    console.log("Search Value:", searchValue);
+    // // 검색 로직을 구현합니다.
+    // // console.log("Input Value:", inputValue);
+    // console.log("Search Value:" + searchValue);
+    // console.log("input Value:" + inputValue);
 
-    const filteredCategories = adminCategorys.filter((category) =>
-      category[searchValue as keyof CategorieList]
-        ?.toString()
-        .includes(inputValue)
-    );
+    // const filteredCategories = adminCategorys.filter((category) =>
+    //   category[searchValue as keyof CategorieList]
+    //     ?.toString()
+    //     .includes(inputValue)
+    // );
 
-    console.log(
-      "filteredCategories : ",
-      JSON.stringify(filteredCategories, null, 2)
-    );
+    // console.log(
+    //   "filteredCategories : ",
+    //   JSON.stringify(filteredCategories, null, 2)
+    // );
+
+    getAdminCategorySearchReqeust(inputValue, searchValue);
   };
 
   return (
