@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
@@ -50,6 +52,12 @@ public class BoardController {
     public ResponseEntity<? super AdminCategotyResponse> getAdminCategorys(){
         return boardServcice.getAdminCategorys();
     }
+
+//    @GetMapping("/admin/get-category/{searchValue}/{inputValue}") // 관리자 페이지 카테고리 검색
+//    public ResponseEntity<List<AdminCategotyResponse>> getAdminCategorySearch(@PathVariable("searchValue") String searchValue, @PathVariable("inputValue") String inputValue){
+//        return ResponseEntity.ok((List<AdminCategotyResponse>) boardServcice.getAdminCategorySearch(searchValue, inputValue));
+//    }
+
     @GetMapping("/{boardId}")
     public ResponseEntity<? super BoardDetailResponse> getBoardDetail(@PathVariable("boardId") Long boardId){
         return ResponseEntity.ok(boardServcice.getBoard(boardId));
