@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.controller;
 
+import com.sreview.sharedReview.domain.dto.object.CategoryDto;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
@@ -53,10 +54,12 @@ public class BoardController {
         return boardServcice.getAdminCategorys();
     }
 
-//    @GetMapping("/admin/get-category/{searchValue}/{inputValue}") // 관리자 페이지 카테고리 검색
-//    public ResponseEntity<List<AdminCategotyResponse>> getAdminCategorySearch(@PathVariable("searchValue") String searchValue, @PathVariable("inputValue") String inputValue){
-//        return ResponseEntity.ok((List<AdminCategotyResponse>) boardServcice.getAdminCategorySearch(searchValue, inputValue));
-//    }
+    @GetMapping("/admin/get-category/{searchValue}/{inputValue}") // 관리자 페이지 카테고리 검색
+    public ResponseEntity<? super AdminCategotyResponse> getAdminCategorySearch(@PathVariable("searchValue") String searchValue, @PathVariable("inputValue") String inputValue) {
+//        List<CategoryDto> searchResults = boardServcice.getAdminCategorySearch(searchValue, inputValue);
+        return ResponseEntity.ok().body(boardServcice.getAdminCategorySearch(searchValue, inputValue));
+    }
+
 
     @GetMapping("/{boardId}")
     public ResponseEntity<? super BoardDetailResponse> getBoardDetail(@PathVariable("boardId") Long boardId){

@@ -137,23 +137,41 @@ public class BoardServiceImpl implements BoardService {
         return AdminCategotyResponse.success(categorys);
     }
 
-//    @Override
-//    public ResponseEntity<?> getAdminCategorySearch(String searchValue, String inputValue) {
-//        System.out.println("받아온 데이터 : " + searchValue + inputValue);
-//        return null;
-//        List<AdminCategoryDto> categorys;
-//        try {
-//            // 검색 기준에 따라 데이터를 필터링하여 가져오는 로직을 작성합니다.
-//            List<Category> filteredCategorys = categoryRepoService.findByName(searchValue, inputValue);
+    @Override
+    public ResponseDto getAdminCategorySearch(String searchValue, String inputValue) {
+        System.out.println("받아온 데이터 searchValue : " + searchValue);
+        System.out.println("받아온 데이터 inputValue : " +  inputValue);
+
+
+        List<AdminCategoryDto> categorys;
+        try {
+//            List<Category> filteredCategorys = null;
+//            if(searchValue == "categoryId") {
+//                filteredCategorys = categoryRepoService.findBySearchId(inputValue);
+//            } else if(searchValue == "categoryName") {
+//                filteredCategorys = categoryRepoService.findBySearchName(inputValue);
+//
+//            }else if(searchValue == "userNickname") {
+//                filteredCategorys = categoryRepoService.findBySearchUser(inputValue);
+//
+//            }else if(searchValue == "writeDateTime") {
+//                filteredCategorys = categoryRepoService.findBySearchWriteDateTime(inputValue);
+//            } else {
+//                System.out.println("!!!!!!!!!!!데이터 못찾음!!!!!!!!!!!!");
+//                return null;
+//            }
+//            System.out.println("쿼리문 실행 filteredCategorys : " + filteredCategorys);
 //
 //            // DTO로 변환
 //            categorys = AdminCategoryDto.ofList(filteredCategorys);
-//        } catch (Exception e) {
-//            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
 //            return AdminCategotyResponse.databaseError();
-//        }
+        }
 //        return AdminCategotyResponse.success(categorys);
-//    }
+        return null;
+
+    }
 
     @Override
     public ResponseDto increaseViewcount(Long boardId) {
