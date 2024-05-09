@@ -13,6 +13,19 @@ public interface CategoryRepository extends JpaRepository<Category, Long> { // ì
 
     Optional<Category> findByName(String name);
 
+//    @Query("SELECT c FROM Category c WHERE c.CATEGORY_ID = ?1")
+//    List<Category> findBySearchId(String inputValue);
+
+//    @Query("SELECT c FROM Category c WHERE c.category_Name = ?1")
+//    List<Category> findBySearchName(String inputValue);
+
+//    @Query("SELECT c FROM Category c WHERE c.USER_ID = ?1")
+//    List<Category> findBySearchUser(String inputValue);
+
+//    @Query("SELECT c FROM Category c WHERE c.CREATE_DATE = ?1")
+//    List<Category> findBySearchwriteDateTime(String inputValue);
+
+
 //    @Query("SELECT c FROM Category c WHERE c.categoryName = ?1")
 //    List<Category> findByCategoryName(String categoryName);
 
