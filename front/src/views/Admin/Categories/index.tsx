@@ -88,30 +88,24 @@ const AdminCategories = () => {
   };
 
   const userDefinedColumns = [
-    { label: "ID", field: "categoryId" },
+    // { label: "ID", field: "categoryId" },
     { label: "카테고리", field: "categoryName" },
     { label: "작성자", field: "userNickname" },
     { label: "작성날짜", field: "writeDateTime" },
   ];
 
-  const handleSearch = (inputValue: string, searchValue: string) => {
-    // // 검색 로직을 구현합니다.
-    // // console.log("Input Value:", inputValue);
-    // console.log("Search Value:" + searchValue);
-    // console.log("input Value:" + inputValue);
+  const handleSearch = (searchValue: string, inputValue: string) => {
+    console.log(
+      "인풋박스에서 받아온 searchValue값  : ",
+      JSON.stringify(searchValue, null, 2)
+    );
 
-    // const filteredCategories = adminCategorys.filter((category) =>
-    //   category[searchValue as keyof CategorieList]
-    //     ?.toString()
-    //     .includes(inputValue)
-    // );
+    console.log(
+      "인풋박스에서 받아온 inputValue값  : ",
+      JSON.stringify(inputValue, null, 2)
+    );
 
-    // console.log(
-    //   "filteredCategories : ",
-    //   JSON.stringify(filteredCategories, null, 2)
-    // );
-
-    getAdminCategorySearchReqeust(inputValue, searchValue);
+    getAdminCategorySearchReqeust(searchValue, inputValue);
   };
 
   return (
@@ -144,8 +138,8 @@ const AdminCategories = () => {
             <div className="admin-categori-feature-container">
               <SearchInputBox
                 columns={userDefinedColumns}
-                onSearch={(inputValue, searchValue) =>
-                  handleSearch(inputValue, searchValue)
+                onSearch={(searchValue, inputValue) =>
+                  handleSearch(searchValue, inputValue)
                 }
               />
 
@@ -162,16 +156,20 @@ const AdminCategories = () => {
                   onChange={toggleSelectAll}
                 />
               </div>
-              {/* <div className="admin-categori-id">ID</div>
-              <div className="admin-categori-name">카테고리명</div>
-              <div className="admin-categori-email">작성자</div>
-              <div className="admin-categori-writerDate">작성날짜</div> */}
+              <div className="categori-classification-categoryId">ID</div>
+              <div className="categori-classification-categoryName">
+                카테고리명
+              </div>
+              <div className="categori-classification-userNickname">작성자</div>
+              <div className="categori-classification-writeDateTime">
+                작성날짜
+              </div>
 
-              {userDefinedColumns.map(({ label, field }) => (
+              {/* {userDefinedColumns.map(({ label, field }) => (
                 <div key={field} className={`categori-classification-${field}`}>
                   {label}
                 </div>
-              ))}
+              ))} */}
 
               <div className="admin-categori-actions">action</div>
             </div>

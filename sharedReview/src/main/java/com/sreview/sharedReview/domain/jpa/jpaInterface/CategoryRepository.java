@@ -13,21 +13,25 @@ public interface CategoryRepository extends JpaRepository<Category, Long> { // �
 
     Optional<Category> findByName(String name);
 
-//    @Query("SELECT c FROM Category c WHERE c.CATEGORY_ID = ?1")
-//    List<Category> findBySearchId(String inputValue);
 
-//    @Query("SELECT c FROM Category c WHERE c.category_Name = ?1")
-//    List<Category> findBySearchName(String inputValue);
+
+    // 사용자 이름
+    @Query("SELECT c FROM Category c WHERE c.user.nickname = :nickname") // 수정된 부분: "USER_ID" 대신 "user" 속성 사용
+    List<Category> findByUserNickname(@Param("nickname") String nickname);
+
+    // 카테고리 내용
+//    @Query("SELECT c FROM Category c WHERE c.categoryName = :categoryName")
+//    List<Category> findByCategoryName(@Param("categoryName") String categoryName);
+
 
 //    @Query("SELECT c FROM Category c WHERE c.USER_ID = ?1")
-//    List<Category> findBySearchUser(String inputValue);
+//    List<Category> findByCategoryName(String inputValue);
 
 //    @Query("SELECT c FROM Category c WHERE c.CREATE_DATE = ?1")
-//    List<Category> findBySearchwriteDateTime(String inputValue);
+//    List<Category> findByCreateDate(String inputValue);
 
 
-//    @Query("SELECT c FROM Category c WHERE c.categoryName = ?1")
-//    List<Category> findByCategoryName(String categoryName);
+
 
 //    @Query("SELECT c FROM Category c WHERE CASE WHEN :searchCriteria = 'id' THEN c.id = :inputValue " +
 //            "WHEN :searchCriteria = 'categoryName' THEN c.categoryName = :inputValue ELSE TRUE END")

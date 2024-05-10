@@ -133,6 +133,14 @@ export const getAdminCategorySearchReqeust = async (
   searchValue: string,
   inputValue: string
 ) => {
+  console.log(
+    "카테고리 페이지에서 받아온 searchValue 데이터 : ",
+    JSON.stringify(searchValue, null, 2)
+  );
+  console.log(
+    "카테고리 페이지에서 받아온 inputValue 데이터 ",
+    JSON.stringify(inputValue, null, 2)
+  );
   const result = await axios
     .get(GET_ADMIN_CATEGORYS_SEARCH(searchValue, inputValue))
     .then((response) => {
