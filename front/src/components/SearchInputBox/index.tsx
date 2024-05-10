@@ -41,11 +41,11 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
       alert("검색어를 입력해주세요.");
       return;
     }
-    onSearch(inputValue, searchValue);
-    console.log("search,  : ", JSON.stringify(search, null, 2));
 
-    console.log("inputValue,  : ", JSON.stringify(inputValue, null, 2));
-    console.log("searchValue,  : ", JSON.stringify(searchValue, null, 2));
+    console.log("인풋박스 inputValue값  : ", JSON.stringify(inputValue, null, 2));
+    console.log("인풋박스 searchValue값  : ", JSON.stringify(searchValue, null, 2));
+
+    onSearch(searchValue, inputValue);
   };
 
   return (

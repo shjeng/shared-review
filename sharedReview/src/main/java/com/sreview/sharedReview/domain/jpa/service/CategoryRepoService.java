@@ -33,20 +33,15 @@ public class CategoryRepoService { // DB에 넣어주는 아이
         return categoryRepository.findByName(name);
     }
 
-//    public List<Category> findBySearchId(String inputValue) {
-//        return categoryRepository.findBySearchId(inputValue);
-//    }
 
-//    public List<Category> findBySearchName(String inputValue) {
-//        return categoryRepository.findBySearchName(inputValue);
-//    }
 
-//    public List<Category> findBySearchUser(String inputValue) {
-//        return categoryRepository.findBySearchUser(inputValue);
-//    }
 
-//    public List<Category> findBySearchWriteDateTime(String inputValue) {
-//        return categoryRepository.findBySearchwriteDateTime(inputValue);
+    public List<Category> findByUserNickname(String inputValue) {
+        return categoryRepository.findByUserNickname(inputValue);
+    }
+//
+//    public List<Category> findByCategoryName(String inputValue) {
+//        return categoryRepository.findByCategoryName(inputValue);
 //    }
 
     public List<Category> findAll() {
