@@ -96,10 +96,7 @@ public class BoardServiceImpl implements BoardService {
     public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request) {
         try{
             String email = "";
-            Optional<User> userOptional = userEntityService.findByEmail(email);
-            if(userOptional.isEmpty()) return CategoryWriteResponse.notExistedUser();
-            User user = userOptional.get();
-
+            User user = userEntityService.findByEmail(email);
             String getName = request.getName();
             Category category = new Category(getName,user);
             categoryRepoService.save(category);
@@ -185,16 +182,13 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request,String email) {
         try {
-            Optional<User> userOptional = userEntityService.findByEmail(email);
-            if(userOptional.isEmpty()) return BoardWriteResponse.notExistedUser();
-
+            User user = userEntityService.findByEmail(email);
             Optional<Category> categoryOptional = categoryRepoService.findById(request.getCategory().getCategoryId());
             if (categoryOptional.isEmpty()) {   // 카테고리가 DB에 없는 경우
                 throw new RuntimeException("존재하지 않는 카테고리.");
             }
 
             Category category = categoryOptional.get();
-            User user = userOptional.get();
             Board board = BoardWriteRequest.getBoard(request);
             board.setUserAndCategory(user,category); // 글 작성자와 태그 넣어서 저장해주기
             List<Tag> tagList = request.getTagList(board);
@@ -265,14 +259,11 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseDto commentWrite(String writerEmail ,CommentWriteRequest request, Pageable pageable) {
         try {
-            Optional<User> userOptional = userEntityService.findByEmail(writerEmail);
-            if (userOptional.isEmpty()) {
-                throw new RuntimeException("존재하지 않는 유저입니다.");
-            }
+            User user = userEntityService.findByEmail(writerEmail);
             Comment comment = new Comment();
             Board board = boardRepoService.findById(request.getBoardId());
 
-            comment.setUserBoardContent(userOptional.get(), board, request.getContent());
+            comment.setUserBoardContent(user, board, request.getContent());
             commentRepoService.save(comment);
             if (request.getCurrentPage() == null) {
                 request.setCurrentPage(0);

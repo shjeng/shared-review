@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.jpa.service;
 
+import com.sreview.sharedReview.domain.common.customexception.NonExistUserException;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,10 @@ public class UserEntityService {
         userRepository.save(user);
         return user.getId();
     }
-    public Optional<User> findByEmail(String email){
+    public User findByEmail(String email){
+        return optinalCheck(userRepository.findByEmail(email));
+    }
+    public Optional<User> existCheckEmail(String email){
         return userRepository.findByEmail(email);
     }
 //    public void validateDuplidateUser(User user) {
@@ -54,5 +58,12 @@ public class UserEntityService {
         Random random = new Random();
         int code = 100000 + random.nextInt(900000);
         return String.valueOf(code);
+    }
+
+    public User optinalCheck(Optional<User> optionalUser) {
+        if (optionalUser.isEmpty()) {
+            throw new NonExistUserException();
+        }
+        return optionalUser.get();
     }
 }

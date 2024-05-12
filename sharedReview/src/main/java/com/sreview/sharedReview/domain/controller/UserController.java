@@ -4,6 +4,7 @@ import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.BoardListResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
+import com.sreview.sharedReview.domain.dto.response.user.GetUserResponse;
 import com.sreview.sharedReview.domain.service.BoardService;
 import com.sreview.sharedReview.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,11 @@ public class UserController {
         return userService.getLoginUser(email);
     }
 
+    @GetMapping("/{userEmail}")
+    public ResponseEntity<? super GetUserResponse> getUserInfo(@PathVariable("userEmail") String userEmail){
+        ResponseDto result = userService.getUser(userEmail);
+        return ResponseEntity.ok(result);
+    }
     @GetMapping("/get-user-list") // 유저 리스트
     public ResponseEntity<? super GetUserListResponse> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());

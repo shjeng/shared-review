@@ -32,10 +32,7 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<? super SignInResponse> signIn(SignInRequest request) {
         String token = "";
         try {
-            Optional<User> getUser = userEntityService.findByEmail(request.getEmail());
-            if (getUser.isEmpty()) return SignInResponse.loginFail(); // 없는 유저인 경우.
-
-            User user = getUser.get();
+            User user = userEntityService.findByEmail(request.getEmail());
             String encodedPassword = user.getPassword();
             boolean isMatched = passwordEncoder.matches(request.getPassword(), encodedPassword);
             if (!isMatched) return SignInResponse.loginFail();
@@ -90,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<? super SignUpResponse> signUp(SignUpRequest request) {
         try {
             // 중복 회원(이메일)
-            Optional<User> findExistingUser = userEntityService.findByEmail(request.getEmail());
+            Optional<User> findExistingUser = userEntityService.existCheckEmail(request.getEmail());
             if (findExistingUser.isPresent()) return SignUpResponse.existingUser();
 
             // 중복 회원(닉네임)

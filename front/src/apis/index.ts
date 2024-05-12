@@ -5,7 +5,7 @@ import ResponseDto from "./response/response.dto";
 import { SignUpRequestDto } from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
 import { NicknameDupleChkResponseDto } from "./response/auth";
-import { GetLoginUserResponseDto } from "./response/user";
+import { GetUserResponseDto } from "./response/user";
 import { BoardWriteRequestDto, CommentWriteRequestDto } from "./request/board";
 import {
   BoardListResponse,
@@ -65,7 +65,7 @@ export const getLoginUser = async (accessToken: string) => {
   const result = await axios
     .get(GET_USER_URL(), authorication(accessToken))
     .then((response) => {
-      const responseBody: GetLoginUserResponseDto = response.data;
+      const responseBody: GetUserResponseDto = response.data;
       return responseBody;
     })
     .catch((error) => {
@@ -282,7 +282,17 @@ export const getUserBoard = async (userEmail: string, currentPage: number) => {
       return errorResponse(error);
     });
 };
-
+// 유저 정보 가져오기 
+const USER_INFO = (userEmail: string) => `${API_DOMAIN}/user/${userEmail}`;
+export const getUserInfoRequest = async (userEmail: string)=> {
+    return await axios.get(USER_INFO(userEmail))
+        .then(response=>{
+            return response.data as GetUserResponseDto;
+        })
+        .catch(error=>{
+            return errorResponse(error);
+        })
+}
 // ===  post  ==== //
 // 회원가입 요청
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;

@@ -8,5 +8,6 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
     ResponseEntity<? super GetLoginUserResponse> getLoginUser(String email);
 
+    ResponseDto getUser(String email);
     ResponseDto getAllUsers();
 }

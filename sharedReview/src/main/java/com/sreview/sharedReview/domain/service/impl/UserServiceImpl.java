@@ -5,6 +5,7 @@ import com.sreview.sharedReview.domain.dto.object.UserDto;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
+import com.sreview.sharedReview.domain.dto.response.user.GetUserResponse;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.UserRepository;
 import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
@@ -28,17 +29,20 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<? super GetLoginUserResponse> getLoginUser(String email) {
         UserDto userDto;
         try{
-            Optional<User> optionalUser = userEntityService.findByEmail(email);
-            if(optionalUser.isEmpty()) GetLoginUserResponse.noExistedUser();
-            User user = optionalUser.get();
+            User user = userEntityService.findByEmail(email);
             userDto = UserDto.of(user);
         } catch (Exception e){
             e.printStackTrace();
-            return null;
+            throw e;
         }
         return GetLoginUserResponse.success(userDto);
     }
 
+    @Override
+    public ResponseDto getUser(String email) {
+        User user = userEntityService.findByEmail(email);
+        return GetUserResponse.success(UserDto.of(user));
+    }
 
     @Override // user 정보 가져옴
     public ResponseDto getAllUsers() {
@@ -52,5 +56,6 @@ public class UserServiceImpl implements UserService {
             throw new InternalException();
         }
     }
+
 
 }
