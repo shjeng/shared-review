@@ -270,8 +270,7 @@ export const increaseViewCountRequest = async (boardId: string | bigint) => {
     });
 };
 // 유저 게시물 가져오기
-const USER_BOARD = (userEmail: string) =>
-  `${API_DOMAIN}/user/${userEmail}/board`;
+const USER_BOARD = (userEmail: string) => `${API_DOMAIN}/user/${userEmail}/board`;
 // const USER_BOARD = (userEmail: string) => `${API_DOMAIN}/user/${userEmail}`;
 export const getUserBoard = async (userEmail: string, currentPage: number) => {
   return await axios

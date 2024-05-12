@@ -50,7 +50,9 @@ public class BoardRepoService { // DB에 넣어주는 아이
 //        return boardRepository.findBoardAndCommentsUserById(boardId);
 //    }
 
-
+    public Page<Board> findBoardsByUserEmail(String userEmail, Pageable pageable){
+        return boardRepository.findBoardsByUserEmail(userEmail, pageable);
+    }
     public Page<Board> findAll(Pageable pageable) {
         return boardRepository.findAll(pageable);
     }

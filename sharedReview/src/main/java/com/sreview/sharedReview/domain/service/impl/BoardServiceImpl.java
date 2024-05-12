@@ -56,12 +56,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseDto findBoardByUser(String userEmail) {
+    public ResponseDto findBoardByUserEmail(String userEmail, Pageable pageable) {
         try {
-
-            return null;
+            Page<Board> boardsEntity = boardRepoService.findBoardsByUserEmail(userEmail, pageable);
+            Page<BoardDto> boardDtos = boardsEntity.map(board -> new BoardDto().of(board));
+            return BoardListResponse.success(boardDtos);
         } catch (Exception e) {
-            return null;
+            throw e;
         }
     }
 

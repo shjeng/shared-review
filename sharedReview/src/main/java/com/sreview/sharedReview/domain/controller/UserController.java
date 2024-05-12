@@ -1,5 +1,7 @@
 package com.sreview.sharedReview.domain.controller;
 
+import com.sreview.sharedReview.domain.dto.response.ResponseDto;
+import com.sreview.sharedReview.domain.dto.response.board.BoardListResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
 import com.sreview.sharedReview.domain.service.BoardService;
@@ -35,8 +37,8 @@ public class UserController {
     }
 
     @GetMapping("/{userEmail}/board")
-    public ResponseEntity<?> getUserBoard(@PathVariable("userEmail")String userEmail){
-        System.out.println("UserController.getUserBoard");
-        return null;
+    public ResponseEntity<? super BoardListResponse> getUserBoard(@PathVariable("userEmail")String userEmail, @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable){
+        ResponseDto result = boardService.findBoardByUserEmail(userEmail, pageable);
+        return ResponseEntity.ok(result);
     }
 }

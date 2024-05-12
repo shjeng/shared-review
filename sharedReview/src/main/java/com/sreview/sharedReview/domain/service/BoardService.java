@@ -12,7 +12,7 @@ public interface BoardService {
     ResponseDto getBoardListLatest();
     ResponseDto getFaoviteBoardTop3(String condition);
 
-    ResponseDto findBoardByUser(String userEmail);
+    ResponseDto findBoardByUserEmail(String userEmail, Pageable pageable);
     ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request);
 
     ResponseEntity<? super GetCategorysResponse> getCategorys();
