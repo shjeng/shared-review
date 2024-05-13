@@ -19,7 +19,7 @@ public interface BoardService {
 
     ResponseEntity<? super AdminCategotyResponse> getAdminCategorys();
 
-    ResponseDto getAdminCategorySearch(String searchValue, String inputValue);
+    ResponseEntity<? super AdminCategotyResponse> getAdminCategorySearch(String searchValue, String inputValue);
 
     ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request, String email);
 

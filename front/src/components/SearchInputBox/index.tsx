@@ -25,8 +25,6 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
   const onSearchClick = (label: string, field: string) => {
     setSearch(label);
     setSearchValue(field);
-    console.log("field : ", JSON.stringify(field, null, 2));
-
     setSearchDrop(false);
   };
 
@@ -42,8 +40,14 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
       return;
     }
 
-    console.log("인풋박스 inputValue값  : ", JSON.stringify(inputValue, null, 2));
-    console.log("인풋박스 searchValue값  : ", JSON.stringify(searchValue, null, 2));
+    // console.log(
+    //   "인풋박스 inputValue값  : ",
+    //   JSON.stringify(inputValue, null, 2)
+    // );
+    // console.log(
+    //   "인풋박스 searchValue값  : ",
+    //   JSON.stringify(searchValue, null, 2)
+    // );
 
     onSearch(searchValue, inputValue);
   };

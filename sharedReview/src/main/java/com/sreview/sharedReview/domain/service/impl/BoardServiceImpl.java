@@ -136,16 +136,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseDto getAdminCategorySearch(String searchValue, String inputValue) {
+    public ResponseEntity<? super AdminCategotyResponse> getAdminCategorySearch(String searchValue, String inputValue) {
         System.out.println("받아온 데이터 searchValue : " + searchValue);
         System.out.println("받아온 데이터 inputValue : " +  inputValue);
 
         List<AdminCategoryDto> categorys;
+        List<Category> filteredCategorys;
         try {
-            List<Category> filteredCategorys = null;
+//          카테고리 이름으로 들어올때
             if("categoryName".equals(searchValue)) {
                 System.out.println("categoryName 실행");
-//                filteredCategorys = categoryRepoService.findByCategoryName(inputValue);
+                filteredCategorys = categoryRepoService.findListByName(inputValue);
+//          유저 아이디로 들어올때
             } else if ("userNickname".equals(searchValue)) {
                 // 수정된 부분: "findByUser" 메서드의 매개변수를 "User" 객체의 속성으로 변경
                 System.out.println("findByUserNickname 실행");
@@ -155,17 +157,20 @@ public class BoardServiceImpl implements BoardService {
                 System.out.println("!!!!!!!!!!!데이터 못찾음!!!!!!!!!!!!");
                 return null;
             }
-
             System.out.println("쿼리문 실행 filteredCategorys : " + filteredCategorys);
+
+            categorys = AdminCategoryDto.ofList(filteredCategorys);
 
             // DTO로 변환
             // categorys = AdminCategoryDto.ofList(filteredCategorys);
+            return AdminCategotyResponse.success(categorys);
+
         } catch (Exception e) {
             e.printStackTrace();
-            // return AdminCategotyResponse.databaseError();
+            throw new InternalException();
+//             return AdminCategotyResponse.databaseError();
         }
-        // return AdminCategotyResponse.success(categorys);
-        return null;
+//        return null;
     }
 
 

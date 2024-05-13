@@ -59,10 +59,7 @@ const AdminCategories = () => {
       return;
     }
     const result = responseBody as GetAdminCategorysResponseDto;
-    console.log(
-      "result.categorys : ",
-      JSON.stringify(result.categorys, null, 2)
-    ); // 객체의 구조를 확인
+
     setAdminCategorys(result.categorys);
   };
   // ===================================================
@@ -94,18 +91,35 @@ const AdminCategories = () => {
     { label: "작성날짜", field: "writeDateTime" },
   ];
 
+  const getAdminCategorySearchResponse = (
+    responseBody: GetAdminCategorysResponseDto | ResponseDto | null
+  ) => {
+    console.log("getAdminCategorySearchResponse 실행");
+
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+
+    console.log("code : ", code); // 객체의 구조를 확인
+
+    const result = responseBody as GetAdminCategorysResponseDto;
+    console.log("응답 데이터: "); // 객체의 구조를 확인
+    setAdminCategorys(result.categorys);
+  };
+
   const handleSearch = (searchValue: string, inputValue: string) => {
-    console.log(
-      "인풋박스에서 받아온 searchValue값  : ",
-      JSON.stringify(searchValue, null, 2)
+    console.log("handleSearch() 실행 "); // 객체의 구조를 확인
+    getAdminCategorySearchReqeust(searchValue, inputValue).then(
+      getAdminCategorySearchResponse
     );
-
-    console.log(
-      "인풋박스에서 받아온 inputValue값  : ",
-      JSON.stringify(inputValue, null, 2)
-    );
-
-    getAdminCategorySearchReqeust(searchValue, inputValue);
   };
 
   return (
