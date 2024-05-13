@@ -133,21 +133,13 @@ export const getAdminCategorySearchReqeust = async (
   searchValue: string,
   inputValue: string
 ) => {
-  console.log(
-    "카테고리 페이지에서 받아온 searchValue 데이터 : ",
-    JSON.stringify(searchValue, null, 2)
-  );
-  console.log(
-    "카테고리 페이지에서 받아온 inputValue 데이터 ",
-    JSON.stringify(inputValue, null, 2)
-  );
   const result = await axios
     .get(GET_ADMIN_CATEGORYS_SEARCH(searchValue, inputValue))
     .then((response) => {
       const responseBody: GetAdminCategorysResponseDto = response.data;
       console.log(
-        "response.data 백에서 받아온 데이터 : ",
-        JSON.stringify(response.data, null, 2)
+        "responseBody 백에서 받아온 데이터 : ",
+        JSON.stringify(responseBody, null, 2)
       );
       return responseBody;
     })
@@ -270,7 +262,8 @@ export const increaseViewCountRequest = async (boardId: string | bigint) => {
     });
 };
 // 유저 게시물 가져오기
-const USER_BOARD = (userEmail: string) => `${API_DOMAIN}/user/${userEmail}/board`;
+const USER_BOARD = (userEmail: string) =>
+  `${API_DOMAIN}/user/${userEmail}/board`;
 // const USER_BOARD = (userEmail: string) => `${API_DOMAIN}/user/${userEmail}`;
 export const getUserBoard = async (userEmail: string, currentPage: number) => {
   return await axios
@@ -282,17 +275,18 @@ export const getUserBoard = async (userEmail: string, currentPage: number) => {
       return errorResponse(error);
     });
 };
-// 유저 정보 가져오기 
+// 유저 정보 가져오기
 const USER_INFO = (userEmail: string) => `${API_DOMAIN}/user/${userEmail}`;
-export const getUserInfoRequest = async (userEmail: string)=> {
-    return await axios.get(USER_INFO(userEmail))
-        .then(response=>{
-            return response.data as GetUserResponseDto;
-        })
-        .catch(error=>{
-            return errorResponse(error);
-        })
-}
+export const getUserInfoRequest = async (userEmail: string) => {
+  return await axios
+    .get(USER_INFO(userEmail))
+    .then((response) => {
+      return response.data as GetUserResponseDto;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+};
 // ===  post  ==== //
 // 회원가입 요청
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;

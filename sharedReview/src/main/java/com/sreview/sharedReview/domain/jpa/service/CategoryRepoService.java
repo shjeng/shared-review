@@ -39,10 +39,10 @@ public class CategoryRepoService { // DB에 넣어주는 아이
     public List<Category> findByUserNickname(String inputValue) {
         return categoryRepository.findByUserNickname(inputValue);
     }
-//
-//    public List<Category> findByCategoryName(String inputValue) {
-//        return categoryRepository.findByCategoryName(inputValue);
-//    }
+
+    public List<Category> findListByName(String inputValue) {
+        return categoryRepository.findListByName(inputValue);
+    }
 
     public List<Category> findAll() {
         return categoryRepository.findAll();
