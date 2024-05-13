@@ -6,7 +6,11 @@ import { getBoardListRequest } from "../../apis";
 import ResponseDto from "../../apis/response/response.dto";
 import GetBoardListResponseDto from "../../apis/response/board/get-board-list-response.dto";
 import BoardListInterface from "../../types/interface/board-list.interface";
+import {Category} from "../../types/interface";
 const BoardList = () => {
+  const [category, setCategory] = useState<Category>();
+  const [searchWord, setSearchWord] = useState<string>();
+
   const navigator = useNavigate();
   const onBoardWriteClickHandler = () => {
     navigator(BOARD_WRITE());

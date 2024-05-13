@@ -1,2 +1,3 @@
 import useLoginUserStore from "./login-user.store";
-export { useLoginUserStore };
+import useBoardSearchStore from './board-search-store';
+export { useLoginUserStore, useBoardSearchStore };

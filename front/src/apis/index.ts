@@ -103,12 +103,21 @@ export const getCategorysReqeust = async () => {
     })
     .catch((error) => {
       if (!error.response.data) return null;
-      const responseBody: ResponseDto = error.response.data;
-      return responseBody;
+        return errorResponse(error);
     });
   return result;
 };
-
+// 카테고리 게시물 목록 가져오기
+const GET_CATEGORY_BOARDS = (categoryId: bigint | string) =>    `${API_DOMAIN}/board/category/${categoryId}`;
+export const getCategoryBoards = (categoryId: bigint | string) => {
+    return axios.get(GET_CATEGORY_BOARDS(categoryId))
+        .then(response => {
+            return response.data as BoardListResponse;
+        })
+        .catch(error => {
+            return errorResponse(error);
+        })
+}
 // 관리자 페이지 카테고리 목록 불러오기
 const GET_ADMIN_CATEGORYS = () => `${API_DOMAIN}/board/admin/get-categorys`;
 export const getAdminCategorysReqeust = async () => {
