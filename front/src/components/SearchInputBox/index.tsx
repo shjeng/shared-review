@@ -52,6 +52,18 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
     onSearch(searchValue, inputValue);
   };
 
+  //      event handler: 패스워드 인풋 키 다운 이벤트 처리      //
+  const onSearchKeyDownHandler = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key !== "Enter") return;
+    onSearchButtonClickHandler();
+  };
+
+  //      event handler: 로그인 버튼 클릭 이벤트 처리 함수      //
+  const onSearchButtonClickHandler = () => {
+    onCategorySearch();
+  };
   return (
     <>
       <div className="admin-categori-bottom-top">
@@ -78,7 +90,12 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
         </div>
 
         <div className="admin-search">
-          <input type="text" placeholder="검색어 입력" ref={searchInputRef} />
+          <input
+            type="text"
+            placeholder="검색어 입력"
+            ref={searchInputRef}
+            onKeyDown={onSearchKeyDownHandler}
+          />
           <div className="admin-search-img" onClick={onCategorySearch}></div>
         </div>
       </div>
