@@ -59,7 +59,7 @@ public class BoardController {
 //        List<CategoryDto> searchResults = boardServcice.getAdminCategorySearch(searchValue, inputValue);
         System.out.println("컨트롤러 - 받아온 데이터 searchValue : " + searchValue);
         System.out.println("컨트롤러 - 받아온 데이터 inputValue : " +  inputValue);
-        return ResponseEntity.ok().body(boardServcice.getAdminCategorySearch(searchValue, inputValue));
+        return boardServcice.getAdminCategorySearch(searchValue, inputValue);
     }
 
 

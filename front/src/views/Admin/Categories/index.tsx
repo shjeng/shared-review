@@ -48,6 +48,8 @@ const AdminCategories = () => {
   const getAdminCategorysResponse = (
     responseBody: GetAdminCategorysResponseDto | ResponseDto | null
   ) => {
+    console.log("responseBody : ", responseBody);
+
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -100,18 +102,27 @@ const AdminCategories = () => {
       alert("서버로부터 응답이 없습니다.");
       return;
     }
+    console.log("responseBody : ", responseBody);
 
     const { code } = responseBody;
+    console.log("code1 : ", code);
+
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
     if (code !== "SU") {
       return;
     }
 
-    console.log("code : ", code); // 객체의 구조를 확인
+    console.log("code2 : ", code); // 객체의 구조를 확인
 
     const result = responseBody as GetAdminCategorysResponseDto;
     console.log("응답 데이터: "); // 객체의 구조를 확인
+
+    // if (responseBody.isEmpty()) {
+    //   // 카테고리가 비어있는 경우 알림을 표시합니다.
+    //   alert("카테고리가 비어있습니다.");
+    // }
+
     setAdminCategorys(result.categorys);
   };
 
