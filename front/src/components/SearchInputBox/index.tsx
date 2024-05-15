@@ -29,26 +29,12 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
   };
 
   const onCategorySearch = () => {
-    // console.log("columns : ", JSON.stringify(columns, null, 2));
-
-    // setDropdownValue(searchValue);
-
     const inputValue = searchInputRef.current?.value || "";
     setInputValue(inputValue);
     if (search !== "전체" && inputValue.length === 0) {
       alert("검색어를 입력해주세요.");
       return;
     }
-
-    // console.log(
-    //   "인풋박스 inputValue값  : ",
-    //   JSON.stringify(inputValue, null, 2)
-    // );
-    // console.log(
-    //   "인풋박스 searchValue값  : ",
-    //   JSON.stringify(searchValue, null, 2)
-    // );
-
     onSearch(searchValue, inputValue);
   };
 
