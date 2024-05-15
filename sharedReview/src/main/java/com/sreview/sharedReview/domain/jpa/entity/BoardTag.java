@@ -23,11 +23,11 @@ public class BoardTag { // 게시물-태그 연결 테이블
 
     // 다대일
     @ManyToOne
-    @JoinColumn(name = "Board_ID")
+    @JoinColumn(name = "board_id")
     private Board board;
 
     // 다대일
     @ManyToOne
-    @JoinColumn(name = "Tags_ID")
+    @JoinColumn(name = "tag_id")
     private Tag tag;
 }

@@ -18,14 +18,14 @@ public class Tag { // 태그 테이블
     // 태그 ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Tag_ID")
+    @Column(name = "tag_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @Column(name = "Tag_Name")
+    @Column(name = "tag_name")
     private String name;
 
     public Tag setNameAndBoard(String name, Board board) {

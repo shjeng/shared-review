@@ -1,9 +1,9 @@
-import BoardListInterface from "../../../types/interface/board-list.interface";
 import ResponseDto from "../response.dto";
+import {Board} from "../../../types/interface";
 
 export default interface GetBoardListResponseDto extends ResponseDto {
   boardPage: {
-    content: BoardListInterface[];
+    content: Board[];
     pageable: any;
     last: boolean;
     totalElements: number;

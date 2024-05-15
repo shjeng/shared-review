@@ -2,16 +2,16 @@ import axios from "axios";
 import SignInRequestDto from "./request/auth/sign-in-request.dto";
 import SignInResponseDto from "./response/auth/sign-in.response.dto";
 import ResponseDto from "./response/response.dto";
-import { SignUpRequestDto } from "./request/auth";
+import {SignUpRequestDto} from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
-import { NicknameDupleChkResponseDto } from "./response/auth";
-import { GetUserResponseDto } from "./response/user";
-import { BoardWriteRequestDto, CommentWriteRequestDto } from "./request/board";
+import {NicknameDupleChkResponseDto} from "./response/auth";
+import {GetUserResponseDto} from "./response/user";
+import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
 import {
-  BoardListResponse,
-  CommentResponseDto,
-  GetCategorysResponseDto,
-  PostBoardWriteResponseDto,
+    BoardListResponse,
+    CommentResponseDto,
+    GetCategorysResponseDto,
+    PostBoardWriteResponseDto,
 } from "./response/board";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
@@ -244,9 +244,9 @@ export const getAdminBoardListRequest = async () => {
 
 // 게시글 목록 요청
 const BOARD_LIST = () => `${API_DOMAIN}/board/board-list`;
-export const getBoardListRequest = async () => {
+export const getBoardListRequest = async (requestParams: Object) => {
   const result = await axios
-    .get(BOARD_LIST())
+    .get(BOARD_LIST(), {params:requestParams})
     .then((response) => {
       const responseBody: GetBoardListResponseDto = response.data;
       console.log("ts : ", JSON.stringify(responseBody, null, 2)); // 객체의 구조를 확인

@@ -67,6 +67,8 @@ public class  Board extends BaseEntity{ // 게시물 테이블
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<BoardTag> boardTag;
     public void setTitleContent(String title, String content) {
         this.title = title;
         this.content = content;

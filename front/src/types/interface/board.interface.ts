@@ -1,4 +1,5 @@
 import User from "./user.interface";
+import Tag from "./tag.interface";
 
 export default interface Board {
   boardId: bigint;
@@ -11,4 +12,5 @@ export default interface Board {
   updateDateTime: string;
   user: User;
   writeDateTime: string;
+  tags: Tag[]
 }

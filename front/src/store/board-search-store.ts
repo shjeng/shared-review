@@ -9,6 +9,10 @@ interface BoardSearchStore {
     categoryId: string | bigint | null;
     setCategoryId: (categoryId: string | bigint) => void;
     resetCategoryId: () => void;
+
+    searchType: string | null;
+    setSearchType: (searchType: string) => void
+    resetSearchType: () => void
 }
 
 const useBoardSearchStore = create<BoardSearchStore>((set) => ({
@@ -20,6 +24,9 @@ const useBoardSearchStore = create<BoardSearchStore>((set) => ({
     setCategoryId: (categoryId: string | bigint) => set((state) => ({...state, categoryId})),
     resetCategoryId: () => set((state) => ({...state, state: null})),
 
+    searchType: null,
+    setSearchType:(searchType: string) => set((state) => ({...state, searchType})),
+    resetSearchType: () => set((state) => ({...state, state: null}))
 }));
 
 export default useBoardSearchStore;

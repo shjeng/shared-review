@@ -1,12 +1,10 @@
 package com.sreview.sharedReview.domain.controller;
 
-import com.sreview.sharedReview.domain.dto.object.CategoryDto;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
-import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +14,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -71,10 +67,6 @@ public class BoardController {
     @PostMapping("/category/create") // 카테고리 저장, @AuthenticationPrincipal 작성 필요
     public ResponseEntity<? super CategoryWriteResponse> createCateogry(@RequestBody CategoryWriteRequest request){
         return boardServcice.saveCategory(request);
-    }
-    @GetMapping("/test")
-    public ResponseEntity<?> test(){ // 스트링으로 했음.
-        return ResponseEntity.internalServerError().build();
     }
 
     @GetMapping("/board-list")
