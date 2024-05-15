@@ -38,11 +38,6 @@ const AdminCategories = () => {
   // 백엔드 통신
   const [adminCategorys, setAdminCategorys] = useState<CategorieList[]>([]);
   useEffect(() => {
-    // if (!loginUser) {
-    //   alert("잘못된 접근입니다.");
-    //   navigate(MAIN_PATH());
-    //   return;
-    // }
     getAdminCategorysReqeust().then(getAdminCategorysResponse);
   }, []);
   const getAdminCategorysResponse = (
@@ -96,38 +91,25 @@ const AdminCategories = () => {
   const getAdminCategorySearchResponse = (
     responseBody: GetAdminCategorysResponseDto | ResponseDto | null
   ) => {
-    console.log("getAdminCategorySearchResponse 실행");
-
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
     }
-    console.log("responseBody : ", responseBody);
-
     const { code } = responseBody;
-    console.log("code1 : ", code);
-
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
     if (code !== "SU") {
       return;
     }
-
-    console.log("code2 : ", code); // 객체의 구조를 확인
-
     const result = responseBody as GetAdminCategorysResponseDto;
-    console.log("응답 데이터: "); // 객체의 구조를 확인
-
-    // if (responseBody.isEmpty()) {
-    //   // 카테고리가 비어있는 경우 알림을 표시합니다.
-    //   alert("카테고리가 비어있습니다.");
-    // }
-
+    if (result.categorys.length === 0) {
+      alert("존재하지 않는 데이터 입니다.");
+      return;
+    }
     setAdminCategorys(result.categorys);
   };
 
   const handleSearch = (searchValue: string, inputValue: string) => {
-    console.log("handleSearch() 실행 "); // 객체의 구조를 확인
     getAdminCategorySearchReqeust(searchValue, inputValue).then(
       getAdminCategorySearchResponse
     );

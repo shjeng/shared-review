@@ -152,10 +152,6 @@ export const getAdminCategorySearchReqeust = async (
     .get(GET_ADMIN_CATEGORYS_SEARCH(searchValue, inputValue))
     .then((response) => {
       const responseBody: GetAdminCategorysResponseDto = response.data;
-      console.log(
-        "responseBody 백에서 받아온 데이터 : ",
-        JSON.stringify(responseBody, null, 2)
-      );
       return responseBody;
     })
     .catch((error) => {
