@@ -156,7 +156,8 @@
 /* 검색 input */
 
 .admin-search-img,
-.dropdown-box {
+.dropdown-box,
+.admin-item-title {
   cursor: pointer;
 }
 

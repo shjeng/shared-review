@@ -5,6 +5,7 @@ import {
   CATEGORI_MANAGE_PATH,
   MAIN_PATH,
   USER_MANAGE_PATH,
+  USER_PAGE_PATH,
 } from "../../../constant";
 import { useEffect, useState } from "react";
 import {
@@ -58,6 +59,7 @@ const AdminCategories = () => {
     const result = responseBody as GetAdminCategorysResponseDto;
 
     setAdminCategorys(result.categorys);
+    console.log("adminCategorys : ", adminCategorys);
   };
   // ===================================================
 
@@ -82,7 +84,6 @@ const AdminCategories = () => {
   };
 
   const userDefinedColumns = [
-    // { label: "ID", field: "categoryId" },
     { label: "카테고리", field: "categoryName" },
     { label: "작성자", field: "userNickname" },
     { label: "작성날짜", field: "writeDateTime" },
@@ -103,16 +104,34 @@ const AdminCategories = () => {
     }
     const result = responseBody as GetAdminCategorysResponseDto;
     if (result.categorys.length === 0) {
-      alert("존재하지 않는 데이터 입니다.");
+      alert("일치하는 데이터가 없습니다.");
       return;
     }
     setAdminCategorys(result.categorys);
   };
 
   const handleSearch = (searchValue: string, inputValue: string) => {
+    if (searchValue === "전체") {
+      getAdminCategorysReqeust().then(getAdminCategorysResponse);
+      return;
+    }
     getAdminCategorySearchReqeust(searchValue, inputValue).then(
       getAdminCategorySearchResponse
     );
+  };
+
+  const userInfo = (categoryId: number) => {
+    // categoryId와 일치하는 카테고리 찾기
+    const matchedCategory = adminCategorys.find(
+      (category) => category.categoryId === categoryId
+    );
+
+    // 찾은 카테고리의 userEmail 값을 추출
+    const userEmail = matchedCategory?.userEmail;
+
+    if (userEmail) {
+      navigate(USER_PAGE_PATH(userEmail));
+    }
   };
 
   return (
@@ -197,7 +216,10 @@ const AdminCategories = () => {
                   <div className="admin-categori-item-title">
                     {category.categoryName}
                   </div>
-                  <div className="admin-categori-item-nickName">
+                  <div
+                    className="admin-categori-item-nickName"
+                    onClick={() => userInfo(category.categoryId)}
+                  >
                     {category.userNickname}
                   </div>
                   <div className="admin-categori-item-writerDate">

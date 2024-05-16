@@ -4,5 +4,6 @@ export default interface CategorieList {
   categoryName: string;
   userNickname: string;
   writeDateTime: string;
+  userEmail: string;
   [key: string]: any;
 }
