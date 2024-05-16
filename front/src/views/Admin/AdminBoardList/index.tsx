@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import {
   ADMIN_BOARD_LIST,
+  BOARD_DETAIL,
   CATEGORI_MANAGE_PATH,
   USER_MANAGE_PATH,
 } from "../../../constant";
@@ -33,6 +34,10 @@ const AdminBoardList = () => {
     navigate(ADMIN_BOARD_LIST());
   };
 
+  const onBoardTitleClickHandler = (boardId: number) => {
+    navigate(BOARD_DETAIL(boardId as unknown as bigint));
+  };
+
   // 관리자 페이지(게시글목록) - 게시글 목록 요청
   useEffect(() => {
     getAdminBoardListRequest().then(getAdminBoardListResponse);
@@ -47,7 +52,6 @@ const AdminBoardList = () => {
 
     const { code } = responseBody;
     console.log("BoardList code 값 : ", JSON.stringify(code, null, 2));
-    console.log("aaaaaaaa");
 
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
@@ -143,7 +147,12 @@ const AdminBoardList = () => {
                     />
                   </div>
                   <div className="admin-item-id">{board.boardId}</div>
-                  <div className="admin-item-title">{board.title}</div>
+                  <div
+                    className="admin-item-title"
+                    onClick={() => onBoardTitleClickHandler(board.boardId)}
+                  >
+                    {board.title}
+                  </div>
                   <div className="admin-item-nickName">
                     {board.user.nickname}
                   </div>

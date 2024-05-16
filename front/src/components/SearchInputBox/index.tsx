@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
-import CategorieList from "../../types/interface/admin-categorie.interface";
 
 // interface: Input Box 컴포넌트 Properties
 interface Props {
@@ -10,7 +9,7 @@ interface Props {
 
 const SearchInputBox = ({ columns, onSearch }: Props) => {
   const [searchDrop, setSearchDrop] = useState(false);
-  const [search, setSearch] = useState<string>("전체");
+  const [search, setSearch] = useState<string>("검색기준");
   const [searchValue, setSearchValue] = useState<string>("");
 
   const [dropdownValue, setDropdownValue] = useState<string>("");
@@ -31,8 +30,11 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
   const onCategorySearch = () => {
     const inputValue = searchInputRef.current?.value || "";
     setInputValue(inputValue);
-    if (search !== "전체" && inputValue.length === 0) {
+    if (search !== "검색기준" && inputValue.length === 0) {
       alert("검색어를 입력해주세요.");
+      return;
+    } else if (search == "검색기준" && inputValue.length === 0) {
+      alert("검색기준을 선택해주세요.");
       return;
     }
     onSearch(searchValue, inputValue);
@@ -46,7 +48,7 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
     onSearchButtonClickHandler();
   };
 
-  //      event handler: 로그인 버튼 클릭 이벤트 처리 함수      //
+  //      event handler: 검색 버튼 클릭 이벤트 처리 함수      //
   const onSearchButtonClickHandler = () => {
     onCategorySearch();
   };

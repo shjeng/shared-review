@@ -17,6 +17,7 @@ public class AdminCategoryDto {
     private String categoryName;
     private String userNickname;
     private LocalDateTime writeDateTime;
+    private String userEmail;
 
 
     public AdminCategoryDto of(Category category){
@@ -24,6 +25,7 @@ public class AdminCategoryDto {
         this.categoryName = category.getName();
         this.userNickname = category.getUser().getNickname();
         this.writeDateTime = category.getCreateDate();
+        this.userEmail = category.getUser().getEmail();
         return this;
     }
 

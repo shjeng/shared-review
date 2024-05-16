@@ -16,7 +16,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> { // �
 
 
     // 사용자 이름
-    @Query("SELECT c FROM Category c WHERE c.user.nickname = :nickname") // 수정된 부분: "USER_ID" 대신 "user" 속성 사용
+    @Query("SELECT c FROM Category c WHERE c.user.nickname = :nickname")
     List<Category> findByUserNickname(@Param("nickname") String nickname);
 
     // 카테고리 내용

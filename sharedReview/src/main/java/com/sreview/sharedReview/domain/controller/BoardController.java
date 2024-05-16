@@ -52,9 +52,6 @@ public class BoardController {
 
     @GetMapping("/admin/get-category/{searchValue}/{inputValue}") // 관리자 페이지 카테고리 검색
     public ResponseEntity<? super AdminCategotyResponse> getAdminCategorySearch(@PathVariable("searchValue") String searchValue, @PathVariable("inputValue") String inputValue) {
-//        List<CategoryDto> searchResults = boardServcice.getAdminCategorySearch(searchValue, inputValue);
-        System.out.println("컨트롤러 - 받아온 데이터 searchValue : " + searchValue);
-        System.out.println("컨트롤러 - 받아온 데이터 inputValue : " +  inputValue);
         return boardServcice.getAdminCategorySearch(searchValue, inputValue);
     }
 
