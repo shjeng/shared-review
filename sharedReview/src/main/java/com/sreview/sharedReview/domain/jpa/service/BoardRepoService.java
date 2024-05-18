@@ -2,6 +2,7 @@ package com.sreview.sharedReview.domain.jpa.service;
 
 import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
+import com.sreview.sharedReview.domain.jpa.entity.Category;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -65,4 +66,15 @@ public class BoardRepoService { // DB에 넣어주는 아이
             throw new NonExistBoardException("존재하지 않는 게시물입니다.");
         }
     }
+
+    public List<Board> findByTitle(String inputValue) {
+        return boardRepository.findByTitle(inputValue);
+    }
+
+    public List<Board> findByUserNickname(String inputValue) {
+        return boardRepository.findByUserNickname(inputValue);
+    }
+
+
+
 }

@@ -7,7 +7,11 @@ import {
   USER_MANAGE_PATH,
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
-import { getAdminBoardListRequest, getCategorysReqeust } from "../../../apis";
+import {
+  getAdminBoardListRequest,
+  getAdminBoardSearchReqeust,
+  getCategorysReqeust,
+} from "../../../apis";
 import ResponseDto from "../../../apis/response/response.dto";
 import GetAdminBoardResponseDto from "../../../apis/response/board/get-admin-board-list-response.dto";
 import AdminBoard from "../../../types/interface/admin-board.interface";
@@ -90,6 +94,38 @@ const AdminBoardList = () => {
     { label: "닉네임", field: "nickName" },
     { label: "작성일", field: "writerDate" },
   ];
+
+  const handleSearch = (searchValue: string, inputValue: string) => {
+    if (searchValue === "전체") {
+      getAdminBoardListRequest().then(getAdminBoardListResponse);
+      return;
+    }
+    getAdminBoardSearchReqeust(searchValue, inputValue).then(
+      getAdminBoardSearchResponse
+    );
+  };
+  const getAdminBoardSearchResponse = (
+    responseBody: GetAdminBoardResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+
+    const { code } = responseBody;
+    console.log("BoardList code 값 : ", JSON.stringify(code, null, 2));
+
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+    const result = responseBody as GetAdminBoardResponseDto;
+    console.log("result : ", JSON.stringify(result, null, 2)); // 객체의 구조를 확인
+
+    setBoards(result.boards);
+  };
+
   return (
     <div id="admin-wrap">
       <div className="admin-top">
@@ -117,7 +153,12 @@ const AdminBoardList = () => {
 
         <div className="admin-mid-right">
           <div className="admin-mid-right-top">
-            {/* <SearchInputBox columns={userDefinedColumns} /> */}
+            <SearchInputBox
+              columns={userDefinedColumns}
+              onSearch={(searchValue, inputValue) =>
+                handleSearch(searchValue, inputValue)
+              }
+            />
 
             <div className="admin-classification">
               <div className="admin-item-check-box">

@@ -20,9 +20,8 @@ public class GetUserListResponse extends ResponseDto {
         this.userList = userList;
     }
 
-//    public static ResponseEntity<GetUserListResponse> success(List<UserAdminDto> userList) {
-//        return ResponseEntity.status(HttpStatus.OK).body(new GetUserListResponse(userList));
-//
+//    public static ResponseEntity<GetUserListResponse> success(List<AdminUserDto> userDtoList) {
+//        return ResponseEntity.ok(new GetUserListResponse(userDtoList));
 //    }
 
     public static GetUserListResponse success(List<AdminUserDto> userDtoList) {

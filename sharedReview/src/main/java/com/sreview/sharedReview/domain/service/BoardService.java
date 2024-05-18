@@ -29,6 +29,7 @@ public interface BoardService {
     ResponseDto getAllBoards(Pageable pageable);
 
     ResponseEntity<? super AdminBoardListResponse> getAdminBoards();
+    ResponseEntity<? super AdminBoardListResponse> getAdminBoardSearch(String searchValue, String inputValue);
 
     ResponseDto commentWrite(String writerEmail, CommentWriteRequest request, Pageable pageable);
 

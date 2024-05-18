@@ -58,4 +58,41 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    public ResponseDto getAdminUserSearch(String searchValue, String inputValue) {
+        System.out.println("Impl - 받아온 데이터 searchValue : " + searchValue);
+        System.out.println("Impl - 받아온 데이터 inputValue : " +  inputValue);
+
+        List<AdminUserDto> users;
+        List<User> filteredUser;
+        try {
+//          게시글 제목으로 들어올때
+            if("nickName".equals(searchValue)) {
+                System.out.println("nickName 실행");
+                filteredUser = userRepository.findAdminByNickname(inputValue);
+
+//          유저 아이디로 들어올때
+            } else if ("email".equals(searchValue)) {
+                System.out.println("email 실행");
+                filteredUser = userRepository.findAdminByEmail(inputValue);
+            }
+            else {
+                System.out.println("!!!!!!!!!!!데이터 못찾음!!!!!!!!!!!!");
+                return null;
+            }
+            System.out.println("쿼리문 실행 후 filteredCategorys : " + filteredUser);
+
+            // DTO로 변환
+            users = AdminUserDto.ofList(filteredUser);
+
+//            return null;
+            return GetUserListResponse.success(users);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
+//            return AdminCategotyResponse.databaseError();
+        }
+    }
+
+
 }
