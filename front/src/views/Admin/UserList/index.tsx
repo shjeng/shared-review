@@ -6,7 +6,7 @@ import {
   USER_MANAGE_PATH,
 } from "../../../constant";
 import { useEffect, useState } from "react";
-import { getUserList } from "../../../apis";
+import { getAdminUserSearchReqeust, getUserList } from "../../../apis";
 import GetUserListResponseDto from "../../../apis/response/user/get-user-list-response.dto";
 import ResponseDto from "../../../apis/response/response.dto";
 import UserList from "../../../types/interface/user-list.interface";
@@ -74,12 +74,38 @@ const AdminUserList = () => {
   };
 
   const userDefinedColumns = [
-    { label: "ID", field: "id" },
     { label: "닉네임", field: "nickName" },
     { label: "이메일", field: "email" },
     { label: "가입일", field: "writerDate" },
     { label: "권한", field: "authority" },
   ];
+
+  const handleSearch = (searchValue: string, inputValue: string) => {
+    if (searchValue === "전체") {
+      getUserList().then(getAdminUserListResponse);
+      return;
+    }
+    getAdminUserSearchReqeust(searchValue, inputValue).then(
+      getAdminUserSearchResponse
+    );
+  };
+  const getAdminUserSearchResponse = (
+    responseBody: GetUserListResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code !== "SU") {
+      return;
+    }
+    const result = responseBody as GetUserListResponseDto;
+    setUsers(result.userList);
+  };
+
   return (
     <div id="userList-wrap">
       <div className="userList-top">
@@ -110,7 +136,12 @@ const AdminUserList = () => {
 
         <div className="userList-mid-right">
           <div className="userList-mid-right-top">
-            {/* <SearchInputBox columns={userDefinedColumns} /> */}
+            <SearchInputBox
+              columns={userDefinedColumns}
+              onSearch={(searchValue, inputValue) =>
+                handleSearch(searchValue, inputValue)
+              }
+            />
 
             <div className="userList-classification">
               <div className="userList-item-check-box">

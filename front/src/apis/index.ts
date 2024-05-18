@@ -2,16 +2,16 @@ import axios from "axios";
 import SignInRequestDto from "./request/auth/sign-in-request.dto";
 import SignInResponseDto from "./response/auth/sign-in.response.dto";
 import ResponseDto from "./response/response.dto";
-import {SignUpRequestDto} from "./request/auth";
+import { SignUpRequestDto } from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
-import {NicknameDupleChkResponseDto} from "./response/auth";
-import {GetUserResponseDto} from "./response/user";
-import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
+import { NicknameDupleChkResponseDto } from "./response/auth";
+import { GetUserResponseDto } from "./response/user";
+import { BoardWriteRequestDto, CommentWriteRequestDto } from "./request/board";
 import {
-    BoardListResponse,
-    CommentResponseDto,
-    GetCategorysResponseDto,
-    PostBoardWriteResponseDto,
+  BoardListResponse,
+  CommentResponseDto,
+  GetCategorysResponseDto,
+  PostBoardWriteResponseDto,
 } from "./response/board";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
@@ -223,6 +223,27 @@ export const getUserList = async () => {
   return result;
 };
 
+// 관리자 페이지 유저 검색
+const GET_ADMIN_USER_SEARCH = (searchValue: string, inputValue: string) =>
+  `${API_DOMAIN}/user/get-user-list/${searchValue}/${inputValue}`;
+export const getAdminUserSearchReqeust = async (
+  searchValue: string,
+  inputValue: string
+) => {
+  const result = await axios
+    .get(GET_ADMIN_USER_SEARCH(searchValue, inputValue))
+    .then((response) => {
+      const responseBody: GetUserListResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error.response.data) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
+
 // 관리자 페이지(게시글목록) - 게시글 목록 요청
 const ADMIN_BOARD_LIST = () => `${API_DOMAIN}/board/admin/board-list`;
 export const getAdminBoardListRequest = async () => {
@@ -242,11 +263,32 @@ export const getAdminBoardListRequest = async () => {
   return result;
 };
 
+// 관리자 페이지 게시글 검색
+const GET_ADMIN_BOARD_SEARCH = (searchValue: string, inputValue: string) =>
+  `${API_DOMAIN}/board/admin/board-list/${searchValue}/${inputValue}`;
+export const getAdminBoardSearchReqeust = async (
+  searchValue: string,
+  inputValue: string
+) => {
+  const result = await axios
+    .get(GET_ADMIN_BOARD_SEARCH(searchValue, inputValue))
+    .then((response) => {
+      const responseBody: GetAdminBoardResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error.response.data) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
+
 // 게시글 목록 요청
 const BOARD_LIST = () => `${API_DOMAIN}/board/board-list`;
 export const getBoardListRequest = async (requestParams: Object) => {
   const result = await axios
-    .get(BOARD_LIST(), {params:requestParams})
+    .get(BOARD_LIST(), { params: requestParams })
     .then((response) => {
       const responseBody: GetBoardListResponseDto = response.data;
       console.log("ts : ", JSON.stringify(responseBody, null, 2)); // 객체의 구조를 확인

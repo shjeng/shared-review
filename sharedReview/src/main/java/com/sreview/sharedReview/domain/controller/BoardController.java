@@ -98,6 +98,12 @@ public class BoardController {
         return boardServcice.getAdminBoards();
     }
 
+
+    @GetMapping("/admin/board-list/{searchValue}/{inputValue}") // 관리자 페이지 게시물 검색
+    public ResponseEntity<? super AdminBoardListResponse> getAdminBoardSearch(@PathVariable("searchValue") String searchValue, @PathVariable("inputValue") String inputValue) {
+        return boardServcice.getAdminBoardSearch(searchValue, inputValue);
+    }
+
     @DeleteMapping("/board/{boardId}")
     public ResponseEntity<?> deleteBoard(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email){
         log.info("delete board Id = {}", boardId);

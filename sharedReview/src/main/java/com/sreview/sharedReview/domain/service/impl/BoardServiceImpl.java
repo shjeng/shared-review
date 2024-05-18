@@ -149,7 +149,6 @@ public class BoardServiceImpl implements BoardService {
                 filteredCategorys = categoryRepoService.findListByName(inputValue);
 //          유저 아이디로 들어올때
             } else if ("userNickname".equals(searchValue)) {
-                // 수정된 부분: "findByUser" 메서드의 매개변수를 "User" 객체의 속성으로 변경
                 System.out.println("findByUserNickname 실행");
                 filteredCategorys = categoryRepoService.findByUserNickname(inputValue);
             }
@@ -256,6 +255,41 @@ public class BoardServiceImpl implements BoardService {
             throw new InternalException();
         }
         return AdminBoardListResponse.success(boards);
+    }
+
+    @Override
+    public ResponseEntity<? super AdminBoardListResponse> getAdminBoardSearch(String searchValue, String inputValue) {
+        System.out.println("Impl - 받아온 데이터 searchValue : " + searchValue);
+        System.out.println("Impl - 받아온 데이터 inputValue : " +  inputValue);
+
+        List<AdminBoardDto> boards;
+        List<Board> filteredBoard;
+        try {
+//          게시글 제목으로 들어올때
+            if("title".equals(searchValue)) {
+                System.out.println("title 실행");
+                filteredBoard = boardRepoService.findByTitle(inputValue);
+
+//          유저 아이디로 들어올때
+            } else if ("nickName".equals(searchValue)) {
+                System.out.println("findByUserNickname 실행");
+                filteredBoard = boardRepoService.findByUserNickname(inputValue);
+            }
+            else {
+                System.out.println("!!!!!!!!!!!데이터 못찾음!!!!!!!!!!!!");
+                return null;
+            }
+            System.out.println("쿼리문 실행 후 filteredCategorys : " + filteredBoard);
+
+            // DTO로 변환
+            boards = AdminBoardDto.ofList(filteredBoard);
+
+            return AdminBoardListResponse.success(boards);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
+//            return AdminCategotyResponse.databaseError();
+        }
     }
 
     @Override

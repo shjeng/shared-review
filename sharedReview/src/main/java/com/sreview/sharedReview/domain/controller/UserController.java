@@ -1,6 +1,7 @@
 package com.sreview.sharedReview.domain.controller;
 
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
+import com.sreview.sharedReview.domain.dto.response.board.AdminBoardListResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardListResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
@@ -40,6 +41,12 @@ public class UserController {
     @GetMapping("/get-user-list") // 유저 리스트
     public ResponseEntity<? super GetUserListResponse> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/get-user-list/{searchValue}/{inputValue}") // 관리자 페이지 유저 검색
+    public ResponseEntity<? super GetUserListResponse> getAdminUserSearch(@PathVariable("searchValue") String searchValue, @PathVariable("inputValue") String inputValue) {
+        return ResponseEntity.ok(userService.getAdminUserSearch(searchValue, inputValue));
+
     }
 
     @GetMapping("/{userEmail}/board")
