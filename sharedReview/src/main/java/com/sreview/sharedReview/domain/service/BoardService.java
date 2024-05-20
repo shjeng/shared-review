@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.service;
 
+import com.sreview.sharedReview.domain.dto.request.board.BoardListParam;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
@@ -27,6 +28,7 @@ public interface BoardService {
 
     ResponseDto increaseViewcount(Long boardId);
     ResponseDto getAllBoards(Pageable pageable);
+    ResponseDto getAllBoards(Pageable pageable, BoardListParam params);
 
     ResponseEntity<? super AdminBoardListResponse> getAdminBoards();
     ResponseEntity<? super AdminBoardListResponse> getAdminBoardSearch(String searchValue, String inputValue);

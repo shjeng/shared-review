@@ -287,8 +287,7 @@ export const getAdminBoardSearchReqeust = async (
 // 게시글 목록 요청
 const BOARD_LIST = () => `${API_DOMAIN}/board/board-list`;
 export const getBoardListRequest = async (requestParams: Object) => {
-  const result = await axios
-    .get(BOARD_LIST(), { params: requestParams })
+  const result = await axios.get(BOARD_LIST(), { params: requestParams })
     .then((response) => {
       const responseBody: GetBoardListResponseDto = response.data;
       console.log("ts : ", JSON.stringify(responseBody, null, 2)); // 객체의 구조를 확인

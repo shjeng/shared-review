@@ -144,7 +144,7 @@ const AdminCategories = () => {
 
     console.log("addInputValue : ", addInputValue);
 
-    postCategotyAdd(addInputValue);
+    // postCategotyAdd(addInputValue);
     alert("추가되었습니다.");
 
     window.location.reload();

@@ -117,10 +117,7 @@ const Header = () => {
                       category,
                       index // 카테고리 목록 불러오기.
                     ) => (
-                      <div
-                        className="board-dropdown-content-item"
-                        onClick={() => onCategoryClick(category)}
-                      >
+                      <div className="board-dropdown-content-item" onClick={() => onCategoryClick(category)}>
                         {category.categoryName}
                       </div>
                     )

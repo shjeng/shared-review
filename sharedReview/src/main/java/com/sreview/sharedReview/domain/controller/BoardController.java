@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.controller;
 
+import com.sreview.sharedReview.domain.dto.request.board.BoardListParam;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
@@ -67,7 +68,7 @@ public class BoardController {
     }
 
     @GetMapping("/board-list")
-    public ResponseEntity<? super BoardListResponse> getAllBoards(@PageableDefault(size = 20)Pageable pageable){
+    public ResponseEntity<? super BoardListResponse> getAllBoards(@PageableDefault(size = 20)Pageable pageable, @ModelAttribute BoardListParam params){
         BoardListResponse allBoards = (BoardListResponse) boardServcice.getAllBoards(pageable);
         return ResponseEntity.ok(allBoards);
     }
