@@ -7,11 +7,12 @@ import {
   USER_MANAGE_PATH,
   USER_PAGE_PATH,
 } from "../../../constant";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   getAdminCategorySearchReqeust,
   getAdminCategorysReqeust,
   getCategorysReqeust,
+  postCategotyAdd,
 } from "../../../apis";
 import ResponseDto from "../../../apis/response/response.dto";
 import CategorieList from "../../../types/interface/admin-categorie.interface";
@@ -134,6 +135,21 @@ const AdminCategories = () => {
     }
   };
 
+  const addInputRef = useRef<HTMLInputElement>(null);
+  const [addInputValue, setAddInputValue] = useState<string>("");
+
+  const onCategoryAdd = () => {
+    const inputValue = addInputRef.current?.value || "";
+    setAddInputValue(inputValue);
+
+    console.log("addInputValue : ", addInputValue);
+
+    postCategotyAdd(addInputValue);
+    alert("추가되었습니다.");
+
+    window.location.reload();
+  };
+
   return (
     <div id="admin-categori-wrap">
       <div className="admin-categori-top">
@@ -170,8 +186,14 @@ const AdminCategories = () => {
               />
 
               <div className="admin-categori-add-container">
-                <input type="text" placeholder="추가 내용 입력" />
-                <div className="admin-categori-add">추가하기</div>
+                <input
+                  type="text"
+                  placeholder="추가 내용 입력"
+                  ref={addInputRef}
+                />
+                <div className="admin-categori-add" onClick={onCategoryAdd}>
+                  추가하기
+                </div>
               </div>
             </div>
             <div className="admin-categori-classification">

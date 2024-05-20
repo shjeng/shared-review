@@ -33,7 +33,7 @@ const SearchInputBox = ({ columns, onSearch }: Props) => {
     if (search !== "검색기준" && inputValue.length === 0) {
       alert("검색어를 입력해주세요.");
       return;
-    } else if (search == "검색기준" && inputValue.length === 0) {
+    } else if (search == "검색기준") {
       alert("검색기준을 선택해주세요.");
       return;
     }

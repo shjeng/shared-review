@@ -74,6 +74,7 @@ const AdminUserList = () => {
   };
 
   const userDefinedColumns = [
+    { label: "ID", field: "id" },
     { label: "닉네임", field: "nickName" },
     { label: "이메일", field: "email" },
     { label: "가입일", field: "writerDate" },
