@@ -479,6 +479,28 @@ export const deleteComment = async (
     });
   return result;
 };
+
+// 관리자페이지 카테고리 추가 기능
+const CATEGORY_ADD = () => `${API_DOMAIN}/board/category/create`;
+// const CATEGORY_ADD = () => `${API_DOMAIN}/board/admin/category-add`;
+export const postCategotyAdd = async (
+  addInputValue: string,
+  accessToken: string
+) => {
+  const result = await axios
+    .post(CATEGORY_ADD(), addInputValue, authorication(accessToken))
+    .then((response) => {
+      const responseBody = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
+
 const errorResponse = (error: null | any) => {
   if (!error) return null;
   const responseBody: ResponseDto = error.response.data;
