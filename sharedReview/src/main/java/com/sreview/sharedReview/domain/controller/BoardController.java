@@ -70,7 +70,12 @@ public class BoardController {
 
     @GetMapping("/board-list")
     public ResponseEntity<? super BoardListResponse> getAllBoards(@PageableDefault(size = 20)Pageable pageable, @ModelAttribute BoardListParam params){
-        BoardListResponse allBoards = (BoardListResponse) boardServcice.getAllBoards(pageable);
+        BoardListResponse allBoards;
+        if (params == null) {
+            allBoards = (BoardListResponse) boardServcice.getAllBoards(pageable);
+        } else {
+            allBoards = (BoardListResponse) boardServcice.getBoards(pageable, params);
+        }
         return ResponseEntity.ok(allBoards);
     }
     @GetMapping("/comments/{boardId}")

@@ -250,6 +250,13 @@ public class BoardServiceImpl implements BoardService {
             throw new InternalException();
         }
     }
+
+    @Override
+    public ResponseDto getBoards(Pageable pageable, BoardListParam params) {
+        Page<Board> boardsByParams = boardRepoService.findBoardsByParams(pageable, params);
+        return null;
+    }
+
     @Override
     public ResponseEntity<? super AdminBoardListResponse> getAdminBoards() {
         List<AdminBoardDto> boards;

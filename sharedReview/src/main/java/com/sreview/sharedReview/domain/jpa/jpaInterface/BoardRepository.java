@@ -25,6 +25,13 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("select b from Board b")
     Page<Board> findLatestBoards(Pageable pageable);
 
+    @Query("select b from Board b where b.category.id =:id")
+    Page<Board> findBoardsByCategory(@Param("id")Long id, Pageable pageable);
+    @Query("select b from Board b where b.title like %:title%")
+    Page<Board> findBoardsBySearchWord(@Param("title")String title, Pageable pageable);
+    @Query("select b from Board b where b.title like %:title% and b.category.id =:id")
+    Page<Board> findBoardsByCategoryIdAndTitle(@Param("title")String title,@Param("id")Long id, Pageable pageable);
+
     @Query("select b from Board b where b.user.email =:email")
     Page<Board> findBoardsByUserEmail(@Param("email") String userEmail, Pageable pageable);
     @Query("select b from Board b where b.createDate >= :weekAgo order by b.favoriteCount desc, b.createDate desc limit 10")

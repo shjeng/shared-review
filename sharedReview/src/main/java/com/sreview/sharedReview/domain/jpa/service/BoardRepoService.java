@@ -1,6 +1,7 @@
 package com.sreview.sharedReview.domain.jpa.service;
 
 import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
+import com.sreview.sharedReview.domain.dto.request.board.BoardListParam;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.Category;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.BoardRepository;
@@ -50,6 +51,25 @@ public class BoardRepoService { // DB에 넣어주는 아이
 //    public Optional<Board> findBoardAndCommentsUserById(Long boardId) {
 //        return boardRepository.findBoardAndCommentsUserById(boardId);
 //    }
+
+    public Page<Board> findBoardsByParams(Pageable pageable, BoardListParam params){
+        Long categoryId = params.getCategoryId();
+        String searchType = params.getSearchType();
+        String searchWord = params.getSearchWord();
+
+        Page<Board> result = null;
+        if (categoryId != null && searchType == null) {
+            result = boardRepository.findBoardsByCategory(categoryId, pageable);
+        }
+        if (searchType.equals("title") && searchWord != null) {
+            if (categoryId == null) {
+                result = boardRepository.findBoardsBySearchWord(searchWord, pageable);
+            } else {
+                result = boardRepository.findBoardsByCategoryIdAndTitle(searchWord, categoryId, pageable);
+            }
+        }
+        return result;
+    }
 
     public Page<Board> findBoardsByUserEmail(String userEmail, Pageable pageable){
         return boardRepository.findBoardsByUserEmail(userEmail, pageable);

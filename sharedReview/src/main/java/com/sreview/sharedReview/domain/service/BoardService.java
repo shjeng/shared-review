@@ -28,7 +28,7 @@ public interface BoardService {
 
     ResponseDto increaseViewcount(Long boardId);
     ResponseDto getAllBoards(Pageable pageable);
-//    ResponseDto getAllBoards(Pageable pageable, BoardListParam params);
+    ResponseDto getBoards(Pageable pageable, BoardListParam params);
 
     ResponseEntity<? super AdminBoardListResponse> getAdminBoards();
     ResponseEntity<? super AdminBoardListResponse> getAdminBoardSearch(String searchValue, String inputValue);
