@@ -20,6 +20,7 @@ import GetAdminCategorysResponseDto from "../../../apis/response/board/get-admin
 import SearchInputBox from "../../../components/SearchInputBox";
 import { useLoginUserStore } from "../../../store";
 import SearchResultsPage from "../../../components/SearchResultsPage";
+import { useCookies } from "react-cookie";
 
 const AdminCategories = () => {
   const { loginUser } = useLoginUserStore();
@@ -137,17 +138,22 @@ const AdminCategories = () => {
 
   const addInputRef = useRef<HTMLInputElement>(null);
   const [addInputValue, setAddInputValue] = useState<string>("");
+  const [cookies, seetCookies] = useCookies();
 
   const onCategoryAdd = () => {
+    console.log("cookies : ", cookies);
     const inputValue = addInputRef.current?.value || "";
     setAddInputValue(inputValue);
 
     console.log("addInputValue : ", addInputValue);
 
-    // postCategotyAdd(addInputValue);
-    alert("추가되었습니다.");
+    postCategotyAdd(addInputValue, cookies.accessToken).then(postResponse);
+    // alert("추가되었습니다.");
+    // window.location.reload();
+  };
 
-    window.location.reload();
+  const postResponse = () => {
+    alert("postResponse까지 실행");
   };
 
   return (

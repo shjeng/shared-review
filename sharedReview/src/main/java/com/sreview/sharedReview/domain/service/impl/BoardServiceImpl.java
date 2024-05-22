@@ -3,6 +3,7 @@ package com.sreview.sharedReview.domain.service.impl;
 import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.dto.object.*;
+import com.sreview.sharedReview.domain.dto.request.board.BoardListParam;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
@@ -93,9 +94,14 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request) {
+    public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request, String email) {
+        System.out.println("Impl 실행");
+
         try{
-            String email = "";
+            System.out.println("받은 request 값 : " + request);
+            System.out.println("받은 email 값 : " + email);
+
+            email = "";
             User user = userEntityService.findByEmail(email);
             String getName = request.getName();
             Category category = new Category(getName,user);
