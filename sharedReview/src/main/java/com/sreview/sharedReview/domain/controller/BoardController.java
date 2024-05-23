@@ -62,9 +62,8 @@ public class BoardController {
         return ResponseEntity.ok(boardServcice.getBoard(boardId));
     }
 
-    @PostMapping("/admin/category/create") // 카테고리 저장, @AuthenticationPrincipal 작성 필요
+    @PostMapping("/admin/category/create") // 카테고리 저장
     public ResponseEntity<? super CategoryWriteResponse> saveCategory(@RequestBody CategoryWriteRequest request, @AuthenticationPrincipal String email){
-        System.out.println("컨트롤러 실행");
         return boardServcice.saveCategory(request,email);
     }
 

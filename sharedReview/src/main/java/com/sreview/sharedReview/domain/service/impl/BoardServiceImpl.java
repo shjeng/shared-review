@@ -92,23 +92,15 @@ public class BoardServiceImpl implements BoardService {
         }
     }
 
-
     @Override
     public ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request, String email) {
-        System.out.println("Impl 실행");
-
         try{
-            System.out.println("받은 request 값 : " + request);
-            System.out.println("받은 email 값 : " + email);
-
-            email = "";
             User user = userEntityService.findByEmail(email);
-            String getName = request.getName();
+            String getName = request.getCategoryName();
             Category category = new Category(getName,user);
             categoryRepoService.save(category);
         }catch (Exception e){
             e.printStackTrace();
-
         }
         return CategoryWriteResponse.success();
     }

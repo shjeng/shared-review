@@ -14,6 +14,7 @@ public interface BoardService {
     ResponseDto getFaoviteBoardTop3(String condition);
 
     ResponseDto findBoardByUserEmail(String userEmail, Pageable pageable);
+
     ResponseEntity<? super CategoryWriteResponse> saveCategory(CategoryWriteRequest request, String email);
 
     ResponseEntity<? super GetCategorysResponse> getCategorys();

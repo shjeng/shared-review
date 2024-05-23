@@ -19,6 +19,7 @@ import GetAdminBoardResponseDto from "./response/board/get-admin-board-list-resp
 import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
 import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
+import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -398,6 +399,8 @@ export const postBoard = async (
     .post(POST_BOARD(), requestBody, authorication(accessToken))
     .then((response) => {
       const responseBody: PostBoardWriteResponseDto = response.data;
+      console.log("responseBody : ", responseBody);
+
       return responseBody;
     })
     .catch((error) => {
@@ -484,11 +487,11 @@ export const deleteComment = async (
 const CATEGORY_ADD = () => `${API_DOMAIN}/board/admin/category/create`;
 // const CATEGORY_ADD = () => `${API_DOMAIN}/board/admin/category-add`;
 export const postCategotyAdd = async (
-  addInputValue: string,
+  responseBody: CategoryWriteRequestDto,
   accessToken: string
 ) => {
   const result = await axios
-    .post(CATEGORY_ADD(), addInputValue, authorication(accessToken))
+    .post(CATEGORY_ADD(), responseBody, authorication(accessToken))
     .then((response) => {
       const responseBody = response.data;
       return responseBody;
