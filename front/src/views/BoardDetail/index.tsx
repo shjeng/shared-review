@@ -61,6 +61,7 @@ const BoardDetail = () => {
             return;
         }
         getBoardRequest(boardId).then(getBoardResponse);
+
     }, [boardId]);
     const getBoardResponse = (responseBody: GetBoardDetailResponseDto | ResponseDto | null) => {
         if (!responseBody) {
@@ -88,7 +89,7 @@ const BoardDetail = () => {
         setTotalCount(result.comments.totalElements);
         setCountPerItem(result.comments.size);
         setCurrentPage(result.comments.pageable.pageNumber + 1);
-        if (writer?.email === loginUser?.email) {
+        if (result.user.email === loginUser?.email) {
             setIsMyPost(true);
         }
     };
@@ -177,6 +178,9 @@ const BoardDetail = () => {
         setViewCount(increaseViewCountResult.viewCount);
 
     }
+    const favoriteBtnClick = () => {
+
+    }
     const deleteComment = () => {
         pageButtonClick(currentPage);
     }
@@ -243,12 +247,10 @@ const BoardDetail = () => {
                     <div className="board-detail-interactions">
                         <div className="board-detail-like">
                             {favorites.findIndex(
-                                (favorite) => favorite.userEmail === loginUser?.email
-                            ) === -1 ? (
-                                <div className="board-deatil-like-icon"></div>
-                            ) : (
-                                <div className="board-deatil-like-icon"></div>
-                            )}
+                                (favorite) => favorite.userEmail === loginUser?.email) === -1 ?
+                                <div className="board-deatil-like-icon" onClick={favoriteBtnClick}></div> :
+                                <div className="board-deatil-like-icon" onClick={favoriteBtnClick}></div>
+                            }
                             <div className="board-deatil-like-count">{favoriteCount}</div>
                         </div>
 

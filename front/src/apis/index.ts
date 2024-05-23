@@ -446,6 +446,13 @@ export const getComments = async (page: number, boardId: string | bigint) => {
     });
   return result;
 };
+
+// put
+const FAVORITE = (boardId: string | bigint) => `${API_DOMAIN}/board/${boardId}`;
+export const favoriteBoard = async (boardId: string | bigint) => {
+
+}
+
 // delete
 const DELETE_BOARD = (boardId: string | bigint) =>
   `${API_DOMAIN}/board/${boardId}`;
