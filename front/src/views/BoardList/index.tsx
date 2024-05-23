@@ -13,6 +13,7 @@ import BoardItem3 from "../../components/BoardItem3";
 const BoardList = () => {
     const [category, setCategory] = useState<Category>();
     const {categoryId, searchWord, searchType} = useBoardSearchStore();
+    const {setCategoryId, setSearchWord, setSearchType} = useBoardSearchStore();
     const navigator = useNavigate();
     const [requestParams, setRequestParams] = useState<Object>({});
     const onBoardWriteClickHandler = () => {
@@ -23,6 +24,7 @@ const BoardList = () => {
     const [boards, setBoards] = useState<Board[]>([]);
 
     useEffect(() => {
+        setSearchType('title');
         const params = {
             page: 0,
             categoryId: categoryId,

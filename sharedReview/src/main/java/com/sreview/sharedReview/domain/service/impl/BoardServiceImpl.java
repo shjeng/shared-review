@@ -246,7 +246,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseDto getBoards(Pageable pageable, BoardListParam params) {
         Page<Board> boardsByParams = boardRepoService.findBoardsByParams(pageable, params);
-        return null;
+        Page<BoardDto> result = boardsByParams.map(b -> new BoardDto().of(b));
+        return BoardListResponse.success(result);
     }
 
     @Override

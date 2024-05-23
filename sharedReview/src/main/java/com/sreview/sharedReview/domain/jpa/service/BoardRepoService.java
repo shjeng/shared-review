@@ -58,16 +58,19 @@ public class BoardRepoService { // DB에 넣어주는 아이
         String searchWord = params.getSearchWord();
 
         Page<Board> result = null;
-        if (categoryId != null && searchType == null) {
+        if (categoryId != null && searchType == null && searchWord == null) {
             result = boardRepository.findBoardsByCategory(categoryId, pageable);
         }
-        if (searchType.equals("title") && searchWord != null) {
-            if (categoryId == null) {
-                result = boardRepository.findBoardsBySearchWord(searchWord, pageable);
-            } else {
-                result = boardRepository.findBoardsByCategoryIdAndTitle(searchWord, categoryId, pageable);
+        if (searchType != null && searchWord != null) {
+            if (searchType.equals("title")) {
+                if (categoryId == null) {
+                    result = boardRepository.findBoardsBySearchWord(searchWord, pageable);
+                } else {
+                    result = boardRepository.findBoardsByCategoryIdAndTitle(searchWord, categoryId, pageable);
+                }
             }
         }
+
         return result;
     }
 
