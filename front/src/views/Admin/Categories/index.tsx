@@ -21,6 +21,8 @@ import SearchInputBox from "../../../components/SearchInputBox";
 import { useLoginUserStore } from "../../../store";
 import SearchResultsPage from "../../../components/SearchResultsPage";
 import { useCookies } from "react-cookie";
+import CategoryWriteRequestDto from "../../../apis/request/board/category-write-reqeust.dto";
+import { ResponseCode } from "../../../types/enum";
 
 const AdminCategories = () => {
   const { loginUser } = useLoginUserStore();
@@ -137,23 +139,36 @@ const AdminCategories = () => {
   };
 
   const addInputRef = useRef<HTMLInputElement>(null);
-  const [addInputValue, setAddInputValue] = useState<string>("");
   const [cookies, seetCookies] = useCookies();
 
   const onCategoryAdd = () => {
     console.log("cookies : ", cookies);
-    const inputValue = addInputRef.current?.value || "";
-    setAddInputValue(inputValue);
+    const categoryName = addInputRef.current?.value || "";
 
-    console.log("addInputValue : ", addInputValue);
+    console.log("categoryName : ", categoryName);
 
-    postCategotyAdd(addInputValue, cookies.accessToken).then(postResponse);
-    // alert("추가되었습니다.");
-    // window.location.reload();
+    const reqeustBody: CategoryWriteRequestDto = {
+      categoryName,
+    };
+
+    postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
   };
 
-  const postResponse = () => {
-    alert("postResponse까지 실행");
+  const postResponse = (responseBody: { code: ResponseCode }) => {
+    console.log("responseBody : ", responseBody);
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code === "NU") alert("회원 정보 확인");
+    if (code !== "SU") {
+      return;
+    }
+    alert("추가되었습니다.");
+    window.location.reload();
   };
 
   return (
