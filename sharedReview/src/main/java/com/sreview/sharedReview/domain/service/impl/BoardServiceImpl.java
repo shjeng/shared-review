@@ -341,6 +341,18 @@ public class BoardServiceImpl implements BoardService {
             throw new InternalException();
         }
     }
+
+    @Override
+    public ResponseDto deleteCategory(Long categoryId, String email) {
+        try {
+            Optional<Category> categoryOptional = categoryRepoService.findById(categoryId);
+            System.out.println("categoryOptional : " + categoryOptional);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalException();
+        }
+        return null;
+    }
 }
 
 
