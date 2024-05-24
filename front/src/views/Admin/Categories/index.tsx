@@ -9,6 +9,7 @@ import {
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
 import {
+  deleteCategory,
   getAdminCategorySearchReqeust,
   getAdminCategorysReqeust,
   getCategorysReqeust,
@@ -171,6 +172,10 @@ const AdminCategories = () => {
     window.location.reload();
   };
 
+  const onCategoryDelete = (categoryId: number) => {
+    // deleteCategory(categoryId, cookies.accessToken).then(postResponse);
+  };
+
   return (
     <div id="admin-categori-wrap">
       <div className="admin-categori-top">
@@ -274,7 +279,10 @@ const AdminCategories = () => {
                   </div>
 
                   <div className="admin-categori-item-action">
-                    <div className="actions-icon-img"></div>
+                    <div
+                      className="actions-icon-img"
+                      onClick={() => onCategoryDelete(category.categoryId)}
+                    ></div>
                   </div>
                 </div>
               ))}

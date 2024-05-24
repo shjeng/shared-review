@@ -449,9 +449,7 @@ export const getComments = async (page: number, boardId: string | bigint) => {
 
 // put
 const FAVORITE = (boardId: string | bigint) => `${API_DOMAIN}/board/${boardId}`;
-export const favoriteBoard = async (boardId: string | bigint) => {
-
-}
+export const favoriteBoard = async (boardId: string | bigint) => {};
 
 // delete
 const DELETE_BOARD = (boardId: string | bigint) =>
@@ -483,6 +481,26 @@ export const deleteComment = async (
     })
     .then((response) => {
       return response;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+  return result;
+};
+
+const DELETE_CATEGORY = (categoryId: string | bigint) =>
+  `${API_DOMAIN}/board/category/${categoryId}`;
+export const deleteCategory = async (
+  categoryId: string | bigint,
+  accessToken: string
+) => {
+  const result = await axios
+    .delete(DELETE_CATEGORY(categoryId), {
+      ...tokenAndPageConfig.token(accessToken),
+    })
+    .then((response) => {
+      const responseBody: ResponseDto = response.data;
+      return responseBody;
     })
     .catch((error) => {
       return errorResponse(error);

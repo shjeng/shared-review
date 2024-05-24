@@ -124,4 +124,10 @@ public class BoardController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/board/category/{categoryId}")
+    public ResponseEntity<?> deleteCategory(@PathVariable("categoryId") Long categoryId, @AuthenticationPrincipal String email){
+        boardServcice.deleteBoard(categoryId, email);
+        return null;
+    }
+
 }
