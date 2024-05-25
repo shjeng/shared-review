@@ -1,20 +1,25 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
-import {useNavigate} from "react-router-dom";
-import {BOARD_LIST, BOARD_WRITE, MAIN_PATH, SIGN_IN_PATH,} from "../../constant";
-import {useBoardSearchStore, useLoginUserStore} from "../../store";
-import {useCookies} from "react-cookie";
-import {getCategorysReqeust} from "../../apis";
-import {GetCategorysResponseDto} from "../../apis/response/board";
+import { useNavigate } from "react-router-dom";
+import {
+  BOARD_LIST,
+  BOARD_WRITE,
+  MAIN_PATH,
+  SIGN_IN_PATH,
+} from "../../constant";
+import { useBoardSearchStore, useLoginUserStore } from "../../store";
+import { useCookies } from "react-cookie";
+import { getCategorysReqeust } from "../../apis";
+import { GetCategorysResponseDto } from "../../apis/response/board";
 import ResponseDto from "../../apis/response/response.dto";
-import {Category} from "../../types/interface";
+import { Category } from "../../types/interface";
 
 const Header = () => {
   const navigator = useNavigate();
   const [categoryDrop, setCategoryDrop] = useState(false);
   const [profileDrop, setprofileDrop] = useState(false);
   const { loginUser } = useLoginUserStore();
-  const {categoryId, setCategoryId} = useBoardSearchStore();
+  const { categoryId, setCategoryId } = useBoardSearchStore();
   const [cookies, setCookies] = useCookies();
   const searchInputRef = useRef<any>(null);
   const [categorys, setCategorys] = useState<Category[]>([]);
@@ -45,7 +50,9 @@ const Header = () => {
   useEffect(() => {
     getCategorysReqeust().then(getCategorysResponse);
   }, []);
-  const getCategorysResponse = (responseBody: GetCategorysResponseDto | ResponseDto | null) => {
+  const getCategorysResponse = (
+    responseBody: GetCategorysResponseDto | ResponseDto | null
+  ) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -63,10 +70,10 @@ const Header = () => {
   // =========================================================
 
   // 카테고리로 게시물 목록 불러오기
-  const categoryBoardList = (category:Category) => {
+  const categoryBoardList = (category: Category) => {
     setCategoryId(category.categoryId);
     navigator(BOARD_LIST());
-  }
+  };
   // const categoryBoardList
 
   const toggleDropdown = () => {
@@ -117,7 +124,10 @@ const Header = () => {
                       category,
                       index // 카테고리 목록 불러오기.
                     ) => (
-                      <div className="board-dropdown-content-item" onClick={() => onCategoryClick(category)}>
+                      <div
+                        className="board-dropdown-content-item"
+                        onClick={() => onCategoryClick(category)}
+                      >
                         {category.categoryName}
                       </div>
                     )
@@ -168,11 +178,14 @@ const Header = () => {
       </div>
 
       <div className="header-bottom-box">
-        {categorys.map(
-          (category, index) => (
-            <div className="heder-bottom-item" onClick={()=>categoryBoardList(category)}>{category.categoryName}</div>
-          )
-        )}
+        {categorys.map((category, index) => (
+          <div
+            className="heder-bottom-item"
+            onClick={() => categoryBoardList(category)}
+          >
+            {category.categoryName}
+          </div>
+        ))}
       </div>
     </div>
   );
