@@ -125,7 +125,7 @@ const AdminCategories = () => {
     );
   };
 
-  const userInfo = (categoryId: number) => {
+  const userInfo = (categoryId: string | bigint) => {
     // categoryId와 일치하는 카테고리 찾기
     const matchedCategory = adminCategorys.find(
       (category) => category.categoryId === categoryId
@@ -172,8 +172,24 @@ const AdminCategories = () => {
     window.location.reload();
   };
 
-  const onCategoryDelete = (categoryId: number) => {
-    // deleteCategory(categoryId, cookies.accessToken).then(postResponse);
+  const onCategoryDelete = (categoryId: string | bigint) => {
+    deleteCategory(categoryId, cookies.accessToken).then(deleteResponse);
+  };
+  const deleteResponse = (responseBody: ResponseDto | null) => {
+    console.log("responseBody : ", responseBody);
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code === "NU") alert("회원 정보 확인");
+    if (code !== "SU") {
+      return;
+    }
+    alert("삭제되었습니다.");
+    window.location.reload();
   };
 
   return (
@@ -259,7 +275,7 @@ const AdminCategories = () => {
                     />
                   </div>
                   <div className="admin-categori-item-id">
-                    {category.categoryId}
+                    {category.categoryId.toString()}
                   </div>
                   <div className="admin-categori-item-title">
                     {category.categoryName}

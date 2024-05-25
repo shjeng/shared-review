@@ -346,13 +346,21 @@ public class BoardServiceImpl implements BoardService {
     public ResponseDto deleteCategory(Long categoryId, String email) {
         try {
             Optional<Category> categoryOptional = categoryRepoService.findById(categoryId);
-            System.out.println("categoryOptional : " + categoryOptional);
+            if (categoryOptional.isPresent()) {
+                Category category = categoryOptional.get();
+                System.out.println("Found category: " + category);
+                categoryRepoService.deleteById(categoryId);
+            } else {
+                System.out.println("Category with ID " + categoryId + " not found");
+                // 해당 ID에 해당하는 카테고리가 없을 때의 처리를 수행하십시오.
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalException();
         }
         return null;
     }
+
 }
 
 
