@@ -494,7 +494,6 @@ export const deleteCategory = async (
   categoryId: string | bigint,
   accessToken: string
 ) => {
-  console.log("타겟 categoryId : ", categoryId);
   const result = await axios
     .delete(DELETE_CATEGORY(categoryId), {
       ...tokenAndPageConfig.token(accessToken),
