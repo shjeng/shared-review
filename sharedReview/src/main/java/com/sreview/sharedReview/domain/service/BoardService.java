@@ -31,6 +31,7 @@ public interface BoardService {
     ResponseDto getAllBoards(Pageable pageable);
     ResponseDto getBoards(Pageable pageable, BoardListParam params);
 
+    ResponseDto favorite(Long boardId, String email);
     ResponseEntity<? super AdminBoardListResponse> getAdminBoards();
     ResponseEntity<? super AdminBoardListResponse> getAdminBoardSearch(String searchValue, String inputValue);
 

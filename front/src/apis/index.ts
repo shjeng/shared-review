@@ -447,9 +447,18 @@ export const getComments = async (page: number, boardId: string | bigint) => {
   return result;
 };
 
-// put
-const FAVORITE = (boardId: string | bigint) => `${API_DOMAIN}/board/${boardId}`;
-export const favoriteBoard = async (boardId: string | bigint) => {};
+// patch
+const FAVORITE = (boardId: string | bigint) => `${API_DOMAIN}/board/favorite/${boardId}`;
+export const favoriteBoard = async (boardId: string | bigint, accessToken:string) => {
+    const result = await axios.patch(FAVORITE(boardId),'', tokenAndPageConfig.token(accessToken))
+        .then(response => {
+
+        })
+        .catch(error=>{
+            return errorResponse(error);
+        })
+    return result;
+}
 
 // delete
 const DELETE_BOARD = (boardId: string | bigint) =>

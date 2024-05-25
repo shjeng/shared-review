@@ -23,4 +23,9 @@ public class FavoriteRepoService {
     public List<Favorite> findAllByBoard(Board board) {
         return favoriteRepository.findAllByBoard(board);
     }
+
+    @Transactional
+    public void delete(Long boardId, String email){
+        favoriteRepository.deleteFavoriteByBoardIdEmail(boardId, email);
+    }
 }

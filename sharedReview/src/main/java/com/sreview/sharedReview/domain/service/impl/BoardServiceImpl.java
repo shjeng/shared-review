@@ -244,6 +244,16 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public ResponseDto favorite(Long boardId, String email) {
+        try {
+            favoriteRepoService.delete(boardId, email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public ResponseDto getBoards(Pageable pageable, BoardListParam params) {
         Page<Board> boardsByParams = boardRepoService.findBoardsByParams(pageable, params);
         Page<BoardDto> result = boardsByParams.map(b -> new BoardDto().of(b));

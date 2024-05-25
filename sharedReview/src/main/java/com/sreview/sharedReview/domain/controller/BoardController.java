@@ -110,6 +110,12 @@ public class BoardController {
         return boardServcice.getAdminBoardSearch(searchValue, inputValue);
     }
 
+    @PatchMapping("/favorite/{boardId}")
+    public ResponseEntity<?> favorite(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email){
+
+        boardServcice.favorite(boardId, email);
+        return ResponseEntity.ok().build();
+    }
     @DeleteMapping("/board/{boardId}")
     public ResponseEntity<?> deleteBoard(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email){
         log.info("delete board Id = {}", boardId);
