@@ -179,7 +179,7 @@ const SearchResultsPage = () => {
                     />
                   </div>
                   <div className="admin-categori-item-id">
-                    {category.categoryId}
+                    {category.categoryId.toString()}
                   </div>
                   <div className="admin-categori-item-title">
                     {category.categoryName}

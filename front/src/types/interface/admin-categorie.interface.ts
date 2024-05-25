@@ -1,6 +1,6 @@
 export default interface CategorieList {
   selected: boolean;
-  categoryId: number;
+  categoryId: bigint;
   categoryName: string;
   userNickname: string;
   writeDateTime: string;

@@ -44,4 +44,8 @@ public class CategoryRepoService { // DB에 넣어주는 아이
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+    @Transactional
+    public void deleteById(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
+    }
 }
