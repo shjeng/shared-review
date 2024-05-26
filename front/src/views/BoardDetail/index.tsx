@@ -1,7 +1,7 @@
 import "./style.css";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {commentWrite, getBoardRequest, getComments, increaseViewCountRequest} from "../../apis";
+import {commentWrite, favoriteBoard, getBoardRequest, getComments, increaseViewCountRequest} from "../../apis";
 import {
     CommentResponseDto,
     GetBoardDetailResponseDto,
@@ -42,7 +42,7 @@ const BoardDetail = () => {
     const [writer, setWriter] = useState<User>();
     const [tags, setTags] = useState<Tag[]>([]);
     const [isMyPost, setIsMyPost] = useState<boolean>(false);
-
+    const [favoriteCheck, setFavoriteCheck] = useState<boolean>(false);
     const [nicknameDrop, setNicknameDrop] = useState<boolean>(false);
 
     const [comment, setComment] = useState<string | null>();
@@ -50,8 +50,10 @@ const BoardDetail = () => {
 
     const [pageable, setPageable] = useState<Pageable<any> | undefined>();
 
-    const {startPage, endPage, currentPage, pageList, currentSection, totalSection
-        , setCurrentPage, setCurrentSection, setTotalCount, setCountPerItem}
+    const {
+        startPage, endPage, currentPage, pageList, currentSection, totalSection
+        , setCurrentPage, setCurrentSection, setTotalCount, setCountPerItem
+    }
         = usePagination(countPerPage);
     //  처름 렌더링 될 때
     useEffect(() => {
@@ -84,6 +86,8 @@ const BoardDetail = () => {
         setCategory(result.boardDetail.category);
         setComments(result.comments.content);
         setFavorites(result.favorites);
+        const fCheck = result.favorites.findIndex(favorite => favorite.userEmail === loginUser?.email) !== -1;
+        setFavoriteCheck(fCheck);
         setWriter(result.user);
         setTags(result.tags);
         setTotalCount(result.comments.totalElements);
@@ -143,11 +147,11 @@ const BoardDetail = () => {
         navigator(BOARD_LIST());
     };
 
-    const pageButtonClick = (page:number) => {
+    const pageButtonClick = (page: number) => {
         if (!boardId) {
             return;
         }
-        getComments(page-1, boardId).then(pageButtonClickResponse);
+        getComments(page - 1, boardId).then(pageButtonClickResponse);
     };
     const pageButtonClickResponse = (response: CommentResponseDto | ResponseDto | null) => {
         const result = ResponseUtil(response);
@@ -179,6 +183,13 @@ const BoardDetail = () => {
 
     }
     const favoriteBtnClick = () => {
+        if (!boardId) {
+            return;
+        }
+        const requestDto = {favoriteCheck: favoriteCheck}
+        favoriteBoard(boardId, requestDto, cookies.accessToken).then(favoriteBtnClickResponse);
+    }
+    const favoriteBtnClickResponse = () => {
 
     }
     const deleteComment = () => {
@@ -246,8 +257,7 @@ const BoardDetail = () => {
                 <div className="board-detail-bottom">
                     <div className="board-detail-interactions">
                         <div className="board-detail-like">
-                            {favorites.findIndex(
-                                (favorite) => favorite.userEmail === loginUser?.email) === -1 ?
+                            {favoriteCheck ?
                                 <div className="board-deatil-like-icon" onClick={favoriteBtnClick}></div> :
                                 <div className="board-deatil-like-icon" onClick={favoriteBtnClick}></div>
                             }
@@ -284,7 +294,9 @@ const BoardDetail = () => {
                             </>
                         )}
                     </div>
-                    <Pagination currentPage={currentPage} currentSection={currentSection} setCurrentPage={setCurrentPage} totalSection={totalSection} countPerPage={countPerPage} pageList={pageList} pageClick={pageButtonClick}></Pagination>
+                    <Pagination currentPage={currentPage} currentSection={currentSection}
+                                setCurrentPage={setCurrentPage} totalSection={totalSection} countPerPage={countPerPage}
+                                pageList={pageList} pageClick={pageButtonClick}></Pagination>
                 </div>
             </div>
             <div className="board-list-btn-container">

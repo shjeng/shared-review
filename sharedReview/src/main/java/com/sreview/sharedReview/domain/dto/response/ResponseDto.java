@@ -4,6 +4,7 @@ import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

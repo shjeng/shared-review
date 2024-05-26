@@ -25,7 +25,7 @@ public class FavoriteRepoService {
     }
 
     @Transactional
-    public void delete(Long boardId, String email){
-        favoriteRepository.deleteFavoriteByBoardIdEmail(boardId, email);
+    public int delete(Long boardId, String email){
+        return favoriteRepository.deleteFavoriteByBoardIdEmail(boardId, email);
     }
 }

@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
@@ -111,10 +113,8 @@ public class BoardController {
     }
 
     @PatchMapping("/favorite/{boardId}")
-    public ResponseEntity<?> favorite(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email){
-
-        boardServcice.favorite(boardId, email);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ResponseDto> favorite(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email, Map<String, Boolean> requestDto){
+        return ResponseEntity.ok(boardServcice.favorite(boardId, requestDto.get("favoriteCheck") ,email));
     }
     @DeleteMapping("/board/{boardId}")
     public ResponseEntity<?> deleteBoard(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email){

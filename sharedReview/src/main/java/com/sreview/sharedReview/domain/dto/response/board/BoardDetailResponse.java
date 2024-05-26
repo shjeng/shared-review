@@ -21,6 +21,7 @@ public class BoardDetailResponse extends ResponseDto {
     private Page<CommentDto> comments;
     private List<FavoriteDto> favorites;
     private List<TagDto> tags;
+    private Boolean favoriteCheck;
 
     public BoardDetailResponse(UserDto user, BoardDetailDto boardDetail, Page<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
@@ -31,6 +32,10 @@ public class BoardDetailResponse extends ResponseDto {
         this.tags = tags;
     }
 
+    public BoardDetailResponse(Boolean favoriteCheck) {
+        super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        this.favoriteCheck = favoriteCheck;
+    }
     //  다른 방식으로 success 처리 해볼 예정
     public static BoardDetailResponse success(UserDto user, BoardDetailDto boardDetail, Page<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags) {
         return new BoardDetailResponse(user, boardDetail, comments, favorites, tags);

@@ -244,13 +244,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseDto favorite(Long boardId, String email) {
+    public ResponseDto favorite(Long boardId,Boolean favoriteCheck, String email) {
         try {
-            favoriteRepoService.delete(boardId, email);
+            if (favoriteCheck) {
+                int deleted = favoriteRepoService.delete(boardId, email);
+            } else {
+
+            }
+            return new BoardDetailResponse(!favoriteCheck);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new ResponseDto(ResponseCode.BAD_REQUEST, ResponseMessage.BAD_REQUEST);
     }
 
     @Override
