@@ -1,6 +1,6 @@
 #main-wrap {
   max-width: 1440px;
-  padding-bottom: 300px; /*or height로 높이주기*/
+  min-height: 2350px;
   margin: auto;
 }
 
@@ -66,3 +66,7 @@
   font-size: 24px;
   font-weight: bold;
 }
+
+/* .main-mid-box {
+  overflow: hidden;
+} */

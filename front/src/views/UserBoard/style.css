@@ -1,3 +1,18 @@
+#user-board-wrapper {
+  width: 1500px;
+  /* min-height: 900px; */
+  margin: auto;
+  position: relative;
+}
+
+.user-board-pagination {
+  margin-top: 30px;
+}
+
+.user-board-item-list {
+  min-height: 900px;
+}
+
 .user-board-item-top {
   display: flex;
   padding: 18px 0px 12px 0px;
@@ -26,7 +41,7 @@
 }
 
 .user-board-main-bottom-box {
-  width: 40%;
+  width: 60%;
   margin: 40px auto;
 }
 

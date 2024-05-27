@@ -1,5 +1,25 @@
 #footer-wrap {
   width: 100%;
   background-color: #d9d9d9;
-  height: 100px;
+  min-height: 100px;
+}
+
+.footer-top-box {
+  display: flex;
+  justify-content: space-between;
+  width: 1440px;
+  margin: auto;
+}
+
+.footer-top-box-left {
+  display: flex;
+}
+
+.footer-top-box-left,
+.footer-top-box-right {
+  margin: 40px 0px;
+}
+
+.footer-top-box-left-item1 {
+  margin-right: 70px;
 }
