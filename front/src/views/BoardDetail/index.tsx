@@ -93,6 +93,7 @@ const BoardDetail = () => {
         setTotalCount(result.comments.totalElements);
         setCountPerItem(result.comments.size);
         setCurrentPage(result.comments.pageable.pageNumber + 1);
+        setCommentCount(result.comments.totalElements);
         if (result.user.email === loginUser?.email) {
             setIsMyPost(true);
         }
@@ -139,8 +140,7 @@ const BoardDetail = () => {
         const commentWriteResponse = result as CommentResponseDto;
         setComments(commentWriteResponse.comments.content);
         setCurrentPage(commentWriteResponse.comments.pageable.pageNumber + 1);
-
-        // console.log()
+        setCommentCount(commentWriteResponse.comments.totalElements);
     }
     //      event handler: 게시글 목록 클릭 이벤트 처리 함수       //
     const onBoardListClickHandler = () => {
@@ -186,11 +186,23 @@ const BoardDetail = () => {
         if (!boardId) {
             return;
         }
-        const requestDto = {favoriteCheck: favoriteCheck}
+        if (!loginUser) {
+            alert('로그인이 필요합니다.');
+            return;
+        }
+        const requestDto = {favoriteCheck: favoriteCheck};
         favoriteBoard(boardId, requestDto, cookies.accessToken).then(favoriteBtnClickResponse);
     }
-    const favoriteBtnClickResponse = () => {
-
+    const favoriteBtnClickResponse = (response:GetBoardDetailResponseDto | ResponseDto | null) => {
+        // response
+        if (!ResponseUtil(response)) {
+            return;
+        }
+        const result = response as GetBoardDetailResponseDto;
+        console.log(result);
+        alert(result.favoriteCount);
+        setFavoriteCheck(result.favoriteCheck);
+        setFavoriteCount(result.favoriteCount);
     }
     const deleteComment = () => {
         pageButtonClick(currentPage);
@@ -258,8 +270,9 @@ const BoardDetail = () => {
                     <div className="board-detail-interactions">
                         <div className="board-detail-like">
                             {favoriteCheck ?
+                                // <div className="board-deatil-like-icon" onClick={favoriteBtnClick}></div> :
                                 <div className="board-deatil-like-icon" onClick={favoriteBtnClick}></div> :
-                                <div className="board-deatil-like-icon" onClick={favoriteBtnClick}></div>
+                                <div className="" onClick={favoriteBtnClick}> 좋아요X</div>
                             }
                             <div className="board-deatil-like-count">{favoriteCount}</div>
                         </div>

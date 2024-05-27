@@ -8,4 +8,6 @@ export default interface GetBoardDetailResponseDto extends ResponseDto{
     comments: Pageable<Comment>;
     favorites: Favorite[];
     tags: Tag[];
+    favoriteCheck: boolean,
+    favoriteCount: number,
 }

@@ -4,12 +4,12 @@ import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.dto.object.*;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -22,14 +22,17 @@ public class BoardDetailResponse extends ResponseDto {
     private List<FavoriteDto> favorites;
     private List<TagDto> tags;
     private Boolean favoriteCheck;
-
-    public BoardDetailResponse(UserDto user, BoardDetailDto boardDetail, Page<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags) {
+    private Integer favoriteCount;
+    @Builder
+    public BoardDetailResponse(UserDto user, BoardDetailDto boardDetail, Page<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags, Boolean favoriteCheck, Integer favoriteCount) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.user = user;
         this.boardDetail = boardDetail;
         this.comments = comments;
         this.favorites = favorites;
         this.tags = tags;
+        this.favoriteCheck = favoriteCheck;
+        this.favoriteCount = favoriteCount;
     }
 
     public BoardDetailResponse(Boolean favoriteCheck) {
@@ -38,6 +41,13 @@ public class BoardDetailResponse extends ResponseDto {
     }
     //  다른 방식으로 success 처리 해볼 예정
     public static BoardDetailResponse success(UserDto user, BoardDetailDto boardDetail, Page<CommentDto> comments, List<FavoriteDto> favorites, List<TagDto> tags) {
-        return new BoardDetailResponse(user, boardDetail, comments, favorites, tags);
+        return BoardDetailResponse.builder()
+                .user(user)
+                .boardDetail(boardDetail)
+                .comments(comments)
+                .favorites(favorites)
+                .tags(tags)
+                .build();
     }
+
 }

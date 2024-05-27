@@ -454,7 +454,8 @@ export const favoriteBoard = async (boardId: string | bigint, requestDto: {
 }, accessToken: string) => {
     const result = await axios.patch(FAVORITE(boardId), requestDto, tokenAndPageConfig.token(accessToken))
         .then(response => {
-
+            const responseBody:GetBoardDetailResponseDto = response.data;
+            return responseBody;
         })
         .catch(error => {
             return errorResponse(error);

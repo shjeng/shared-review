@@ -113,7 +113,7 @@ public class BoardController {
     }
 
     @PatchMapping("/favorite/{boardId}")
-    public ResponseEntity<ResponseDto> favorite(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email, Map<String, Boolean> requestDto){
+    public ResponseEntity<ResponseDto> favorite(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal String email, @RequestBody Map<String, Boolean> requestDto){
         return ResponseEntity.ok(boardServcice.favorite(boardId, requestDto.get("favoriteCheck") ,email));
     }
     @DeleteMapping("/board/{boardId}")

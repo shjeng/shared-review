@@ -24,6 +24,9 @@ public class FavoriteRepoService {
         return favoriteRepository.findAllByBoard(board);
     }
 
+    public Integer countByBoardId(Long boardId) {
+        return favoriteRepository.countByBoardId(boardId);
+    }
     @Transactional
     public int delete(Long boardId, String email){
         return favoriteRepository.deleteFavoriteByBoardIdEmail(boardId, email);
