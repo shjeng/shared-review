@@ -97,7 +97,9 @@ const Header = () => {
     navigate(SIGN_IN_PATH());
   };
 
-  const onDropdownCategory = () => {};
+  const onDropdownCategory = () => {
+    console.log("loginUser : ", loginUser);
+  };
 
   return (
     <div id="header-wrap">
@@ -145,7 +147,17 @@ const Header = () => {
           <>
             <div className="header-right-box" onClick={profileDropdown}>
               <div className="profile-dropdown-box">
-                <div className="header-right-box-img"></div>
+                {loginUser.profileImage ? (
+                  <div
+                    className="header-right-box-img"
+                    style={{
+                      backgroundImage: `url(${loginUser.profileImage})`,
+                    }}
+                  ></div>
+                ) : (
+                  <div className="header-right-box-img-default"></div>
+                )}
+
                 <div className="header-right-box-nickName">
                   {loginUser.nickname}
                 </div>
