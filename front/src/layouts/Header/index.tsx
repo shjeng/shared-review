@@ -5,7 +5,7 @@ import {
   BOARD_LIST,
   BOARD_WRITE,
   MAIN_PATH,
-  SIGN_IN_PATH,
+  SIGN_IN_PATH, USER_PAGE_PATH,
 } from "../../constant";
 import { useBoardSearchStore, useLoginUserStore } from "../../store";
 import { useCookies } from "react-cookie";
@@ -87,6 +87,12 @@ const Header = () => {
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
 
+  const myPage = () => {
+    if (!loginUser) {
+      return;
+    }
+    navigator(USER_PAGE_PATH(loginUser.email));
+  }
   //      event handler: 로고 클릭 이벤트 처리 함수       //
   const onLogoClickHandler = () => {
     navigate(MAIN_PATH());
@@ -166,12 +172,8 @@ const Header = () => {
 
               {profileDrop && (
                 <div className="profile-dropdown-content">
-                  <div
-                    className="profile-dropdown-content-item"
-                    onClick={() => navigate(BOARD_WRITE())}
-                  >
-                    글작성
-                  </div>
+                  <div className="profile-dropdown-content-item" onClick={myPage}>마이페이지</div>
+                  <div className="profile-dropdown-content-item" onClick={() => navigate(BOARD_WRITE())}>글작성</div>
                   <div
                     className="profile-dropdown-content-item"
                     onClick={onDropdownCategory}

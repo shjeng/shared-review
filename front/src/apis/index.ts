@@ -61,10 +61,25 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
 };
 
 // 로그인 회원 정보 가져오기
-const GET_USER_URL = () => `${API_DOMAIN}/user/get-login-user`;
-export const getLoginUser = async (accessToken: string) => {
+const GET_MY_INFO = () => `${API_DOMAIN}/user/get-login-user`;
+export const getMyInfo = async (accessToken: string) => {
     const result = await axios
-        .get(GET_USER_URL(), authorication(accessToken))
+        .get(GET_MY_INFO(), authorication(accessToken))
+        .then((response) => {
+            const responseBody: GetUserResponseDto = response.data;
+            return responseBody;
+        })
+        .catch((error) => {
+            if (!error) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
+};
+const GET_USER_URL = (userEmail:string) => `${API_DOMAIN}/user/get-login-user/${userEmail}`;
+export const getLoginUser = async (userEmail: string) => {
+    const result = await axios
+        .get(GET_USER_URL(userEmail))
         .then((response) => {
             const responseBody: GetUserResponseDto = response.data;
             return responseBody;

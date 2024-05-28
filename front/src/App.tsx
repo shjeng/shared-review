@@ -22,7 +22,7 @@ import SignIn from "./views/Authentication/sign-in";
 import SignUp from "./views/Authentication/sign-up";
 import { useCookies } from "react-cookie";
 import { useLoginUserStore } from "./store";
-import { getLoginUser } from "./apis";
+import { getMyInfo } from "./apis";
 import { GetUserResponseDto } from "./apis/response/user";
 import ResponseDto from "./apis/response/response.dto";
 import BoardWrite from "./views/BoardWrite";
@@ -43,7 +43,7 @@ function App() {
       resetLoginUser();
       return;
     }
-    getLoginUser(cookies.accessToken).then(getLoginUserResponse);
+    getMyInfo(cookies.accessToken).then(getLoginUserResponse);
   }, [cookies.accessToken]);
   const getLoginUserResponse = (
     responseBody: GetUserResponseDto | ResponseDto | null

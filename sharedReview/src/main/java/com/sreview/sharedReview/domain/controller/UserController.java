@@ -54,4 +54,10 @@ public class UserController {
         ResponseDto result = boardService.findBoardByUserEmail(userEmail, pageable);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/get-login-user/{userEmail}")
+    public ResponseEntity<? super GetUserResponse> getUser(@PathVariable("userEmail") String userEmail){
+        ResponseDto result = userService.getUser(userEmail);
+        return ResponseEntity.ok(result);
+    }
 }

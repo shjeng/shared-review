@@ -1,7 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./style.css";
+import {useParams} from "react-router-dom";
+import {getLoginUser} from "../../apis";
+import {GetUserResponseDto} from "../../apis/response/user";
+import ResponseDto from "../../apis/response/response.dto";
 
 const UserPage = () => {
+  const {userEmail} = useParams();
+
+  useEffect(() => {
+    if (!userEmail) {
+      return;
+    }
+    getLoginUser(userEmail).then(getMyInfoResponse);
+  }, [userEmail]);
+
+  const getMyInfoResponse = (response: GetUserResponseDto | ResponseDto | null) => {
+    console.log(response);
+  }
   return (
     <div id="userPage-wrap">
       <div className="userPage-box">
