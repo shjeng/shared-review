@@ -144,14 +144,14 @@ const BoardWrite = () => {
       newTags.push(tag);
       setTags(newTags);
       setTag("");
-    } else if (event.key === "Backspace" && tag.length === 0) {
-      const deleteTags = [];
-      for (let i = 0; i < tags.length - 1; i++) {
-        deleteTags.push(tags[i]);
-      }
-      setTags(deleteTags);
     }
   };
+
+  const tagDelete = (index: number) => {
+    const updatedTags = tags.filter((_, i) => i !== index); // x누른 인덱스 제외한 모든 요소를 updatedTags에 담아줌
+    setTags(updatedTags);
+  };
+
   const onTagChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setTag(value);
@@ -237,13 +237,17 @@ const BoardWrite = () => {
             placeholder="태그를 입력해주세요"
             onKeyDown={tagKeyDown}
             onChange={onTagChange}
+            value={tag}
             ref={tagRef}
           />
           <div className="tag-list-area">
-            {tags.map((t, index) => (
-              <div className="tag-list">
-                <div className="tag-content">#{t}</div>
-                <div className="tag-delete-icon" onClick={() => {}}></div>
+            {tags.map((tagText, index) => (
+              <div className="tag-list" key={index}>
+                <div className="tag-content">#{tagText}</div>
+                <div
+                  className="tag-delete-icon"
+                  onClick={() => tagDelete(index)}
+                ></div>
               </div>
             ))}
           </div>

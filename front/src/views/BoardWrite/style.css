@@ -136,6 +136,7 @@
 .board-bottom-tag {
   margin-top: 30px;
   border-top: 1px solid rgba(0, 0, 0, 0.137);
+  min-height: 140px;
 }
 
 .tag-delete-icon {
