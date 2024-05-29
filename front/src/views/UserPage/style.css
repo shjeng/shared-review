@@ -15,12 +15,26 @@
 .top-top-image{
   width: 100px;
   height: 100px;
+  position: relative;
+}
+.icon{
+  position: absolute;
+  bottom: 0px;
+  right: -6px;
+  cursor: pointer;
 }
 .top-top-infobox{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-size: 18px;
+  gap: 8px;
 }
+.top-top-infobox-name{
+  font-size: 32px;
+  font-weight: bold;
+}
+
 .nickname-box{
   display: flex;
 }
