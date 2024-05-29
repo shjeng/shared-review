@@ -86,3 +86,7 @@
   width: 50px;
   font-size: 16px;
 }
+
+.board-item-counts {
+  margin-top: 10px;
+}
