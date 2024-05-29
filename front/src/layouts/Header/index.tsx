@@ -5,7 +5,8 @@ import {
   BOARD_LIST,
   BOARD_WRITE,
   MAIN_PATH,
-  SIGN_IN_PATH, USER_PAGE_PATH,
+  SIGN_IN_PATH,
+  USER_PAGE_PATH,
 } from "../../constant";
 import { useBoardSearchStore, useLoginUserStore } from "../../store";
 import { useCookies } from "react-cookie";
@@ -21,19 +22,19 @@ const Header = () => {
   const { loginUser } = useLoginUserStore();
   const { categoryId, setCategoryId } = useBoardSearchStore();
   const [cookies, setCookies] = useCookies();
-  const searchInputRef = useRef<any>(null);
+  const searchDropRef = useRef<any>(null);
   const [categorys, setCategorys] = useState<Category[]>([]);
   const [category, setCategory] = useState<Category | undefined>();
 
   const onCategoryClick = (category: Category) => {
-    setCategory(category);
+    setSearch(category.categoryName);
     setCategoryDrop(false);
   };
   const handleClickOutside = (e: MouseEvent) => {
     if (
       categoryDrop &&
-      searchInputRef.current &&
-      !searchInputRef.current.contains(e.target as Node)
+      searchDropRef.current &&
+      !searchDropRef.current.contains(e.target as Node)
     ) {
       setCategoryDrop(false);
     }
@@ -92,7 +93,7 @@ const Header = () => {
       return;
     }
     navigator(USER_PAGE_PATH(loginUser.email));
-  }
+  };
   //      event handler: 로고 클릭 이벤트 처리 함수       //
   const onLogoClickHandler = () => {
     navigate(MAIN_PATH());
@@ -103,8 +104,22 @@ const Header = () => {
     navigate(SIGN_IN_PATH());
   };
 
-  const onDropdownCategory = () => {
-    console.log("loginUser : ", loginUser);
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const [search, setSearch] = useState<string>("카테고리");
+
+  const searchInputRef = useRef<any>(null);
+
+  const onCategorySearch = () => {
+    const inputValue = searchInputRef.current?.value || "";
+    setInputValue(inputValue);
+    if (inputValue.length === 0) {
+      alert("검색어를 입력해주세요.");
+      return;
+    } else if (search == "카테고리") {
+      alert("검색기준을 선택해주세요.");
+      return;
+    }
   };
 
   return (
@@ -117,12 +132,10 @@ const Header = () => {
 
         <div className="header-middle-box">
           <div className="header-category">
-            <div className="header-category-dropdown" ref={searchInputRef}>
+            <div className="header-category-dropdown" ref={searchDropRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
                 {/* <div className="dropdown_text">카테고리</div> */}
-                <div className="dropdown_text">
-                  {category?.categoryName || "카테고리"}
-                </div>
+                <div className="dropdown_text">{search}</div>
                 <div className="dropdown_icon"></div>
               </div>
               {categoryDrop && (
@@ -145,8 +158,8 @@ const Header = () => {
             </div>
           </div>
           <div className="header-search">
-            <input type="text" placeholder="검색어 입력" />
-            <div className="header-search-img"></div>
+            <input type="text" placeholder="검색어 입력" ref={searchInputRef} />
+            <div className="header-search-img" onClick={onCategorySearch}></div>
           </div>
         </div>
         {loginUser ? (
@@ -172,13 +185,17 @@ const Header = () => {
 
               {profileDrop && (
                 <div className="profile-dropdown-content">
-                  <div className="profile-dropdown-content-item" onClick={myPage}>마이페이지</div>
-                  <div className="profile-dropdown-content-item" onClick={() => navigate(BOARD_WRITE())}>글작성</div>
                   <div
                     className="profile-dropdown-content-item"
-                    onClick={onDropdownCategory}
+                    onClick={myPage}
                   >
-                    1
+                    마이페이지
+                  </div>
+                  <div
+                    className="profile-dropdown-content-item"
+                    onClick={() => navigate(BOARD_WRITE())}
+                  >
+                    글작성
                   </div>
                 </div>
               )}
