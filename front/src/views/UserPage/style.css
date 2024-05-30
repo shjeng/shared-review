@@ -35,6 +35,9 @@
   font-weight: bold;
 }
 
-.nickname-box{
+.top-middle{
   display: flex;
+  flex-direction: column;
+  justify-content: left;
 }
+

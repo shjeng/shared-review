@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./style.css";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {getLoginUser, nicknameDuplChkRequest} from "../../apis";
 import {GetUserResponseDto} from "../../apis/response/user";
 import ResponseDto from "../../apis/response/response.dto";
@@ -12,8 +12,8 @@ import {NicknameDupleChkResponseDto} from "../../apis/response/auth";
 const UserPage = () => {
 
   const [authSuccess, setAuthSuccess] = useState<boolean>(false);
-  
   const EditPage = () => {
+    const navigate = useNavigate();
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
     const nicknameRef = useRef<HTMLInputElement | null>(null);
@@ -58,10 +58,10 @@ const UserPage = () => {
       setNicknameErrorMessage("");
       setNicknameDupleCheck(false);
     }
-    const nicknameDuplChk = () => {
-      if (nickname.length === 0) return;
-      nicknameDuplChkRequest(nickname).then(nicknameDuplChkResponse);
-    }
+    // const nicknameDuplChk = () => {
+    //   if (nickname.length === 0) return;
+    //   nicknameDuplChkRequest(nickname).then(nicknameDuplChkResponse);
+    // }
     const nicknameDuplChkResponse = (
         responseBody: NicknameDupleChkResponseDto | ResponseDto | null
     ) => {
@@ -92,7 +92,27 @@ const UserPage = () => {
       setPasswordCheckError(false);
       setPasswordCheckErrorMessage("");
     }
+    const editInfo = () => {
+      let error = false;
+      if (password.length === 0) {
+        setPasswordError(true);
+        setPasswordErrorMessage("비밀번호를 입력해주세요!");
+        error = true;
+      }
+      if (passwordCheck !== password) {
+        setPasswordCheckError(true);
+        setPasswordCheckErrorMessage("비밀번호와 일치하지 않습니다.");
+        error = true;
+      }
 
+      if (error) {
+        return;
+      }
+      nicknameDuplChkRequest(nickname).then(nicknameDuplChkResponse);
+    }
+    const back = () => {
+      navigate(-1);
+    }
     return (
         <div id="user-page-content-wrap">
           <div id="top">
@@ -107,17 +127,15 @@ const UserPage = () => {
             </div>
 
             <div className={"top-middle"}>
-              <div className={"nickname-box"}>
-                <InputBox ref={nicknameRef} label="닉네임" type={"text"} placeholder="닉네임을 입력해주세요." value={nickname} onChange={onNicknameChangeHandler} error={nicknameError} message={nicknameErrorMessage}/>
-                <div className="nickname-certification-btn" onClick={nicknameDuplChk}>{"중복확인"}</div>
-              </div>
+              <InputBox ref={nicknameRef} label="닉네임" type={"text"} placeholder="닉네임을 입력해주세요." value={nickname} onChange={onNicknameChangeHandler} error={nicknameError} message={nicknameErrorMessage}/>
               <InputBox ref={passwordRef} label="비밀번호" type={"password"} placeholder="비밀번호를 입력해주세요." value={password}
                         onChange={onPasswordChangeHandler} error={passwordError} message={passwordErrorMessage}/>
               <InputBox ref={passwordCheckRef} label="비밀번호" type={"password"} placeholder="비밀번호 확인을 입력해주세요." value={passwordCheck} onChange={onPasswordChangeHandler} error={passwordCheckError} message={passwordCheckErrorMessage}/>
             </div>
 
             <div className={"top-bottom"}>
-
+              <div onClick={editInfo}>수정</div>
+              <div onClick={back}>이전</div>
             </div>
           </div>
           <div id="middle"></div>
