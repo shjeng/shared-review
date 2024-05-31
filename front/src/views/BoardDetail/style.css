@@ -174,10 +174,18 @@
   margin-right: 5px;
 }
 
-.board-deatil-like-icon {
-  width: 30px;
+.board-deatil-like-off-icon {
+  width: 28px;
   height: 25px;
   background-image: url(../../assets/image/boarditem-like.png);
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+
+.board-deatil-like-on-icon {
+  width: 28px;
+  height: 25px;
+  background-image: url(../../assets/image/boarditem-color-like.png);
   background-size: 100% 100%;
   margin-right: 5px;
 }
@@ -188,29 +196,27 @@
   margin-right: 20px;
 }
 
-.comment-write-btn {
-  border: 1px solid #b6b6b6;
-  font-size: 20px;
-  color: #949494;
-  border-radius: 7px;
-}
-
 .board-detail-comment-textarea {
   width: 93%;
   height: 70px;
   padding: 15px;
   resize: none;
   font-size: 17px;
-  border: 1px solid #b6b6b6;
+  /* border: 1px solid #b6b6b6; */
+  border: none;
   outline: none;
-  border-radius: 7px;
+  margin: 10px 0 0 10px;
 }
-.board-detail-comment-write-left-box {
+
+.board-detail-comment-write-box {
   width: 100%;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   gap: 10px;
+
+  border: 1px solid #b6b6b6;
+  border-radius: 7px;
 }
 .board-detail-comment-write {
   width: 100%;
@@ -224,14 +230,38 @@
   margin-bottom: 20px;
 }
 
-.comment-write-btn {
-  width: 15%;
-  display: flex;
+.comment-write-btn-off {
+  background-image: url(../../assets/image/comment-write-off-icon.png);
+  /* display: flex;
   align-items: center;
-  justify-content: center;
-  height: 80px;
-  border-radius: 45%;
+  justify-content: center; */
+  /* border-radius: 45%; */
+
+  /* border: 1px solid #b6b6b6;
+  font-size: 20px;
+  color: #949494;
+  border-radius: 7px; */
+  width: 28px;
+  height: 25px;
+  background-size: 100% 100%;
+  margin: 5px 15px 15px 0px;
+  cursor: pointer;
 }
+
+.comment-write-btn-on {
+  background-image: url(../../assets/image/comment-write-on-icon.png);
+  width: 28px;
+  height: 25px;
+  background-size: 100% 100%;
+  margin: 5px 15px 15px 0px;
+  cursor: pointer;
+}
+
+.board-detail-comment-write-bottom-box {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .error-msg {
   color: #ff0000;
   padding-left: 10px;

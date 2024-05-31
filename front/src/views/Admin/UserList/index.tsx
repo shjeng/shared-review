@@ -120,7 +120,7 @@ const AdminUserList = () => {
           >
             회원목록
           </div>
-          <div className="admin-menu-announcement">공지사항</div>
+          {/* <div className="admin-menu-announcement">공지사항</div> */}
           <div
             className="admin-menu-post"
             onClick={onAdminBoardListClickHandler}
