@@ -136,7 +136,7 @@ const AdminBoardList = () => {
           <div className="admin-menu-userList" onClick={onUserListClickHandler}>
             회원목록
           </div>
-          <div className="admin-menu-announcement">공지사항</div>
+          {/* <div className="admin-menu-announcement">공지사항</div> */}
           <div
             className="admin-menu-post-bold"
             onClick={onAdminBoardListClickHandler}
