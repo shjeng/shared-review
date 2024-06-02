@@ -17,10 +17,15 @@ const UserPage = () => {
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
     const nicknameRef = useRef<HTMLInputElement | null>(null);
+    const profileImageRef = useRef<HTMLInputElement | null>(null);
 
     const {userEmail} = useParams();
     const [userInfo, setUserInfo] = useState<User>();
 
+    const [profileImage, setProfileImage] = useState<string>('');
+    const [file, setFile] = useState<File | null>();
+
+    const [originNickname, setOriginNickname] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
     const [nicknameError, setNicknameError] = useState<boolean>(false);
     const [nicknameErrorMessage, setNicknameErrorMessage] = useState<string>('');
@@ -49,8 +54,24 @@ const UserPage = () => {
       const result = response as GetUserResponseDto;
       setUserInfo(result.userDto);
       setNickname(result.userDto.nickname);
+      setOriginNickname(result.userDto.nickname);
+      setProfileImage(result.userDto.profileImage);
     }
-
+    const editImageIconClick = () => {
+      if (!profileImageRef.current) {
+        return;
+      }
+      profileImageRef.current.click();
+    }
+    const profileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) {
+        return;
+      }
+      const url = URL.createObjectURL(file);
+      setProfileImage(url);
+      setFile(file);
+    }
     const onNicknameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
       const {value} = event.target;
       setNickname(value);
@@ -94,21 +115,28 @@ const UserPage = () => {
     }
     const editInfo = () => {
       let error = false;
+      if (!nickname) {
+        setNicknameError(true);
+        setNicknameErrorMessage('닉네임을 입력해주세요.');
+        return;
+      }
       if (password.length === 0) {
         setPasswordError(true);
         setPasswordErrorMessage("비밀번호를 입력해주세요!");
         error = true;
       }
-      if (passwordCheck !== password) {
+      if (passwordCheck !== password || !passwordCheck) {
         setPasswordCheckError(true);
         setPasswordCheckErrorMessage("비밀번호와 일치하지 않습니다.");
         error = true;
       }
-
       if (error) {
         return;
       }
-      nicknameDuplChkRequest(nickname).then(nicknameDuplChkResponse);
+      if (nickname !== originNickname) {
+        nicknameDuplChkRequest(nickname).then(nicknameDuplChkResponse);
+      }
+
     }
     const back = () => {
       navigate(-1);
@@ -117,8 +145,9 @@ const UserPage = () => {
         <div id="user-page-content-wrap">
           <div id="top">
             <div className="top-top">
-              <div className={"top-top-image box-img"} style={{backgroundImage: `url(${userInfo?.profileImage})`}}>
-                <div className={"icon"}>아이콘</div>
+              <div className={"top-top-image box-img"} style={{backgroundImage: `url(${profileImage})`}}>
+                <div className={"icon-box30 edit-btn"} onClick={editImageIconClick}></div>
+                <input type={"file"} style={{display: "none"}} accept="image/*" ref={profileImageRef} onChange={profileImageChange}/>
               </div>
               <div className={"top-top-infobox"}>
                 <div className={"top-top-infobox-name"}>{userInfo?.name} 아지르님</div>
@@ -130,7 +159,7 @@ const UserPage = () => {
               <InputBox ref={nicknameRef} label="닉네임" type={"text"} placeholder="닉네임을 입력해주세요." value={nickname} onChange={onNicknameChangeHandler} error={nicknameError} message={nicknameErrorMessage}/>
               <InputBox ref={passwordRef} label="비밀번호" type={"password"} placeholder="비밀번호를 입력해주세요." value={password}
                         onChange={onPasswordChangeHandler} error={passwordError} message={passwordErrorMessage}/>
-              <InputBox ref={passwordCheckRef} label="비밀번호" type={"password"} placeholder="비밀번호 확인을 입력해주세요." value={passwordCheck} onChange={onPasswordChangeHandler} error={passwordCheckError} message={passwordCheckErrorMessage}/>
+              <InputBox ref={passwordCheckRef} label="비밀번호" type={"password"} placeholder="비밀번호 확인을 입력해주세요." value={passwordCheck} onChange={onPasswordCheckChangeHandler} error={passwordCheckError} message={passwordCheckErrorMessage}/>
             </div>
 
             <div className={"top-bottom"}>

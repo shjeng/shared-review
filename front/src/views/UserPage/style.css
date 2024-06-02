@@ -13,15 +13,22 @@
   gap: 10px;
 }
 .top-top-image{
+  background-size: 100% 100%;
+  border-radius: 50%;
   width: 100px;
   height: 100px;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*position: relative;*/
 }
-.icon{
-  position: absolute;
-  bottom: 0px;
-  right: -6px;
+.edit-btn{
+  /*position: absolute;*/
+  /*bottom: 0px;*/
+  /*right: -6px;*/
   cursor: pointer;
+  background-image: url(../../assets/image/edit-btn.png);
 }
 .top-top-infobox{
   display: flex;

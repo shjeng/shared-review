@@ -1,32 +1,17 @@
 import "./style.css";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  commentWrite,
-  favoriteBoard,
-  getBoardRequest,
-  getComments,
-  increaseViewCountRequest,
-} from "../../apis";
-import {
-  CommentResponseDto,
-  GetBoardDetailResponseDto,
-  IncreaseViewCountResponseDto,
-} from "../../apis/response/board";
-import {
-  BOARD_LIST,
-  MAIN_PATH,
-  USER_BOARD,
-  USER_PAGE_PATH,
-} from "../../constant";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {commentWrite, favoriteBoard, getBoardRequest, getComments, increaseViewCountRequest,} from "../../apis";
+import {CommentResponseDto, GetBoardDetailResponseDto, IncreaseViewCountResponseDto,} from "../../apis/response/board";
+import {BOARD_LIST, MAIN_PATH, USER_BOARD, USER_PAGE_PATH,} from "../../constant";
 
 import ResponseDto from "../../apis/response/response.dto";
-import { ResponseCode } from "../../types/enum";
+import {ResponseCode} from "../../types/enum";
 import loginUserStore from "../../store/login-user.store";
-import { Category, Comment, Favorite, Tag, User } from "../../types/interface";
-import { ResponseUtil } from "../../utils";
-import { CommentWriteRequestDto } from "../../apis/request/board";
-import { useCookies } from "react-cookie";
+import {Comment, Favorite, Tag, User} from "../../types/interface";
+import {ResponseUtil} from "../../utils";
+import {CommentWriteRequestDto} from "../../apis/request/board";
+import {useCookies} from "react-cookie";
 import CommentItem from "../../components/CommentItem";
 import Pagination from "../../components/Pagination";
 import Pageable from "../../types/interface/pageable.interface";

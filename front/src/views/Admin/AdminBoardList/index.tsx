@@ -1,17 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import "./style.css";
-import {
-  ADMIN_BOARD_LIST,
-  BOARD_DETAIL,
-  CATEGORI_MANAGE_PATH,
-  USER_MANAGE_PATH,
-} from "../../../constant";
-import { useEffect, useRef, useState } from "react";
-import {
-  getAdminBoardListRequest,
-  getAdminBoardSearchReqeust,
-  getCategorysReqeust,
-} from "../../../apis";
+import {ADMIN_BOARD_LIST, BOARD_DETAIL, CATEGORI_MANAGE_PATH, USER_MANAGE_PATH,} from "../../../constant";
+import {useEffect, useState} from "react";
+import {getAdminBoardListRequest, getAdminBoardSearchReqeust,} from "../../../apis";
 import ResponseDto from "../../../apis/response/response.dto";
 import GetAdminBoardResponseDto from "../../../apis/response/board/get-admin-board-list-response.dto";
 import AdminBoard from "../../../types/interface/admin-board.interface";
