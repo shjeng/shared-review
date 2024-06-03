@@ -3,4 +3,5 @@ export default interface User {
   nickname: string;
   profileImage: string;
   name: string;
+  admin: string;
 }

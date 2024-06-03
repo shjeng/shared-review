@@ -1,16 +1,27 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
-import {ADMIN_BOARD_LIST, CATEGORI_MANAGE_PATH, USER_MANAGE_PATH, USER_PAGE_PATH,} from "../../../constant";
-import {useEffect, useRef, useState} from "react";
-import {deleteCategory, getAdminCategorySearchReqeust, getAdminCategorysReqeust, postCategotyAdd,} from "../../../apis";
+import {
+  ADMIN_BOARD_LIST,
+  CATEGORI_MANAGE_PATH,
+  MAIN_PATH,
+  USER_MANAGE_PATH,
+  USER_PAGE_PATH,
+} from "../../../constant";
+import { useEffect, useRef, useState } from "react";
+import {
+  deleteCategory,
+  getAdminCategorySearchReqeust,
+  getAdminCategorysReqeust,
+  postCategotyAdd,
+} from "../../../apis";
 import ResponseDto from "../../../apis/response/response.dto";
 import CategorieList from "../../../types/interface/admin-categorie.interface";
 import GetAdminCategorysResponseDto from "../../../apis/response/board/get-admin-categorys-response.dto";
 import SearchInputBox from "../../../components/SearchInputBox";
-import {useLoginUserStore} from "../../../store";
-import {useCookies} from "react-cookie";
+import { useLoginUserStore } from "../../../store";
+import { useCookies } from "react-cookie";
 import CategoryWriteRequestDto from "../../../apis/request/board/category-write-reqeust.dto";
-import {ResponseCode} from "../../../types/enum";
+import { ResponseCode } from "../../../types/enum";
 
 const AdminCategories = () => {
   const { loginUser } = useLoginUserStore();
@@ -127,19 +138,24 @@ const AdminCategories = () => {
   };
 
   const addInputRef = useRef<HTMLInputElement>(null);
-  const [cookies, seetCookies] = useCookies();
+  const [cookies, setCookies] = useCookies();
 
   const onCategoryAdd = () => {
-    console.log("cookies : ", cookies);
-    const categoryName = addInputRef.current?.value || "";
-
-    console.log("categoryName : ", categoryName);
-
-    const reqeustBody: CategoryWriteRequestDto = {
-      categoryName,
-    };
-
-    postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
+    if (!loginUser) {
+      console.log(JSON.stringify(loginUser, null, 2));
+      alert("로그인을 해주세요");
+      navigate(MAIN_PATH());
+    } else if (loginUser.admin == "NORMAL") {
+      alert("권한이 없습니다.");
+      navigate(MAIN_PATH());
+    } else if (loginUser.admin == "MANAGER") {
+      console.log(JSON.stringify(loginUser, null, 2));
+      const categoryName = addInputRef.current?.value || "";
+      const reqeustBody: CategoryWriteRequestDto = {
+        categoryName,
+      };
+      postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
+    }
   };
 
   const postResponse = (responseBody: { code: ResponseCode }) => {
@@ -217,7 +233,7 @@ const AdminCategories = () => {
               <div className="admin-categori-add-container">
                 <input
                   type="text"
-                  placeholder="추가 내용 입력"
+                  placeholder="추가할 카테고리 입력"
                   ref={addInputRef}
                 />
                 <div className="admin-categori-add" onClick={onCategoryAdd}>
@@ -293,7 +309,7 @@ const AdminCategories = () => {
           </div>
 
           <div className="admin-categori-mid-right-bottom">
-            <div className="admin-categori-delete-btn">삭제</div>
+            <div className="admin-categori-delete-btn">로그아웃(임시)</div>
           </div>
         </div>
       </div>
