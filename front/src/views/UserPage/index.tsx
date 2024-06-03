@@ -1,18 +1,22 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./style.css";
 import {useNavigate, useParams} from "react-router-dom";
-import {getLoginUser, nicknameDuplChkRequest} from "../../apis";
+import {getLoginUser, nicknameDuplChkRequest, saveImage} from "../../apis";
 import {GetUserResponseDto} from "../../apis/response/user";
 import ResponseDto from "../../apis/response/response.dto";
-import {ResponseUtil} from "../../utils";
+import {convertUrlToFile, ResponseUtil} from "../../utils";
 import {User} from "../../types/interface";
 import InputBox from "../../components/InputBox";
 import {NicknameDupleChkResponseDto} from "../../apis/response/auth";
+import {useCookies} from "react-cookie";
+import {FileResponseDto} from "../../apis/response/file";
 
 const UserPage = () => {
 
   const [authSuccess, setAuthSuccess] = useState<boolean>(false);
   const EditPage = () => {
+    const [cookies, setCookies] = useCookies();
+
     const navigate = useNavigate();
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
@@ -46,6 +50,10 @@ const UserPage = () => {
         return;
       }
       getLoginUser(userEmail).then(getMyInfoResponse);
+      (async () => {
+        const file = await convertUrlToFile(profileImage);
+        setFile(file);
+      })();
     }, [userEmail]);
     const getMyInfoResponse = (response: GetUserResponseDto | ResponseDto | null) => {
       if (!ResponseUtil(response)) {
@@ -56,6 +64,7 @@ const UserPage = () => {
       setNickname(result.userDto.nickname);
       setOriginNickname(result.userDto.nickname);
       setProfileImage(result.userDto.profileImage);
+
     }
     const editImageIconClick = () => {
       if (!profileImageRef.current) {
@@ -83,24 +92,7 @@ const UserPage = () => {
     //   if (nickname.length === 0) return;
     //   nicknameDuplChkRequest(nickname).then(nicknameDuplChkResponse);
     // }
-    const nicknameDuplChkResponse = (
-        responseBody: NicknameDupleChkResponseDto | ResponseDto | null
-    ) => {
-      if (!responseBody) {
-        alert("네트워크 이상입니다.");
-        return;
-      }
-      const { code } = responseBody;
-      if (code === "DN") {
-        setNicknameError(true);
-        setNicknameErrorMessage("이미 존재하는 닉네임입니다.");
-      }
-      if (code === "DBE") alert("데이터베이스 오류입니다.");
-      if (code !== "SU") return;
-      alert("중복 확인!");
-      const getResponse = responseBody as NicknameDupleChkResponseDto;
-      setVerifiedNickname(getResponse.nickname); // 검증 받은 이메일 저장.
-    };
+
     const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
       const {value} = event.target;
       setPassword(value);
@@ -135,7 +127,28 @@ const UserPage = () => {
       }
       if (nickname !== originNickname) {
         nicknameDuplChkRequest(nickname).then(nicknameDuplChkResponse);
+        if (!nicknameDupleCheck) {
+          return;
+        }
       }
+      saveImage(cookies.accessToken,file).then(changeProfileImgResponse);
+    }
+    const nicknameDuplChkResponse = (responseBody: NicknameDupleChkResponseDto | ResponseDto | null) => {
+      setVerifiedNickname('');
+      ResponseUtil(responseBody);
+      const { code } = responseBody as ResponseDto;
+      if (code === "DN") {
+        setNicknameError(true);
+        setNicknameErrorMessage("이미 존재하는 닉네임입니다.");
+      }
+      const getResponse = responseBody as NicknameDupleChkResponseDto;
+      setVerifiedNickname(getResponse.nickname);
+      setNicknameDupleCheck(true);
+    };
+
+    const changeProfileImgResponse = (responseBody: FileResponseDto | ResponseDto | null) => {
+      ResponseUtil(responseBody);
+      const result = responseBody as FileResponseDto;
 
     }
     const back = () => {

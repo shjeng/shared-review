@@ -2,16 +2,16 @@ import axios from "axios";
 import SignInRequestDto from "./request/auth/sign-in-request.dto";
 import SignInResponseDto from "./response/auth/sign-in.response.dto";
 import ResponseDto from "./response/response.dto";
-import { SignUpRequestDto } from "./request/auth";
+import {SignUpRequestDto} from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
-import { NicknameDupleChkResponseDto } from "./response/auth";
-import { GetUserResponseDto } from "./response/user";
-import { BoardWriteRequestDto, CommentWriteRequestDto } from "./request/board";
+import {NicknameDupleChkResponseDto} from "./response/auth";
+import {GetUserResponseDto} from "./response/user";
+import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
 import {
-  BoardListResponse,
-  CommentResponseDto,
-  GetCategorysResponseDto,
-  PostBoardWriteResponseDto,
+    BoardListResponse,
+    CommentResponseDto,
+    GetCategorysResponseDto,
+    PostBoardWriteResponseDto,
 } from "./response/board";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
@@ -20,6 +20,7 @@ import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
 import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
 import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto";
+import {FileResponseDto} from "./response/file";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -109,6 +110,17 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
     });
   return result;
 };
+
+// 파일 저장
+const SAVE_IMAGE = (file: File | null | undefined) => `${API_DOMAIN}/file/image/${file}`
+export const saveImage = async (accessToken: string, file: File | null | undefined) => {
+    return await axios.get(SAVE_IMAGE(file), {...tokenAndPageConfig.token(accessToken)})
+        .then(response => {
+            return response.data as FileResponseDto;
+        }).catch(error => {
+            return errorResponse(error);
+        });
+}
 
 // 카테고리 목록 불러오기
 const GET_CATEGORYS = () => `${API_DOMAIN}/board/get-categorys`;
