@@ -112,7 +112,7 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
 };
 
 // 파일 저장
-const SAVE_IMAGE = (file: File | null | undefined) => `${API_DOMAIN}/file/image/${file}`
+const SAVE_IMAGE = (file: File | null | undefined) => `${API_DOMAIN}/file/save/image/${file}`
 export const saveImage = async (accessToken: string, file: File | null | undefined) => {
     return await axios.get(SAVE_IMAGE(file), {...tokenAndPageConfig.token(accessToken)})
         .then(response => {
@@ -121,7 +121,17 @@ export const saveImage = async (accessToken: string, file: File | null | undefin
             return errorResponse(error);
         });
 }
+// 회원정보 수정
+const EDIT_USER_INFO = () => `${API_DOMAIN}/user`;
+export const editUser = async (accessToken: string, requestBody: SignUpRequestDto) => {
+    return await axios.patch(EDIT_USER_INFO(), requestBody, {...tokenAndPageConfig.token(accessToken)})
+        .then(response => {
+            return response.data as ResponseDto;
+        }).catch(error => {
+            return errorResponse(error);
+        });
 
+}
 // 카테고리 목록 불러오기
 const GET_CATEGORYS = () => `${API_DOMAIN}/board/get-categorys`;
 export const getCategorysReqeust = async () => {

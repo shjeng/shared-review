@@ -1,5 +1,7 @@
 package com.sreview.sharedReview.domain.controller;
 
+import com.sreview.sharedReview.domain.dto.object.UserDto;
+import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.AdminBoardListResponse;
 import com.sreview.sharedReview.domain.dto.response.board.BoardListResponse;
@@ -15,10 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -59,5 +58,10 @@ public class UserController {
     public ResponseEntity<? super GetUserResponse> getUser(@PathVariable("userEmail") String userEmail){
         ResponseDto result = userService.getUser(userEmail);
         return ResponseEntity.ok(result);
+    }
+
+    @PatchMapping("")
+    public ResponseEntity<?> editUser(@AuthenticationPrincipal String email, @RequestBody SignUpRequest requestDto) {
+        return null;
     }
 }

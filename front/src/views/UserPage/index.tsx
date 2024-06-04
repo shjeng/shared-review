@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./style.css";
 import {useNavigate, useParams} from "react-router-dom";
-import {getLoginUser, nicknameDuplChkRequest, saveImage} from "../../apis";
+import {editUser, getLoginUser, nicknameDuplChkRequest, saveImage} from "../../apis";
 import {GetUserResponseDto} from "../../apis/response/user";
 import ResponseDto from "../../apis/response/response.dto";
 import {convertUrlToFile, ResponseUtil} from "../../utils";
@@ -10,6 +10,7 @@ import InputBox from "../../components/InputBox";
 import {NicknameDupleChkResponseDto} from "../../apis/response/auth";
 import {useCookies} from "react-cookie";
 import {FileResponseDto} from "../../apis/response/file";
+import {SignUpRequestDto} from "../../apis/request/auth";
 
 const UserPage = () => {
 
@@ -149,6 +150,16 @@ const UserPage = () => {
     const changeProfileImgResponse = (responseBody: FileResponseDto | ResponseDto | null) => {
       ResponseUtil(responseBody);
       const result = responseBody as FileResponseDto;
+      const requestBody: SignUpRequestDto = {
+        email: '',
+        profileImage: result.savedName,
+        nickname: verifiedNickname,
+        password: password,
+        passwordCheck: passwordCheck
+      };
+      editUser(cookies.accessToken, requestBody).then(editUserResponse);
+    }
+    const editUserResponse = () => {
 
     }
     const back = () => {
