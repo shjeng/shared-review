@@ -46,6 +46,7 @@ server:
       tracking-modes: cookie
 file:
   path: C:/upload/
+  url: http://localhost:8080/file/
 
 jwt:
   secretKey: S3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3y
