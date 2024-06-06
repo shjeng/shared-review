@@ -132,7 +132,13 @@ const UserPage = () => {
           return;
         }
       }
-      saveImage(cookies.accessToken,file).then(changeProfileImgResponse);
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        saveImage(cookies.accessToken, file).then(changeProfileImgResponse);
+      } else {
+
+      }
     }
     const nicknameDuplChkResponse = (responseBody: NicknameDupleChkResponseDto | ResponseDto | null) => {
       setVerifiedNickname('');
@@ -150,6 +156,7 @@ const UserPage = () => {
     const changeProfileImgResponse = (responseBody: FileResponseDto | ResponseDto | null) => {
       ResponseUtil(responseBody);
       const result = responseBody as FileResponseDto;
+      debugger;
       const requestBody: SignUpRequestDto = {
         email: '',
         profileImage: result.savedName,

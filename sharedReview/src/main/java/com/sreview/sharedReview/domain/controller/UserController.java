@@ -61,7 +61,8 @@ public class UserController {
     }
 
     @PatchMapping("")
-    public ResponseEntity<?> editUser(@AuthenticationPrincipal String email, @RequestBody SignUpRequest requestDto) {
+    public ResponseEntity<?> editUser(@AuthenticationPrincipal String email, @RequestBody SignUpRequest requestBody) {
+        log.info("requestBody = {}", requestBody);
         return null;
     }
 }

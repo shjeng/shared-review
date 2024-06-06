@@ -12,6 +12,7 @@ public class SignUpRequest {
     //    private String authNumber; // 인증번호 추가 예정
     private String nickname;
     private String password;
+    private String passwordCheck;
 
     public static User of(SignUpRequest request, String password) {
         User user = new User();

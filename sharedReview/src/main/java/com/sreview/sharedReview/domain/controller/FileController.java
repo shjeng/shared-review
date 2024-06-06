@@ -19,9 +19,8 @@ public class FileController {
         return fileService.getImage(fileName);
     }
 
-    @GetMapping(value = "/save/image", consumes = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @PostMapping(value = "/save/image", consumes = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public String uploadImage(@RequestParam("fileName")MultipartFile file) {
-        fileService.uploadImage(file);
-        return null;
+        return fileService.uploadImage(file);
     }
 }

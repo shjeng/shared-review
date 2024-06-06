@@ -205,9 +205,11 @@ const SignUp = () => {
       return;
     }
     const requestBody: SignUpRequestDto = {
-      email,
-      password,
-      nickname,
+      email: email,
+      password: password,
+      nickname: nickname,
+      passwordCheck: '',
+      profileImage: ''
     };
 
     signUpRequest(requestBody).then(signUpResponse);

@@ -17,6 +17,8 @@ public class FileService {
     private String filePath;
 
     @Value("${file.url}")
+    private String fileUrl;
+
     public Resource getImage(String fileName){
         try {
             return new FileSystemResource(filePath + fileName);
@@ -36,7 +38,7 @@ public class FileService {
 
         try {
             file.transferTo(new File(savePath));
-            return filePath + saveFileName;
+            return fileUrl + saveFileName;
 
         } catch (Exception e) {
             throw new RuntimeException();
