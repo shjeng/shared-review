@@ -37,6 +37,16 @@ const tokenAndPageConfig = {
   page: (page: number) => {
     return pageParam(page);
   },
+    multipart: () => {
+        return {headers: {'Content-Type':'multipart/form-data'}}
+    },
+    multipartAndToken: (accessToken: string) => {
+        return { headers: {
+            'Content-Type':'multipart/form-data',
+                Authorization: `Bearer ${accessToken}`
+        }
+        }
+    }
 };
 
 const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
@@ -112,9 +122,9 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
 };
 
 // 파일 저장
-const SAVE_IMAGE = (file: File | null | undefined) => `${API_DOMAIN}/file/save/image?fileName=${file}`
-export const saveImage = async (accessToken: string, file: File | null | undefined) => {
-    return await axios.get(SAVE_IMAGE(file), {...tokenAndPageConfig.token(accessToken)})
+const SAVE_IMAGE = () => `${DOMAIN}/file/save/image`
+export const saveImage = async (accessToken: string, file: FormData | null | undefined) => {
+    return await axios.post(SAVE_IMAGE(),file , {...tokenAndPageConfig.multipartAndToken(accessToken)})
         .then(response => {
             return response.data as FileResponseDto;
         }).catch(error => {

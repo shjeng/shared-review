@@ -135,7 +135,7 @@ const UserPage = () => {
       if (file) {
         const formData = new FormData();
         formData.append('file', file);
-        saveImage(cookies.accessToken, file).then(changeProfileImgResponse);
+        saveImage(cookies.accessToken, formData).then(changeProfileImgResponse);
       } else {
 
       }
