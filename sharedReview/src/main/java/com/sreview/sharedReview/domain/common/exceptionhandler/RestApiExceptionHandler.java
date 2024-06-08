@@ -2,6 +2,7 @@ package com.sreview.sharedReview.domain.common.exceptionhandler;
 
 import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
+import com.sreview.sharedReview.domain.common.customexception.BadRequestException;
 import com.sreview.sharedReview.domain.common.customexception.NonExistBoardException;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,11 @@ public class RestApiExceptionHandler {
         return ResponseEntity.badRequest().body(new ResponseDto(ResponseCode.NON_EXISTED_BOARD, ResponseMessage.NON_EXISTED_BOARD));
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ResponseDto> badRequestException(BadRequestException e) {
+        log.error("이메일 중복 예외");
+        return ResponseEntity.badRequest().body(new ResponseDto(ResponseCode.BAD_REQUEST, e.getMessage()));
+    }
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ResponseDto> runtimeException(RuntimeException e) {
         log.error("Run time exception: {}", e.getMessage());

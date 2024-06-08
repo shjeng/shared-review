@@ -4,6 +4,7 @@ import com.sreview.sharedReview.domain.jpa.entity.enumType.ADMIN;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity(name = "user_entity")
 @Getter
@@ -24,6 +25,7 @@ public class User extends BaseEntity {
     private String password;
 
     // 회원 닉네임
+    @Setter
     @Column(name = "User_Nickname")
     private String nickname;
 

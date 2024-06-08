@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,11 +22,19 @@ public class FileController {
     public Resource getImage(@PathVariable("fileName") String fileName) {
         return fileService.getImage(fileName);
     }
+    @GetMapping(value = "/temp/{fileName}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public Resource getTempImage(@PathVariable("fileName") String fileName) {
+        return fileService.getTempImage(fileName);
+    }
 
+    @PostMapping(value = "/save/temp/image")
+    public ResponseEntity<Map<String, String>> uploadTempImage(@RequestParam("file") MultipartFile file) {
+        Map<String, String> result = Map.of("savedName", fileService.uploadTempImage(file));
+        return ResponseEntity.ok(result) ;
+    }
     @PostMapping(value = "/save/image")
-    public String uploadImage(@RequestParam("file") MultipartFile file) {
-//    public String uploadImage(@AuthenticationPrincipal String email, @RequestParam("file") MultipartFile file) {
-//        log.info("email = {}", email);
-        return fileService.uploadImage(file);
+    public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
+        Map<String, String> result = Map.of("savedName", fileService.uploadImage(file));
+        return ResponseEntity.ok(result) ;
     }
 }

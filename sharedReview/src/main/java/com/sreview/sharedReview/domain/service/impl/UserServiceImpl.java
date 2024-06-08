@@ -1,7 +1,11 @@
 package com.sreview.sharedReview.domain.service.impl;
 
+import com.sreview.sharedReview.domain.common.ResponseCode;
+import com.sreview.sharedReview.domain.common.ResponseMessage;
+import com.sreview.sharedReview.domain.common.customexception.BadRequestException;
 import com.sreview.sharedReview.domain.dto.object.AdminUserDto;
 import com.sreview.sharedReview.domain.dto.object.UserDto;
+import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
@@ -24,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserEntityService userEntityService;
     private final UserRepository userRepository;
-
+    private final FileService fileService;
     @Override // 로그인을 하면 가져올 데이터
     public ResponseEntity<? super GetLoginUserResponse> getLoginUser(String email) {
         UserDto userDto;
@@ -94,5 +98,31 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
+    @Override
+    public ResponseDto editUser(SignUpRequest requestBody) {
+        try {
+            User user = userEntityService.findByEmail(requestBody.getEmail());
+            if (!requestBody.getNickname().isEmpty()) {
+                Optional<User> nicknameOptional = userEntityService.findByNickname(requestBody.getNickname());
+                if (nicknameOptional.isPresent()) {
+                    User dupleCheck = nicknameOptional.get();
+                    if (dupleCheck.getEmail().equals(requestBody.getEmail())) {
+                        throw new BadRequestException("닉네임 중복입니다.");
+                    }
+                }
+                user.setNickname(requestBody.getNickname());
+            }
+            if (!requestBody.getPassword().equals(requestBody.getPasswordCheck())) {
+                throw new BadRequestException("비밀번호가 일치하지 않습니다.");
+            }
+            if (!requestBody.getProfileImage().isEmpty()) {
+                String newFileURl = fileService.tempImageToSave(requestBody.getProfileImage());
+                user.setProfileImage(newFileURl);
+            }
+            userRepository.save(user);
+            return new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 }

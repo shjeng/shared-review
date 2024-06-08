@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.service;
 
+import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.AdminBoardListResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
@@ -15,5 +16,7 @@ public interface UserService {
 //    ResponseEntity<? super GetUserListResponse> getAdminUserSearch(String searchValue, String inputValue);
 
     ResponseDto getAdminUserSearch(String searchValue, String inputValue);
+
+    ResponseDto editUser(SignUpRequest requestBody);
 
 }

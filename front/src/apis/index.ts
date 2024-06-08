@@ -122,8 +122,8 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
 };
 
 // 파일 저장
-const SAVE_IMAGE = () => `${DOMAIN}/file/save/image`
-export const saveImage = async (accessToken: string, file: FormData | null | undefined) => {
+const SAVE_IMAGE = () => `${DOMAIN}/file/save/temp/image`
+export const saveTempImage = async (accessToken: string, file: FormData | null | undefined) => {
     return await axios.post(SAVE_IMAGE(),file , {...tokenAndPageConfig.multipartAndToken(accessToken)})
         .then(response => {
             return response.data as FileResponseDto;

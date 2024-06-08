@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./style.css";
 import {useNavigate, useParams} from "react-router-dom";
-import {editUser, getLoginUser, nicknameDuplChkRequest, saveImage} from "../../apis";
+import {editUser, getLoginUser, getMyInfo, nicknameDuplChkRequest, saveTempImage} from "../../apis";
 import {GetUserResponseDto} from "../../apis/response/user";
 import ResponseDto from "../../apis/response/response.dto";
 import {convertUrlToFile, ResponseUtil} from "../../utils";
@@ -11,12 +11,14 @@ import {NicknameDupleChkResponseDto} from "../../apis/response/auth";
 import {useCookies} from "react-cookie";
 import {FileResponseDto} from "../../apis/response/file";
 import {SignUpRequestDto} from "../../apis/request/auth";
+import {useLoginUserStore} from "../../store";
 
 const UserPage = () => {
 
   const [authSuccess, setAuthSuccess] = useState<boolean>(false);
   const EditPage = () => {
     const [cookies, setCookies] = useCookies();
+    const {setLoginUser} = useLoginUserStore();
 
     const navigate = useNavigate();
     const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -135,7 +137,7 @@ const UserPage = () => {
       if (file) {
         const formData = new FormData();
         formData.append('file', file);
-        saveImage(cookies.accessToken, formData).then(changeProfileImgResponse);
+        saveTempImage(cookies.accessToken, formData).then(changeProfileImgResponse);
       } else {
 
       }
@@ -154,9 +156,16 @@ const UserPage = () => {
     };
 
     const changeProfileImgResponse = (responseBody: FileResponseDto | ResponseDto | null) => {
-      ResponseUtil(responseBody);
+      if (!responseBody) {
+        alert('서버의 응답이 없습니다.');
+        return;
+      }
+      const {code} = responseBody as ResponseDto;
+      if (code) {
+        alert('사진이 업로드가 되지 않았습니다.');
+        return;
+      }
       const result = responseBody as FileResponseDto;
-      debugger;
       const requestBody: SignUpRequestDto = {
         email: '',
         profileImage: result.savedName,
@@ -166,9 +175,18 @@ const UserPage = () => {
       };
       editUser(cookies.accessToken, requestBody).then(editUserResponse);
     }
-    const editUserResponse = () => {
-
+    const editUserResponse = (response: ResponseDto | null) => {
+      ResponseUtil(response);
+      const result = response as ResponseDto;
+      setAuthSuccess(false);
+      getMyInfo(cookies.accessToken).then(getLoginUserResponse);
     }
+    const getLoginUserResponse = (responseBody: GetUserResponseDto | ResponseDto | null) => {
+      ResponseUtil(responseBody);
+      if (!responseBody) return;
+      const { userDto } = responseBody as GetUserResponseDto;
+      setLoginUser(userDto);
+    };
     const back = () => {
       navigate(-1);
     }
