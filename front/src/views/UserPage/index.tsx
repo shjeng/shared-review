@@ -221,12 +221,30 @@ const UserPage = () => {
         </div>
     );
   }
+
+  const Index = () => {
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const [password, setPassword] = useState<string>('');
+
+    const passwordChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const {value} = event.target;
+      setPassword(value);
+    }
+    return (
+      <div className={'user-info-box'}>
+        <div className={'user-info-title'}>회원정보 수정</div>
+        <input placeholder={'비밀번호를 입력해주세요.'} onChange={passwordChange} type={'password'} value={password} className={'password-input'} ref={inputRef}/>
+        <div>입력</div>
+      </div>
+    );
+  }
   return (
       <>
         {!authSuccess ?
-            <EditPage />    
+            <Index />
             :
-        <div>테스트</div>
+            <EditPage />
         }
         
       </>
