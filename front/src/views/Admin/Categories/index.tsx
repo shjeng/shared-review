@@ -4,6 +4,7 @@ import {
   ADMIN_BOARD_LIST,
   CATEGORI_MANAGE_PATH,
   MAIN_PATH,
+  SIGN_IN_PATH,
   USER_MANAGE_PATH,
   USER_PAGE_PATH,
 } from "../../../constant";
@@ -47,8 +48,6 @@ const AdminCategories = () => {
   const getAdminCategorysResponse = (
     responseBody: GetAdminCategorysResponseDto | ResponseDto | null
   ) => {
-    console.log("responseBody : ", responseBody);
-
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -62,7 +61,6 @@ const AdminCategories = () => {
     const result = responseBody as GetAdminCategorysResponseDto;
 
     setAdminCategorys(result.categorys);
-    console.log("adminCategorys : ", adminCategorys);
   };
   // ===================================================
 
@@ -144,7 +142,7 @@ const AdminCategories = () => {
     if (!loginUser) {
       console.log(JSON.stringify(loginUser, null, 2));
       alert("로그인을 해주세요");
-      navigate(MAIN_PATH());
+      navigate(SIGN_IN_PATH());
     } else if (loginUser.admin == "NORMAL") {
       alert("권한이 없습니다.");
       navigate(MAIN_PATH());
@@ -179,7 +177,7 @@ const AdminCategories = () => {
     deleteCategory(categoryId, cookies.accessToken).then(deleteResponse);
   };
   const deleteResponse = (responseBody: ResponseDto | null) => {
-    console.log("responseBody : ", responseBody);
+    console.log("responseBody!!!!!!!!! : ", responseBody);
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;

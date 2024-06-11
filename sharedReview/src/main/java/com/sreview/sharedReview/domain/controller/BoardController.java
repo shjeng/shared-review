@@ -130,10 +130,9 @@ public class BoardController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/category/{categoryId}")
-    public ResponseEntity<?> deleteCategory(@PathVariable("categoryId") Long categoryId, @AuthenticationPrincipal String email){
-        boardServcice.deleteCategory(categoryId, email);
-        return null;
+    @DeleteMapping("/category/{categoryId}") // 관리자페이지 카테고리 삭제
+    public ResponseEntity<? super CategoryDeleteResponse> deleteCategory(@PathVariable("categoryId") Long categoryId, @AuthenticationPrincipal String email){
+        return boardServcice.deleteCategory(categoryId, email);
     }
 
 }

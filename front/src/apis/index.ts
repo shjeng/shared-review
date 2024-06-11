@@ -2,16 +2,16 @@ import axios from "axios";
 import SignInRequestDto from "./request/auth/sign-in-request.dto";
 import SignInResponseDto from "./response/auth/sign-in.response.dto";
 import ResponseDto from "./response/response.dto";
-import {SignUpRequestDto} from "./request/auth";
+import { SignUpRequestDto } from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
-import {NicknameDupleChkResponseDto} from "./response/auth";
-import {GetUserResponseDto} from "./response/user";
-import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
+import { NicknameDupleChkResponseDto } from "./response/auth";
+import { GetUserResponseDto } from "./response/user";
+import { BoardWriteRequestDto, CommentWriteRequestDto } from "./request/board";
 import {
-    BoardListResponse,
-    CommentResponseDto,
-    GetCategorysResponseDto,
-    PostBoardWriteResponseDto,
+  BoardListResponse,
+  CommentResponseDto,
+  GetCategorysResponseDto,
+  PostBoardWriteResponseDto,
 } from "./response/board";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
@@ -20,7 +20,7 @@ import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
 import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
 import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto";
-import {FileResponseDto} from "./response/file";
+import { FileResponseDto } from "./response/file";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -37,16 +37,17 @@ const tokenAndPageConfig = {
   page: (page: number) => {
     return pageParam(page);
   },
-    multipart: () => {
-        return {headers: {'Content-Type':'multipart/form-data'}}
-    },
-    multipartAndToken: (accessToken: string) => {
-        return { headers: {
-            'Content-Type':'multipart/form-data',
-                Authorization: `Bearer ${accessToken}`
-        }
-        }
-    }
+  multipart: () => {
+    return { headers: { "Content-Type": "multipart/form-data" } };
+  },
+  multipartAndToken: (accessToken: string) => {
+    return {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+  },
 };
 
 const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
@@ -78,7 +79,6 @@ export const getMyInfo = async (accessToken: string) => {
     .get(GET_MY_INFO(), authorication(accessToken))
     .then((response) => {
       const responseBody: GetUserResponseDto = response.data;
-      console.log(JSON.stringify(responseBody, null, 2));
       return responseBody;
     })
     .catch((error) => {
@@ -122,26 +122,39 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
 };
 
 // 파일 저장
-const SAVE_IMAGE = () => `${DOMAIN}/file/save/temp/image`
-export const saveTempImage = async (accessToken: string, file: FormData | null | undefined) => {
-    return await axios.post(SAVE_IMAGE(),file , {...tokenAndPageConfig.multipartAndToken(accessToken)})
-        .then(response => {
-            return response.data as FileResponseDto;
-        }).catch(error => {
-            return errorResponse(error);
-        });
-}
+const SAVE_IMAGE = () => `${DOMAIN}/file/save/temp/image`;
+export const saveTempImage = async (
+  accessToken: string,
+  file: FormData | null | undefined
+) => {
+  return await axios
+    .post(SAVE_IMAGE(), file, {
+      ...tokenAndPageConfig.multipartAndToken(accessToken),
+    })
+    .then((response) => {
+      return response.data as FileResponseDto;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+};
 // 회원정보 수정
 const EDIT_USER_INFO = () => `${API_DOMAIN}/user`;
-export const editUser = async (accessToken: string, requestBody: SignUpRequestDto) => {
-    return await axios.patch(EDIT_USER_INFO(), requestBody, {...tokenAndPageConfig.token(accessToken)})
-        .then(response => {
-            return response.data as ResponseDto;
-        }).catch(error => {
-            return errorResponse(error);
-        });
-
-}
+export const editUser = async (
+  accessToken: string,
+  requestBody: SignUpRequestDto
+) => {
+  return await axios
+    .patch(EDIT_USER_INFO(), requestBody, {
+      ...tokenAndPageConfig.token(accessToken),
+    })
+    .then((response) => {
+      return response.data as ResponseDto;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+};
 // 카테고리 목록 불러오기
 const GET_CATEGORYS = () => `${API_DOMAIN}/board/get-categorys`;
 export const getCategorysReqeust = async () => {
@@ -177,10 +190,6 @@ export const getAdminCategorysReqeust = async () => {
     .get(GET_ADMIN_CATEGORYS())
     .then((response) => {
       const responseBody: GetAdminCategorysResponseDto = response.data;
-      console.log(
-        "responseBody 백에서 받아온 데이터 : ",
-        JSON.stringify(responseBody, null, 2)
-      );
       return responseBody;
     })
     .catch((error) => {
