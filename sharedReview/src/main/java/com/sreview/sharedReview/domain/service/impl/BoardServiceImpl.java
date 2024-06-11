@@ -362,8 +362,8 @@ public class BoardServiceImpl implements BoardService {
         }
     }
 
-    @Override
-    public ResponseDto deleteCategory(Long categoryId, String email) {
+    @Override  // 게시물 없을때는 정상적으로 동작. 있을때 어떻게 처리할지 수정하기
+    public ResponseEntity<? super CategoryDeleteResponse> deleteCategory(Long categoryId, String email) {
         try {
             Optional<Category> categoryOptional = categoryRepoService.findById(categoryId);
             if (categoryOptional.isPresent()) {
@@ -377,7 +377,7 @@ public class BoardServiceImpl implements BoardService {
             e.printStackTrace();
             throw new InternalException();
         }
-        return null;
+        return CategoryDeleteResponse.success();
     }
 
 }

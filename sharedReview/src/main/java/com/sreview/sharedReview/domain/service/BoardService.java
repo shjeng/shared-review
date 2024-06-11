@@ -40,7 +40,7 @@ public interface BoardService {
     ResponseDto getComments(Long boardId, Pageable pageable);
     ResponseDto deleteBoard(Long boardId, String email);
 
-    ResponseDto deleteCategory(Long categoryId, String email);
+    ResponseEntity<? super CategoryDeleteResponse> deleteCategory(Long categoryId, String email);
 
 
     void deleteComment(Long commentId, String email);
