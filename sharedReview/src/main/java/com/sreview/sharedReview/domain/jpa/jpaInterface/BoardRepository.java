@@ -40,6 +40,9 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("SELECT b FROM Board b where b.title = :title")
     List<Board> findByTitle(@Param("title") String boardTitle);
 
+    @Query("SELECT b FROM Board b WHERE b.category.id = :categoryId")
+    List<Board> findByCategoryId(@Param("categoryId") Long categoryId);
+
     @Query("SELECT b FROM Board b where b.user.nickname = :nickname")
     List<Board> findByUserNickname(@Param("nickname") String boardTitle);
 //    @Query("select b from Board b left join fetch b.comments c left join fetch c.user where b.boardId =:boardId")

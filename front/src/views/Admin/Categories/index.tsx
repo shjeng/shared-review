@@ -189,6 +189,7 @@ const AdminCategories = () => {
     if (code !== "SU") {
       return;
     }
+
     alert("삭제되었습니다.");
     window.location.reload();
   };
