@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @Slf4j
 @RequestMapping("/api/user")
@@ -60,6 +62,11 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/password-check")
+    public ResponseEntity<?> passwordCheck(@AuthenticationPrincipal String email, @RequestParam Map<String, String> password){
+        log.info("password: {}", password);
+        return null;
+    }
     @PatchMapping("")
     public ResponseEntity<?> editUser(@AuthenticationPrincipal String email, @RequestBody SignUpRequest requestBody) {
         log.info("requestBody = {}", requestBody);

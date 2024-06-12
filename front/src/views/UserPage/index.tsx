@@ -1,7 +1,14 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./style.css";
 import {useNavigate, useParams} from "react-router-dom";
-import {editUser, getLoginUser, getMyInfo, nicknameDuplChkRequest, saveTempImage} from "../../apis";
+import {
+    editUser,
+    getLoginUser,
+    getMyInfo,
+    nicknameDuplChkRequest,
+    passwordCheckRequest,
+    saveTempImage
+} from "../../apis";
 import {GetUserResponseDto} from "../../apis/response/user";
 import ResponseDto from "../../apis/response/response.dto";
 import {convertUrlToFile, ResponseUtil} from "../../utils";
@@ -223,19 +230,38 @@ const UserPage = () => {
   }
 
   const Index = () => {
-    const inputRef = useRef<HTMLInputElement | null>(null);
+      const [cookies, setCookies] = useCookies();
 
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const [password, setPassword] = useState<string>('');
 
     const passwordChange = (event: ChangeEvent<HTMLInputElement>) => {
       const {value} = event.target;
       setPassword(value);
     }
+    const passwordKeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== "Enter") return;
+        passwordCheck();
+    }
+    const passwordCheck = () => {
+        passwordCheckRequest(cookies.accessToken, password).then(passwordCheckResponse);
+    }
+    const passwordCheckResponse = (response: ResponseDto | null) => {
+        ResponseUtil(response);
+        const result = response as ResponseDto;
+
+    }
     return (
-      <div className={'user-info-box'}>
-        <div className={'user-info-title'}>회원정보 수정</div>
-        <input placeholder={'비밀번호를 입력해주세요.'} onChange={passwordChange} type={'password'} value={password} className={'password-input'} ref={inputRef}/>
-        <div>입력</div>
+      <div className={'user-info-box-wrap'}>
+        <div className={'user-info-box'}>
+            <div className={'user-info-title'}>회원정보 수정</div>
+            <div className={'user-info-input-box'}>
+                <div className={'input-box'}>
+                    <input placeholder={'비밀번호를 입력해주세요.'} onChange={passwordChange} onKeyDown={passwordKeydown} type={'password'} value={password} className={'password-input'} ref={inputRef}/>
+                </div>
+                <div className={'button'}>입력</div>
+            </div>
+        </div>
       </div>
     );
   }
@@ -246,7 +272,7 @@ const UserPage = () => {
             :
             <EditPage />
         }
-        
+
       </>
   );
 

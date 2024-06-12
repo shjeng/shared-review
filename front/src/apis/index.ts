@@ -20,7 +20,9 @@ import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
 import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
 import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto";
-import { FileResponseDto } from "./response/file";
+import {FileResponseDto} from "./response/file";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -138,6 +140,17 @@ export const saveTempImage = async (
       return errorResponse(error);
     });
 };
+// 비밀번호 확인
+const PASSWORD_CHECK_URL = () => `${API_DOMAIN}/user/password-check`;
+export const passwordCheckRequest = async (accessToken: string, password:string) => {
+    return await axios.post(PASSWORD_CHECK_URL(),{password: password}, {...tokenAndPageConfig.token(accessToken)})
+        .then(response => {
+            return response.data as ResponseDto;
+        })
+        .catch(error => {
+            return errorResponse(error);
+        });
+}
 // 회원정보 수정
 const EDIT_USER_INFO = () => `${API_DOMAIN}/user`;
 export const editUser = async (
