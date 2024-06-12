@@ -135,9 +135,6 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public ResponseEntity<? super AdminCategotyResponse> getAdminCategorySearch(String searchValue, String inputValue) {
-        System.out.println("Impl - 받아온 데이터 searchValue : " + searchValue);
-        System.out.println("Impl - 받아온 데이터 inputValue : " +  inputValue);
-
         List<AdminCategoryDto> categorys;
         List<Category> filteredCategorys;
         try {
@@ -362,24 +359,21 @@ public class BoardServiceImpl implements BoardService {
         }
     }
 
-    @Override  // 게시물 없을때는 정상적으로 동작. 있을때 어떻게 처리할지 수정하기
+    @Override
     public ResponseEntity<? super CategoryDeleteResponse> deleteCategory(Long categoryId, String email) {
         try {
             Optional<Category> categoryOptional = categoryRepoService.findById(categoryId);
-            if (categoryOptional.isPresent()) {
-                Category category = categoryOptional.get();
-                System.out.println("Found category: " + category);
+            List<Board> boards = boardRepoService.findByCategoryId(categoryId);
+            if (categoryOptional.isPresent() && boards.isEmpty()) { // categoryOptional가 빈값이 아니고 boards에 값이 비어 있으면 true
                 categoryRepoService.deleteById(categoryId);
-            } else {
-                System.out.println("Category with ID " + categoryId + " not found");
+                return CategoryDeleteResponse.success();
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalException();
         }
-        return CategoryDeleteResponse.success();
+        return null;
     }
-
 }
 
 

@@ -94,6 +94,11 @@ public class BoardRepoService { // DB에 넣어주는 아이
         return boardRepository.findByTitle(inputValue);
     }
 
+    public List<Board> findByCategoryId(Long inputValue) {
+        return boardRepository.findByCategoryId(inputValue);
+    }
+
+
     public List<Board> findByUserNickname(String inputValue) {
         return boardRepository.findByUserNickname(inputValue);
     }
