@@ -367,12 +367,13 @@ public class BoardServiceImpl implements BoardService {
             if (categoryOptional.isPresent() && boards.isEmpty()) { // categoryOptional가 빈값이 아니고 boards에 값이 비어 있으면 true
                 categoryRepoService.deleteById(categoryId);
                 return CategoryDeleteResponse.success();
+            } else {
+                return CategoryDeleteResponse.fail();
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalException();
         }
-        return null;
     }
 }
 

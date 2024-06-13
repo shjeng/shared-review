@@ -16,6 +16,7 @@ public interface ResponseCode {
     String CERTIFICATION_FAIL = "CF";
     String DUPLICATE_CATEGORY = "DC";
     String AUTH_NUMBER_FAILED = "ANF"; // 인증번호 불일치
+    String CATEGORY_IN_USE = "CIU"; // 사용중인 카테고리
 
     // HTTP Stauts 500
     String MAIL_FAIL = "MF"; // 메일 전송 실패

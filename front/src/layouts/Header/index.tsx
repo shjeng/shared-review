@@ -6,6 +6,7 @@ import {
   BOARD_WRITE,
   MAIN_PATH,
   SIGN_IN_PATH,
+  USER_MANAGE_PATH,
   USER_PAGE_PATH,
 } from "../../constant";
 import { useBoardSearchStore, useLoginUserStore } from "../../store";
@@ -197,6 +198,15 @@ const Header = () => {
                   >
                     글작성
                   </div>
+
+                  {loginUser.admin === "MANAGER" && (
+                    <div
+                      className="profile-dropdown-content-item"
+                      onClick={() => navigate(USER_MANAGE_PATH())}
+                    >
+                      관리자페이지
+                    </div>
+                  )}
                 </div>
               )}
             </div>
