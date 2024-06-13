@@ -16,4 +16,8 @@ public class CategoryDeleteResponse extends ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(new CategoryDeleteResponse());
     }
 
+    public static ResponseEntity<ResponseDto> fail(){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(ResponseCode.CATEGORY_IN_USE, ResponseMessage.CATEGORY_IN_USE));
+    }
+
 }

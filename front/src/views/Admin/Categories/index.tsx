@@ -140,14 +140,12 @@ const AdminCategories = () => {
 
   const onCategoryAdd = () => {
     if (!loginUser) {
-      console.log(JSON.stringify(loginUser, null, 2));
       alert("로그인을 해주세요");
       navigate(SIGN_IN_PATH());
     } else if (loginUser.admin == "NORMAL") {
       alert("권한이 없습니다.");
       navigate(MAIN_PATH());
     } else if (loginUser.admin == "MANAGER") {
-      console.log(JSON.stringify(loginUser, null, 2));
       const categoryName = addInputRef.current?.value || "";
       const reqeustBody: CategoryWriteRequestDto = {
         categoryName,
@@ -174,10 +172,14 @@ const AdminCategories = () => {
   };
 
   const onCategoryDelete = (categoryId: string | bigint) => {
-    deleteCategory(categoryId, cookies.accessToken).then(deleteResponse);
+    const userConfirmed = window.confirm("정말로 삭제하시겠습니까?");
+    if (userConfirmed) {
+      deleteCategory(categoryId, cookies.accessToken).then(deleteResponse);
+    } else {
+      alert("취소되었습니다.");
+    }
   };
   const deleteResponse = (responseBody: ResponseDto | null) => {
-    console.log("responseBody!!!!!!!!! : ", responseBody);
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -187,6 +189,7 @@ const AdminCategories = () => {
     if (code === "DBE") alert("데이터베이스 오류");
     if (code === "NU") alert("회원 정보 확인");
     if (code !== "SU") {
+      alert(responseBody.message);
       return;
     }
 

@@ -20,6 +20,8 @@ public interface ResponseMessage {
     String DUPLICATE_CATEGORY = "Duplicate cateogry";
     String AUTH_NUMBER_FAILED = "Verification code does NON match.";
 
+    String CATEGORY_IN_USE = "해당 카테고리는 현재 사용 중입니다.\n사용 중인 게시글을 삭제한 후 다시 시도해주세요.";
+
     // 500
     String MAIL_FAIL = "Mail send failed.";
     String DATABASE_ERROR = "Databse error.";
