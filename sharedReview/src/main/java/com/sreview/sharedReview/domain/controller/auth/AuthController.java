@@ -65,4 +65,9 @@ public class AuthController {
     public String test(){ // 스트링으로 했음.
         return "성공?";
     }
+
+//    @PostMapping("/sign-out")
+//    public ResponseEntity<?> signOut(@RequestHeader("Authorization") String token) {
+//        return authService.signOut(token);
+//    }
 }
