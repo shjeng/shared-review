@@ -20,8 +20,8 @@ import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
 import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
 import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto";
-import {FileResponseDto} from "./response/file";
-import {Simulate} from "react-dom/test-utils";
+import { FileResponseDto } from "./response/file";
+import { Simulate } from "react-dom/test-utils";
 import error = Simulate.error;
 
 const DOMAIN = "http://localhost:8080";
@@ -142,15 +142,23 @@ export const saveTempImage = async (
 };
 // 비밀번호 확인
 const PASSWORD_CHECK_URL = () => `${API_DOMAIN}/user/password-check`;
-export const passwordCheckRequest = async (accessToken: string, password:string) => {
-    return await axios.post(PASSWORD_CHECK_URL(),{password: password}, {...tokenAndPageConfig.token(accessToken)})
-        .then(response => {
-            return response.data as ResponseDto;
-        })
-        .catch(error => {
-            return errorResponse(error);
-        });
-}
+export const passwordCheckRequest = async (
+  accessToken: string,
+  password: string
+) => {
+  return await axios
+    .post(
+      PASSWORD_CHECK_URL(),
+      { password: password },
+      { ...tokenAndPageConfig.token(accessToken) }
+    )
+    .then((response) => {
+      return response.data as ResponseDto;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+};
 // 회원정보 수정
 const EDIT_USER_INFO = () => `${API_DOMAIN}/user`;
 export const editUser = async (
@@ -412,6 +420,7 @@ export const getUserInfoRequest = async (userEmail: string) => {
       return errorResponse(error);
     });
 };
+
 // ===  post  ==== //
 // 회원가입 요청
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
@@ -615,6 +624,28 @@ export const postCategotyAdd = async (
       const responseBody: ResponseDto = error.response.data;
       return responseBody;
     });
+  return result;
+};
+
+// 로그아웃 요청
+const SIGN_OUT_URL = () => `${API_DOMAIN}/auth/sign-out`;
+export const signOutRequest = async (token: string) => {
+  const result = await axios
+    .post(SIGN_OUT_URL(), null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      const responseBody: ResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error.response.data) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+
   return result;
 };
 

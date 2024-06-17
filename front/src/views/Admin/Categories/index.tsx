@@ -14,6 +14,7 @@ import {
   getAdminCategorySearchReqeust,
   getAdminCategorysReqeust,
   postCategotyAdd,
+  signOutRequest,
 } from "../../../apis";
 import ResponseDto from "../../../apis/response/response.dto";
 import CategorieList from "../../../types/interface/admin-categorie.interface";
@@ -197,6 +198,10 @@ const AdminCategories = () => {
     window.location.reload();
   };
 
+  const onSignOutButtonClickHandler = () => {
+    signOutRequest(cookies.accessToken);
+  };
+
   return (
     <div id="admin-categori-wrap">
       <div className="admin-categori-top">
@@ -311,7 +316,12 @@ const AdminCategories = () => {
           </div>
 
           <div className="admin-categori-mid-right-bottom">
-            <div className="admin-categori-delete-btn">로그아웃(임시)</div>
+            <div
+              className="admin-categori-delete-btn"
+              onClick={onSignOutButtonClickHandler}
+            >
+              로그아웃(임시)
+            </div>
           </div>
         </div>
       </div>
