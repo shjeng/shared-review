@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -124,5 +125,14 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public ResponseDto passwordCheck(String email, Map<String, String> password) {
+        Optional<User> userOptional = userEntityService.passwordCheck(email, password.get("password"));
+        if (userOptional.isEmpty()) {
+            return new ResponseDto(ResponseCode.NON_EXISTED_USER, ResponseMessage.NON_EXISTED_USER);
+        }
+        return new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
     }
 }

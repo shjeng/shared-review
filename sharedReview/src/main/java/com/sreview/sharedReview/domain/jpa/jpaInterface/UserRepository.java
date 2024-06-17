@@ -17,14 +17,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email); // email로 user를 찾음.
 
-
-
-
     @Query("SELECT u FROM user_entity u WHERE u.nickname = :nickname")
     List<User> findAdminByNickname(@Param("nickname") String userNickname);
 
     @Query("SELECT u FROM user_entity u WHERE u.email = :email")
     List<User> findAdminByEmail(@Param("email") String userEmail);
+
+    @Query("SELECT u FROM user_entity u WHERE u.email=:email AND u.password=:password")
+    Optional<User> passwordCheck(@Param("email") String email, @Param("password") String password);
 
 //
 //    public void save(User user) {

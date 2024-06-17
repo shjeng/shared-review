@@ -247,9 +247,19 @@ const UserPage = () => {
         passwordCheckRequest(cookies.accessToken, password).then(passwordCheckResponse);
     }
     const passwordCheckResponse = (response: ResponseDto | null) => {
-        ResponseUtil(response);
-        const result = response as ResponseDto;
-
+      if (!response) {
+        alert('서버 에러');
+        return;
+      }
+      const {code} = response;
+      if (code === 'NU') {
+        alert('비밀번호가 틀렸습니다.');
+        return;
+      }
+      ResponseUtil(response);
+      if (code === 'SU') {
+        setAuthSuccess(true);
+      }
     }
     return (
       <div className={'user-info-box-wrap'}>
@@ -259,7 +269,7 @@ const UserPage = () => {
                 <div className={'input-box'}>
                     <input placeholder={'비밀번호를 입력해주세요.'} onChange={passwordChange} onKeyDown={passwordKeydown} type={'password'} value={password} className={'password-input'} ref={inputRef}/>
                 </div>
-                <div className={'button'}>입력</div>
+                <div className={'button'} onClick={passwordCheck}>입력</div>
             </div>
         </div>
       </div>

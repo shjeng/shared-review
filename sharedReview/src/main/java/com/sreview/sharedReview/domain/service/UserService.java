@@ -7,6 +7,8 @@ import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Map;
+
 public interface UserService {
     ResponseEntity<? super GetLoginUserResponse> getLoginUser(String email);
 
@@ -18,5 +20,7 @@ public interface UserService {
     ResponseDto getAdminUserSearch(String searchValue, String inputValue);
 
     ResponseDto editUser(SignUpRequest requestBody);
+
+    ResponseDto passwordCheck(String email, Map<String, String> password);
 
 }
