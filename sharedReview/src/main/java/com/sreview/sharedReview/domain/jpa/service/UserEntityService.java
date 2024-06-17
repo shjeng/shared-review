@@ -27,7 +27,11 @@ public class UserEntityService {
         return user.getId();
     }
     public User findByEmail(String email){
-        return optinalCheck(userRepository.findByEmail(email));
+        return optionalCheck(userRepository.findByEmail(email));
+    }
+
+    public Optional<User> passwordCheck(String email, String password) {
+        return userRepository.passwordCheck(email, password);
     }
     public Optional<User> existCheckEmail(String email){
         return userRepository.findByEmail(email);
@@ -60,7 +64,7 @@ public class UserEntityService {
         return String.valueOf(code);
     }
 
-    public User optinalCheck(Optional<User> optionalUser) {
+    public User optionalCheck(Optional<User> optionalUser) {
         if (optionalUser.isEmpty()) {
             throw new NonExistUserException();
         }
