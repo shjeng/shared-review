@@ -363,8 +363,8 @@ const Authentication = () => {
         email,
         password,
         nickname,
-        passwordCheck: '',
-        profileImage: ''
+        passwordCheck: "",
+        profileImage: "",
       };
 
       signUpRequest(requestBody).then(signUpResponse);

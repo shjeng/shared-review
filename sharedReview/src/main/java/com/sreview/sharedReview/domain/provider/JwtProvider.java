@@ -45,4 +45,18 @@ public class JwtProvider {
         return claims.getSubject();
 
     }
+
+
+    public String createRefreshToken(String email) {
+        Date expiredDate = Date.from(Instant.now().plus(7, ChronoUnit.DAYS)); // 리프레시 토큰 유효시간
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+
+        String refresh = Jwts.builder()
+                .signWith(key, SignatureAlgorithm.HS256)
+                .setSubject(email).setIssuedAt(new Date()).setExpiration(expiredDate)
+                .compact();
+
+        return refresh;
+    }
+
 }

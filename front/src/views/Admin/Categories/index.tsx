@@ -137,7 +137,7 @@ const AdminCategories = () => {
   };
 
   const addInputRef = useRef<HTMLInputElement>(null);
-  const [cookies, setCookies] = useCookies();
+  const [cookies, setCookie] = useCookies();
 
   const onCategoryAdd = () => {
     if (!loginUser) {
@@ -199,7 +199,12 @@ const AdminCategories = () => {
   };
 
   const onSignOutButtonClickHandler = () => {
-    signOutRequest(cookies.accessToken);
+    // signOutRequest(cookies.accessToken);
+    console.log("!!!!!!!!!!! cookies : ", JSON.stringify(cookies, null, 2));
+
+    console.log("!!!!!!!!!!!accessToken : " + cookies.accessToken);
+
+    console.log("!!!!!!!!!!!refreshToken : " + cookies.refreshToken);
   };
 
   return (
