@@ -31,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<? super SignInResponse> signIn(SignInRequest request) {
         String token = "";
+        String refreshToken = "";
         try {
             User user = userEntityService.findByEmail(request.getEmail());
             String encodedPassword = user.getPassword();
@@ -38,11 +39,12 @@ public class AuthServiceImpl implements AuthService {
             if (!isMatched) return SignInResponse.loginFail();
 
             token = jwtProvider.create(user.getEmail());
+            refreshToken = jwtProvider.createRefreshToken(user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
             SignInResponse.databaseError();
         }
-        return SignInResponse.success(token);
+        return SignInResponse.success(token, refreshToken);
     }
 
     @Override // 이메일 인증 요청 로직 구현할 예정
@@ -115,4 +117,9 @@ public class AuthServiceImpl implements AuthService {
         }
         return NicknameChkResponse.success(nickname);
     }
+
+//    @Override
+//    public ResponseEntity<?> signOut(String token) {
+//        return null;
+//    }
 }

@@ -64,6 +64,10 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
     .post(SIGN_IN_URL(), requestBody) // 서버에 post요청
     .then((response) => {
       const responseBody: SignInResponseDto = response.data;
+      console.log(
+        "백에서 가져온 responseBody : ",
+        JSON.stringify(responseBody, null, 2)
+      );
       return responseBody;
     })
     .catch((error) => {

@@ -14,4 +14,6 @@ public interface AuthService {
     ResponseEntity<? super SignUpResponse> signUp(SignUpRequest request);
 
     ResponseEntity<? super NicknameChkResponse> nicknameChk(String nickname);
+
+//    ResponseEntity<?> signOut(String token);
 }

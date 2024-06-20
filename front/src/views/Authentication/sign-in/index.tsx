@@ -54,11 +54,13 @@ const SignIn = () => {
     if (code === "SF" || code === "VF") setError(true);
     if (code !== "SU") return;
 
-    const { token, expirationTime } = responseBody as SignInResponseDto;
+    const { token, refreshToken, expirationTime } =
+      responseBody as SignInResponseDto;
     const now = new Date().getTime();
     const expires = new Date(now + expirationTime * 1000);
     // 유효시간 : 현재시간 + 백엔드에서 설정한 시간(60분) * 1000
     setCookie("accessToken", token, { expires, path: MAIN_PATH() });
+    setCookie("refreshToken", refreshToken, { expires, path: MAIN_PATH() });
     // 'accessToken' : 이름, token 설정, path : 유효경로(MAIN_PATH() 이하의 모든 경로에서 유효함)
     navigate(MAIN_PATH());
   };
