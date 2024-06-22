@@ -137,7 +137,7 @@ const AdminCategories = () => {
   };
 
   const addInputRef = useRef<HTMLInputElement>(null);
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const onCategoryAdd = () => {
     if (!loginUser) {
@@ -199,12 +199,34 @@ const AdminCategories = () => {
   };
 
   const onSignOutButtonClickHandler = () => {
-    // signOutRequest(cookies.accessToken);
-    console.log("!!!!!!!!!!! cookies : ", JSON.stringify(cookies, null, 2));
+    // const signOutResponse = (responseBody: ResponseDto | null) => {
+    //   if (!responseBody) {
+    //     alert("서버로부터 응답이 없습니다.");
+    //     return;
+    //   }
+    //   const { code } = responseBody;
+    //   if (code === "VF") alert("유효성 검사 실패");
+    //   if (code === "DBE") alert("데이터베이스 오류");
+    //   if (code === "NU") alert("회원 정보 확인");
+    //   if (code !== "SU") {
+    //     alert(responseBody.message);
+    //     return;
+    //   }
 
-    console.log("!!!!!!!!!!!accessToken : " + cookies.accessToken);
+    //   removeCookie("accessToken", { path: "/" });
+    //   removeCookie("refreshToken", { path: "/" });
+    //   alert("로그아웃 되었습니다.");
+    // };
 
-    console.log("!!!!!!!!!!!refreshToken : " + cookies.refreshToken);
+    // signOutRequest(cookies.accessToken).then(signOutResponse);
+
+    removeCookie("accessToken", { path: "/" });
+    removeCookie("refreshToken", { path: "/" });
+    alert("로그아웃 되었습니다.");
+
+    // console.log("!!!!!!!!!!! cookies : ", JSON.stringify(cookies, null, 2));
+    // console.log("!!!!!!!!!!!accessToken : " + cookies.accessToken);
+    // console.log("!!!!!!!!!!!refreshToken : " + cookies.refreshToken);
   };
 
   return (
