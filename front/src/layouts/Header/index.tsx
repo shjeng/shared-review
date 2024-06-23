@@ -22,7 +22,7 @@ const Header = () => {
   const [profileDrop, setprofileDrop] = useState(false);
   const { loginUser } = useLoginUserStore();
   const { categoryId, setCategoryId } = useBoardSearchStore();
-  const [cookies, setCookies] = useCookies();
+  const [cookies, setCookies, removeCookie] = useCookies();
   const searchDropRef = useRef<any>(null);
   const [categorys, setCategorys] = useState<Category[]>([]);
   const [category, setCategory] = useState<Category | undefined>();
@@ -123,6 +123,40 @@ const Header = () => {
     }
   };
 
+  const onSignOutButtonClickHandler = () => {
+    // const signOutResponse = (responseBody: ResponseDto | null) => {
+    //   if (!responseBody) {
+    //     alert("서버로부터 응답이 없습니다.");
+    //     return;
+    //   }
+    //   const { code } = responseBody;
+    //   if (code === "VF") alert("유효성 검사 실패");
+    //   if (code === "DBE") alert("데이터베이스 오류");
+    //   if (code === "NU") alert("회원 정보 확인");
+    //   if (code !== "SU") {
+    //     alert(responseBody.message);
+    //     return;
+    //   }
+
+    //   removeCookie("accessToken", { path: "/" });
+    //   removeCookie("refreshToken", { path: "/" });
+    //   alert("로그아웃 되었습니다.");
+    // };
+
+    // signOutRequest(cookies.accessToken).then(signOutResponse);
+
+    if (cookies.accessToken) {
+      removeCookie("accessToken", { path: "/" });
+      removeCookie("refreshToken", { path: "/" });
+      alert("로그아웃 되었습니다.");
+      navigate(MAIN_PATH());
+    }
+
+    // console.log("!!!!!!!!!!! cookies : ", JSON.stringify(cookies, null, 2));
+    // console.log("!!!!!!!!!!!accessToken : " + cookies.accessToken);
+    // console.log("!!!!!!!!!!!refreshToken : " + cookies.refreshToken);
+  };
+
   return (
     <div id="header-wrap">
       <div className="header-top-box">
@@ -207,6 +241,13 @@ const Header = () => {
                       관리자페이지
                     </div>
                   )}
+
+                  <div
+                    className="profile-dropdown-content-item"
+                    onClick={onSignOutButtonClickHandler}
+                  >
+                    로그아웃
+                  </div>
                 </div>
               )}
             </div>

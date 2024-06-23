@@ -658,3 +658,31 @@ const errorResponse = (error: null | any) => {
   const responseBody: ResponseDto = error.response.data;
   return responseBody;
 };
+
+const TOKEN_URL = () => `${API_DOMAIN}/auth/validate-token`;
+export const checkAccessTokenValidity = async (accessToken: string) => {
+  const result = await axios
+    .post(
+      TOKEN_URL(),
+      {},
+      {
+        headers: {
+          Authorization: accessToken,
+        },
+      }
+    )
+    .then((response) => {
+      const responseBody = response.data;
+      console.log(
+        "백에서 가져온 response : ",
+        JSON.stringify(responseBody, null, 2)
+      );
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
