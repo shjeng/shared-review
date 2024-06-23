@@ -118,8 +118,20 @@ public class AuthServiceImpl implements AuthService {
         return NicknameChkResponse.success(nickname);
     }
 
-//    @Override
-//    public ResponseEntity<?> signOut(String token) {
-//        return null;
-//    }
+
+    @Override
+    public ResponseEntity<String> validateToken(String token) {
+        try {
+            System.out.println("클라이언트에서 받은 token : " + token);
+            String email = jwtProvider.validate(token);
+            if (email != null) {
+                return ResponseEntity.ok("Token is valid");
+            } else {
+                return ResponseEntity.status(401).body("Invalid token");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+       return null;
+    }
 }

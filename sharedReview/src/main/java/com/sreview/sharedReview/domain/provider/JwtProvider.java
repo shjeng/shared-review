@@ -20,7 +20,7 @@ public class JwtProvider {
 
 
     public String create(String email){
-        Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS)); // 유효시간
+        Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS)); // 엑세스 토큰 유효시간 1시간
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
         String jwt = Jwts.builder()
@@ -43,12 +43,11 @@ public class JwtProvider {
             return null;
         }
         return claims.getSubject();
-
     }
 
 
     public String createRefreshToken(String email) {
-        Date expiredDate = Date.from(Instant.now().plus(7, ChronoUnit.DAYS)); // 리프레시 토큰 유효시간
+        Date expiredDate = Date.from(Instant.now().plus(7, ChronoUnit.DAYS)); // 리프레시 토큰 유효시간 7일
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
         String refresh = Jwts.builder()
@@ -58,5 +57,4 @@ public class JwtProvider {
 
         return refresh;
     }
-
 }

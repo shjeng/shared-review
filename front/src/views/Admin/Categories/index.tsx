@@ -10,6 +10,7 @@ import {
 } from "../../../constant";
 import { useEffect, useRef, useState } from "react";
 import {
+  checkAccessTokenValidity,
   deleteCategory,
   getAdminCategorySearchReqeust,
   getAdminCategorysReqeust,
@@ -139,7 +140,32 @@ const AdminCategories = () => {
   const addInputRef = useRef<HTMLInputElement>(null);
   const [cookies, setCookie, removeCookie] = useCookies();
 
+  //==================================================================
+  // const checkAccessTokenValidityResponse = (responseBody: {
+  //   code: ResponseCode;
+  // }) => {
+  //   console.log("responseBody : ", responseBody);
+  //   if (!responseBody) {
+  //     alert("서버로부터 응답이 없습니다.");
+  //     return;
+  //   }
+  //   const { code } = responseBody;
+  //   if (code === "VF") alert("유효성 검사 실패");
+  //   if (code === "DBE") alert("데이터베이스 오류");
+  //   if (code === "NU") alert("회원 정보 확인");
+  //   if (code !== "SU") {
+  //     return;
+  //   }
+  //   alert("성공");
+  // };
+
+  //==================================================================
+
   const onCategoryAdd = () => {
+    // checkAccessTokenValidity(cookies.accessToken).then(
+    //   checkAccessTokenValidityResponse
+    // );
+
     if (!loginUser) {
       alert("로그인을 해주세요");
       navigate(SIGN_IN_PATH());
@@ -196,37 +222,6 @@ const AdminCategories = () => {
 
     alert("삭제되었습니다.");
     window.location.reload();
-  };
-
-  const onSignOutButtonClickHandler = () => {
-    // const signOutResponse = (responseBody: ResponseDto | null) => {
-    //   if (!responseBody) {
-    //     alert("서버로부터 응답이 없습니다.");
-    //     return;
-    //   }
-    //   const { code } = responseBody;
-    //   if (code === "VF") alert("유효성 검사 실패");
-    //   if (code === "DBE") alert("데이터베이스 오류");
-    //   if (code === "NU") alert("회원 정보 확인");
-    //   if (code !== "SU") {
-    //     alert(responseBody.message);
-    //     return;
-    //   }
-
-    //   removeCookie("accessToken", { path: "/" });
-    //   removeCookie("refreshToken", { path: "/" });
-    //   alert("로그아웃 되었습니다.");
-    // };
-
-    // signOutRequest(cookies.accessToken).then(signOutResponse);
-
-    removeCookie("accessToken", { path: "/" });
-    removeCookie("refreshToken", { path: "/" });
-    alert("로그아웃 되었습니다.");
-
-    // console.log("!!!!!!!!!!! cookies : ", JSON.stringify(cookies, null, 2));
-    // console.log("!!!!!!!!!!!accessToken : " + cookies.accessToken);
-    // console.log("!!!!!!!!!!!refreshToken : " + cookies.refreshToken);
   };
 
   return (
@@ -343,12 +338,7 @@ const AdminCategories = () => {
           </div>
 
           <div className="admin-categori-mid-right-bottom">
-            <div
-              className="admin-categori-delete-btn"
-              onClick={onSignOutButtonClickHandler}
-            >
-              로그아웃(임시)
-            </div>
+            <div className="admin-categori-delete-btn">삭제</div>
           </div>
         </div>
       </div>

@@ -66,8 +66,8 @@ public class AuthController {
         return "성공?";
     }
 
-//    @PostMapping("/sign-out")
-//    public ResponseEntity<?> signOut(@RequestHeader("Authorization") String token) {
-//        return authService.signOut(token);
-//    }
+    @PostMapping("/validate-token")
+    public ResponseEntity<String> validateToken(@RequestHeader("Authorization") String request) {
+        return authService.validateToken(request);
+    }
 }
