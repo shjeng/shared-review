@@ -7,6 +7,9 @@ import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
 import com.sreview.sharedReview.domain.provider.JwtProvider;
 import com.sreview.sharedReview.domain.service.AuthService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -123,15 +128,21 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<String> validateToken(String token) {
         try {
             System.out.println("클라이언트에서 받은 token : " + token);
-            String email = jwtProvider.validate(token);
-            if (email != null) {
+            String result = jwtProvider.validate(token);
+
+            if ("EXPIRED_TOKEN".equals(result)) {
+                // 예제: 새로운 엑세스 토큰 발급 로직
+                String newAccessToken = jwtProvider.generateAccessToken(token); // 새로운 엑세스 토큰 발급
+                return ResponseEntity.status(HttpStatus.OK).header("Authorization", "Bearer " + newAccessToken)
+                        .body("Expired token. New access token issued");
+            } else if (result != null) {
                 return ResponseEntity.ok("Token is valid");
             } else {
                 return ResponseEntity.status(401).body("Invalid token");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.status(500).body("Internal server error");
         }
-       return null;
     }
 }
