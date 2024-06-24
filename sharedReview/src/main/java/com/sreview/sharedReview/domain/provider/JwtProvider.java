@@ -1,8 +1,6 @@
 package com.sreview.sharedReview.domain.provider;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -33,16 +31,22 @@ public class JwtProvider {
     public String validate(String jwt){ // JWT 토큰의 유효성 검사
         Claims claims = null;
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        try{
+        try {
             claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(jwt).getBody();
-        }catch (Exception e){
+            return claims.getSubject();
+        } catch (ExpiredJwtException e) { // 만료된 토큰
+            System.out.println("Expired JWT token");
+            return "EXPIRED_TOKEN";
+        } catch (JwtException e) { // 유효하지 않은 토큰
+            System.out.println("Invalid JWT token");
+            return null;
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return claims.getSubject();
     }
 
 
@@ -56,5 +60,24 @@ public class JwtProvider {
                 .compact();
 
         return refresh;
+    }
+
+    public String generateAccessToken(String jwt){ // JWT 토큰의 유효성 검사
+        Claims claims = null;
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+        try {
+            claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(jwt).getBody();
+            String email = claims.getSubject();
+
+            String newAccessToken = create(email);
+
+            return newAccessToken;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

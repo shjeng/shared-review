@@ -141,44 +141,44 @@ const AdminCategories = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   //==================================================================
-  // const checkAccessTokenValidityResponse = (responseBody: {
-  //   code: ResponseCode;
-  // }) => {
-  //   console.log("responseBody : ", responseBody);
-  //   if (!responseBody) {
-  //     alert("서버로부터 응답이 없습니다.");
-  //     return;
-  //   }
-  //   const { code } = responseBody;
-  //   if (code === "VF") alert("유효성 검사 실패");
-  //   if (code === "DBE") alert("데이터베이스 오류");
-  //   if (code === "NU") alert("회원 정보 확인");
-  //   if (code !== "SU") {
-  //     return;
-  //   }
-  //   alert("성공");
-  // };
+  const checkAccessTokenValidityResponse = (responseBody: {
+    code: ResponseCode;
+  }) => {
+    console.log("responseBody : ", responseBody);
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code === "NU") alert("회원 정보 확인");
+    if (code !== "SU") {
+      return;
+    }
+    alert("성공");
+  };
 
   //==================================================================
 
   const onCategoryAdd = () => {
-    // checkAccessTokenValidity(cookies.accessToken).then(
-    //   checkAccessTokenValidityResponse
-    // );
+    checkAccessTokenValidity(cookies.accessToken).then(
+      checkAccessTokenValidityResponse
+    );
 
-    if (!loginUser) {
-      alert("로그인을 해주세요");
-      navigate(SIGN_IN_PATH());
-    } else if (loginUser.admin == "NORMAL") {
-      alert("권한이 없습니다.");
-      navigate(MAIN_PATH());
-    } else if (loginUser.admin == "MANAGER") {
-      const categoryName = addInputRef.current?.value || "";
-      const reqeustBody: CategoryWriteRequestDto = {
-        categoryName,
-      };
-      postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
-    }
+    // if (!loginUser) {
+    //   alert("로그인을 해주세요");
+    //   navigate(SIGN_IN_PATH());
+    // } else if (loginUser.admin == "NORMAL") {
+    //   alert("권한이 없습니다.");
+    //   navigate(MAIN_PATH());
+    // } else if (loginUser.admin == "MANAGER") {
+    //   const categoryName = addInputRef.current?.value || "";
+    //   const reqeustBody: CategoryWriteRequestDto = {
+    //     categoryName,
+    //   };
+    //   postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
+    // }
   };
 
   const postResponse = (responseBody: { code: ResponseCode }) => {
