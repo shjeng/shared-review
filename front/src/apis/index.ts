@@ -677,6 +677,11 @@ export const checkAccessTokenValidity = async (accessToken: string) => {
         "백에서 가져온 response : ",
         JSON.stringify(responseBody, null, 2)
       );
+
+      console.log(
+        "백에서 가져온 새로운 토큰 : ",
+        JSON.stringify(response.headers, null, 2)
+      );
       return responseBody;
     })
     .catch((error) => {
@@ -686,3 +691,25 @@ export const checkAccessTokenValidity = async (accessToken: string) => {
     });
   return result;
 };
+
+// // 로그인 요청
+// const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
+// export const signInRequest = async (requestBody: SignInRequestDto) => {
+//   // await : 응답이 올 때까지 기다리겠다., requestBody: 어떤 데이터를 넣을 것인지
+//   const result = await axios
+//     .post(SIGN_IN_URL(), requestBody) // 서버에 post요청
+//     .then((response) => {
+//       const responseBody: SignInResponseDto = response.data;
+//       console.log(
+//         "백에서 가져온 responseBody : ",
+//         JSON.stringify(responseBody, null, 2)
+//       );
+//       return responseBody;
+//     })
+//     .catch((error) => {
+//       if (!error.response.data) return null;
+//       const responseBody: ResponseDto = error.response.data;
+//       return responseBody;
+//     });
+//   return result;
+// };
