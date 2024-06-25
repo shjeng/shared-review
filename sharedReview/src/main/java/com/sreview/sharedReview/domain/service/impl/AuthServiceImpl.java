@@ -8,6 +8,7 @@ import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
 import com.sreview.sharedReview.domain.provider.JwtProvider;
 import com.sreview.sharedReview.domain.service.AuthService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -125,24 +126,19 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public ResponseEntity<String> validateToken(String token) {
+    public ResponseEntity<? super accessTokenValidatorResponse> validateToken(String token) {
         try {
-            System.out.println("클라이언트에서 받은 token : " + token);
-            String result = jwtProvider.validate(token);
+            jwtProvider.validate(token);
+            return ResponseEntity.ok().body("Valid token"); // 얘는 유효해! 써도 괜찮아!
+        } catch (ExpiredJwtException ex) { // 얘는 jwt토큰 유효 만료라서 에러야.
+            String email = ex.getClaims().getSubject();
+            System.out.println("추출한 ? email값 : "+email);
+            String newAccessToken = jwtProvider.create(email);
+            System.out.println("추출한 ? newAccessToken값 : "+newAccessToken);
 
-            if ("EXPIRED_TOKEN".equals(result)) {
-                // 예제: 새로운 엑세스 토큰 발급 로직
-                String newAccessToken = jwtProvider.generateAccessToken(token); // 새로운 엑세스 토큰 발급
-                return ResponseEntity.status(HttpStatus.OK).header("Authorization", "Bearer " + newAccessToken)
-                        .body("Expired token. New access token issued");
-            } else if (result != null) {
-                return ResponseEntity.ok("Token is valid");
-            } else {
-                return ResponseEntity.status(401).body("Invalid token");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Internal server error");
+            return accessTokenValidatorResponse.success(newAccessToken);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
     }
 }

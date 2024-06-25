@@ -16,5 +16,5 @@ public interface AuthService {
 
     ResponseEntity<? super NicknameChkResponse> nicknameChk(String nickname);
 
-    ResponseEntity<String> validateToken(String token);
+    ResponseEntity<? super accessTokenValidatorResponse> validateToken(String token);
 }

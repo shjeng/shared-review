@@ -67,7 +67,7 @@ public class AuthController {
     }
 
     @PostMapping("/validate-token")
-    public ResponseEntity<String> validateToken(@RequestHeader("Authorization") String request) {
+    public ResponseEntity<? super accessTokenValidatorResponse> validateToken(@RequestHeader("Authorization") String request) {
         return authService.validateToken(request);
     }
 }

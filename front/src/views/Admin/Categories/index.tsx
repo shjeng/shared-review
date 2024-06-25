@@ -143,6 +143,7 @@ const AdminCategories = () => {
   //==================================================================
   const checkAccessTokenValidityResponse = (responseBody: {
     code: ResponseCode;
+    token?: string;
   }) => {
     console.log("responseBody : ", responseBody);
     if (!responseBody) {
@@ -156,29 +157,44 @@ const AdminCategories = () => {
     if (code !== "SU") {
       return;
     }
-    alert("성공");
+
+    if (responseBody.token) {
+      setCookie("accessToken", responseBody.token, { path: MAIN_PATH() });
+      alert("성공");
+    }
   };
 
   //==================================================================
 
   const onCategoryAdd = () => {
-    checkAccessTokenValidity(cookies.accessToken).then(
-      checkAccessTokenValidityResponse
-    );
+    console.log("loginUser : ", loginUser);
+    console.log("cookies.accessToken : ", cookies.accessToken);
 
-    // if (!loginUser) {
-    //   alert("로그인을 해주세요");
-    //   navigate(SIGN_IN_PATH());
-    // } else if (loginUser.admin == "NORMAL") {
-    //   alert("권한이 없습니다.");
-    //   navigate(MAIN_PATH());
-    // } else if (loginUser.admin == "MANAGER") {
-    //   const categoryName = addInputRef.current?.value || "";
-    //   const reqeustBody: CategoryWriteRequestDto = {
-    //     categoryName,
-    //   };
-    //   postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
-    // }
+    if (!cookies.accessToken) {
+      console.log("로그인해달라고 알림");
+
+      alert("로그인을 해주세요");
+      navigate(SIGN_IN_PATH());
+    } else if (!loginUser) {
+      console.log("유효성검사 시도");
+
+      checkAccessTokenValidity(cookies.accessToken).then(
+        checkAccessTokenValidityResponse
+      );
+    } else if (loginUser.admin == "NORMAL") {
+      console.log("권한 없음 알림");
+
+      alert("권한이 없습니다.");
+      navigate(MAIN_PATH());
+    } else if (loginUser.admin == "MANAGER") {
+      console.log("add 시도");
+
+      const categoryName = addInputRef.current?.value || "";
+      const reqeustBody: CategoryWriteRequestDto = {
+        categoryName,
+      };
+      postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
+    }
   };
 
   const postResponse = (responseBody: { code: ResponseCode }) => {
