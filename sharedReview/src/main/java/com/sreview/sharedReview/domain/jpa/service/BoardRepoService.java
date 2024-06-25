@@ -5,6 +5,7 @@ import com.sreview.sharedReview.domain.dto.request.board.BoardListParam;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.Category;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.BoardRepository;
+import com.sreview.sharedReview.domain.jpa.jpaInterface.qrepo.BoardQRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ import java.util.Optional;
 public class BoardRepoService { // DB에 넣어주는 아이
 
     private final BoardRepository boardRepository;
-
+    private final BoardQRepository boardQRepository;
 
     public List<Board> findLatestBoards() {
         return boardRepository.findLatestBoards();
@@ -104,5 +105,9 @@ public class BoardRepoService { // DB에 넣어주는 아이
     }
 
 
-
+    public List<Board> findList(String searchKeyword, Long categoryId) {
+        List<Board> listByKeyword = boardQRepository.findListByKeyword(searchKeyword, categoryId);
+//        boardRepository.find
+        return listByKeyword;
+    }
 }

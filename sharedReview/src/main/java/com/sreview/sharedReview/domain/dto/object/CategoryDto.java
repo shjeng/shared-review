@@ -3,12 +3,14 @@ package com.sreview.sharedReview.domain.dto.object;
 import com.sreview.sharedReview.domain.jpa.entity.Category;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
 public class CategoryDto {
     private Long categoryId;
     private String categoryName;

@@ -13,6 +13,7 @@ import static jakarta.persistence.FetchType.*;
 @Entity // 엔티티로 사용하겠다
 @Getter // 객체의 필드 값을 반환하는 역할
 @NoArgsConstructor // JPA는 엔티티를 생성할 때 기본 생성자를 사용. 매개변수가 없는 기본 생성자를 생성
+@ToString
 public class  Board extends BaseEntity{ // 게시물 테이블
     // 게시물 ID
     @Id

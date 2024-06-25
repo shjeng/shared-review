@@ -23,6 +23,7 @@ import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto"
 import { FileResponseDto } from "./response/file";
 import { Simulate } from "react-dom/test-utils";
 import error = Simulate.error;
+import {Category} from "../types/interface";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -55,6 +56,16 @@ const tokenAndPageConfig = {
 const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
 
 // ===  Get  ===
+const SEARCH_URL = () => `${API_DOMAIN}/board/search`
+export const searchRequest = async (keyword: string, category: Category | undefined) => {
+    const result = await axios.get(SEARCH_URL(), {params: {searchKeyword: keyword, categoryId: category?.categoryId}})
+        .then(response=> {
+
+        }).catch(error => {
+            return errorResponse(error);
+        });
+    return result;
+}
 
 // 로그인 요청
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;

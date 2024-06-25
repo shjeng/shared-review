@@ -229,6 +229,16 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public List<Board> getBoard(String searchKeyword, Long categoryId) {
+        List<Board> list = boardRepoService.findList(searchKeyword, categoryId);
+        for (Board board : list) {
+            System.out.println(board);
+        }
+
+        return list;
+    }
+
+    @Override
     public ResponseDto getAllBoards(Pageable pageable) {
         try {
             Page<Board> allBoards = boardRepoService.findAll(pageable); // 모든 게시물 가져오기

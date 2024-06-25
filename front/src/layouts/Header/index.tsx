@@ -11,7 +11,7 @@ import {
 } from "../../constant";
 import { useBoardSearchStore, useLoginUserStore } from "../../store";
 import { useCookies } from "react-cookie";
-import { getCategorysReqeust } from "../../apis";
+import {getCategorysReqeust, searchRequest} from "../../apis";
 import { GetCategorysResponseDto } from "../../apis/response/board";
 import ResponseDto from "../../apis/response/response.dto";
 import { Category } from "../../types/interface";
@@ -26,9 +26,16 @@ const Header = () => {
   const searchDropRef = useRef<any>(null);
   const [categorys, setCategorys] = useState<Category[]>([]);
   const [category, setCategory] = useState<Category | undefined>();
+  const [searchType, setSearchType] = useState<string>('전체');
 
-  const onCategoryClick = (category: Category) => {
-    setSearch(category.categoryName);
+  const onCategoryClick = (category: Category | undefined | null) => {
+    if (category) {
+      setCategory(category);
+      setSearchType(category.categoryName);
+    } else {
+      setSearchType('전체');
+      setCategory(undefined);
+    }
     setCategoryDrop(false);
   };
   const handleClickOutside = (e: MouseEvent) => {
@@ -107,22 +114,22 @@ const Header = () => {
 
   const [inputValue, setInputValue] = useState<string>("");
 
-  const [search, setSearch] = useState<string>("카테고리");
 
   const searchInputRef = useRef<any>(null);
 
   const onCategorySearch = () => {
-    const inputValue = searchInputRef.current?.value || "";
+    const inputValue = searchInputRef.current?.value;
     setInputValue(inputValue);
-    if (inputValue.length === 0) {
+    if (!inputValue.length) {
       alert("검색어를 입력해주세요.");
       return;
-    } else if (search == "카테고리") {
-      alert("검색기준을 선택해주세요.");
-      return;
     }
+    searchRequest(inputValue, category).then(searchResponse)
   };
 
+  const searchResponse = () => {
+
+  }
   const onSignOutButtonClickHandler = () => {
     // const signOutResponse = (responseBody: ResponseDto | null) => {
     //   if (!responseBody) {
@@ -170,25 +177,23 @@ const Header = () => {
             <div className="header-category-dropdown" ref={searchDropRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
                 {/* <div className="dropdown_text">카테고리</div> */}
-                <div className="dropdown_text">{search}</div>
+                <div className="dropdown_text">{searchType}</div>
                 <div className="dropdown_icon"></div>
               </div>
               {categoryDrop && (
-                <div className="dropdown-content">
-                  {categorys.map(
-                    (
-                      category,
-                      index // 카테고리 목록 불러오기.
-                    ) => (
-                      <div
-                        className="board-dropdown-content-item"
-                        onClick={() => onCategoryClick(category)}
-                      >
-                        {category.categoryName}
-                      </div>
-                    )
-                  )}
-                </div>
+                  <div className="dropdown-content">
+                    <div className="board-dropdown-content-item" onClick={() => onCategoryClick(null)}>
+                      전체
+                    </div>
+                    {categorys.map(
+                        (category, index // 카테고리 목록 불러오기.
+                        ) => (
+                            <div className="board-dropdown-content-item" onClick={() => onCategoryClick(category)}>
+                              {category.categoryName}
+                            </div>
+                        )
+                    )}
+                  </div>
               )}
             </div>
           </div>

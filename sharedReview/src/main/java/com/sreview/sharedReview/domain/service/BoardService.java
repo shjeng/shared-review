@@ -6,8 +6,11 @@ import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
+import com.sreview.sharedReview.domain.jpa.entity.Board;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface BoardService {
     ResponseDto getBoardListLatest();
@@ -26,6 +29,7 @@ public interface BoardService {
     ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request, String email);
 
     ResponseDto getBoard(Long boardId);
+    List<Board> getBoard(String searchKeyword, Long categoryId);
 
     ResponseDto increaseViewcount(Long boardId);
     ResponseDto getAllBoards(Pageable pageable);
