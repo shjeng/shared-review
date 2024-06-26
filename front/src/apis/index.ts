@@ -23,7 +23,7 @@ import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto"
 import { FileResponseDto } from "./response/file";
 import { Simulate } from "react-dom/test-utils";
 import error = Simulate.error;
-import {Category} from "../types/interface";
+import { Category } from "../types/interface";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -56,16 +56,21 @@ const tokenAndPageConfig = {
 const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
 
 // ===  Get  ===
-const SEARCH_URL = () => `${API_DOMAIN}/board/search`
-export const searchRequest = async (keyword: string, category: Category | undefined) => {
-    const result = await axios.get(SEARCH_URL(), {params: {searchKeyword: keyword, categoryId: category?.categoryId}})
-        .then(response=> {
-
-        }).catch(error => {
-            return errorResponse(error);
-        });
-    return result;
-}
+const SEARCH_URL = () => `${API_DOMAIN}/board/search`;
+export const searchRequest = async (
+  keyword: string,
+  category: Category | undefined
+) => {
+  const result = await axios
+    .get(SEARCH_URL(), {
+      params: { searchKeyword: keyword, categoryId: category?.categoryId },
+    })
+    .then((response) => {})
+    .catch((error) => {
+      return errorResponse(error);
+    });
+  return result;
+};
 
 // 로그인 요청
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
@@ -671,7 +676,10 @@ const errorResponse = (error: null | any) => {
 };
 
 const TOKEN_URL = () => `${API_DOMAIN}/auth/validate-token`;
-export const checkAccessTokenValidity = async (accessToken: string) => {
+export const checkAccessTokenValidity = async (
+  accessToken: string
+  // refreshToken: string
+) => {
   const result = await axios
     .post(
       TOKEN_URL(),
@@ -679,6 +687,7 @@ export const checkAccessTokenValidity = async (accessToken: string) => {
       {
         headers: {
           Authorization: accessToken,
+          // refresh: refreshToken,
         },
       }
     )
@@ -702,25 +711,3 @@ export const checkAccessTokenValidity = async (accessToken: string) => {
     });
   return result;
 };
-
-// // 로그인 요청
-// const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
-// export const signInRequest = async (requestBody: SignInRequestDto) => {
-//   // await : 응답이 올 때까지 기다리겠다., requestBody: 어떤 데이터를 넣을 것인지
-//   const result = await axios
-//     .post(SIGN_IN_URL(), requestBody) // 서버에 post요청
-//     .then((response) => {
-//       const responseBody: SignInResponseDto = response.data;
-//       console.log(
-//         "백에서 가져온 responseBody : ",
-//         JSON.stringify(responseBody, null, 2)
-//       );
-//       return responseBody;
-//     })
-//     .catch((error) => {
-//       if (!error.response.data) return null;
-//       const responseBody: ResponseDto = error.response.data;
-//       return responseBody;
-//     });
-//   return result;
-// };

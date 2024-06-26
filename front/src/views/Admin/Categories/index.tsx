@@ -177,6 +177,8 @@ const AdminCategories = () => {
       navigate(SIGN_IN_PATH());
     } else if (!loginUser) {
       console.log("유효성검사 시도");
+      console.log("보내는 accessToken : ", cookies.accessToken);
+      console.log("보내는 refreshToken : ", cookies.refreshToken);
 
       checkAccessTokenValidity(cookies.accessToken).then(
         checkAccessTokenValidityResponse

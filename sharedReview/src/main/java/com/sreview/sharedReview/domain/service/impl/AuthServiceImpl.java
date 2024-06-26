@@ -126,15 +126,20 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public ResponseEntity<? super accessTokenValidatorResponse> validateToken(String token) {
+    public ResponseEntity<? super accessTokenValidatorResponse> validateToken(String accessToken) {
         try {
-            jwtProvider.validate(token);
-            return ResponseEntity.ok().body("Valid token"); // 얘는 유효해! 써도 괜찮아!
-        } catch (ExpiredJwtException ex) { // 얘는 jwt토큰 유효 만료라서 에러야.
+            System.out.println("받은 accessToken : " + accessToken);
+
+            jwtProvider.validate(accessToken); // 엑세스 토큰 유효하니?
+            return ResponseEntity.ok().body("Valid token"); // 유효할경우
+        } catch (ExpiredJwtException ex) { // jwt토큰 만료일경우
+
+            //
+            //바로 재발급 하지 말고 클라이언트에 상태 500 code 7001로 반환해주기
+            //
+
             String email = ex.getClaims().getSubject();
-            System.out.println("추출한 ? email값 : "+email);
             String newAccessToken = jwtProvider.create(email);
-            System.out.println("추출한 ? newAccessToken값 : "+newAccessToken);
 
             return accessTokenValidatorResponse.success(newAccessToken);
         } catch (Exception ex) {
