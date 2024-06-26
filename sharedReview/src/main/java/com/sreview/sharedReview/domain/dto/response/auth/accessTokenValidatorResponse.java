@@ -19,7 +19,7 @@ public class accessTokenValidatorResponse extends ResponseDto {
     }
 
 
-    public static ResponseEntity<accessTokenValidatorResponse> success(String token){ // 로그인 성공 시
+    public static ResponseEntity<accessTokenValidatorResponse> success(String token){ // 새로운 토큰 반환
         return ResponseEntity.status(HttpStatus.OK).body(new accessTokenValidatorResponse(token));
     }
 
