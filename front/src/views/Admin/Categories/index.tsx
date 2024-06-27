@@ -15,6 +15,7 @@ import {
   getAdminCategorySearchReqeust,
   getAdminCategorysReqeust,
   postCategotyAdd,
+  refreshAccessToken,
   signOutRequest,
 } from "../../../apis";
 import ResponseDto from "../../../apis/response/response.dto";
@@ -154,13 +155,37 @@ const AdminCategories = () => {
     if (code === "VF") alert("유효성 검사 실패");
     if (code === "DBE") alert("데이터베이스 오류");
     if (code === "NU") alert("회원 정보 확인");
+    if (code === "TE") {
+      refreshAccessToken(cookies.refreshToken).then(refreshAccessTokenResponse);
+    }
+    if (code !== "SU") {
+      return;
+    }
+  };
+
+  const refreshAccessTokenResponse = (responseBody: {
+    code: ResponseCode;
+    token?: string;
+  }) => {
+    console.log("responseBody : ", responseBody);
+    if (!responseBody) {
+      alert("서버로부터 응답이 없습니다.");
+      return;
+    }
+    const { code } = responseBody;
+    if (code === "VF") alert("유효성 검사 실패");
+    if (code === "DBE") alert("데이터베이스 오류");
+    if (code === "NU") alert("회원 정보 확인");
+    if (code === "TE") {
+      alert("다시 로그인 해주세요(리프레시 토큰 만료)");
+    }
     if (code !== "SU") {
       return;
     }
 
-    if (responseBody.token) {
+    if (code == "SU") {
       setCookie("accessToken", responseBody.token, { path: MAIN_PATH() });
-      alert("성공");
+      alert("엑세스 토큰 재발급 성공");
     }
   };
 

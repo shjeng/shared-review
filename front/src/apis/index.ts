@@ -711,3 +711,39 @@ export const checkAccessTokenValidity = async (
     });
   return result;
 };
+
+
+const REFRESH_ACCESS_TOKEN_URL = () => `${API_DOMAIN}/auth/refreshAccessToken`;
+export const refreshAccessToken = async (
+  refreshToken: string
+) => {
+  const result = await axios
+    .post(
+      REFRESH_ACCESS_TOKEN_URL(),
+      {},
+      {
+        headers: {
+          Authorization: refreshToken,
+        },
+      }
+    )
+    .then((response) => {
+      const responseBody = response.data;
+      console.log(
+        "백에서 가져온 response : ",
+        JSON.stringify(responseBody, null, 2)
+      );
+
+      console.log(
+        "백에서 가져온 새로운 토큰 : ",
+        JSON.stringify(response.headers, null, 2)
+      );
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
