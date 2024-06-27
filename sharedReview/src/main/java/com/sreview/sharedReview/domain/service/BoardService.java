@@ -1,16 +1,15 @@
 package com.sreview.sharedReview.domain.service;
 
-import com.sreview.sharedReview.domain.dto.request.board.BoardListParam;
+import com.sreview.sharedReview.domain.dto.object.BoardDto;
+import com.sreview.sharedReview.domain.dto.request.board.BoardRequestParam;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
-import com.sreview.sharedReview.domain.jpa.entity.Board;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 public interface BoardService {
     ResponseDto getBoardListLatest();
@@ -29,11 +28,11 @@ public interface BoardService {
     ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request, String email);
 
     ResponseDto getBoard(Long boardId);
-    List<Board> getBoard(String searchKeyword, Long categoryId);
+    Page<BoardDto> getBoard(BoardRequestParam boardRequestParam, Pageable pageable);
 
     ResponseDto increaseViewcount(Long boardId);
     ResponseDto getAllBoards(Pageable pageable);
-    ResponseDto getBoards(Pageable pageable, BoardListParam params);
+    ResponseDto getBoards(Pageable pageable, BoardRequestParam params);
 
     ResponseDto favorite(Long boardId, Boolean favoriteCheck ,String email);
     ResponseEntity<? super AdminBoardListResponse> getAdminBoards();

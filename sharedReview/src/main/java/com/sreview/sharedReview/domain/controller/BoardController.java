@@ -1,16 +1,16 @@
 package com.sreview.sharedReview.domain.controller;
 
-import com.sreview.sharedReview.domain.dto.object.CategoryDto;
-import com.sreview.sharedReview.domain.dto.request.board.BoardListParam;
+import com.sreview.sharedReview.domain.dto.object.BoardDto;
+import com.sreview.sharedReview.domain.dto.request.board.BoardRequestParam;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
-import com.sreview.sharedReview.domain.jpa.entity.Category;
 import com.sreview.sharedReview.domain.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -34,9 +34,14 @@ public class BoardController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> getSearchList(@RequestParam("searchKeyword") String searchKeyword, @RequestParam(value = "categoryId", required = false) Long categoryId) {
+    public ResponseEntity<Page<BoardDto>> getSearchList(@RequestParam("searchKeyword") String searchKeyword, @RequestParam(value = "categoryId", required = false) Long categoryId,
+                                                        @PageableDefault(size = 20) Pageable pageable) {
         log.info("test {} {}", searchKeyword, categoryId);
-        return ResponseEntity.ok(boardServcice.getBoard(searchKeyword, categoryId));
+        BoardRequestParam boardRequestParam = BoardRequestParam.builder()
+                .searchWord(searchKeyword)
+                .categoryId(categoryId)
+                .build();
+        return ResponseEntity.ok(boardServcice.getBoard(boardRequestParam, pageable));
     }
 
     @GetMapping("/favoriteTop3")
@@ -81,7 +86,7 @@ public class BoardController {
     }
 
     @GetMapping("/board-list")
-    public ResponseEntity<? super BoardListResponse> getAllBoards(@PageableDefault(size = 20) Pageable pageable, @ModelAttribute BoardListParam params) {
+    public ResponseEntity<? super BoardListResponse> getAllBoards(@PageableDefault(size = 20) Pageable pageable, @ModelAttribute BoardRequestParam params) {
         BoardListResponse allBoards;
         if (params.getSearchWord() == null && params.getSearchType() == null && params.getCategoryId() == null) {
             allBoards = (BoardListResponse) boardServcice.getAllBoards(pageable);

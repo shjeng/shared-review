@@ -3,7 +3,7 @@ package com.sreview.sharedReview.domain.service.impl;
 import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.dto.object.*;
-import com.sreview.sharedReview.domain.dto.request.board.BoardListParam;
+import com.sreview.sharedReview.domain.dto.request.board.BoardRequestParam;
 import com.sreview.sharedReview.domain.dto.request.board.BoardWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
@@ -229,13 +229,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<Board> getBoard(String searchKeyword, Long categoryId) {
-        List<Board> list = boardRepoService.findList(searchKeyword, categoryId);
-        for (Board board : list) {
-            System.out.println(board);
-        }
+    public Page<BoardDto> getBoard(BoardRequestParam boardRequestParam, Pageable pageable) {
+        Page<Board> boards = boardRepoService.findList(boardRequestParam, pageable);
 
-        return list;
+
+        return null;
     }
 
     @Override
@@ -271,7 +269,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseDto getBoards(Pageable pageable, BoardListParam params) {
+    public ResponseDto getBoards(Pageable pageable, BoardRequestParam params) {
         Page<Board> boardsByParams = boardRepoService.findBoardsByParams(pageable, params);
         Page<BoardDto> result = boardsByParams.map(b -> new BoardDto().of(b));
         return BoardListResponse.success(result);
