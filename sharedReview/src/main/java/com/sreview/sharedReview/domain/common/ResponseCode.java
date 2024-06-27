@@ -18,6 +18,9 @@ public interface ResponseCode {
     String AUTH_NUMBER_FAILED = "ANF"; // 인증번호 불일치
     String CATEGORY_IN_USE = "CIU"; // 사용중인 카테고리
 
+    // HTTP Status 401
+    String TOKEN_EXPIRED = "TE"; // 토큰 만료
+
     // HTTP Stauts 500
     String MAIL_FAIL = "MF"; // 메일 전송 실패
     String DATABASE_ERROR = "DBE"; // 인터넷 오류

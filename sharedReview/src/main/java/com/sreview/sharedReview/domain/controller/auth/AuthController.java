@@ -66,8 +66,15 @@ public class AuthController {
         return "성공?";
     }
 
-    @PostMapping("/validate-token")
-    public ResponseEntity<? super accessTokenValidatorResponse> validateToken(@RequestHeader("Authorization") String request) {
-        return authService.validateToken(request);
+    @PostMapping("/validate-token") // 엑세스 토큰 유효성 검사
+    public ResponseEntity<? super tokenStatusResponse> validateAccessToken(@RequestHeader("Authorization") String request) {
+        System.out.println("1. 엑세스 유효성 검사 실행");
+        return authService.validateAccessToken(request);
+    }
+
+    @PostMapping("/refreshAccessToken") // 리프레시 토큰 유효성 검사
+    public ResponseEntity<? super tokenStatusResponse> validateRefreshToken(@RequestHeader("Authorization") String request) {
+        System.out.println("3. 엑세스 토큰이 유효하지 않아서 리프레시 토큰을 받고 유효성 검사.");
+        return authService.validateRefreshToken(request);
     }
 }

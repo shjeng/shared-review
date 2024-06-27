@@ -1,4 +1,4 @@
-enum ResponseCode{
+enum ResponseCode {
   // HTTP Status 200
   SUCCESS = "SU",
 
@@ -10,15 +10,16 @@ enum ResponseCode{
   NOT_EXISTED_USER = "NU",
   NOT_EXISTED_BOARD = "NB",
 
-// HTTP Status 401
+  // HTTP Status 401
   SGIN_IN_FAIL = "SF",
   AUTHORIZATION_FAIL = "AF",
+  TOKEN_EXPIRED = "TE",
 
-// HTTP Status 403
+  // HTTP Status 403
   NO_PERMISSION = "NP",
 
-// HTTP Status 500
+  // HTTP Status 500
   DATABASE_ERROR = "DBE",
 }
 
-export default ResponseCode
+export default ResponseCode;
