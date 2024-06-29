@@ -28,7 +28,7 @@ import CategoryWriteRequestDto from "../../../apis/request/board/category-write-
 import { ResponseCode } from "../../../types/enum";
 
 const AdminCategories = () => {
-  const { loginUser } = useLoginUserStore();
+  const { loginUser, resetLoginUser } = useLoginUserStore();
 
   //        function: 네비게이트 함수     //
   const navigate = useNavigate();
@@ -178,14 +178,30 @@ const AdminCategories = () => {
     if (code === "NU") alert("회원 정보 확인");
     if (code === "TE") {
       alert("다시 로그인 해주세요(리프레시 토큰 만료)");
+      console.log("loginUser : ", loginUser);
+      resetLoginUser();
     }
     if (code !== "SU") {
       return;
     }
 
-    if (code == "SU") {
+    console.log("발급받은 토큰 바꾸기 전 : ", cookies.accessToken);
+
+    if (code === "SU") {
       setCookie("accessToken", responseBody.token, { path: MAIN_PATH() });
+
       alert("엑세스 토큰 재발급 성공");
+
+      const categoryName = addInputRef.current?.value || "";
+      const reqeustBody: CategoryWriteRequestDto = {
+        categoryName,
+      };
+
+      console.log("엑세스 토큰 발급 후 다시 보낼 categoryName", categoryName);
+      console.log("발급받은 토큰 바꾼 후 : ", cookies.accessToken);
+
+      // 여기서 바로 카테고리 추가를 시도합니다.
+      postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
     }
   };
 
@@ -200,7 +216,7 @@ const AdminCategories = () => {
 
       alert("로그인을 해주세요");
       navigate(SIGN_IN_PATH());
-    } else if (!loginUser) {
+    } else if (cookies.accessToken) {
       console.log("유효성검사 시도");
       console.log("보내는 accessToken : ", cookies.accessToken);
       console.log("보내는 refreshToken : ", cookies.refreshToken);
@@ -208,19 +224,26 @@ const AdminCategories = () => {
       checkAccessTokenValidity(cookies.accessToken).then(
         checkAccessTokenValidityResponse
       );
-    } else if (loginUser.admin == "NORMAL") {
-      console.log("권한 없음 알림");
 
-      alert("권한이 없습니다.");
-      navigate(MAIN_PATH());
-    } else if (loginUser.admin == "MANAGER") {
-      console.log("add 시도");
+      if (loginUser) {
+        if (loginUser.admin == "NORMAL") {
+          console.log("권한 없음 알림");
 
-      const categoryName = addInputRef.current?.value || "";
-      const reqeustBody: CategoryWriteRequestDto = {
-        categoryName,
-      };
-      postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
+          alert("권한이 없습니다.");
+          return;
+          // navigate(MAIN_PATH());
+        } else if (loginUser.admin == "MANAGER") {
+          console.log("add 시도");
+
+          const categoryName = addInputRef.current?.value || "";
+          const reqeustBody: CategoryWriteRequestDto = {
+            categoryName,
+          };
+
+          console.log(reqeustBody, cookies.accessToken);
+          postCategotyAdd(reqeustBody, cookies.accessToken).then(postResponse);
+        }
+      }
     }
   };
 
