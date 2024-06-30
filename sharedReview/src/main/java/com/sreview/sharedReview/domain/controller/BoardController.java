@@ -33,8 +33,16 @@ public class BoardController {
         return ResponseEntity.ok(boardServcice.getBoardListLatest());
     }
 
+    /*
+    * 검색어를 통한 게시글 검색
+    * 검색어와 카테고리 아이디를 받아서 검색
+    * 검색어만 받아서 검색
+    * 카테고리 아이디만 받아서 검색
+    * * 검색어와 카테고리 아이디가 없으면 전체 게시글 검색
+    *
+    * */
     @GetMapping("/search")
-    public ResponseEntity<Page<BoardDto>> getSearchList(@RequestParam("searchKeyword") String searchKeyword, @RequestParam(value = "categoryId", required = false) Long categoryId,
+    public ResponseEntity<Page<BoardDto>> getSearchList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "categoryId", required = false) Long categoryId,
                                                         @PageableDefault(size = 20) Pageable pageable) {
         log.info("test {} {}", searchKeyword, categoryId);
         BoardRequestParam boardRequestParam = BoardRequestParam.builder()

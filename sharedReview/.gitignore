@@ -38,3 +38,4 @@ out/
 
 ### jwt ###
 application-secret.yml
+/src/main/generated/com/sreview/sharedReview/domain/jpa/entity/

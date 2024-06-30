@@ -231,9 +231,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Page<BoardDto> getBoard(BoardRequestParam boardRequestParam, Pageable pageable) {
         Page<Board> boards = boardRepoService.findList(boardRequestParam, pageable);
+        return boards.map(b -> new BoardDto().of(b));
 
-
-        return null;
     }
 
     @Override

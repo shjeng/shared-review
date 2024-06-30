@@ -104,7 +104,6 @@ public class BoardRepoService { // DB에 넣어주는 아이
 
 
     public Page<Board> findList(BoardRequestParam boardRequestParam, Pageable pageable) {
-        Page<Board> boards = boardRepository.findBoards(boardRequestParam, pageable);
-        return null;
+        return boardRepository.findBoards(boardRequestParam, pageable);
     }
 }

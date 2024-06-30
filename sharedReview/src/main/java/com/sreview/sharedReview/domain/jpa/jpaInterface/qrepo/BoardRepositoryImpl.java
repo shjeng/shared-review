@@ -1,12 +1,14 @@
 package com.sreview.sharedReview.domain.jpa.jpaInterface.qrepo;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sreview.sharedReview.domain.dto.request.board.BoardRequestParam;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,26 +30,43 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     @Override
     public Page<Board> findBoards(BoardRequestParam boardRequestParam, Pageable pageable) {
-        jpaQueryFactory.select(board).from(board).where(board.title.like(boardRequestParam.getSearchWord()));
-        return null;
+        List<Board> content = jpaQueryFactory.select(board).from(board).where(searchWordEq(boardRequestParam), categoryIdEq(boardRequestParam))
+                .offset(pageable.getOffset()).limit(pageable.getPageSize())
+                .orderBy(board.createDate.desc()).fetch();
+        JPAQuery<Long> count = jpaQueryFactory.select(board.count()).from(board).where(searchWordEq(boardRequestParam), categoryIdEq(boardRequestParam));
+        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
 
+    /*
+    * 검색어와 검색어 타입을 받아서 결과를 반환
+    * */
     private BooleanExpression searchWordEq(BoardRequestParam requestParam) {
         String searchType = requestParam.getSearchType();
         String searchWord = requestParam.getSearchWord();
+        /*검색어 타입과 검색어가 둘 다 없는 경우 */
         if (searchType == null || searchWord == null) {
             return null;
         }
+        /*검색 타입이 title인 경우 */
         if (searchType.equals("title")) {
             return board.title.like(searchWord);
         } else if (searchType.equals("content")) {
+            /* 검색 타입이 내용인 경우 */
             return board.content.like(searchWord);
         } else {
+            /* 검색 타입이 전체인 경우 */
             return board.content.like(searchWord).or(board.title.like(searchWord));
         }
 
     }
-
+    /*카테고리 아이디를 가지고 게시물을 찾음.*/
+     private BooleanExpression categoryIdEq(BoardRequestParam requestParam) {
+         Long categoryId = requestParam.getCategoryId();
+         if (categoryId == null) {
+             return null;
+         }
+         return board.category.id.eq(categoryId);
+     }
     @Override
     public void update() {
     }
