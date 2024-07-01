@@ -97,6 +97,7 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
 // 로그인 회원 정보 가져오기
 const GET_MY_INFO = () => `${API_DOMAIN}/user/get-login-user`;
 export const getMyInfo = async (accessToken: string) => {
+  console.log("보내는 토큰 값 : ", accessToken);
   const result = await axios
     .get(GET_MY_INFO(), authorication(accessToken))
     .then((response) => {
@@ -712,11 +713,8 @@ export const checkAccessTokenValidity = async (
   return result;
 };
 
-
 const REFRESH_ACCESS_TOKEN_URL = () => `${API_DOMAIN}/auth/refreshAccessToken`;
-export const refreshAccessToken = async (
-  refreshToken: string
-) => {
+export const refreshAccessToken = async (refreshToken: string) => {
   const result = await axios
     .post(
       REFRESH_ACCESS_TOKEN_URL(),

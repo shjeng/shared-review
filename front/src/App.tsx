@@ -33,7 +33,7 @@ import AdminBoardList from "./views/Admin/AdminBoardList";
 import AdminUserList from "./views/Admin/UserList";
 import UserBoard from "./views/UserBoard";
 import AdminCategories from "./views/Admin/Categories";
-import {ResponseUtil} from "./utils";
+import { ResponseUtil } from "./utils";
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -46,7 +46,9 @@ function App() {
     }
     getMyInfo(cookies.accessToken).then(getLoginUserResponse);
   }, [cookies.accessToken]);
-  const getLoginUserResponse = (responseBody: GetUserResponseDto | ResponseDto | null) => {
+  const getLoginUserResponse = (
+    responseBody: GetUserResponseDto | ResponseDto | null
+  ) => {
     ResponseUtil(responseBody);
     if (!responseBody) return;
     const { userDto } = responseBody as GetUserResponseDto;

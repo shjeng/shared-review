@@ -31,6 +31,7 @@ public class UserController {
     private final BoardService boardService;
     @GetMapping("/get-login-user") // 로그인을 한 경우 회원 정보 클라이언트로 넘겨주기.
     public ResponseEntity<? super GetLoginUserResponse> getLoginUser(@AuthenticationPrincipal String email){
+        System.out.println("받은 토큰 : " + email);
         return userService.getLoginUser(email);
     }
 
