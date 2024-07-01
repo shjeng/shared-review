@@ -11,8 +11,8 @@ import {
 } from "../../constant";
 import { useBoardSearchStore, useLoginUserStore } from "../../store";
 import { useCookies } from "react-cookie";
-import { getCategorysReqeust, searchRequest } from "../../apis";
-import { GetCategorysResponseDto } from "../../apis/response/board";
+import {getCategorysReqeust, searchRequest} from "../../apis";
+import {BoardListResponse, GetCategorysResponseDto} from "../../apis/response/board";
 import ResponseDto from "../../apis/response/response.dto";
 import { Category } from "../../types/interface";
 
@@ -21,19 +21,20 @@ const Header = () => {
   const [categoryDrop, setCategoryDrop] = useState(false);
   const [profileDrop, setprofileDrop] = useState(false);
   const { loginUser } = useLoginUserStore();
-  const { categoryId, setCategoryId } = useBoardSearchStore();
+  const { categoryId, setCategoryId, setSearchWord } = useBoardSearchStore();
   const [cookies, setCookies, removeCookie] = useCookies();
   const searchDropRef = useRef<any>(null);
   const [categorys, setCategorys] = useState<Category[]>([]);
   const [category, setCategory] = useState<Category | undefined>();
-  const [searchType, setSearchType] = useState<string>("전체");
+  const [searchType, setSearchType] = useState<string>('전체');
+  const [keyword, setKeyword] = useState<string>("");
 
   const onCategoryClick = (category: Category | undefined | null) => {
     if (category) {
       setCategory(category);
       setSearchType(category.categoryName);
     } else {
-      setSearchType("전체");
+      setSearchType('전체');
       setCategory(undefined);
     }
     setCategoryDrop(false);
@@ -114,6 +115,7 @@ const Header = () => {
 
   const [inputValue, setInputValue] = useState<string>("");
 
+
   const searchInputRef = useRef<any>(null);
 
   const onCategorySearch = () => {
@@ -123,10 +125,20 @@ const Header = () => {
       alert("검색어를 입력해주세요.");
       return;
     }
-    searchRequest(inputValue, category).then(searchResponse);
+    setSearchWord(keyword);
+    setCategoryId(category?.categoryId);
+    setSearchType(category?.categoryName || '전체');
+    navigator(BOARD_LIST());
   };
 
-  const searchResponse = () => {};
+  const searchResponse = (response: BoardListResponse | ResponseDto | null) => {
+    console.log(response);
+  }
+  const keywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onCategorySearch();
+    }
+  }
   const onSignOutButtonClickHandler = () => {
     // const signOutResponse = (responseBody: ResponseDto | null) => {
     //   if (!responseBody) {
@@ -178,32 +190,24 @@ const Header = () => {
                 <div className="dropdown_icon"></div>
               </div>
               {categoryDrop && (
-                <div className="dropdown-content">
-                  <div
-                    className="board-dropdown-content-item"
-                    onClick={() => onCategoryClick(null)}
-                  >
-                    전체
+                  <div className="dropdown-content">
+                    <div className="board-dropdown-content-item" onClick={() => onCategoryClick(null)}>
+                      전체
+                    </div>
+                    {categorys.map(
+                        (category, index // 카테고리 목록 불러오기.
+                        ) => (
+                            <div className="board-dropdown-content-item" onClick={() => onCategoryClick(category)}>
+                              {category.categoryName}
+                            </div>
+                        )
+                    )}
                   </div>
-                  {categorys.map(
-                    (
-                      category,
-                      index // 카테고리 목록 불러오기.
-                    ) => (
-                      <div
-                        className="board-dropdown-content-item"
-                        onClick={() => onCategoryClick(category)}
-                      >
-                        {category.categoryName}
-                      </div>
-                    )
-                  )}
-                </div>
               )}
             </div>
           </div>
           <div className="header-search">
-            <input type="text" placeholder="검색어 입력" ref={searchInputRef} />
+            <input type="text" placeholder="검색어 입력" ref={searchInputRef} onKeyDown={keywordKeyDown}/>
             <div className="header-search-img" onClick={onCategorySearch}></div>
           </div>
         </div>

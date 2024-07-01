@@ -7,7 +7,7 @@ interface BoardSearchStore {
     resetSearchWord: () => void;
 
     categoryId: string | bigint | null;
-    setCategoryId: (categoryId: string | bigint) => void;
+    setCategoryId: (categoryId: string | bigint | undefined) => void;
     resetCategoryId: () => void;
 
     searchType: string | null;
@@ -21,7 +21,7 @@ const useBoardSearchStore = create<BoardSearchStore>((set) => ({
     resetSearchWord: () => set((state) => ({...state, searchWord: null})),
 
     categoryId: null,
-    setCategoryId: (categoryId: string | bigint) => set((state) => ({...state, categoryId})),
+    setCategoryId: (categoryId: string | bigint | undefined) => set((state) => ({...state, categoryId})),
     resetCategoryId: () => set((state) => ({...state, state: null})),
 
     searchType: null,

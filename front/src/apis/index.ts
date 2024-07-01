@@ -2,16 +2,16 @@ import axios from "axios";
 import SignInRequestDto from "./request/auth/sign-in-request.dto";
 import SignInResponseDto from "./response/auth/sign-in.response.dto";
 import ResponseDto from "./response/response.dto";
-import { SignUpRequestDto } from "./request/auth";
+import {SignUpRequestDto} from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
-import { NicknameDupleChkResponseDto } from "./response/auth";
-import { GetUserResponseDto } from "./response/user";
-import { BoardWriteRequestDto, CommentWriteRequestDto } from "./request/board";
+import {NicknameDupleChkResponseDto} from "./response/auth";
+import {GetUserResponseDto} from "./response/user";
+import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
 import {
-  BoardListResponse,
-  CommentResponseDto,
-  GetCategorysResponseDto,
-  PostBoardWriteResponseDto,
+    BoardListResponse,
+    CommentResponseDto,
+    GetCategorysResponseDto,
+    PostBoardWriteResponseDto,
 } from "./response/board";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
@@ -20,10 +20,10 @@ import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
 import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
 import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto";
-import { FileResponseDto } from "./response/file";
-import { Simulate } from "react-dom/test-utils";
-import error = Simulate.error;
-import { Category } from "../types/interface";
+import {FileResponseDto} from "./response/file";
+import {Simulate} from "react-dom/test-utils";
+import {Board, Category} from "../types/interface";
+import Pageable from "../types/interface/pageable.interface";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
@@ -57,19 +57,16 @@ const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
 
 // ===  Get  ===
 const SEARCH_URL = () => `${API_DOMAIN}/board/search`;
-export const searchRequest = async (
-  keyword: string,
-  category: Category | undefined
-) => {
-  const result = await axios
-    .get(SEARCH_URL(), {
-      params: { searchKeyword: keyword, categoryId: category?.categoryId },
-    })
-    .then((response) => {})
-    .catch((error) => {
-      return errorResponse(error);
-    });
-  return result;
+export const searchRequest = async (params: {}) => {
+    return await axios.get(SEARCH_URL(), {params: {...params}})
+      .then((response) => {
+          const responseBody: Pageable<Board> = response.data;
+          return responseBody;
+
+      })
+      .catch((error) => {
+          return errorResponse2(error);
+      });
 };
 
 // 로그인 요청
@@ -385,21 +382,6 @@ export const getAdminBoardSearchReqeust = async (
   return result;
 };
 
-// 게시글 목록 요청
-const BOARD_LIST = () => `${API_DOMAIN}/board/board-list`;
-export const getBoardListRequest = async (requestParams: Object) => {
-  const result = await axios
-    .get(BOARD_LIST(), { params: requestParams })
-    .then((response) => {
-      const responseBody: GetBoardListResponseDto = response.data;
-      console.log("ts : ", JSON.stringify(responseBody, null, 2)); // 객체의 구조를 확인
-      return responseBody;
-    })
-    .catch((error) => {
-      return errorResponse(error);
-    });
-  return result;
-};
 
 // 유저 페이지
 const INCREASE_VIEW_COUNT_REQUEST = (boardId: string | bigint) =>
@@ -671,10 +653,17 @@ export const signOutRequest = async (token: string) => {
 };
 
 const errorResponse = (error: null | any) => {
-  if (!error) return null;
-  const responseBody: ResponseDto = error.response.data;
-  return responseBody;
+    if (!error) return null;
+    const responseBody: ResponseDto = error.response.data;
+    return responseBody;
 };
+
+/*코드 리팩터링중 */
+const errorResponse2 = (error: null | any) => {
+    if (!error) return null;
+    return error;
+};
+
 
 const TOKEN_URL = () => `${API_DOMAIN}/auth/validate-token`;
 export const checkAccessTokenValidity = async (

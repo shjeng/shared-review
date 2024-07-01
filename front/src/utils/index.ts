@@ -11,7 +11,6 @@ export const ResponseUtil = (responseBody: any) => {
     if (code === "NU") alert("존재하지 않는 유저");
     if(code === "BR") alert("에러입니다.")
     if (code !== "SU") {
-        debugger;
         return false;
     }
     return responseBody;

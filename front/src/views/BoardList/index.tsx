@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { BOARD_WRITE } from "../../constant";
-import { getBoardListRequest } from "../../apis";
+import {searchRequest} from "../../apis";
 import ResponseDto from "../../apis/response/response.dto";
 import GetBoardListResponseDto from "../../apis/response/board/get-board-list-response.dto";
 import { Board, Category } from "../../types/interface";
 import { useBoardSearchStore } from "../../store";
 import BoardItem2 from "../../components/BoardItem2";
 import BoardItem3 from "../../components/BoardItem3";
+import {BoardListResponse} from "../../apis/response/board";
+import {ResponseUtil} from "../../utils";
+import Pageable from "../../types/interface/pageable.interface";
 
 const BoardList = () => {
   const [category, setCategory] = useState<Category>();
@@ -25,15 +28,28 @@ const BoardList = () => {
 
   useEffect(() => {
     setSearchType("title");
+    let searchTypeParam = "title";
+    if (searchType === '내용') {
+      searchTypeParam = "content";
+    } else {
+        searchTypeParam = "";
+    }
     const params = {
       page: 0,
       categoryId: categoryId,
       searchWord: searchWord,
-      searchType: searchType,
+      searchType: searchTypeParam,
     };
+    searchRequest(params).then(searchResponse);
     setRequestParams(params);
-    getBoardListRequest(requestParams).then(getBoardListResponse);
   }, []);
+  const searchResponse = (responseBody: Pageable<Board> | null) => {
+    // ResponseUtil(responseBody);
+    // const result = responseBody as BoardListResponse;
+    setBoards(responseBody?.content || []);
+    console.log(responseBody);
+    // setBoards(result.boardPage.content);
+  }
 
   useEffect(() => {
     const params = {
@@ -41,12 +57,9 @@ const BoardList = () => {
       categoryId: categoryId,
     };
     setRequestParams(params);
-    getBoardListRequest(params).then(getBoardListResponse);
   }, [categoryId]);
 
-  const getBoardListResponse = (
-    responseBody: GetBoardListResponseDto | ResponseDto | null
-  ) => {
+  const getBoardListResponse = (responseBody: GetBoardListResponseDto | ResponseDto | null) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -61,6 +74,9 @@ const BoardList = () => {
     const result = responseBody as GetBoardListResponseDto;
     setBoards(result.boardPage.content);
   };
+  // useEffect(() => {
+  //   searchRequest(searchWord, category).then(searchResponse);
+  // }, [searchWord, searchType]);
 
   return (
     <div id="board-list-wrap">
