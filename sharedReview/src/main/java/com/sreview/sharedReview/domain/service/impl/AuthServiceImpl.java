@@ -127,7 +127,7 @@ public class AuthServiceImpl implements AuthService {
             jwtProvider.validate(accessToken); // 엑세스 토큰 유효하니?
             System.out.println("2. 엑세스 토큰이 유효함.");
 
-            return ResponseEntity.ok().body("Valid token"); // 유효할경우
+            return tokenStatusResponse.success();// 유효할경우
 
         } catch (ExpiredJwtException ex) { // jwt토큰 만료일경우
 //            String email = ex.getClaims().getSubject();
@@ -150,7 +150,7 @@ public class AuthServiceImpl implements AuthService {
             String newAccessToken = jwtProvider.create(email);
             System.out.println("4. 리프레시 토큰이 유효해서 엑세스 토큰을 발급해줌 : " + newAccessToken);
 
-            return tokenStatusResponse.success(newAccessToken);
+            return tokenStatusResponse.newTokenSuccess(newAccessToken);
 
         } catch (ExpiredJwtException ex) { // jwt토큰 만료일경우
             System.out.println("4. 리프레시 토큰이 유효하지 않음");
