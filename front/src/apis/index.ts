@@ -65,7 +65,7 @@ export const searchRequest = async (params: {}) => {
 
       })
       .catch((error) => {
-          return errorResponse2(error);
+          return errorResponse(error);
       });
 };
 
@@ -656,12 +656,6 @@ const errorResponse = (error: null | any) => {
     if (!error) return null;
     const responseBody: ResponseDto = error.response.data;
     return responseBody;
-};
-
-/*코드 리팩터링중 */
-const errorResponse2 = (error: null | any) => {
-    if (!error) return null;
-    return error;
 };
 
 

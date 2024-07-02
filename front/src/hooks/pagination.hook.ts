@@ -14,7 +14,9 @@ const usePagination = (countPerPage: number) => {
     const [totalPage, setTotalPage] = useState<number>(0);
     //  state: 현재 페이지 번호 상태   //
     // 지금 몇번째 페이지에 있는지에 대한걸 저장할 상태
-
+    /*
+    *
+    * */
 
     const setSectionFunction = () => {
         const CURRENT_SECTION = Math.floor(currentPage / countPerPage) + 1;

@@ -48,10 +48,7 @@ const Pagination = (props: Props) => {
           <div className="pagination-divider">{"|"}</div>
         </>
       )}
-      {pageList.map((page) =>
-        page === currentPage ? (
-          <div className="pagination-text-active">{page}</div>
-        ) : (
+      {pageList.map((page) => page === currentPage ? (<div className="pagination-text-active">{page}</div>) : (
           <div className="pagination-text" onClick={() => pageClick(page)}>
             {page}
           </div>

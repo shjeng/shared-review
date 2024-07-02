@@ -12,13 +12,28 @@ import BoardItem3 from "../../components/BoardItem3";
 import {BoardListResponse} from "../../apis/response/board";
 import {ResponseUtil} from "../../utils";
 import Pageable from "../../types/interface/pageable.interface";
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/pagination.hook";
 
 const BoardList = () => {
+  const countPerPage = 20;
   const [category, setCategory] = useState<Category>();
   const { categoryId, searchWord, searchType } = useBoardSearchStore();
   const { setCategoryId, setSearchWord, setSearchType } = useBoardSearchStore();
   const navigator = useNavigate();
   const [requestParams, setRequestParams] = useState<Object>({});
+
+  const {startPage,
+    endPage,
+    currentPage,
+    pageList,
+    currentSection,
+    totalSection,
+    setCurrentPage,
+    setCurrentSection,
+    setTotalCount,
+    setCountPerItem}= usePagination(countPerPage);
+
   const onBoardWriteClickHandler = () => {
     navigator(BOARD_WRITE());
   };
@@ -27,13 +42,7 @@ const BoardList = () => {
   const [boards, setBoards] = useState<Board[]>([]);
 
   useEffect(() => {
-    setSearchType("title");
-    let searchTypeParam = "title";
-    if (searchType === '내용') {
-      searchTypeParam = "content";
-    } else {
-        searchTypeParam = "";
-    }
+    let searchTypeParam = getSearchType();
     const params = {
       page: 0,
       categoryId: categoryId,
@@ -43,14 +52,46 @@ const BoardList = () => {
     searchRequest(params).then(searchResponse);
     setRequestParams(params);
   }, []);
-  const searchResponse = (responseBody: Pageable<Board> | null) => {
-    // ResponseUtil(responseBody);
-    // const result = responseBody as BoardListResponse;
-    setBoards(responseBody?.content || []);
+  const searchResponse = (responseBody: Pageable<Board> | ResponseDto | null) => {
+    if (ResponseUtil(responseBody)) {
+      return;
+    }
+    const result = responseBody as Pageable<Board>;
+    setBoards(result.content || []);
+    setCurrentPage(result.pageable.pageNumber + 1);
+    setTotalCount(result.totalElements);
+    setCountPerItem(result.size);
     console.log(responseBody);
     // setBoards(result.boardPage.content);
   }
 
+  useEffect(() => {
+      let params = {
+        ...requestParams,
+        categoryId: categoryId,
+      };
+      setRequestParams(params)
+    searchRequest(params).then(searchResponse);
+  }, [categoryId]);
+
+  useEffect(() => {
+    let params = {
+      ...requestParams,
+      searchWord: searchWord,
+      searchType: searchType
+    };
+    setRequestParams(params)
+    searchRequest(params).then(searchResponse);
+  }, [searchWord]);
+  const getSearchType = () => {
+    let searchTypeParam = "title";
+    if (searchType === '내용') {
+      searchTypeParam = "content";
+    } else {
+      searchTypeParam = "";
+    }
+    return searchTypeParam;
+  }
   useEffect(() => {
     const params = {
       ...requestParams,
@@ -78,6 +119,15 @@ const BoardList = () => {
   //   searchRequest(searchWord, category).then(searchResponse);
   // }, [searchWord, searchType]);
 
+  const pageButtonClick = (page: number) => {
+    setCurrentPage(page);
+    let params = {
+      ...requestParams,
+      page: page - 1
+    };
+    setRequestParams(params);
+    searchRequest(params).then(searchResponse);
+  }
   return (
     <div id="board-list-wrap">
       <div className="board-list-top">
@@ -97,6 +147,15 @@ const BoardList = () => {
           작성하기
         </div>
       </div>
+      <Pagination
+          currentPage={currentPage}
+          currentSection={currentSection}
+          setCurrentPage={setCurrentPage}
+          totalSection={totalSection}
+          countPerPage={countPerPage}
+          pageList={pageList}
+          pageClick={pageButtonClick}
+      ></Pagination>
     </div>
   );
 };
