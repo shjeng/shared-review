@@ -21,21 +21,29 @@ const Header = () => {
   const [categoryDrop, setCategoryDrop] = useState(false);
   const [profileDrop, setprofileDrop] = useState(false);
   const { loginUser } = useLoginUserStore();
-  const { categoryId, setCategoryId, setSearchWord } = useBoardSearchStore();
+  const { categoryId, setCategoryId, setSearchWord, setSearchType} = useBoardSearchStore();
   const [cookies, setCookies, removeCookie] = useCookies();
   const searchDropRef = useRef<any>(null);
   const [categorys, setCategorys] = useState<Category[]>([]);
   const [category, setCategory] = useState<Category | undefined>();
-  const [searchType, setSearchType] = useState<string>('전체');
+  const [searchTypeKr, setSearchTypeKr] = useState<string>('전체');
   const [keyword, setKeyword] = useState<string>("");
 
   const onCategoryClick = (category: Category | undefined | null) => {
     if (category) {
       setCategory(category);
-      setSearchType(category.categoryName);
+      setSearchTypeKr(category.categoryName);
     } else {
-      setSearchType('전체');
+      setSearchTypeKr('전체');
       setCategory(undefined);
+    }
+
+    if (searchTypeKr === '전체') {
+      setSearchType('all');
+    } else if (searchTypeKr === '제목') {
+      setSearchType('title');
+    } else if (searchTypeKr === '내용') {
+      setSearchType('content');
     }
     setCategoryDrop(false);
   };
@@ -127,7 +135,7 @@ const Header = () => {
     }
     setSearchWord(keyword);
     setCategoryId(category?.categoryId);
-    setSearchType(category?.categoryName || '전체');
+    setSearchTypeKr(category?.categoryName || '전체');
     navigator(BOARD_LIST());
   };
 
@@ -186,7 +194,7 @@ const Header = () => {
             <div className="header-category-dropdown" ref={searchDropRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
                 {/* <div className="dropdown_text">카테고리</div> */}
-                <div className="dropdown_text">{searchType}</div>
+                <div className="dropdown_text">{searchTypeKr}</div>
                 <div className="dropdown_icon"></div>
               </div>
               {categoryDrop && (
