@@ -43,10 +43,10 @@ public class BoardController {
     * */
     @GetMapping("/search")
     public ResponseEntity<Page<BoardDto>> getSearchList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "categoryId", required = false) Long categoryId,
-                                                        @PageableDefault(size = 20) Pageable pageable) {
-        log.info("test {} {}", searchKeyword, categoryId);
+                                                        @PageableDefault(size = 20) Pageable pageable, @RequestParam(value = "searchType", required = false) String searchType){
         BoardRequestParam boardRequestParam = BoardRequestParam.builder()
                 .searchWord(searchKeyword)
+                .searchType(searchType)
                 .categoryId(categoryId)
                 .build();
         return ResponseEntity.ok(boardServcice.getBoard(boardRequestParam, pageable));

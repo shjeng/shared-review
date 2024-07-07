@@ -26,25 +26,10 @@ const Header = () => {
   const searchDropRef = useRef<any>(null);
   const [categorys, setCategorys] = useState<Category[]>([]);
   const [category, setCategory] = useState<Category | undefined>();
-  const [searchTypeKr, setSearchTypeKr] = useState<string>('전체');
   const [keyword, setKeyword] = useState<string>("");
 
-  const onCategoryClick = (category: Category | undefined | null) => {
-    if (category) {
-      setCategory(category);
-      setSearchTypeKr(category.categoryName);
-    } else {
-      setSearchTypeKr('전체');
-      setCategory(undefined);
-    }
-
-    if (searchTypeKr === '전체') {
-      setSearchType('all');
-    } else if (searchTypeKr === '제목') {
-      setSearchType('title');
-    } else if (searchTypeKr === '내용') {
-      setSearchType('content');
-    }
+  const searchTypeClick = (searchType: string) => {
+    setSearchType(searchType);
     setCategoryDrop(false);
   };
   const handleClickOutside = (e: MouseEvent) => {
@@ -66,6 +51,7 @@ const Header = () => {
   // =========================================================
   // Effect: 처음 렌더링 시 카테고리를 가져와줌.
   useEffect(() => {
+      setSearchType('all');
     getCategorysReqeust().then(getCategorysResponse);
   }, []);
   const getCategorysResponse = (
@@ -133,15 +119,11 @@ const Header = () => {
       alert("검색어를 입력해주세요.");
       return;
     }
-    setSearchWord(keyword);
+    setSearchWord(inputValue);
     setCategoryId(category?.categoryId);
-    setSearchTypeKr(category?.categoryName || '전체');
     navigator(BOARD_LIST());
   };
 
-  const searchResponse = (response: BoardListResponse | ResponseDto | null) => {
-    console.log(response);
-  }
   const keywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       onCategorySearch();
@@ -194,28 +176,29 @@ const Header = () => {
             <div className="header-category-dropdown" ref={searchDropRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
                 {/* <div className="dropdown_text">카테고리</div> */}
-                <div className="dropdown_text">{searchTypeKr}</div>
                 <div className="dropdown_icon"></div>
+
               </div>
               {categoryDrop && (
                   <div className="dropdown-content">
-                    <div className="board-dropdown-content-item" onClick={() => onCategoryClick(null)}>
-                      전체
-                    </div>
-                    {categorys.map(
-                        (category, index // 카테고리 목록 불러오기.
-                        ) => (
-                            <div className="board-dropdown-content-item" onClick={() => onCategoryClick(category)}>
-                              {category.categoryName}
-                            </div>
-                        )
-                    )}
+                      <div className="board-dropdown-content-item" onClick={() => searchTypeClick('all')}>
+                          전체
+                      </div>
+                      <div className="board-dropdown-content-item" onClick={() => searchTypeClick('title')}>
+                          제목
+                      </div>
+                      <div className="board-dropdown-content-item" onClick={() => searchTypeClick('content')}>
+                          내용
+                      </div>
+                      <div className="board-dropdown-content-item" onClick={() => searchTypeClick('writer')}>
+                          작성자
+                      </div>
                   </div>
               )}
             </div>
           </div>
-          <div className="header-search">
-            <input type="text" placeholder="검색어 입력" ref={searchInputRef} onKeyDown={keywordKeyDown}/>
+            <div className="header-search">
+                <input type="text" placeholder="검색어 입력" ref={searchInputRef} onKeyDown={keywordKeyDown}/>
             <div className="header-search-img" onClick={onCategorySearch}></div>
           </div>
         </div>
@@ -243,23 +226,14 @@ const Header = () => {
               {profileDrop && (
                 <div className="profile-dropdown-content">
                   <div
-                    className="profile-dropdown-content-item"
-                    onClick={myPage}
-                  >
-                    마이페이지
+                    className="profile-dropdown-content-item" onClick={myPage}>마이페이지
                   </div>
-                  <div
-                    className="profile-dropdown-content-item"
-                    onClick={() => navigate(BOARD_WRITE())}
-                  >
+                  <div className="profile-dropdown-content-item" onClick={() => navigate(BOARD_WRITE())}>
                     글작성
                   </div>
 
                   {loginUser.admin === "MANAGER" && (
-                    <div
-                      className="profile-dropdown-content-item"
-                      onClick={() => navigate(USER_MANAGE_PATH())}
-                    >
+                    <div className="profile-dropdown-content-item" onClick={() => navigate(USER_MANAGE_PATH())}>
                       관리자페이지
                     </div>
                   )}

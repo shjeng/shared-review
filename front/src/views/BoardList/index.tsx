@@ -42,12 +42,11 @@ const BoardList = () => {
   const [boards, setBoards] = useState<Board[]>([]);
 
   useEffect(() => {
-    let searchTypeParam = getSearchType();
     const params = {
       page: 0,
       categoryId: categoryId,
-      searchWord: searchWord,
-      searchType: searchTypeParam,
+      searchKeyword: searchWord,
+      searchType: searchType,
     };
     searchRequest(params).then(searchResponse);
     setRequestParams(params);
@@ -61,7 +60,6 @@ const BoardList = () => {
     setCurrentPage(result.pageable.pageNumber + 1);
     setTotalCount(result.totalElements);
     setCountPerItem(result.size);
-    console.log(responseBody);
     // setBoards(result.boardPage.content);
   }
 
@@ -69,6 +67,8 @@ const BoardList = () => {
       let params = {
         ...requestParams,
         categoryId: categoryId,
+        searchKeyword: searchWord,
+        searchType: searchType,
       };
       setRequestParams(params)
     searchRequest(params).then(searchResponse);
@@ -77,21 +77,15 @@ const BoardList = () => {
   useEffect(() => {
     let params = {
       ...requestParams,
-      searchWord: searchWord,
-      searchType: searchType
+      searchKeyword: searchWord,
+      searchType: searchType,
+      categoryId: categoryId,
     };
-    setRequestParams(params)
+    setRequestParams(params);
+    console.log(params);
     searchRequest(params).then(searchResponse);
   }, [searchWord]);
-  const getSearchType = () => {
-    let searchTypeParam = "title";
-    if (searchType === '내용') {
-      searchTypeParam = "content";
-    } else {
-      searchTypeParam = "";
-    }
-    return searchTypeParam;
-  }
+
   useEffect(() => {
     const params = {
       ...requestParams,

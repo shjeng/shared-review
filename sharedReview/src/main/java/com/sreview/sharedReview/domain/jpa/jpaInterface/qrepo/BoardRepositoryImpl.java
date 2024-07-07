@@ -50,13 +50,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         }
         /*검색 타입이 title인 경우 */
         if (searchType.equals("title")) {
-            return board.title.like(searchWord);
+            return board.title.contains(searchWord);
         } else if (searchType.equals("content")) {
             /* 검색 타입이 내용인 경우 */
-            return board.content.like(searchWord);
+            return board.content.contains(searchWord);
+        } else if (searchType.equals("writer")) {
+            return board.user.email.contains(searchWord);
         } else {
             /* 검색 타입이 전체인 경우 */
-            return board.content.like(searchWord).or(board.title.like(searchWord));
+            return board.content.contains(searchWord).or(board.title.contains(searchWord)).or(board.user.email.contains(searchWord));
         }
 
     }
