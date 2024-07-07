@@ -12,15 +12,13 @@ const Main = () => {
   const [favoriteBoardTop3ForWeek, setFavoriteBoardTop3ForWeek] = useState<
     Board[]
   >([]);
-  const [favoriteBoardTop3ForMonth, setFavoriteBoardTop3Month] = useState<
-    Board[]
-  >([]);
+  const [favoriteBoardTop3ForMonth, setFavoriteBoardTop3Month] = useState<Board[]>([]);
+
   const [latestBoards, setLatestBoards] = useState<Board[]>([]);
   useEffect(() => {
     getBoardLatestList().then(getBoardLatestListResponse);
     getFavoriteBoardTop3("week").then(getFavoriteBoardTop3Response); // 일주일동안 인기 게시물
     getFavoriteBoardTop3("month").then(getFavoriteBoardTop3Response);
-    console.log("latestBoards : ", latestBoards);
   }, []);
 
   const getBoardLatestListResponse = (
@@ -31,7 +29,6 @@ const Main = () => {
       return;
     }
     const latestResult = result as BoardListResponse;
-    console.log(latestResult.boards);
     setLatestBoards(latestResult.boardPage.content);
   };
 

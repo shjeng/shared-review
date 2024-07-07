@@ -105,10 +105,7 @@ const BoardDetail = () => {
     setCategory(result.boardDetail.category);
     setComments(result.comments.content);
     setFavorites(result.favorites);
-    const fCheck =
-      result.favorites.findIndex(
-        (favorite) => favorite.userEmail === loginUser?.email
-      ) !== -1;
+    const fCheck = result.favorites.findIndex((favorite) => favorite.userEmail === loginUser?.email) !== -1;
     setFavoriteCheck(fCheck);
     setWriter(result.user);
     setTags(result.tags);
@@ -116,6 +113,7 @@ const BoardDetail = () => {
     setCountPerItem(result.comments.size);
     setCurrentPage(result.comments.pageable.pageNumber + 1);
     setCommentCount(result.comments.totalElements);
+    setFavoriteCount(result.favorites.length);
     if (result.user.email === loginUser?.email) {
       setIsMyPost(true);
     }
@@ -152,6 +150,7 @@ const BoardDetail = () => {
       boardId: boardId,
       content: comment,
     };
+    setComment('');
     commentWrite(requestBody, cookies.accessToken).then(commentWriteResponse);
   };
   const commentWriteResponse = (
@@ -162,9 +161,12 @@ const BoardDetail = () => {
       return;
     }
     const commentWriteResponse = result as CommentResponseDto;
+    console.log(result);
     setComments(commentWriteResponse.comments.content);
     setCurrentPage(commentWriteResponse.comments.pageable.pageNumber + 1);
+    setTotalCount(commentWriteResponse.comments.totalElements);
     setCommentCount(commentWriteResponse.comments.totalElements);
+
   };
   //      event handler: 게시글 목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {
@@ -230,7 +232,6 @@ const BoardDetail = () => {
       return;
     }
     const result = response as GetBoardDetailResponseDto;
-    console.log(result);
     alert(result.favoriteCount);
     setFavoriteCheck(result.favoriteCheck);
     setFavoriteCount(result.favoriteCount);
@@ -337,15 +338,13 @@ const BoardDetail = () => {
               <div className="board-detail-comment-write">
                 <div className="board-detail-comment-write-box">
                   <textarea
-                    className={
-                      "board-detail-comment-textarea" +
-                      (commentError ? " error" : "")
-                    }
+                    className={"board-detail-comment-textarea" + (commentError ? " error" : "")}
                     placeholder="댓글을 입력해주세요."
                     maxLength={255}
                     rows={4}
                     ref={commentRef}
                     onChange={commentChange}
+                    value={comment ? comment : ""}
                   />
 
                   <div className="board-detail-comment-write-bottom-box">
@@ -379,15 +378,18 @@ const BoardDetail = () => {
               </>
             ))}
           </div>
-          <Pagination
-            currentPage={currentPage}
-            currentSection={currentSection}
-            setCurrentPage={setCurrentPage}
-            totalSection={totalSection}
-            countPerPage={countPerPage}
-            pageList={pageList}
-            pageClick={pageButtonClick}
-          ></Pagination>
+          {comments.length !== 0 &&
+              <Pagination
+                  currentPage={currentPage}
+                  currentSection={currentSection}
+                  setCurrentPage={setCurrentPage}
+                  totalSection={totalSection}
+                  countPerPage={countPerPage}
+                  pageList={pageList}
+                  pageClick={pageButtonClick}
+              ></Pagination>
+          }
+
         </div>
       </div>
       <div className="board-list-btn-container">

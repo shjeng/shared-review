@@ -6,7 +6,7 @@ import {searchRequest} from "../../apis";
 import ResponseDto from "../../apis/response/response.dto";
 import GetBoardListResponseDto from "../../apis/response/board/get-board-list-response.dto";
 import { Board, Category } from "../../types/interface";
-import { useBoardSearchStore } from "../../store";
+import {useBoardSearchStore, useLoginUserStore} from "../../store";
 import BoardItem2 from "../../components/BoardItem2";
 import BoardItem3 from "../../components/BoardItem3";
 import {BoardListResponse} from "../../apis/response/board";
@@ -17,6 +17,7 @@ import usePagination from "../../hooks/pagination.hook";
 
 const BoardList = () => {
   const countPerPage = 20;
+  const {loginUser} = useLoginUserStore();
   const [category, setCategory] = useState<Category>();
   const { categoryId, searchWord, searchType } = useBoardSearchStore();
   const { setCategoryId, setSearchWord, setSearchType } = useBoardSearchStore();
@@ -135,12 +136,14 @@ const BoardList = () => {
         ))}
       </div>
 
+      {loginUser &&
       <div className="board-list-bottom">
         <div className="list-write-btn" onClick={onBoardWriteClickHandler}>
           <div className="list-write-btn-icon"></div>
           작성하기
         </div>
-      </div>
+      </div>}
+
       <Pagination
           currentPage={currentPage}
           currentSection={currentSection}

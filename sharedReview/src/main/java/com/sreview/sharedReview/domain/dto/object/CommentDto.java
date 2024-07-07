@@ -18,6 +18,16 @@ public class CommentDto {
     private UserDto user; // 댓글 작성자?
     private LocalDateTime createDateTime;
 
+    public static CommentDto of(Comment comment){
+        UserDto userDto = UserDto.of(comment.getUser());
+        return CommentDto.builder()
+                .commentId(comment.getId())
+                .content(comment.getContent())
+                .user(userDto)
+                .createDateTime(comment.getCreateDate())
+                .build();
+    }
+
     public static CommentDto of(Comment comment, UserDto userDto){
         return CommentDto.builder()
                 .commentId(comment.getId())

@@ -202,7 +202,7 @@ public class BoardServiceImpl implements BoardService {
     public ResponseDto getBoard(Long boardId) {
         try {
 //            Optional<Board> boardOptional = boardRepoService.findBoardAndCommentsUserById(boardId);
-            Board board = boardRepoService.findById(boardId);
+            Board board = boardRepoService.findBoardById(boardId);
             User writer = board.getUser();
             UserDto userDto = UserDto.of(writer); // 작성자
 
@@ -212,10 +212,9 @@ public class BoardServiceImpl implements BoardService {
             Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC,"id"));
             Page<Comment> comments = commentRepoService.findCommentsByBoard(board, pageable);
 
-            Page<CommentDto> commentDtos = comments.map(c -> CommentDto.of(c, userDto));
+            Page<CommentDto> commentDtos = comments.map(CommentDto::of);
             List<Favorite> favorites = favoriteRepoService.findAllByBoard(board);
-            List<FavoriteDto> favoriteDtos = new ArrayList<>();
-            favorites.forEach(f -> favoriteDtos.add(FavoriteDto.of(f))); // 게시물 좋아요 리스트
+            List<FavoriteDto> favoriteDtos = favorites.stream().map(f -> FavoriteDto.of(f)).toList();
 
             List<TagDto> tagDtos = new ArrayList<>();
             List<Tag> tags = tagRepoService.findAllByBoard(board);

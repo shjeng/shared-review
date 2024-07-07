@@ -21,7 +21,7 @@ const Header = () => {
   const [categoryDrop, setCategoryDrop] = useState(false);
   const [profileDrop, setprofileDrop] = useState(false);
   const { loginUser } = useLoginUserStore();
-  const { categoryId, setCategoryId, setSearchWord, setSearchType} = useBoardSearchStore();
+  const { categoryId, searchType,setCategoryId, setSearchWord, setSearchType} = useBoardSearchStore();
   const [cookies, setCookies, removeCookie] = useCookies();
   const searchDropRef = useRef<any>(null);
   const [categorys, setCategorys] = useState<Category[]>([]);
@@ -76,6 +76,8 @@ const Header = () => {
   // 카테고리로 게시물 목록 불러오기
   const categoryBoardList = (category: Category) => {
     setCategoryId(category.categoryId);
+    setSearchWord("");
+    setSearchType('all');
     navigator(BOARD_LIST());
   };
   // const categoryBoardList
@@ -176,6 +178,7 @@ const Header = () => {
             <div className="header-category-dropdown" ref={searchDropRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
                 {/* <div className="dropdown_text">카테고리</div> */}
+                {searchType === 'all' ? '전체' : searchType === 'title' ? '제목' : searchType === 'content' ? '내용' : '작성자'}
                 <div className="dropdown_icon"></div>
 
               </div>

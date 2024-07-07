@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sreview.sharedReview.domain.dto.request.board.BoardRequestParam;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
+import com.sreview.sharedReview.domain.jpa.entity.QFavorite;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 import static com.sreview.sharedReview.domain.jpa.entity.QBoard.*;
+import static com.sreview.sharedReview.domain.jpa.entity.QFavorite.favorite;
 
 /*
  * custom repository 작성
@@ -69,6 +71,11 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
              return null;
          }
          return board.category.id.eq(categoryId);
+     }
+
+     @Override
+     public Board findBoardById(Long boardId) {
+         return jpaQueryFactory.select(board).from(board).leftJoin(favorite).on(board.boardId.eq(favorite.id)).fetchJoin().where(board.boardId.eq(boardId)).fetchOne();
      }
     @Override
     public void update() {
