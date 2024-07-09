@@ -5,15 +5,18 @@
 }
 
 .header-icon {
-  background-color: #bbb;
-  width: 40px;
-  height: 40px;
+  background-image: url(../../assets/image/main-logo.png);
+  background-size: cover;
+
+  width: 50px;
+  height: 50px;
 }
 
 .header-logo {
   font-size: 16px;
-  margin-left: 20px;
+  margin-left: 10px;
   font-weight: 600;
+  color: #4b4b4b;
 }
 
 .header-search {
@@ -100,6 +103,8 @@
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 14px;
+
+  justify-content: center;
 }
 
 .profile-dropdown-box {
@@ -119,6 +124,7 @@
 
 .header-category-dropdown {
   height: 35px;
+  width: 110px;
 }
 
 .header-left-box,
