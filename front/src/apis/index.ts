@@ -18,15 +18,14 @@ import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-r
 import GetAdminBoardResponseDto from "./response/board/get-admin-board-list-response.dto";
 import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
-import GetBoardListResponseDto from "./response/board/get-board-list-response.dto";
 import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto";
 import {FileResponseDto} from "./response/file";
-import {Simulate} from "react-dom/test-utils";
-import {Board, Category} from "../types/interface";
+import {Board} from "../types/interface";
 import Pageable from "../types/interface/pageable.interface";
 
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
+export const BACK_DOMAIN = () => DOMAIN;
 const authorication = (accessToken: string) => {
   return { headers: { Authorization: `Bearer ${accessToken}` } };
 };
@@ -143,12 +142,8 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
 
 // 파일 저장
 const SAVE_IMAGE = () => `${DOMAIN}/file/save/temp/image`;
-export const saveTempImage = async (
-  accessToken: string,
-  file: FormData | null | undefined
-) => {
-  return await axios
-    .post(SAVE_IMAGE(), file, {
+export const saveTempImage = async (accessToken: string, file: FormData | null | undefined) => {
+  return await axios.post(SAVE_IMAGE(), file, {
       ...tokenAndPageConfig.multipartAndToken(accessToken),
     })
     .then((response) => {

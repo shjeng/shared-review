@@ -1,25 +1,17 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "./style.css";
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { Editor } from "@toast-ui/react-editor";
-import { getCategorysReqeust, postBoard } from "../../apis";
-import {
-  GetCategorysResponseDto,
-  PostBoardWriteResponseDto,
-} from "../../apis/response/board";
+import React, {ChangeEvent, KeyboardEvent, useEffect, useRef, useState,} from "react";
+import {Editor} from "@toast-ui/react-editor";
+import {BACK_DOMAIN, getCategorysReqeust, postBoard} from "../../apis";
+import {GetCategorysResponseDto, PostBoardWriteResponseDto,} from "../../apis/response/board";
 import ResponseDto from "../../apis/response/response.dto";
-import { Category } from "../../types/interface";
-import { BoardWriteRequestDto } from "../../apis/request/board";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import { BOARD_DETAIL, MAIN_PATH } from "../../constant";
+import {Category} from "../../types/interface";
+import {BoardWriteRequestDto} from "../../apis/request/board";
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
+import {BOARD_DETAIL, MAIN_PATH} from "../../constant";
 import loginUserStore from "../../store/login-user.store";
+import axios from "axios";
 
 const BoardWrite = () => {
   const [cookies, seetCookies] = useCookies();
@@ -39,6 +31,7 @@ const BoardWrite = () => {
 
   const [titleError, setTitleError] = useState<boolean>(false);
   const [contentError, setContentError] = useState<boolean>(false);
+  const editorRef = useRef<Editor>(null);
 
   // Effect: 처음 렌더링 시 카테고리를 가져와줌.
   useEffect(() => {
@@ -47,8 +40,32 @@ const BoardWrite = () => {
       navigator(MAIN_PATH());
       return;
     }
+
     getCategorysReqeust().then(getCategorysResponse);
   }, []);
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.getInstance().removeHook("addImageBlobHook");
+
+      // 새 Image Import Hook 생성
+      editorRef.current.getInstance().addHook("addImageBlobHook", (blob, callback) => {
+        (async () => {
+          const formData = new FormData();
+          formData.append("file", blob);
+          const data = await axios.post(
+              `${BACK_DOMAIN()}/file/save/temp/image`,
+              formData,
+          );
+            console.log(data);
+          callback(data.data.savedName, "image");
+        })();
+
+        return false;
+      });
+    }
+  }, [editorRef]);
+
   const getCategorysResponse = (
     responseBody: GetCategorysResponseDto | ResponseDto | null
   ) => {
@@ -127,7 +144,6 @@ const BoardWrite = () => {
     navigator(BOARD_DETAIL(boardId));
   };
 
-  const editorRef = useRef<Editor>(null);
   const searchInputRef = useRef<any>(null);
 
   // 카테고리 드롭다운 박스 외부를 클릭했을 때 드롭다운을 닫는 기능
