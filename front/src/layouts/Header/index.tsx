@@ -6,6 +6,7 @@ import {
   BOARD_WRITE,
   MAIN_PATH,
   SIGN_IN_PATH,
+  SIGN_UP_PATH,
   USER_MANAGE_PATH,
   USER_PAGE_PATH,
 } from "../../constant";
@@ -21,7 +22,7 @@ import { Category } from "../../types/interface";
 
 const Header = () => {
   const navigator = useNavigate();
-  const [categoryDrop, setCategoryDrop] = useState(false);
+  const [searchCategoryDrop, setSearchCategoryDrop] = useState(false);
   const [profileDrop, setprofileDrop] = useState(false);
   const { loginUser } = useLoginUserStore();
   const {
@@ -39,15 +40,15 @@ const Header = () => {
 
   const searchTypeClick = (searchType: string) => {
     setSearchType(searchType);
-    setCategoryDrop(false);
+    setSearchCategoryDrop(false);
   };
   const handleClickOutside = (e: MouseEvent) => {
     if (
-      categoryDrop &&
+      searchCategoryDrop &&
       searchDropRef.current &&
       !searchDropRef.current.contains(e.target as Node)
     ) {
-      setCategoryDrop(false);
+      setSearchCategoryDrop(false);
     }
   };
   useEffect(() => {
@@ -55,9 +56,12 @@ const Header = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [categoryDrop]);
+  }, [searchCategoryDrop]);
 
-  // =========================================================
+  const toggleDropdown = () => {
+    setSearchCategoryDrop(!searchCategoryDrop);
+  };
+
   // Effect: 처음 렌더링 시 카테고리를 가져와줌.
   useEffect(() => {
     setSearchType("all");
@@ -80,8 +84,6 @@ const Header = () => {
     setCategorys(result.categorys);
   };
 
-  // =========================================================
-
   // 카테고리로 게시물 목록 불러오기
   const categoryBoardList = (category: Category) => {
     setCategoryId(category.categoryId);
@@ -90,10 +92,6 @@ const Header = () => {
     navigator(BOARD_LIST());
   };
   // const categoryBoardList
-
-  const toggleDropdown = () => {
-    setCategoryDrop(!categoryDrop);
-  };
 
   const profileDropdown = () => {
     setprofileDrop(!profileDrop);
@@ -118,6 +116,11 @@ const Header = () => {
     navigate(SIGN_IN_PATH());
   };
 
+  //      event handler: 로그인 클릭 이벤트 처리 함수       //
+  const onSignUpClickHandler = () => {
+    navigate(SIGN_UP_PATH());
+  };
+
   const [inputValue, setInputValue] = useState<string>("");
 
   const searchInputRef = useRef<any>(null);
@@ -140,37 +143,36 @@ const Header = () => {
     }
   };
   const onSignOutButtonClickHandler = () => {
-    // const signOutResponse = (responseBody: ResponseDto | null) => {
-    //   if (!responseBody) {
-    //     alert("서버로부터 응답이 없습니다.");
-    //     return;
-    //   }
-    //   const { code } = responseBody;
-    //   if (code === "VF") alert("유효성 검사 실패");
-    //   if (code === "DBE") alert("데이터베이스 오류");
-    //   if (code === "NU") alert("회원 정보 확인");
-    //   if (code !== "SU") {
-    //     alert(responseBody.message);
-    //     return;
-    //   }
-
-    //   removeCookie("accessToken", { path: "/" });
-    //   removeCookie("refreshToken", { path: "/" });
-    //   alert("로그아웃 되었습니다.");
-    // };
-
-    // signOutRequest(cookies.accessToken).then(signOutResponse);
-
     if (cookies.accessToken) {
       removeCookie("accessToken", { path: "/" });
       removeCookie("refreshToken", { path: "/" });
       alert("로그아웃 되었습니다.");
       navigate(MAIN_PATH());
     }
+  };
 
-    // console.log("!!!!!!!!!!! cookies : ", JSON.stringify(cookies, null, 2));
-    // console.log("!!!!!!!!!!!accessToken : " + cookies.accessToken);
-    // console.log("!!!!!!!!!!!refreshToken : " + cookies.refreshToken);
+  const [categoryDrop, setCategoryDrop] = useState(false);
+  const categoryDropRef = useRef<any>(null);
+
+  const handleCategoryClickOutside = (e: MouseEvent) => {
+    if (
+      categoryDrop &&
+      categoryDropRef.current &&
+      !categoryDropRef.current.contains(e.target as Node)
+    ) {
+      setCategoryDrop(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleCategoryClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleCategoryClickOutside);
+    };
+  }, [categoryDrop]);
+
+  const toggleCategoryDropdown = () => {
+    setCategoryDrop(!categoryDrop);
   };
 
   return (
@@ -188,11 +190,38 @@ const Header = () => {
           </div>
         </div>
 
+        <div>
+          <div style={{ display: "flex", cursor: "pointer" }}>
+            <div
+              className="header-category-box"
+              ref={categoryDropRef}
+              onClick={toggleCategoryDropdown}
+            >
+              {"Category"}
+            </div>
+
+            <div className="category-drop-icon"></div>
+          </div>
+
+          {categoryDrop && (
+            <div className="category-dropdown-content">
+              {categorys.map((category, index) => (
+                <div
+                  key={index}
+                  className="category-dropdown-item"
+                  onClick={() => categoryBoardList(category)}
+                >
+                  {category.categoryName}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="header-middle-box">
           <div className="header-category">
             <div className="header-category-dropdown" ref={searchDropRef}>
               <div className="dropdown-box" onClick={toggleDropdown}>
-                {/* <div className="dropdown_text">카테고리</div> */}
                 {searchType === "all"
                   ? "전체"
                   : searchType === "title"
@@ -202,7 +231,7 @@ const Header = () => {
                   : "작성자"}
                 <div className="dropdown_icon"></div>
               </div>
-              {categoryDrop && (
+              {searchCategoryDrop && (
                 <div className="dropdown-content">
                   <div
                     className="board-dropdown-content-item"
@@ -244,7 +273,11 @@ const Header = () => {
         </div>
         {loginUser ? (
           <>
-            <div className="header-right-box" onClick={profileDropdown}>
+            <div
+              className="header-right-box"
+              style={{ justifyContent: "right" }}
+              onClick={profileDropdown}
+            >
               <div className="profile-dropdown-box">
                 {loginUser.profileImage ? (
                   <div
@@ -298,21 +331,24 @@ const Header = () => {
             </div>
           </>
         ) : (
-          <div className="header-right-box" onClick={onLoginClickHandler}>
-            <div className="header-login-button">{"로그인 / 회원가입"}</div>
+          <div className="header-right-box">
+            <div
+              className="header-right-box-login"
+              onClick={onLoginClickHandler}
+            >
+              <div className="header-login-button-login-icon"></div>
+              <div className="header-login-button">{"LOGIN"}</div>
+            </div>
+
+            <div
+              className="header-right-box-signUp"
+              onClick={onSignUpClickHandler}
+            >
+              <div className="header-login-button-signUp-icon"></div>
+              <div className="header-login-button">{"SIGN UP"}</div>
+            </div>
           </div>
         )}
-      </div>
-
-      <div className="header-bottom-box">
-        {categorys.map((category, index) => (
-          <div
-            className="heder-bottom-item"
-            onClick={() => categoryBoardList(category)}
-          >
-            {category.categoryName}
-          </div>
-        ))}
       </div>
     </div>
   );
