@@ -1,5 +1,5 @@
 #header-wrap {
-  border-bottom: 1px solid rgb(193 193 193);
+  background-color: #fbfbfb;
   width: 100%;
   height: 150px;
 }
@@ -48,7 +48,8 @@
   display: flex;
   align-items: center;
   height: 100px;
-  margin: 0px 35px;
+  margin: auto;
+  max-width: 1440px;
 }
 
 .header-left-box,
@@ -59,7 +60,7 @@
 
 .header-middle-box {
   width: 610px;
-  margin-left: 26%;
+  margin-left: 8%;
 }
 
 .header-category-box {
@@ -80,18 +81,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 29%;
+  margin-left: 15%;
 }
 
 .header-right-box-login,
 .header-right-box-signUp {
   font-size: 13px;
-  width: 110px;
+  width: 90px;
   height: 45px;
   border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: auto;
+  cursor: pointer;
 }
 
 .header-login-button-login-icon {
@@ -148,6 +151,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .dropdown_icon {
@@ -165,7 +169,6 @@
 }
 
 .header-left-box,
-.header-right-box,
 .header-search-img,
 .header-category-box > div,
 .dropdown-box {
@@ -217,7 +220,7 @@
   border: 1px solid rgba(0, 0, 0, 0.134);
   border-radius: 5px;
   min-width: 120px;
-  z-index: 1; /* 이 부분을 변경 */
+  z-index: 1;
   max-height: 200px;
   overflow-y: auto;
   top: 6%;
@@ -228,6 +231,7 @@
   line-height: 3.2em;
   padding-left: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.134);
+  cursor: pointer;
 }
 
 .profile-dropdown-content-item:hover {
@@ -243,7 +247,7 @@
   z-index: 1;
   max-height: 200px;
   overflow-y: auto;
-  top: 6%;
+  margin: 10px 0px 0px 50px;
 }
 
 .category-dropdown-item {

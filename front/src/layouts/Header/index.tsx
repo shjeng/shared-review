@@ -86,6 +86,7 @@ const Header = () => {
 
   // 카테고리로 게시물 목록 불러오기
   const categoryBoardList = (category: Category) => {
+    console.log("리스트 불러와줘 : ", category);
     setCategoryId(category.categoryId);
     setSearchWord("");
     setSearchType("all");
@@ -154,22 +155,22 @@ const Header = () => {
   const [categoryDrop, setCategoryDrop] = useState(false);
   const categoryDropRef = useRef<any>(null);
 
-  const handleCategoryClickOutside = (e: MouseEvent) => {
-    if (
-      categoryDrop &&
-      categoryDropRef.current &&
-      !categoryDropRef.current.contains(e.target as Node)
-    ) {
-      setCategoryDrop(false);
-    }
-  };
+  // const handleCategoryClickOutside = (e: MouseEvent) => {
+  //   if (
+  //     categoryDrop &&
+  //     categoryDropRef.current &&
+  //     !categoryDropRef.current.contains(e.target)
+  //   ) {
+  //     setCategoryDrop(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleCategoryClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleCategoryClickOutside);
-    };
-  }, [categoryDrop]);
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleCategoryClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleCategoryClickOutside);
+  //   };
+  // }, [categoryDrop]);
 
   const toggleCategoryDropdown = () => {
     setCategoryDrop(!categoryDrop);
@@ -191,13 +192,15 @@ const Header = () => {
         </div>
 
         <div>
-          <div style={{ display: "flex", cursor: "pointer" }}>
+          <div
+            style={{ display: "flex", cursor: "pointer", marginLeft: "30px" }}
+          >
             <div
               className="header-category-box"
               ref={categoryDropRef}
               onClick={toggleCategoryDropdown}
             >
-              {"Category"}
+              {"CATEGORY"}
             </div>
 
             <div className="category-drop-icon"></div>
@@ -207,7 +210,6 @@ const Header = () => {
             <div className="category-dropdown-content">
               {categorys.map((category, index) => (
                 <div
-                  key={index}
                   className="category-dropdown-item"
                   onClick={() => categoryBoardList(category)}
                 >
@@ -216,6 +218,17 @@ const Header = () => {
               ))}
             </div>
           )}
+
+          {/* <div className="category-dropdown-content">
+            {categorys.map((category, index) => (
+              <div
+                className="category-dropdown-item"
+                onClick={() => categoryBoardList(category)}
+              >
+                {category.categoryName}
+              </div>
+            ))}
+          </div> */}
         </div>
 
         <div className="header-middle-box">
