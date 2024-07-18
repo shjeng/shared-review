@@ -1,7 +1,7 @@
 #board-list-wrap {
   width: 800px;
   min-height: 900px;
-  margin: auto;
+  margin: auto auto 100px auto;
 }
 
 .list-write-btn {

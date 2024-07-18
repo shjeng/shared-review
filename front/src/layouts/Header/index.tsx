@@ -58,6 +58,7 @@ const Header = () => {
     };
   }, [searchCategoryDrop]);
 
+  // 헤더 검색 부분 드롭다운
   const toggleDropdown = () => {
     setSearchCategoryDrop(!searchCategoryDrop);
   };
@@ -86,10 +87,10 @@ const Header = () => {
 
   // 카테고리로 게시물 목록 불러오기
   const categoryBoardList = (category: Category) => {
-    console.log("리스트 불러와줘 : ", category);
     setCategoryId(category.categoryId);
     setSearchWord("");
     setSearchType("all");
+    toggleCategoryDropdown();
     navigator(BOARD_LIST());
   };
   // const categoryBoardList
@@ -155,22 +156,22 @@ const Header = () => {
   const [categoryDrop, setCategoryDrop] = useState(false);
   const categoryDropRef = useRef<any>(null);
 
-  // const handleCategoryClickOutside = (e: MouseEvent) => {
-  //   if (
-  //     categoryDrop &&
-  //     categoryDropRef.current &&
-  //     !categoryDropRef.current.contains(e.target)
-  //   ) {
-  //     setCategoryDrop(false);
-  //   }
-  // };
+  const handleCategoryClickOutside = (e: MouseEvent) => {
+    if (
+      categoryDrop &&
+      categoryDropRef.current &&
+      !categoryDropRef.current.contains(e.target)
+    ) {
+      toggleCategoryDropdown();
+    }
+  };
 
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleCategoryClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleCategoryClickOutside);
-  //   };
-  // }, [categoryDrop]);
+  useEffect(() => {
+    document.addEventListener("mousedown", handleCategoryClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleCategoryClickOutside);
+    };
+  }, [categoryDrop]);
 
   const toggleCategoryDropdown = () => {
     setCategoryDrop(!categoryDrop);
@@ -191,17 +192,12 @@ const Header = () => {
           </div>
         </div>
 
-        <div>
+        <div ref={categoryDropRef}>
           <div
             style={{ display: "flex", cursor: "pointer", marginLeft: "30px" }}
+            onClick={toggleCategoryDropdown}
           >
-            <div
-              className="header-category-box"
-              ref={categoryDropRef}
-              onClick={toggleCategoryDropdown}
-            >
-              {"CATEGORY"}
-            </div>
+            <div className="header-category-box">{"CATEGORY"}</div>
 
             <div className="category-drop-icon"></div>
           </div>
