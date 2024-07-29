@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Container from "./layouts/Container";
 import {
   ADMIN_BOARD_LIST,
@@ -54,6 +54,13 @@ function App() {
     const { userDto } = responseBody as GetUserResponseDto;
     setLoginUser(userDto);
   };
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <Routes>
       <Route element={<Container />}>

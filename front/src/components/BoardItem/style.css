@@ -15,6 +15,10 @@
 .board-item-title {
   width: 100%;
   font-size: 24px;
+
+  white-space: nowrap; /* 텍스트를 한 줄로 표시, 줄바꿈 없음 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트는 "..."으로 대체 */
 }
 
 .board-item-profile {

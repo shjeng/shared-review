@@ -1,7 +1,7 @@
 #header-wrap {
   background-color: #fbfbfb;
   width: 100%;
-  height: 150px;
+  height: 140px;
 }
 
 .header-icon {
@@ -47,7 +47,7 @@
 .header-top-box {
   display: flex;
   align-items: center;
-  height: 110px;
+  height: 120px;
   margin: auto;
   max-width: 1440px;
 }
@@ -65,9 +65,7 @@
 
 .header-category-box {
   display: flex;
-  margin-left: 30px;
   font-weight: 600;
-  line-height: 1em;
 }
 
 .heder-bottom-item {
@@ -82,6 +80,7 @@
   align-items: center;
   justify-content: center;
   margin-left: 15%;
+  justify-content: right;
 }
 
 .header-right-box-login,
@@ -145,6 +144,7 @@
   font-size: 14px;
 
   justify-content: center;
+  align-items: center;
 }
 
 .profile-dropdown-box {
@@ -247,7 +247,7 @@
   z-index: 1;
   max-height: 200px;
   overflow-y: auto;
-  margin: 10px 0px 0px 50px;
+  margin-top: 5px;
 }
 
 .category-dropdown-item {
@@ -263,4 +263,26 @@
 
 .category-dropdown-item:hover {
   background-color: #bbbbbb35;
+}
+
+.header-logo-right,
+.header-menu-box,
+.header-right-box {
+  user-select: none; /* 텍스트 선택 비활성화 */
+  -webkit-user-select: none; /* Safari 및 Chrome 같은 WebKit 기반 브라우저에서 텍스트 선택 비활성화 */
+  -moz-user-select: none; /* Firefox에서 텍스트 선택 비활성화 */
+  -ms-user-select: none; /* Internet Explorer에서 텍스트 선택 비활성화 */
+}
+
+.header-menu-box {
+  margin-left: 60px;
+}
+
+.header-menu-navigation {
+  display: flex;
+  cursor: pointer;
+}
+
+.header-right-box-nickName {
+  font-size: 16px;
 }

@@ -26,6 +26,10 @@
 .comment-item-detail {
   font-size: 17px;
   padding-left: 5px;
+
+  word-wrap: break-word; /* 벗어나는 영역 줄바꿈 */
+  white-space: pre-wrap; /* 사용자가 입력한 내용을 공백과 줄바꿈을 유지 */
+  margin: 10px 0px 30px 0px;
 }
 
 .comment-item-date {

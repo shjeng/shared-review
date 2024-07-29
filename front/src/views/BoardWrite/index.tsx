@@ -1,15 +1,24 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "./style.css";
-import React, {ChangeEvent, KeyboardEvent, useEffect, useRef, useState,} from "react";
-import {Editor} from "@toast-ui/react-editor";
-import {BACK_DOMAIN, getCategorysReqeust, postBoard} from "../../apis";
-import {GetCategorysResponseDto, PostBoardWriteResponseDto,} from "../../apis/response/board";
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Editor } from "@toast-ui/react-editor";
+import { BACK_DOMAIN, getCategorysReqeust, postBoard } from "../../apis";
+import {
+  GetCategorysResponseDto,
+  PostBoardWriteResponseDto,
+} from "../../apis/response/board";
 import ResponseDto from "../../apis/response/response.dto";
-import {Category} from "../../types/interface";
-import {BoardWriteRequestDto} from "../../apis/request/board";
-import {useCookies} from "react-cookie";
-import {useNavigate} from "react-router-dom";
-import {BOARD_DETAIL, MAIN_PATH} from "../../constant";
+import { Category } from "../../types/interface";
+import { BoardWriteRequestDto } from "../../apis/request/board";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import { BOARD_DETAIL, MAIN_PATH } from "../../constant";
 import loginUserStore from "../../store/login-user.store";
 import axios from "axios";
 
@@ -17,6 +26,8 @@ const BoardWrite = () => {
   const [cookies, seetCookies] = useCookies();
   const navigator = useNavigate();
   const titleRef = useRef<HTMLInputElement | null>(null);
+  const dropdownRef = useRef<HTMLInputElement | null>(null);
+
   const tagRef = useRef<HTMLInputElement | null>(null);
   const { loginUser } = loginUserStore();
 
@@ -49,20 +60,22 @@ const BoardWrite = () => {
       editorRef.current.getInstance().removeHook("addImageBlobHook");
 
       // 새 Image Import Hook 생성
-      editorRef.current.getInstance().addHook("addImageBlobHook", (blob, callback) => {
-        (async () => {
-          const formData = new FormData();
-          formData.append("file", blob);
-          const data = await axios.post(
+      editorRef.current
+        .getInstance()
+        .addHook("addImageBlobHook", (blob, callback) => {
+          (async () => {
+            const formData = new FormData();
+            formData.append("file", blob);
+            const data = await axios.post(
               `${BACK_DOMAIN()}/file/save/temp/image`,
-              formData,
-          );
+              formData
+            );
             console.log(data);
-          callback(data.data.savedName, "image");
-        })();
+            callback(data.data.savedName, "image");
+          })();
 
-        return false;
-      });
+          return false;
+        });
     }
   }, [editorRef]);
 
@@ -104,6 +117,18 @@ const BoardWrite = () => {
 
   // 작성 버튼 클릭
   const onSubmit = () => {
+    if (title.length > 30) {
+      alert("띄어쓰기를 포함해 제목을 30글자 이하로 작성해주세요.");
+      return;
+    } else if (!title.trim()) {
+      alert("제목을 입력해주세요.");
+      return;
+    } else if (dropdownRef.current?.textContent === "카테고리") {
+      alert("카테고리를 선택해주세요.");
+      return;
+    }
+    // + else if() 로 에디터 본문 내용이 없을때 alert해주기.
+
     const content2 = editorRef.current?.getInstance().getMarkdown();
     if (!title) {
       titleRef.current?.focus();
@@ -176,6 +201,10 @@ const BoardWrite = () => {
 
   // tag의 X버튼 누르면
 
+  // const onTest = () => {
+  //   alert(title.length);
+  // };
+
   return (
     <div id="board-write-wrap" onClick={handleClickOutside}>
       <div className="board-write-top">
@@ -185,11 +214,13 @@ const BoardWrite = () => {
           <div className="board-category" ref={searchInputRef}>
             <div className="board-dropdown-box" onClick={toggleDropdown}>
               {category ? (
-                <div className="board-dropdown-text">
+                <div className="board-dropdown-text" ref={dropdownRef}>
                   {category?.categoryName}
                 </div>
               ) : (
-                <div className="board-dropdown-text">카테고리</div>
+                <div className="board-dropdown-text" ref={dropdownRef}>
+                  카테고리
+                </div>
               )}
 
               <div className="board-dropdown-icon"></div>
@@ -216,6 +247,10 @@ const BoardWrite = () => {
           <div className="board-registered" onClick={onSubmit}>
             {"등록"}
           </div>
+          {/* 
+          <div className="board-registered" onClick={onTest}>
+            {"테스트"}
+          </div> */}
         </div>
       </div>
       <div className="board-write-mid">
@@ -224,6 +259,7 @@ const BoardWrite = () => {
             <input
               type="text"
               placeholder="제목을 입력해주세요."
+              value={title}
               ref={titleRef}
               onChange={onTitleChange}
             />
