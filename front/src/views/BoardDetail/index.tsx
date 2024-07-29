@@ -105,7 +105,10 @@ const BoardDetail = () => {
     setCategory(result.boardDetail.category);
     setComments(result.comments.content);
     setFavorites(result.favorites);
-    const fCheck = result.favorites.findIndex((favorite) => favorite.userEmail === loginUser?.email) !== -1;
+    const fCheck =
+      result.favorites.findIndex(
+        (favorite) => favorite.userEmail === loginUser?.email
+      ) !== -1;
     setFavoriteCheck(fCheck);
     setWriter(result.user);
     setTags(result.tags);
@@ -150,7 +153,7 @@ const BoardDetail = () => {
       boardId: boardId,
       content: comment,
     };
-    setComment('');
+    setComment("");
     commentWrite(requestBody, cookies.accessToken).then(commentWriteResponse);
   };
   const commentWriteResponse = (
@@ -166,7 +169,6 @@ const BoardDetail = () => {
     setCurrentPage(commentWriteResponse.comments.pageable.pageNumber + 1);
     setTotalCount(commentWriteResponse.comments.totalElements);
     setCommentCount(commentWriteResponse.comments.totalElements);
-
   };
   //      event handler: 게시글 목록 클릭 이벤트 처리 함수       //
   const onBoardListClickHandler = () => {
@@ -338,7 +340,10 @@ const BoardDetail = () => {
               <div className="board-detail-comment-write">
                 <div className="board-detail-comment-write-box">
                   <textarea
-                    className={"board-detail-comment-textarea" + (commentError ? " error" : "")}
+                    className={
+                      "board-detail-comment-textarea" +
+                      (commentError ? " error" : "")
+                    }
                     placeholder="댓글을 입력해주세요."
                     maxLength={255}
                     rows={4}
@@ -378,18 +383,17 @@ const BoardDetail = () => {
               </>
             ))}
           </div>
-          {comments.length !== 0 &&
-              <Pagination
-                  currentPage={currentPage}
-                  currentSection={currentSection}
-                  setCurrentPage={setCurrentPage}
-                  totalSection={totalSection}
-                  countPerPage={countPerPage}
-                  pageList={pageList}
-                  pageClick={pageButtonClick}
-              ></Pagination>
-          }
-
+          {comments.length !== 0 && (
+            <Pagination
+              currentPage={currentPage}
+              currentSection={currentSection}
+              setCurrentPage={setCurrentPage}
+              totalSection={totalSection}
+              countPerPage={countPerPage}
+              pageList={pageList}
+              pageClick={pageButtonClick}
+            ></Pagination>
+          )}
         </div>
       </div>
       <div className="board-list-btn-container">
@@ -399,17 +403,17 @@ const BoardDetail = () => {
               className="del-btn board-list-btn"
               onClick={onBoardListClickHandler}
             >
-              삭제
+              게시글 삭제
             </div>
             <div
               className="update-btn board-list-btn"
               onClick={onBoardListClickHandler}
             >
-              수정
+              게시글 수정
             </div>
           </>
         )}
-        <div className="board-list-btn" onClick={commentSubmitBtnClick}>
+        <div className="board-list-btn" onClick={onBoardListClickHandler}>
           목록으로
         </div>
       </div>

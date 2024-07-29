@@ -182,7 +182,7 @@ const Header = () => {
       <div className="header-top-box">
         <div className="header-left-box" onClick={onLogoClickHandler}>
           <div className="header-icon"></div>
-          <div>
+          <div className="header-logo-right">
             <div className="header-logo">
               <span style={{ color: "black" }}>S</span>hared
             </div>
@@ -192,9 +192,9 @@ const Header = () => {
           </div>
         </div>
 
-        <div ref={categoryDropRef}>
+        <div className="header-menu-box" ref={categoryDropRef}>
           <div
-            style={{ display: "flex", cursor: "pointer", marginLeft: "30px" }}
+            className="header-menu-navigation"
             onClick={toggleCategoryDropdown}
           >
             <div className="header-category-box">{"CATEGORY"}</div>
@@ -282,11 +282,7 @@ const Header = () => {
         </div>
         {loginUser ? (
           <>
-            <div
-              className="header-right-box"
-              style={{ justifyContent: "right" }}
-              onClick={profileDropdown}
-            >
+            <div className="header-right-box" onClick={profileDropdown}>
               <div className="profile-dropdown-box">
                 {loginUser.profileImage ? (
                   <div

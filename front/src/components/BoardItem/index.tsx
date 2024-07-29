@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.css";
 import { Board } from "../../types/interface";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,6 +12,10 @@ const BoardItem = ({ board }: Props) => {
   const detailView = () => {
     navigator(BOARD_DETAIL(board.boardId));
   };
+
+  useEffect(() => {
+    console.log(board);
+  }, [board]);
   return (
     <div id="board-item-wrap" onClick={detailView}>
       <div className="board-item-top-box">{/* 이미지 넣는건가 */}</div>
