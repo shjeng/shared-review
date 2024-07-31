@@ -247,8 +247,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseDto  favorite(Long boardId,Boolean favoriteCheck, String email) {
+    public ResponseDto favorite(Long boardId,Boolean favoriteCheck, String email) {
         try {
+            System.out.println("boardId : " + boardId);
+            System.out.println("favoriteCheck : " + favoriteCheck);
+            System.out.println("email : " + email);
+
+
             if (favoriteCheck) {
                 int deleted = favoriteRepoService.delete(boardId, email);
             } else {

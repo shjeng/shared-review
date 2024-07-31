@@ -126,8 +126,10 @@ const BoardWrite = () => {
     } else if (dropdownRef.current?.textContent === "카테고리") {
       alert("카테고리를 선택해주세요.");
       return;
+    } else if (!contentHtml?.replace(/<[^>]*>/g, "").trim()) {
+      alert("내용을 입력해주세요.");
+      return;
     }
-    // + else if() 로 에디터 본문 내용이 없을때 alert해주기.
 
     const content2 = editorRef.current?.getInstance().getMarkdown();
     if (!title) {

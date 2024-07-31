@@ -22,4 +22,14 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
     @Query("SELECT f FROM Favorite f WHERE f.board.boardId =:boardId AND f.user.email =:email")
     Optional<Favorite> findByBoardIdEmail(@Param("boardId") Long boardId, @Param("email") String email);
+
+    // 증가
+    @Modifying
+    @Query("UPDATE Board b SET b.favoriteCount = b.favoriteCount + 1 WHERE b.id = :boardId")
+    void incrementFavoriteCount(@Param("boardId") Long boardId);
+
+    // 삭제
+    @Modifying
+    @Query("UPDATE Board b SET b.favoriteCount = b.favoriteCount - 1 WHERE b.id = :boardId")
+    void decrementFavoriteCount(@Param("boardId") Long boardId);
 }

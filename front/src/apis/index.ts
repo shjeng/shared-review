@@ -2,16 +2,16 @@ import axios from "axios";
 import SignInRequestDto from "./request/auth/sign-in-request.dto";
 import SignInResponseDto from "./response/auth/sign-in.response.dto";
 import ResponseDto from "./response/response.dto";
-import {SignUpRequestDto} from "./request/auth";
+import { SignUpRequestDto } from "./request/auth";
 import SignUpResponseDto from "./response/auth/sign-up-response.dto";
-import {NicknameDupleChkResponseDto} from "./response/auth";
-import {GetUserResponseDto} from "./response/user";
-import {BoardWriteRequestDto, CommentWriteRequestDto} from "./request/board";
+import { NicknameDupleChkResponseDto } from "./response/auth";
+import { GetUserResponseDto } from "./response/user";
+import { BoardWriteRequestDto, CommentWriteRequestDto } from "./request/board";
 import {
-    BoardListResponse,
-    CommentResponseDto,
-    GetCategorysResponseDto,
-    PostBoardWriteResponseDto,
+  BoardListResponse,
+  CommentResponseDto,
+  GetCategorysResponseDto,
+  PostBoardWriteResponseDto,
 } from "./response/board";
 import GetBoardDetailResponseDto from "./response/board/get-board-detail.response.dto";
 import GetAdminCategorysResponseDto from "./response/board/get-admin-categorys-response.dto";
@@ -19,8 +19,8 @@ import GetAdminBoardResponseDto from "./response/board/get-admin-board-list-resp
 import GetUserListResponseDto from "./response/user/get-user-list-response.dto";
 import IncreaseViewCountResponseDto from "./response/board/increase-view-count.response.dto";
 import CategoryWriteRequestDto from "./request/board/category-write-reqeust.dto";
-import {FileResponseDto} from "./response/file";
-import {Board} from "../types/interface";
+import { FileResponseDto } from "./response/file";
+import { Board } from "../types/interface";
 import Pageable from "../types/interface/pageable.interface";
 
 const DOMAIN = "http://localhost:8080";
@@ -57,15 +57,15 @@ const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
 // ===  Get  ===
 const SEARCH_URL = () => `${API_DOMAIN}/board/search`;
 export const searchRequest = async (params: {}) => {
-    return await axios.get(SEARCH_URL(), {params: {...params}})
-      .then((response) => {
-          const responseBody: Pageable<Board> = response.data;
-          return responseBody;
-
-      })
-      .catch((error) => {
-          return errorResponse(error);
-      });
+  return await axios
+    .get(SEARCH_URL(), { params: { ...params } })
+    .then((response) => {
+      const responseBody: Pageable<Board> = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
 };
 
 // 로그인 요청
@@ -142,8 +142,12 @@ export const nicknameDuplChkRequest = async (nickname: string) => {
 
 // 파일 저장
 const SAVE_IMAGE = () => `${DOMAIN}/file/save/temp/image`;
-export const saveTempImage = async (accessToken: string, file: FormData | null | undefined) => {
-  return await axios.post(SAVE_IMAGE(), file, {
+export const saveTempImage = async (
+  accessToken: string,
+  file: FormData | null | undefined
+) => {
+  return await axios
+    .post(SAVE_IMAGE(), file, {
       ...tokenAndPageConfig.multipartAndToken(accessToken),
     })
     .then((response) => {
@@ -377,7 +381,6 @@ export const getAdminBoardSearchReqeust = async (
   return result;
 };
 
-
 // 유저 페이지
 const INCREASE_VIEW_COUNT_REQUEST = (boardId: string | bigint) =>
   `${API_DOMAIN}/board/increase-view-count/${boardId}`;
@@ -538,7 +541,11 @@ export const favoriteBoard = async (
   const result = await axios
     .patch(FAVORITE(boardId), requestDto, tokenAndPageConfig.token(accessToken))
     .then((response) => {
+      JSON.stringify("받아온 데이터 : " + response, null, 2);
+      console.log(response);
+
       const responseBody: GetBoardDetailResponseDto = response.data;
+
       return responseBody;
     })
     .catch((error) => {
@@ -648,11 +655,10 @@ export const signOutRequest = async (token: string) => {
 };
 
 const errorResponse = (error: null | any) => {
-    if (!error) return null;
-    const responseBody: ResponseDto = error.response.data;
-    return responseBody;
+  if (!error) return null;
+  const responseBody: ResponseDto = error.response.data;
+  return responseBody;
 };
-
 
 const TOKEN_URL = () => `${API_DOMAIN}/auth/validate-token`;
 export const checkAccessTokenValidity = async (

@@ -73,6 +73,26 @@ const BoardDetail = () => {
     setTotalCount,
     setCountPerItem,
   } = usePagination(countPerPage);
+
+  useEffect(() => {
+    if (!boardId) return;
+    if (effectFlag) {
+      effectFlag = false;
+      return;
+    }
+    increaseViewCountRequest(boardId).then(increaseViewCountResponse);
+  }, [boardId]);
+  const increaseViewCountResponse = (
+    response: IncreaseViewCountResponseDto | ResponseDto | null
+  ) => {
+    const result = ResponseUtil(response);
+    if (!result) {
+      return;
+    }
+    const increaseViewCountResult = result as IncreaseViewCountResponseDto;
+    setViewCount(increaseViewCountResult.viewCount);
+  };
+
   //  처름 렌더링 될 때
   useEffect(() => {
     if (!boardId) {
@@ -195,24 +215,7 @@ const BoardDetail = () => {
   };
 
   let effectFlag = true;
-  useEffect(() => {
-    if (!boardId) return;
-    if (effectFlag) {
-      effectFlag = false;
-      return;
-    }
-    increaseViewCountRequest(boardId).then(increaseViewCountResponse);
-  }, [boardId]);
-  const increaseViewCountResponse = (
-    response: IncreaseViewCountResponseDto | ResponseDto | null
-  ) => {
-    const result = ResponseUtil(response);
-    if (!result) {
-      return;
-    }
-    const increaseViewCountResult = result as IncreaseViewCountResponseDto;
-    setViewCount(increaseViewCountResult.viewCount);
-  };
+
   const favoriteBtnClick = () => {
     if (!boardId) {
       return;
