@@ -73,14 +73,14 @@
 }
 
 .header-right-box {
-  font-size: 13px;
-  width: 220px;
   height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 15%;
+  margin-left: auto;
   justify-content: right;
+
+  position: relative; /* 기준점을 설정 */
 }
 
 .header-right-box-login,
@@ -214,24 +214,24 @@
 }
 
 .profile-dropdown-content {
-  margin-top: 10px;
-  position: absolute;
   background-color: #f9f9f9;
   border: 1px solid rgba(0, 0, 0, 0.134);
   border-radius: 5px;
-  min-width: 120px;
   z-index: 1;
   max-height: 200px;
-  overflow-y: auto;
-  top: 6%;
+
+  position: absolute; /* 상대적으로 위치 설정 */
+  top: 100%; /* div2 바로 아래에 위치 */
+  left: 0; /* 왼쪽 정렬 */
+  min-width: 160px; /* 최소 너비 설정 */
 }
 
 .profile-dropdown-content-item {
-  height: 40px;
   line-height: 3.2em;
-  padding-left: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.134);
+  padding-left: 16px;
   cursor: pointer;
+  color: rgba(34, 34, 34, 0.8);
+  font-weight: 500;
 }
 
 .profile-dropdown-content-item:hover {

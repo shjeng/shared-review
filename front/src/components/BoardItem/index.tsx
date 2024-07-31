@@ -13,9 +13,6 @@ const BoardItem = ({ board }: Props) => {
     navigator(BOARD_DETAIL(board.boardId));
   };
 
-  useEffect(() => {
-    console.log(board);
-  }, [board]);
   return (
     <div id="board-item-wrap" onClick={detailView}>
       <div className="board-item-top-box">{/* 이미지 넣는건가 */}</div>
