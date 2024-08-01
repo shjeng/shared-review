@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface BoardService {
     ResponseDto getBoardListLatest();
-    ResponseDto getFaoviteBoardTop3(String condition);
+    ResponseDto getFavoriteBoardTop3(String condition);
 
     ResponseDto findBoardByUserEmail(String userEmail, Pageable pageable);
 

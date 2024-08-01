@@ -17,7 +17,7 @@ public class FavoriteRepoService {
 
     @Transactional
     public void save(Favorite favorite) {
-        // FAVORITE 테이블 데이터 생성
+        // FAVORITE 테이블에 컬럼 생성
         favoriteRepository.save(favorite);
 
         // 게시물 좋아요 카운터 증가
@@ -27,7 +27,8 @@ public class FavoriteRepoService {
     @Transactional
     public int delete(Long boardId, String email) {
         int deletedCount = favoriteRepository.deleteFavoriteByBoardIdEmail(boardId, email);
-        // 게시물 좋아요 감소
+        // deletedCount는 삭제된 컬럼 수
+        // deletedCount가 0보다 크다는거는 정상적으로 삭제됨. => 게시물 좋아요 감소
         if (deletedCount > 0) {
             favoriteRepository.decrementFavoriteCount(boardId);
         }

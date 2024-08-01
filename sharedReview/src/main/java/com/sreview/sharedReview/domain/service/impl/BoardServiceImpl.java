@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class BoardServiceImpl implements BoardService {
     private final CommentRepoService commentRepoService;
     // get
     @Override
-    public ResponseDto getFaoviteBoardTop3(String condition) {
+    public ResponseDto getFavoriteBoardTop3(String condition) {
         try {
             List<Board> favoriteBoardTop3 = new ArrayList<>();
             List<BoardDto> list = new ArrayList<>();
@@ -49,6 +50,9 @@ public class BoardServiceImpl implements BoardService {
                 favoriteBoardTop3 = boardRepoService.findFavoriteBoardTop3(condition);
             }
             list = favoriteBoardTop3.stream().map(l -> new BoardDto().of(l)).toList();
+
+            System.out.println("클라이언트로 보내는 list값 : " + list);
+            System.out.println("클라이언트로 보내는 condition값 : " + condition);
             return BoardListResponse.success(list, condition);
         } catch (Exception e) {
             e.printStackTrace();
@@ -220,6 +224,12 @@ public class BoardServiceImpl implements BoardService {
             List<Tag> tags = tagRepoService.findAllByBoard(board);
             tags.stream().map(t -> new TagDto().ofEntity(t));
 
+            long commentCount = comments.getTotalElements();
+
+
+            System.out.println("보내는 값 : userDto : " + userDto+ ", boardDetailDto : " + boardDetailDto+ ", commentDtos : " +
+                    commentDtos+ ", favoriteDtos : " + favoriteDtos+ ", tagDtos : " +tagDtos+ ", commentCount : " + commentCount);
+
             return BoardDetailResponse.success(userDto, boardDetailDto, commentDtos, favoriteDtos,tagDtos);
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,11 +259,6 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseDto favorite(Long boardId,Boolean favoriteCheck, String email) {
         try {
-            System.out.println("boardId : " + boardId);
-            System.out.println("favoriteCheck : " + favoriteCheck);
-            System.out.println("email : " + email);
-
-
             if (favoriteCheck) {
                 int deleted = favoriteRepoService.delete(boardId, email);
             } else {
@@ -341,6 +346,13 @@ public class BoardServiceImpl implements BoardService {
 
             Page<Comment> commentsByBoard = commentRepoService.findCommentsByBoard(board, pageable);
             Page<CommentDto> result = commentsByBoard.map(c -> CommentDto.of(c, UserDto.of(c.getUser())));
+
+
+//            long count = result.getTotalElements();
+//            comment = new Comment(count, board);
+////            Comment commentCount = new Comment(count, board);
+//            commentRepoService.update(count, board);
+
             return CommentResponse.success(result);
         } catch (Exception e) {
             e.printStackTrace();

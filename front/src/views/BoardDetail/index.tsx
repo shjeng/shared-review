@@ -101,7 +101,7 @@ const BoardDetail = () => {
       return;
     }
     getBoardRequest(boardId).then(getBoardResponse);
-  }, [boardId]);
+  }, [boardId, loginUser]);
   const getBoardResponse = (
     responseBody: GetBoardDetailResponseDto | ResponseDto | null
   ) => {
@@ -318,7 +318,6 @@ const BoardDetail = () => {
           <div className="board-detail-interactions">
             <div className="board-detail-like">
               {favoriteCheck ? (
-                // <div className="board-deatil-like-icon" onClick={favoriteBtnClick}></div> :
                 <div
                   className="board-deatil-like-on-icon"
                   onClick={favoriteBtnClick}
