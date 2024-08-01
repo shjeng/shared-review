@@ -54,7 +54,7 @@ public class BoardController {
 
     @GetMapping("/favoriteTop3")
     public ResponseEntity<? super BoardListResponse> getFavoriteBoardTop3(@RequestParam("dateCondition") String condition) {
-        return ResponseEntity.ok(boardServcice.getFaoviteBoardTop3(condition));
+        return ResponseEntity.ok(boardServcice.getFavoriteBoardTop3(condition));
     }
 
     @GetMapping("/get-list/favorite")

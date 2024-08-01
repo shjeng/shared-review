@@ -267,6 +267,10 @@ export const getBoardRequest = async (boardId: string | bigint) => {
     .get(GET_BOARD(boardId))
     .then((response) => {
       const responseBody: GetBoardDetailResponseDto = response.data;
+      console.log(
+        "서버에서 받아온 responseBody값 : ",
+        JSON.stringify(responseBody, null, 2)
+      );
       return responseBody;
     })
     .catch((error) => {
@@ -296,6 +300,10 @@ export const getFavoriteBoardTop3 = async (date: string) => {
     .get(GET_FAVORITE_BOARD_TOP3(), { params: { dateCondition: date } })
     .then((response) => {
       const responseBody: BoardListResponse = response.data;
+      console.log(
+        "서버에서 받아온 responseBody값 : ",
+        JSON.stringify(responseBody, null, 2)
+      );
       return responseBody;
     })
     .catch((error) => {
@@ -505,6 +513,8 @@ export const commentWrite = async (
     // .post(COMMENT_WRITE(), requestBody, authorication(accessToken))
     .then((response) => {
       const responseBody: CommentResponseDto = response.data;
+
+      JSON.stringify("받아온 데이터 : " + responseBody, null, 2);
       return responseBody;
     })
     .catch((error) => {

@@ -5,15 +5,15 @@ import loginUserStore from "../../store/login-user.store";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { USER_BOARD } from "../../constant";
-import {deleteComment} from "../../apis";
-import {useCookies} from "react-cookie";
+import { deleteComment } from "../../apis";
+import { useCookies } from "react-cookie";
 import ResponseDto from "../../apis/response/response.dto";
-import {ResponseUtil} from "../../utils";
-import {AxiosResponse} from "axios";
+import { ResponseUtil } from "../../utils";
+import { AxiosResponse } from "axios";
 
 interface Props {
   comment: Comment;
-  reRenderComment: ()=>void;
+  reRenderComment: () => void;
 }
 
 const CommentItem = ({ comment, reRenderComment }: Props) => {
@@ -37,9 +37,18 @@ const CommentItem = ({ comment, reRenderComment }: Props) => {
     if (!loginUser) {
       return;
     }
-    deleteComment(comment.commentId,cookies.accessToken).then(deleteCommentResponse);
-  }
-  const deleteCommentResponse = (response: AxiosResponse | ResponseDto | null) => {
+
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      deleteComment(comment.commentId, cookies.accessToken).then(
+        deleteCommentResponse
+      );
+      alert("삭제되었습니다.");
+      window.location.reload();
+    }
+  };
+  const deleteCommentResponse = (
+    response: AxiosResponse | ResponseDto | null
+  ) => {
     if (!response) {
       return;
     }
@@ -47,8 +56,7 @@ const CommentItem = ({ comment, reRenderComment }: Props) => {
     if (result.status === 200) {
       reRenderComment();
     }
-
-  }
+  };
   return (
     <div className="comment-item-wrap">
       <div className="comment-item-top">
@@ -71,8 +79,12 @@ const CommentItem = ({ comment, reRenderComment }: Props) => {
           <div className="height-line"></div>
         </div>
         <div className="comment-item-date">{createDateTime}</div>
-        {loginUser?.email === comment.user.email &&
-        <div className="comment-item-delete pointer" onClick={deleteCommentClick}></div>}
+        {loginUser?.email === comment.user.email && (
+          <div
+            className="comment-item-delete pointer"
+            onClick={deleteCommentClick}
+          ></div>
+        )}
       </div>
 
       <div className="comment-item-detail">{comment.content}</div>
