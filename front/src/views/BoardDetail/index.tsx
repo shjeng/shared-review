@@ -237,7 +237,7 @@ const BoardDetail = () => {
       return;
     }
     const result = response as GetBoardDetailResponseDto;
-    alert(result.favoriteCount);
+    // alert(result.favoriteCount);
     setFavoriteCheck(result.favoriteCheck);
     setFavoriteCount(result.favoriteCount);
   };

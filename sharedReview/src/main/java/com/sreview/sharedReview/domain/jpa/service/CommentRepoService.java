@@ -39,8 +39,8 @@ public class CommentRepoService {
         return optional.get();
     }
 
-//    @Transactional
-//    public void update(long count, Board board) {
-//        commentRepository.update(commentCount);
-//    }
+    @Transactional
+    public void updateCommentCount(long board,long count) {
+        commentRepository.updateCommentCount(board, count);
+    }
 }

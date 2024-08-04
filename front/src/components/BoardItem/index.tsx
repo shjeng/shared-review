@@ -15,13 +15,7 @@ const BoardItem = ({ board }: Props) => {
 
   return (
     <div id="board-item-wrap" onClick={detailView}>
-      <div className="board-item-top-box">{/* 이미지 넣는건가 */}</div>
-
-      <div className="board-item-middle-box">
-        <div className="board-item-title">{board.title}</div>
-      </div>
-
-      <div className="board-item-bottom-box">
+      <div className="board-item-top-box">
         <div className="board-item-profile">
           {board.user.profileImage ? (
             <div
@@ -33,19 +27,29 @@ const BoardItem = ({ board }: Props) => {
           )}
           <div className="board-item-write-box">
             <div className="board-item-nickname">{board.user.nickname}</div>
-            <div className="board-item-write-date">{board.updateDateTime}</div>
+            <div className="board-item-write-date">
+              {new Date(board.writeDateTime).toISOString().split("T")[0]}
+            </div>
           </div>
         </div>
 
-        <div className="board-item-counts">
-          <div className="comment-count-box">
-            <div className="comment-count-image"></div>
-            <div className="comment-count">{board.commentCount}</div>
-          </div>
+        {/* 백에서 카테고리 받아오기 {board.category}*/}
+        <div className="board-item-category">카테고리1</div>
+      </div>
 
+      <div className="board-item-middle-box">{/* 이미지 넣는건가 */}</div>
+
+      <div className="board-item-bottom-box">
+        <div className="board-item-title">{board.title}</div>
+        <div className="board-item-counts">
           <div className="like-count-box">
             <div className="like-count-image"></div>
             <div className="like-count">{board.favoriteCount}</div>
+          </div>
+
+          <div className="comment-count-box">
+            <div className="comment-count-image"></div>
+            <div className="comment-count">{board.commentCount}</div>
           </div>
 
           <div className="view-count-box">
