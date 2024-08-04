@@ -347,11 +347,14 @@ public class BoardServiceImpl implements BoardService {
             Page<Comment> commentsByBoard = commentRepoService.findCommentsByBoard(board, pageable);
             Page<CommentDto> result = commentsByBoard.map(c -> CommentDto.of(c, UserDto.of(c.getUser())));
 
+            System.out.println("댓글 작성버튼 누르고 클라이언트에 보낼 result값 : "+result);
 
-//            long count = result.getTotalElements();
+
+            long count = result.getTotalElements();
+
 //            comment = new Comment(count, board);
-////            Comment commentCount = new Comment(count, board);
-//            commentRepoService.update(count, board);
+//            Comment commentCount = new Comment(count, board);
+            commentRepoService.updateCommentCount(board.getBoardId(),count);
 
             return CommentResponse.success(result);
         } catch (Exception e) {

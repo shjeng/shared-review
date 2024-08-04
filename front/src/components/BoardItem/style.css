@@ -8,7 +8,7 @@
   cursor: pointer;
 }
 
-.board-item-top-box {
+.board-item-middle-box {
   height: 380px;
 }
 
@@ -23,13 +23,13 @@
 
 .board-item-profile {
   width: 120px;
-  margin-top: 10px;
 }
 
-.board-item-bottom-box {
+.board-item-top-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .board-item-profile,
@@ -55,7 +55,7 @@
 }
 
 .view-count-image {
-  width: 40px;
+  width: 30px;
   height: 20px;
   background-image: url(../../assets/image/boarditem-view.png);
   background-size: 100% 100%;
@@ -87,10 +87,10 @@
 .view-count-box {
   display: flex;
   align-items: center; /* 세로 정렬 중앙으로 */
-  width: 50px;
   font-size: 16px;
+  margin-left: 10px;
 }
 
-.board-item-counts {
-  margin-top: 10px;
+.board-item-write-date {
+  font-size: 14px;
 }
