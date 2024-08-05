@@ -65,13 +65,6 @@
   background-size: cover;
 }
 
-.board-item-middle-box {
-  background-image: url(../../assets/image/default-img2.png);
-  background-position: center;
-  background-size: cover;
-  border-radius: 10px;
-}
-
 .list-write-title {
   font-size: 25px;
   margin: 40px 0px;

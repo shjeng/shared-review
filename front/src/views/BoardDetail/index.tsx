@@ -122,7 +122,7 @@ const BoardDetail = () => {
     setContent(result.boardDetail.content);
     setViewCount(result.boardDetail.viewCount);
     setUpdateDateTime(result.boardDetail.updateDateTime);
-    setCategory(result.boardDetail.category);
+    setCategory(result.boardDetail.category.categoryName);
     setComments(result.comments.content);
     setFavorites(result.favorites);
     const fCheck =

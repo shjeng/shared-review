@@ -22,6 +22,7 @@ public class BoardDto {
     private LocalDateTime writeDateTime;
     private UserDto user;
     private List<TagDto> tags;
+    private CategoryDto category;
     public BoardDto of(Board board){
         this.boardId = board.getBoardId();
         this.title = board.getTitle();
@@ -33,6 +34,11 @@ public class BoardDto {
         user = UserDto.of(board.getUser());
         List<BoardTag> boardTag = board.getBoardTag();
         tags = boardTag.stream().map(bt -> new TagDto().ofEntity(bt.getTag())).toList();
+
+        if (board.getCategory() != null) {
+            this.category = new CategoryDto().of(board.getCategory());
+        }
+
         return this;
     }
 }

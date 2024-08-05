@@ -53,6 +53,22 @@ public class BoardServiceImpl implements BoardService {
 
             System.out.println("클라이언트로 보내는 list값 : " + list);
             System.out.println("클라이언트로 보내는 condition값 : " + condition);
+
+// ======두번째 예시======================================================================================================
+
+//            commentRepoService.updateCommentCount(,count);
+
+
+// ======첫번째 예시======================================================================================================
+
+//            Long boardId;
+//            Board board = boardRepoService.findBoardById(boardId);
+//            Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC,"id"));
+//
+//            Page<Comment> comments = commentRepoService.findCommentsByBoard(board, pageable);
+//            long commentCount = comments.getTotalElements();
+// =====================================================================================================================
+
             return BoardListResponse.success(list, condition);
         } catch (Exception e) {
             e.printStackTrace();
