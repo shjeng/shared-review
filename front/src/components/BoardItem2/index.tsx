@@ -32,7 +32,9 @@ const BoardItem2 = ({ board }: Props) => {
           <div className="recent-board-item-nickname">
             {board.user.nickname}
           </div>
-          <div className="recent-board-item-category">{board.category}</div>
+          <div className="recent-board-item-category">
+            {board.category.categoryName}
+          </div>
           <div className="recent-board-item-timeInfo">
             {new Date(board.writeDateTime).toISOString().split("T")[0]}
           </div>
