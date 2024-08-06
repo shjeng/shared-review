@@ -18,11 +18,19 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("SELECT c FROM Comment c WHERE c.board.boardId =:boardId AND c.deleteStatus = 'N'")
     Page<Comment> findCommentsByBoardId(@Param("boardId") Long boardId, Pageable pageable);
 
-//    @Query("SELECT c FROM Comment c WHERE c.board.boardId =:boardId AND c.deleteStatus = 'N'")
-//    Page<Comment> updateCommentCount(@Param("boardId") Board board,long count);
 
+    // 댓글 작성시 사용
     @Modifying
     @Query("UPDATE Board b SET b.commentCount = :commentCount WHERE b.boardId = :boardId")
     void updateCommentCount(@Param("boardId") Long boardId, @Param("commentCount") long commentCount);
 
+    // 처음 조회시 사용
+    @Modifying
+    @Query("UPDATE Board b SET b.commentCount = b.commentCount + 1 WHERE b.boardId = :boardId")
+    void updateCommentCount(@Param("boardId") Long boardId);
+
+    // 댓글 갯수 감소
+    @Modifying
+    @Query("UPDATE Board b SET b.commentCount = b.commentCount - 1 WHERE b.id = :boardId")
+    void decrementCommentCount(@Param("boardId") Long boardId);
 }
