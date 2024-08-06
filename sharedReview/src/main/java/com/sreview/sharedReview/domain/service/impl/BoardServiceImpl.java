@@ -54,21 +54,6 @@ public class BoardServiceImpl implements BoardService {
             System.out.println("클라이언트로 보내는 list값 : " + list);
             System.out.println("클라이언트로 보내는 condition값 : " + condition);
 
-// ======두번째 예시======================================================================================================
-
-//            commentRepoService.updateCommentCount(,count);
-
-
-// ======첫번째 예시======================================================================================================
-
-//            Long boardId;
-//            Board board = boardRepoService.findBoardById(boardId);
-//            Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC,"id"));
-//
-//            Page<Comment> comments = commentRepoService.findCommentsByBoard(board, pageable);
-//            long commentCount = comments.getTotalElements();
-// =====================================================================================================================
-
             return BoardListResponse.success(list, condition);
         } catch (Exception e) {
             e.printStackTrace();
@@ -363,13 +348,7 @@ public class BoardServiceImpl implements BoardService {
             Page<Comment> commentsByBoard = commentRepoService.findCommentsByBoard(board, pageable);
             Page<CommentDto> result = commentsByBoard.map(c -> CommentDto.of(c, UserDto.of(c.getUser())));
 
-            System.out.println("댓글 작성버튼 누르고 클라이언트에 보낼 result값 : "+result);
-
-
             long count = result.getTotalElements();
-
-//            comment = new Comment(count, board);
-//            Comment commentCount = new Comment(count, board);
             commentRepoService.updateCommentCount(board.getBoardId(),count);
 
             return CommentResponse.success(result);

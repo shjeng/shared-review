@@ -118,6 +118,7 @@
 
 .board-item-counts {
   justify-content: space-between;
+  margin-bottom: 5px;
 }
 
 .board-item-bottom-box {

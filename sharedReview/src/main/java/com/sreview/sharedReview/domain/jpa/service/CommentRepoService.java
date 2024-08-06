@@ -21,6 +21,7 @@ public class CommentRepoService {
     @Transactional
     public void save(Comment comment){
         commentRepository.save(comment);
+        commentRepository.updateCommentCount(comment.getBoard().getBoardId());
     }
 
     public Page<Comment> findCommentsByBoard(Board board, Pageable pageable){return commentRepository.findCommentsByBoard(board, pageable);}
@@ -30,6 +31,8 @@ public class CommentRepoService {
         Optional<Comment> byId = commentRepository.findById(commentId);
         Comment comment = optinalChk(byId);
         comment.delete();
+        // 삭제 후 board 테이블에 해당 게시물 comment_count 갯수 감수
+        commentRepository.decrementCommentCount(comment.getBoard().getBoardId());
     }
 
     private Comment optinalChk(Optional<Comment> optional){
@@ -39,6 +42,7 @@ public class CommentRepoService {
         return optional.get();
     }
 
+    // 댓글 작성 후 해당 게시물 댓글 총 댓글 수 업데이트
     @Transactional
     public void updateCommentCount(long board,long count) {
         commentRepository.updateCommentCount(board, count);

@@ -146,6 +146,8 @@ export const saveTempImage = async (
   accessToken: string,
   file: FormData | null | undefined
 ) => {
+  console.log("SAVE_IMAGE 실행");
+  alert("SAVE_IMAGE 실행");
   return await axios
     .post(SAVE_IMAGE(), file, {
       ...tokenAndPageConfig.multipartAndToken(accessToken),
