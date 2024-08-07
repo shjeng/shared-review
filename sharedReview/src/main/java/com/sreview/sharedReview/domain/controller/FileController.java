@@ -29,7 +29,9 @@ public class FileController {
 
     @PostMapping(value = "/save/temp/image")
     public ResponseEntity<Map<String, String>> uploadTempImage(@RequestParam("file") MultipartFile file) {
+        System.out.println("이미지 첨부 백엔드 실행. 클라이언트에서 받아온 데이터 : " + file.toString());
         Map<String, String> result = Map.of("savedName", fileService.uploadTempImage(file));
+        System.out.println("클라이언트로 보내줄 데이터 : " + result);
         return ResponseEntity.ok(result) ;
     }
     @PostMapping(value = "/save/image")
