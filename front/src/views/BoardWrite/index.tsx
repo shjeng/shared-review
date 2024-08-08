@@ -66,7 +66,6 @@ const BoardWrite = () => {
           (async () => {
             const formData = new FormData();
             formData.append("file", blob);
-            alert("69줄");
             const data = await axios.post(
               `${BACK_DOMAIN()}/file/save/temp/image`,
               formData
