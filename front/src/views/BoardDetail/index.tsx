@@ -100,7 +100,10 @@ const BoardDetail = () => {
       navigator(MAIN_PATH());
       return;
     }
-    getBoardRequest(boardId).then(getBoardResponse);
+    getBoardRequest(boardId).then((response) => {
+      console.log("Board Content:", response);
+      getBoardResponse(response);
+    });
   }, [boardId, loginUser]);
   const getBoardResponse = (
     responseBody: GetBoardDetailResponseDto | ResponseDto | null

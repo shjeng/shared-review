@@ -290,4 +290,5 @@
 .board-detail {
   white-space: pre-wrap; /* 공백과 줄바꿈을 유지하며 줄바꿈 */
   word-wrap: break-word; /* 긴 단어를 줄바꿈 */
+  height: 100px;
 }
