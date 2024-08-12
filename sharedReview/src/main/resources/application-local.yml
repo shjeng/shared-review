@@ -20,7 +20,7 @@ spring:
 #        이메일 인증 기능 구현하기 위한 데이터들
   mail:
     host: smtp.gmail.com # smtp.naver.com
-    port: 587 #  구글은 587
+    port: 587 #  구글은 587 git commot
     properties:
       mail:
         smtp:
