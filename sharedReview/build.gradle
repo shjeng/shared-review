@@ -61,9 +61,9 @@ def generated = 'src/main/generated' // 개발 단계에서는 gitignore에 gene
 tasks.withType(JavaCompile) {
 	options.generatedSourceOutputDirectory = file(generated)
 }
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
 
 //test {
 //	useJUnitPlatform()
