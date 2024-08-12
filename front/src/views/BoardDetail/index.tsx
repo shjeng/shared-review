@@ -31,6 +31,7 @@ import CommentItem from "../../components/CommentItem";
 import Pagination from "../../components/Pagination";
 import Pageable from "../../types/interface/pageable.interface";
 import usePagination from "../../hooks/pagination.hook";
+import { marked } from "marked";
 
 const BoardDetail = () => {
   const countPerPage = 5;
@@ -60,6 +61,7 @@ const BoardDetail = () => {
   const [commentError, setCommentError] = useState<boolean>(false);
 
   const [pageable, setPageable] = useState<Pageable<any> | undefined>();
+  const [contentMarkdown, setContentMarkdown] = useState<string>("");
 
   const {
     startPage,
@@ -143,6 +145,8 @@ const BoardDetail = () => {
     if (result.user.email === loginUser?.email) {
       setIsMyPost(true);
     }
+
+    setContentMarkdown(result.boardDetail.content);
   };
 
   // 닉네임 클릭 이벤트
@@ -247,6 +251,24 @@ const BoardDetail = () => {
   const deleteComment = () => {
     pageButtonClick(currentPage);
   };
+
+  const [renderedContent, setRenderedContent] = useState<string>("");
+
+  // 본문(마크다운 형식)의 데이터를 html형식으로 바꿔줌
+  useEffect(() => {
+    const renderMarkdown = async () => {
+      const rendered = await marked(contentMarkdown);
+      setRenderedContent(rendered);
+    };
+
+    renderMarkdown();
+  }, [contentMarkdown]);
+
+  //
+  const renderContent = () => {
+    return { __html: renderedContent };
+  };
+
   return (
     <div id="board-detail-wrap">
       <div className="board-detail-content">
@@ -293,7 +315,7 @@ const BoardDetail = () => {
         <div className="board-detail-mid">
           <div
             className="board-detail"
-            dangerouslySetInnerHTML={{ __html: content }}
+            dangerouslySetInnerHTML={renderContent()}
           ></div>
           <div className="border-detail-tag">
             {tags.map((tag) => (

@@ -26,6 +26,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ public class BoardServiceImpl implements BoardService {
     private final UserEntityService userEntityService;
     private final TagRepoService tagRepoService;
     private final CommentRepoService commentRepoService;
+    private final ImageRepoService imageRepoService;
     // get
     @Override
     public ResponseDto getFavoriteBoardTop3(String condition) {
@@ -195,6 +198,20 @@ public class BoardServiceImpl implements BoardService {
             List<Tag> tagList = request.getTagList(board);
             tagRepoService.saveAll(tagList); // 태그 저장
             boardRepoService.save(board); // 게시물 저장
+
+            // 이미지 저장해주기
+            String markdownContent = request.getContentMarkdown();
+
+            String regex = "!\\[.*?\\]\\((.*?)\\)";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(markdownContent);
+
+            if (matcher.find()) {
+                String imageUrl = matcher.group(1);
+                System.out.println("본문을 제외한 이미지 url : " + imageUrl);
+//                imageRepoService.saveAll(board.getBoardId(), imageUrl);
+            }
+
             return BoardWriteResponse.success(board.getBoardId());
         } catch (Exception e){
             e.printStackTrace();
