@@ -20,14 +20,14 @@ jobs:
 #      - name: application.yml 파일 만들기
 #        run: printf "%s" "${{secrets.APPLICATION_DEV}}" | base64 --decode > ./sharedReview/src/main/resources/application-dev.yml
 
-      - name: Setup MariaDB
-        uses: getong/mariadb-action@v1.11
-        with:
-          host port: 3307
-          character set server: 'utf8'
-          mysql database: 'shared_review'
-          mysql user: 'sr'
-          mysql password: '1234'
+#      - name: Setup MariaDB
+#        uses: getong/mariadb-action@v1.11
+#        with:
+#          host port: 3307
+#          character set server: 'utf8'
+#          mysql database: 'shared_review'
+#          mysql user: 'sr'
+#          mysql password: '1234'
 
       - name: 권한 부여
         run: chmod +x ./sharedReview/gradlew
