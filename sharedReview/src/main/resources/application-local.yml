@@ -1,0 +1,65 @@
+spring:
+#  config:
+#    import: classpath:application-secret.yml
+
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/sr
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+#        이메일 인증 기능 구현하기 위한 데이터들
+  mail:
+    host: smtp.gmail.com # smtp.naver.com
+    port: 587 #  구글은 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+  auth-code-expiration-millis: 9000000
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org.hibernate:
+      type:
+        descriptor:
+          sql: trace
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: utf-8
+      enabled: true
+    session:
+      tracking-modes: cookie
+file:
+  path: C:/upload/
+  url: http://localhost:8080/file/
+  temp: C:/upload/temp/
+  tempUrl: http://localhost:8080/file/temp/
+  maximum: 10000000
+
+jwt:
+  secretKey: S3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3y
+  refreshKey: S3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3y
