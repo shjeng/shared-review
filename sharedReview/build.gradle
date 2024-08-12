@@ -65,9 +65,9 @@ tasks.withType(JavaCompile) {
 //	useJUnitPlatform()
 //}
 
-//test {
-//	useJUnitPlatform()
-//}
+test {
+	useJUnitPlatform()
+}
 
 clean {
 	delete file('src/main/generated')
