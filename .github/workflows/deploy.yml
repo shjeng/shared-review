@@ -23,6 +23,7 @@ jobs:
       - name: Setup MariaDB
         uses: getong/mariadb-action@v1.11
         with:
+          host port: 3307
           character set server: 'utf8'
           mysql database: 'shared_review'
           mysql user: 'sr'
