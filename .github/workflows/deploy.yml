@@ -33,5 +33,5 @@ jobs:
 
       - name: 빌드하기
         run: |
-          cd sharedReview
+          cd sharedReview/
           ./gradlew clean build        
