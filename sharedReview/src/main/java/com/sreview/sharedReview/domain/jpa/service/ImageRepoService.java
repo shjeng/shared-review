@@ -1,5 +1,6 @@
 package com.sreview.sharedReview.domain.jpa.service;
 
+import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.Image;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.ImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +15,10 @@ import java.util.Collections;
 public class ImageRepoService {
     private final ImageRepository imageRepository;
 
-//    @Transactional
-//    public void saveAll(Long boardId, String imageUrl) {
-//        // Image 객체를 생성하여 저장
-//        Image image = new Image();
-//        image.setBoardId(boardId);
-//        image.setImageUrl(imageUrl);
-//
-//        imageRepository.saveAll(Collections.singletonList(image));
-//    }
+    @Transactional
+    public void saveAll(Board boardId, String imageUrl) {
+        Image image = new Image();
+        image.setBoardIdAndImageUrl(boardId,imageUrl);
+        imageRepository.saveAll(Collections.singletonList(image));
+    }
 }

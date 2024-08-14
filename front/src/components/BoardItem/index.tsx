@@ -45,7 +45,16 @@ const BoardItem = ({ board }: Props) => {
         <div className="board-item-category">{board.category.categoryName}</div>
       </div>
 
-      <div className="board-item-middle-box">{/* 이미지 넣는건가 */}</div>
+      {board.backImg && board.backImg.imageUrl ? (
+        <div
+          className="board-item-middle-box"
+          style={{ backgroundImage: `url(${board.backImg.imageUrl})` }}
+        >
+          {/* 이미지 넣는건가 */}
+        </div>
+      ) : (
+        <div className="board-item-middle-box">{/* 이미지 넣는건가 */}</div>
+      )}
 
       <div className="board-item-bottom-box">
         <div className="board-item-title">{board.title}</div>

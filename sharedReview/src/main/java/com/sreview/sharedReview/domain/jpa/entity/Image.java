@@ -26,4 +26,9 @@ public class Image { // 이미지 테이블
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
+
+    public void setBoardIdAndImageUrl(Board boardId, String imageUrl) {
+        this.board = boardId;
+        this.url = imageUrl;
+    }
 }

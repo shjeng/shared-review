@@ -209,7 +209,7 @@ public class BoardServiceImpl implements BoardService {
             if (matcher.find()) {
                 String imageUrl = matcher.group(1);
                 System.out.println("본문을 제외한 이미지 url : " + imageUrl);
-//                imageRepoService.saveAll(board.getBoardId(), imageUrl);
+                imageRepoService.saveAll(board, imageUrl);
             }
 
             return BoardWriteResponse.success(board.getBoardId());
