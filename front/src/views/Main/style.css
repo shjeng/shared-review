@@ -1,7 +1,7 @@
 #main-wrap {
   max-width: 1440px;
   min-height: 2350px;
-  margin: auto;
+  margin: 0px auto 50px auto;
 }
 
 .main-top-box {

@@ -110,7 +110,12 @@ const Header = () => {
   };
   //      event handler: 로고 클릭 이벤트 처리 함수       //
   const onLogoClickHandler = () => {
-    navigate(MAIN_PATH());
+    const targetUrl = "http://localhost:3000/";
+    if (window.location.href === targetUrl) {
+      window.location.reload(); // 페이지 새로고침
+    } else {
+      navigate(MAIN_PATH());
+    }
   };
 
   //      event handler: 로그인 클릭 이벤트 처리 함수       //
