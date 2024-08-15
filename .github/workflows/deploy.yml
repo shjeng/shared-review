@@ -29,7 +29,7 @@ jobs:
           ./gradlew clean build        
 
       - name: 폴더 확인하기
-        run: ls -R
+        run: ls
       - name: 빌드된 파일 이름 변경
         run: mv ./build/libs/*SNAPSHOT.jar ./sr.jar
 
