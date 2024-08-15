@@ -51,4 +51,4 @@ jobs:
           --application-name shared-review \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name shared-review-server \
-          --s3-location bucket=shared-review-bucket,bundleType=tar,key=$GITHUB_SHA.tar.gz
+          --s3-location bucket=shared-review-bucket,bundleType=tgz,key=$GITHUB_SHA.tar.gz
