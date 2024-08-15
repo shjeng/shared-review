@@ -28,6 +28,8 @@ jobs:
           cd sharedReview/
           ./gradlew clean build        
 
+      - name: 폴더 확인하기
+        run: ls -R
       - name: 빌드된 파일 이름 변경
         run: mv ./build/libs/*SNAPSHOT.jar ./sr.jar
 
