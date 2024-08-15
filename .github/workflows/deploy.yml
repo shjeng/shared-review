@@ -34,7 +34,7 @@ jobs:
         run: mv ./sharedReview/build/libs/*SNAPSHOT.jar ./sr.jar
 
       - name: 압축하기
-        run: tar -czvf $GITHUB_SHA.tar.gz project.jar appspec.yml scripts
+        run: tar -czvf $GITHUB_SHA.tar.gz sr.jar appspec.yml scripts
 
       - name: AWS Resource에 접근할 수 있게 AWS credentials 설정
         uses: aws-actions/configure-aws-credentials@v4
