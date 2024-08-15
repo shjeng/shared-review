@@ -50,5 +50,5 @@ jobs:
         run: aws deploy create-deployment
           --application-name shared-review
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name shared-review-server
+          --deployment-group-name shared-reivew-server
           --s3-location bucket=shared-review-bucket,bundleType=tgz,key=$GITHUB_SHA.tar.gz
