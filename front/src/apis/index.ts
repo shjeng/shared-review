@@ -172,7 +172,11 @@ export const passwordCheckRequest = async (
       { ...tokenAndPageConfig.token(accessToken) }
     )
     .then((response) => {
-      return response.data as ResponseDto;
+      console.log(
+        "서버에서 받아온 response값 : ",
+        JSON.stringify(response, null, 2)
+      );
+      return response.config.data as ResponseDto;
     })
     .catch((error) => {
       return errorResponse(error);

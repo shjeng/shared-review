@@ -31,6 +31,7 @@ public class UserEntityService {
     }
 
     public Optional<User> passwordCheck(String email, String password) {
+        System.out.println("UserEntityService.java 에서 쿼리문 쏠때 보내는 password값 : "+password);
         return userRepository.passwordCheck(email, password);
     }
     public Optional<User> existCheckEmail(String email){

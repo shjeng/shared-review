@@ -31,11 +31,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<? super SignInResponse> signIn(SignInRequest request) {
+        System.out.println("클라이언트에서 받은 request.getPassword()값 : "+request.getPassword());
         String token = "";
         String refreshToken = "";
         try {
             User user = userEntityService.findByEmail(request.getEmail());
             String encodedPassword = user.getPassword();
+            System.out.println("클라이언트에서 받은 encodedPassword값 : "+encodedPassword);
             boolean isMatched = passwordEncoder.matches(request.getPassword(), encodedPassword);
             if (!isMatched) return SignInResponse.loginFail();
 
