@@ -4,7 +4,8 @@ spring:
 
 
   datasource:
-    url: jdbc:mariadb://172.30.1.93:3307/shared_review
+#    url: jdbc:mariadb://172.30.1.93:3307/shared_review
+    url: jdbc:mariadb://127.0.0.1:3307/shared_review
     username: sr
     password: 1234
     driver-class-name: org.mariadb.jdbc.Driver

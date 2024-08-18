@@ -129,10 +129,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDto passwordCheck(String email, Map<String, String> password) {
+        System.out.println("클라이언트에서 받아온 email값 : "+email);
+        System.out.println("클라이언트에서 받아온 password값 : "+password);
+        System.out.println("클라이언트에서 받아온 password.get(\"password\")값 : "+password.get("password"));
+
+//        User user = userEntityService.findByEmail(email);
+//        String encodedPassword = user.getPassword();
+//        System.out.println("클라이언트에서 받은 encodedPassword값 : "+encodedPassword);
+//        Optional<User> userOptional = userEntityService.passwordCheck(email, encodedPassword);
+        
         Optional<User> userOptional = userEntityService.passwordCheck(email, password.get("password"));
+        System.out.println("체크할 비밀번호 : " + userOptional);
         if (userOptional.isEmpty()) {
+            System.out.println("비밀번호가 일치하지 않을때");
             return new ResponseDto(ResponseCode.NON_EXISTED_USER, ResponseMessage.NON_EXISTED_USER);
         }
+        System.out.println("비밀번호가 일치할때");
         return new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
     }
 }
