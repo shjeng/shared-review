@@ -218,10 +218,7 @@ const UserPage = () => {
               className={"top-top-image box-img"}
               style={{ backgroundImage: `url(${profileImage})` }}
             >
-              <div
-                className={"icon-box30 edit-btn"}
-                onClick={editImageIconClick}
-              ></div>
+              <div className={"edit-btn"} onClick={editImageIconClick}></div>
               <input
                 type={"file"}
                 style={{ display: "none" }}
@@ -231,9 +228,7 @@ const UserPage = () => {
               />
             </div>
             <div className={"top-top-infobox"}>
-              <div className={"top-top-infobox-name"}>
-                {userInfo?.name} 아지르님
-              </div>
+              <div className={"top-top-infobox-name"}>{userInfo?.nickname}</div>
               <div className={"top-top-infobox-email"}>{userInfo?.email}</div>
             </div>
           </div>
@@ -261,9 +256,9 @@ const UserPage = () => {
             />
             <InputBox
               ref={passwordCheckRef}
-              label="비밀번호"
+              label="비밀번호 확인"
               type={"password"}
-              placeholder="비밀번호 확인을 입력해주세요."
+              placeholder="비밀번호 확인을 위해 다시 입력해주세요."
               value={passwordCheck}
               onChange={onPasswordCheckChangeHandler}
               error={passwordCheckError}
@@ -272,8 +267,12 @@ const UserPage = () => {
           </div>
 
           <div className={"top-bottom"}>
-            <div onClick={editInfo}>수정</div>
-            <div onClick={back}>이전</div>
+            <div className={"user-modify"} onClick={editInfo}>
+              수정
+            </div>
+            <div className={"user-modify-cancel"} onClick={back}>
+              이전
+            </div>
           </div>
         </div>
         <div id="middle"></div>

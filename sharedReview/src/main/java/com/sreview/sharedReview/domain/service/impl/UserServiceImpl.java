@@ -17,6 +17,8 @@ import com.sreview.sharedReview.domain.service.UserService;
 import com.sun.jdi.InternalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private final UserEntityService userEntityService;
     private final UserRepository userRepository;
     private final FileService fileService;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Override // 로그인을 하면 가져올 데이터
     public ResponseEntity<? super GetLoginUserResponse> getLoginUser(String email) {
         UserDto userDto;
@@ -129,22 +133,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDto passwordCheck(String email, Map<String, String> password) {
-        System.out.println("클라이언트에서 받아온 email값 : "+email);
-        System.out.println("클라이언트에서 받아온 password값 : "+password);
-        System.out.println("클라이언트에서 받아온 password.get(\"password\")값 : "+password.get("password"));
+        User user = userEntityService.findByEmail(email);
+        String encodedPassword = user.getPassword();
+        boolean isMatched = passwordEncoder.matches(password.get("password"), encodedPassword);
 
-//        User user = userEntityService.findByEmail(email);
-//        String encodedPassword = user.getPassword();
-//        System.out.println("클라이언트에서 받은 encodedPassword값 : "+encodedPassword);
-//        Optional<User> userOptional = userEntityService.passwordCheck(email, encodedPassword);
-        
-        Optional<User> userOptional = userEntityService.passwordCheck(email, password.get("password"));
-        System.out.println("체크할 비밀번호 : " + userOptional);
-        if (userOptional.isEmpty()) {
+//        Optional<User> userOptional = userEntityService.passwordCheck(email, password.get("password"));
+//        if (!isMatched) {
+//            return new ResponseDto(ResponseCode.NON_EXISTED_USER, ResponseMessage.NON_EXISTED_USER);
+//        }
+//        return new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+
+        if (!isMatched) {
             System.out.println("비밀번호가 일치하지 않을때");
-            return new ResponseDto(ResponseCode.NON_EXISTED_USER, ResponseMessage.NON_EXISTED_USER);
+            ResponseDto response = new ResponseDto(ResponseCode.NON_EXISTED_USER, ResponseMessage.NON_EXISTED_USER);
+            return response;
         }
+
         System.out.println("비밀번호가 일치할때");
-        return new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        ResponseDto response = new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        return response;
     }
 }

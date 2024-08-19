@@ -66,8 +66,8 @@ public class UserController {
     @PostMapping("/password-check")
     public ResponseEntity<?> passwordCheck(@AuthenticationPrincipal String email, @RequestBody Map<String, String> password){
         log.info("password: {}", password);
-        userService.passwordCheck(email, password);
-        return null;
+        ResponseDto result = userService.passwordCheck(email, password);
+        return ResponseEntity.ok(result);
     }
     @PatchMapping("")
     public ResponseEntity<?> editUser(@AuthenticationPrincipal String email, @RequestBody SignUpRequest requestBody) {
