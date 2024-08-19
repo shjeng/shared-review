@@ -1,18 +1,18 @@
-#user-page-content-wrap{
+#user-page-content-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-#top{
+#top {
   display: flex;
   flex-direction: column;
 }
-.top-top{
+.top-top {
   padding: 30px;
   display: flex;
   gap: 10px;
 }
-.top-top-image{
+.top-top-image {
   background-size: 100% 100%;
   border-radius: 50%;
   width: 100px;
@@ -23,64 +23,72 @@
 
   /*position: relative;*/
 }
-.edit-btn{
+
+.edit-btn {
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+}
+.edit-btn:hover {
   /*position: absolute;*/
   /*bottom: 0px;*/
   /*right: -6px;*/
   cursor: pointer;
-  background-image: url(../../assets/image/edit-btn.png);
+  background-image: url(../../assets/image/edit-w.png);
+  opacity: 0.6;
 }
-.top-top-infobox{
+
+.top-top-infobox {
   display: flex;
   flex-direction: column;
   justify-content: center;
   font-size: 18px;
   gap: 8px;
 }
-.top-top-infobox-name{
+.top-top-infobox-name {
   font-size: 32px;
   font-weight: bold;
 }
 
-.top-middle{
+.top-middle {
   display: flex;
   flex-direction: column;
   justify-content: left;
 }
 
-.user-info-box-wrap{
+.user-info-box-wrap {
   min-height: 1080px;
   display: flex;
   justify-content: center;
 }
-.user-info-box{
+.user-info-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 300px;
 }
-.user-info-title{
+.user-info-title {
   width: 100%;
   padding-bottom: 30px;
   font-size: 36px;
 }
-.user-info-input-box{
+.user-info-input-box {
   display: flex;
   gap: 20px;
 }
-.input-box{
+.input-box {
   border: 1px solid black;
   display: flex;
   justify-content: center;
   padding: 10px;
   border-radius: 10px;
 }
-.password-input{
+.password-input {
   outline: none;
   border: none;
 }
-.button{
+.button {
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -89,6 +97,19 @@
   padding: 10px;
   border-radius: 10px;
 }
-.button:hover{
 
+.top-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 25px 0px;
+}
+
+.user-modify-cancel,
+.user-modify {
+  padding: 15px 25px;
+  border: 1px solid rgb(182, 182, 182);
+  border-radius: 10px;
+  color: rgb(78, 78, 78);
+  cursor: pointer;
 }

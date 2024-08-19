@@ -176,7 +176,7 @@ export const passwordCheckRequest = async (
         "서버에서 받아온 response값 : ",
         JSON.stringify(response, null, 2)
       );
-      return response.config.data as ResponseDto;
+      return response.data as ResponseDto;
     })
     .catch((error) => {
       return errorResponse(error);
