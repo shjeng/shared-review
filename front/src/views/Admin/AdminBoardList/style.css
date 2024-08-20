@@ -142,6 +142,7 @@
 .admin-mid-right-bottom {
   display: flex;
   justify-content: flex-end;
+  margin: 30px 0px 50px 0px;
 }
 
 .admin-menu-post-bold {

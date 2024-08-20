@@ -130,7 +130,7 @@ const UserPage = () => {
       }
       if (password.length === 0) {
         setPasswordError(true);
-        setPasswordErrorMessage("비밀번호를 입력해주세요!");
+        setPasswordErrorMessage("비밀번호를 입력해주세요.");
         error = true;
       }
       if (passwordCheck !== password || !passwordCheck) {
@@ -212,66 +212,76 @@ const UserPage = () => {
     };
     return (
       <div id="user-page-content-wrap">
-        <div id="top">
-          <div className="top-top">
-            <div
-              className={"top-top-image box-img"}
-              style={{ backgroundImage: `url(${profileImage})` }}
-            >
-              <div className={"edit-btn"} onClick={editImageIconClick}></div>
-              <input
-                type={"file"}
-                style={{ display: "none" }}
-                accept="image/*"
-                ref={profileImageRef}
-                onChange={profileImageChange}
+        <div className="user-page-main">
+          <div className="top-left">
+            <div className="top-left-item1">내프로필</div>
+            <div className="top-left-item2">프로필 수정</div>
+            <div className="top-left-item3">비밀번호 변경</div>
+          </div>
+
+          <div id="top-right">
+            <div className="top-top">
+              <div
+                className={"top-top-image box-img"}
+                style={{ backgroundImage: `url(${profileImage})` }}
+              >
+                <div className={"edit-btn"} onClick={editImageIconClick}></div>
+                <input
+                  type={"file"}
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  ref={profileImageRef}
+                  onChange={profileImageChange}
+                />
+              </div>
+              <div className={"top-top-infobox"}>
+                <div className={"top-top-infobox-name"}>
+                  {userInfo?.nickname}
+                </div>
+                <div className={"top-top-infobox-email"}>{userInfo?.email}</div>
+              </div>
+            </div>
+
+            <div className={"top-middle"}>
+              <InputBox
+                ref={nicknameRef}
+                label="닉네임"
+                type={"text"}
+                placeholder="닉네임을 입력해주세요."
+                value={nickname}
+                onChange={onNicknameChangeHandler}
+                error={nicknameError}
+                message={nicknameErrorMessage}
+              />
+              <InputBox
+                ref={passwordRef}
+                label="새 비밀번호"
+                type={"password"}
+                placeholder="변경할 비밀번호를 입력해주세요."
+                value={password}
+                onChange={onPasswordChangeHandler}
+                error={passwordError}
+                message={passwordErrorMessage}
+              />
+              <InputBox
+                ref={passwordCheckRef}
+                label="새 비밀번호 확인"
+                type={"password"}
+                placeholder="변경할 비밀번호 확인을 위해 다시 입력해주세요."
+                value={passwordCheck}
+                onChange={onPasswordCheckChangeHandler}
+                error={passwordCheckError}
+                message={passwordCheckErrorMessage}
               />
             </div>
-            <div className={"top-top-infobox"}>
-              <div className={"top-top-infobox-name"}>{userInfo?.nickname}</div>
-              <div className={"top-top-infobox-email"}>{userInfo?.email}</div>
-            </div>
-          </div>
 
-          <div className={"top-middle"}>
-            <InputBox
-              ref={nicknameRef}
-              label="닉네임"
-              type={"text"}
-              placeholder="닉네임을 입력해주세요."
-              value={nickname}
-              onChange={onNicknameChangeHandler}
-              error={nicknameError}
-              message={nicknameErrorMessage}
-            />
-            <InputBox
-              ref={passwordRef}
-              label="비밀번호"
-              type={"password"}
-              placeholder="비밀번호를 입력해주세요."
-              value={password}
-              onChange={onPasswordChangeHandler}
-              error={passwordError}
-              message={passwordErrorMessage}
-            />
-            <InputBox
-              ref={passwordCheckRef}
-              label="비밀번호 확인"
-              type={"password"}
-              placeholder="비밀번호 확인을 위해 다시 입력해주세요."
-              value={passwordCheck}
-              onChange={onPasswordCheckChangeHandler}
-              error={passwordCheckError}
-              message={passwordCheckErrorMessage}
-            />
-          </div>
-
-          <div className={"top-bottom"}>
-            <div className={"user-modify"} onClick={editInfo}>
-              수정
-            </div>
-            <div className={"user-modify-cancel"} onClick={back}>
-              이전
+            <div className={"top-bottom"}>
+              <div className={"user-modify"} onClick={editInfo}>
+                수정
+              </div>
+              <div className={"user-modify-cancel"} onClick={back}>
+                이전
+              </div>
             </div>
           </div>
         </div>
@@ -319,7 +329,7 @@ const UserPage = () => {
     return (
       <div className={"user-info-box-wrap"}>
         <div className={"user-info-box"}>
-          <div className={"user-info-title"}>회원정보 수정</div>
+          <div className={"user-info-title"}>본인확인</div>
           <div className={"user-info-input-box"}>
             <div className={"input-box"}>
               <input

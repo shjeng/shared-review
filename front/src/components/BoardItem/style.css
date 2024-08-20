@@ -32,10 +32,6 @@
   text-overflow: ellipsis; /* 넘치는 텍스트는 "..."으로 대체 */
 }
 
-.board-item-profile {
-  width: 120px;
-}
-
 .board-item-top-box {
   display: flex;
   justify-content: space-between;
