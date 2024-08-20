@@ -2,29 +2,30 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { BOARD_WRITE } from "../../constant";
-import {searchRequest} from "../../apis";
+import { searchRequest } from "../../apis";
 import ResponseDto from "../../apis/response/response.dto";
 import GetBoardListResponseDto from "../../apis/response/board/get-board-list-response.dto";
 import { Board, Category } from "../../types/interface";
-import {useBoardSearchStore, useLoginUserStore} from "../../store";
+import { useBoardSearchStore, useLoginUserStore } from "../../store";
 import BoardItem2 from "../../components/BoardItem2";
 import BoardItem3 from "../../components/BoardItem3";
-import {BoardListResponse} from "../../apis/response/board";
-import {ResponseUtil} from "../../utils";
+import { BoardListResponse } from "../../apis/response/board";
+import { ResponseUtil } from "../../utils";
 import Pageable from "../../types/interface/pageable.interface";
 import Pagination from "../../components/Pagination";
 import usePagination from "../../hooks/pagination.hook";
 
 const BoardList = () => {
   const countPerPage = 20;
-  const {loginUser} = useLoginUserStore();
+  const { loginUser } = useLoginUserStore();
   const [category, setCategory] = useState<Category>();
   const { categoryId, searchWord, searchType } = useBoardSearchStore();
   const { setCategoryId, setSearchWord, setSearchType } = useBoardSearchStore();
   const navigator = useNavigate();
   const [requestParams, setRequestParams] = useState<Object>({});
 
-  const {startPage,
+  const {
+    startPage,
     endPage,
     currentPage,
     pageList,
@@ -33,7 +34,8 @@ const BoardList = () => {
     setCurrentPage,
     setCurrentSection,
     setTotalCount,
-    setCountPerItem}= usePagination(countPerPage);
+    setCountPerItem,
+  } = usePagination(countPerPage);
 
   const onBoardWriteClickHandler = () => {
     navigator(BOARD_WRITE());
@@ -52,7 +54,9 @@ const BoardList = () => {
     searchRequest(params).then(searchResponse);
     setRequestParams(params);
   }, []);
-  const searchResponse = (responseBody: Pageable<Board> | ResponseDto | null) => {
+  const searchResponse = (
+    responseBody: Pageable<Board> | ResponseDto | null
+  ) => {
     if (ResponseUtil(responseBody)) {
       return;
     }
@@ -62,16 +66,16 @@ const BoardList = () => {
     setTotalCount(result.totalElements);
     setCountPerItem(result.size);
     // setBoards(result.boardPage.content);
-  }
+  };
 
   useEffect(() => {
-      let params = {
-        ...requestParams,
-        categoryId: categoryId,
-        searchKeyword: searchWord,
-        searchType: searchType,
-      };
-      setRequestParams(params)
+    let params = {
+      ...requestParams,
+      categoryId: categoryId,
+      searchKeyword: searchWord,
+      searchType: searchType,
+    };
+    setRequestParams(params);
     searchRequest(params).then(searchResponse);
   }, [categoryId]);
 
@@ -95,7 +99,9 @@ const BoardList = () => {
     setRequestParams(params);
   }, [categoryId]);
 
-  const getBoardListResponse = (responseBody: GetBoardListResponseDto | ResponseDto | null) => {
+  const getBoardListResponse = (
+    responseBody: GetBoardListResponseDto | ResponseDto | null
+  ) => {
     if (!responseBody) {
       alert("서버로부터 응답이 없습니다.");
       return;
@@ -118,17 +124,23 @@ const BoardList = () => {
     setCurrentPage(page);
     let params = {
       ...requestParams,
-      page: page - 1
+      page: page - 1,
     };
     setRequestParams(params);
     searchRequest(params).then(searchResponse);
-  }
+  };
   return (
     <div id="board-list-wrap">
       <div className="board-list-top">
         <div className="list-write-title">게시물</div>
       </div>
       <div className="board-list-mid">
+        {/* {boards && (
+          <div>
+            <h1>게시글이 없습니다.</h1>
+          </div>
+        )} */}
+
         {boards.map((board, index) => (
           <>
             <BoardItem2 board={board} />
@@ -136,22 +148,23 @@ const BoardList = () => {
         ))}
       </div>
 
-      {loginUser &&
-      <div className="board-list-bottom">
-        <div className="list-write-btn" onClick={onBoardWriteClickHandler}>
-          <div className="list-write-btn-icon"></div>
-          작성하기
+      {loginUser && (
+        <div className="board-list-bottom">
+          <div className="list-write-btn" onClick={onBoardWriteClickHandler}>
+            <div className="list-write-btn-icon"></div>
+            작성하기
+          </div>
         </div>
-      </div>}
+      )}
 
       <Pagination
-          currentPage={currentPage}
-          currentSection={currentSection}
-          setCurrentPage={setCurrentPage}
-          totalSection={totalSection}
-          countPerPage={countPerPage}
-          pageList={pageList}
-          pageClick={pageButtonClick}
+        currentPage={currentPage}
+        currentSection={currentSection}
+        setCurrentPage={setCurrentPage}
+        totalSection={totalSection}
+        countPerPage={countPerPage}
+        pageList={pageList}
+        pageClick={pageButtonClick}
       ></Pagination>
     </div>
   );
