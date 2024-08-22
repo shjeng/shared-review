@@ -137,3 +137,35 @@
 .top-left-item1 {
   margin-top: 100px;
 }
+
+.passwordModify-container {
+  margin: auto;
+  width: 450px;
+  padding: 100px;
+}
+
+.passwordModify-bottom {
+  margin-top: 40px;
+}
+
+.passwordModify-bottom > div {
+  height: 50px;
+  border: 1px solid rgb(182, 182, 182);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #646464;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.passwordModify-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.passwordModify-mid {
+  margin-top: 50px;
+}

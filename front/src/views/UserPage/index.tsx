@@ -350,7 +350,117 @@ const UserPage = () => {
       </div>
     );
   };
+
+  const PassWordModify = () => {
+    const navigate = useNavigate();
+    const [cookies, setCookies] = useCookies();
+
+    const modafiyPasswordRef = useRef<HTMLInputElement | null>(null);
+    const [modifyPassword, setModifyPassword] = useState<string>("");
+    const [modifyPasswordError, setModifyPasswordError] =
+      useState<boolean>(false);
+    const [modifyPasswordErrorMessage, setModifyPasswordErrorMessage] =
+      useState<string>("");
+
+    const onModifyPasswordChangeHandler = (
+      event: ChangeEvent<HTMLInputElement>
+    ) => {
+      const { value } = event.target;
+      setModifyPassword(value);
+      setModifyPasswordError(false);
+      setPasswordErrorMessage("");
+    };
+
+    const passwordRef = useRef<HTMLInputElement | null>(null);
+    const [password, setPassword] = useState<string>("");
+    const [passwordError, setPasswordError] = useState<boolean>(false);
+    const [passwordErrorMessage, setPasswordErrorMessage] =
+      useState<string>("");
+
+    const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      const { value } = event.target;
+      setPassword(value);
+      setPasswordError(false);
+      setPasswordErrorMessage("");
+    };
+
+    const passwordCheckRef = useRef<HTMLInputElement | null>(null);
+    const [passwordCheck, setPasswordCheck] = useState<string>("");
+    const [passwordCheckError, setPasswordCheckError] =
+      useState<boolean>(false);
+
+    const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] =
+      useState<string>("");
+    const onPasswordCheckChangeHandler = (
+      event: ChangeEvent<HTMLInputElement>
+    ) => {
+      const { value } = event.target;
+      setPasswordCheck(value);
+      setPasswordCheckError(false);
+      setPasswordCheckErrorMessage("");
+    };
+
+    const editInfo = () => {};
+
+    const back = () => {
+      navigate(-1);
+    };
+
+    return (
+      <div className={"passwordModify-wrap"}>
+        <div className={"passwordModify-container"}>
+          <div className={"passwordModify-top"}>
+            <div className={"passwordModify-title"}>비밀번호 변경</div>
+          </div>
+          <div className={"passwordModify-mid"}>
+            <InputBox
+              ref={passwordRef}
+              label="현재 비밀번호"
+              type={"password"}
+              placeholder="현재 사용중인 비밀번호를 입력해주세요."
+              value={password}
+              onChange={onPasswordChangeHandler}
+              error={passwordError}
+              message={passwordErrorMessage}
+            />
+
+            <InputBox
+              ref={modafiyPasswordRef}
+              label="새 비밀번호"
+              type={"password"}
+              placeholder="변경할 비밀번호를 입력해주세요."
+              value={modifyPassword}
+              onChange={onModifyPasswordChangeHandler}
+              error={modifyPasswordError}
+              message={modifyPasswordErrorMessage}
+            />
+            <InputBox
+              ref={passwordCheckRef}
+              label="새 비밀번호 확인"
+              type={"password"}
+              placeholder="변경할 비밀번호 확인을 위해 다시 입력해주세요."
+              value={passwordCheck}
+              onChange={onPasswordCheckChangeHandler}
+              error={passwordCheckError}
+              message={passwordCheckErrorMessage}
+            />
+          </div>
+
+          <div className={"passwordModify-bottom"}>
+            <div className={"passwordModify-btn"} onClick={editInfo}>
+              수정
+            </div>
+            <div className={"passwordModify-cancel"} onClick={back}>
+              이전
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return <>{!authSuccess ? <Index /> : <EditPage />}</>;
+  // return <>{<PassWordModify />}</>;
 };
 
 export default UserPage;
