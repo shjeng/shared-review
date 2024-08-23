@@ -384,26 +384,52 @@ const UserPage = () => {
       setPasswordErrorMessage("");
     };
 
-    const passwordCheckRef = useRef<HTMLInputElement | null>(null);
-    const [passwordCheck, setPasswordCheck] = useState<string>("");
-    const [passwordCheckError, setPasswordCheckError] =
+    const modifyPasswordCheckRef = useRef<HTMLInputElement | null>(null);
+    const [modifyPasswordCheck, setModifyPasswordCheck] = useState<string>("");
+    const [modifyPasswordCheckError, setModifyPasswordCheckError] =
       useState<boolean>(false);
 
-    const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] =
-      useState<string>("");
+    const [
+      modifyPasswordCheckErrorMessage,
+      setModifyPasswordCheckErrorMessage,
+    ] = useState<string>("");
     const onPasswordCheckChangeHandler = (
       event: ChangeEvent<HTMLInputElement>
     ) => {
       const { value } = event.target;
-      setPasswordCheck(value);
-      setPasswordCheckError(false);
-      setPasswordCheckErrorMessage("");
+      setModifyPasswordCheck(value);
+      setModifyPasswordCheckError(false);
+      setModifyPasswordCheckErrorMessage("");
     };
-
-    const editInfo = () => {};
 
     const back = () => {
       navigate(-1);
+    };
+
+    const editInfo = () => {
+      let error = false;
+      if (password.length === 0) {
+        setPasswordError(true);
+        setPasswordErrorMessage("비밀번호를 입력해주세요.");
+        error = true;
+      }
+      if (modifyPassword.length === 0) {
+        setModifyPasswordError(true);
+        setModifyPasswordErrorMessage("변경할 비밀번호를 입력해주세요.");
+        error = true;
+      }
+      if (modifyPasswordCheck !== modifyPassword || !modifyPasswordCheck) {
+        setModifyPasswordCheckError(true);
+        setModifyPasswordCheckErrorMessage(
+          "변경할 비밀번호와 일치하지 않습니다."
+        );
+        error = true;
+      }
+      if (error) {
+        return;
+      }
+
+      alert("정상적으로 작동");
     };
 
     return (
@@ -435,14 +461,14 @@ const UserPage = () => {
               message={modifyPasswordErrorMessage}
             />
             <InputBox
-              ref={passwordCheckRef}
+              ref={modifyPasswordCheckRef}
               label="새 비밀번호 확인"
               type={"password"}
               placeholder="변경할 비밀번호 확인을 위해 다시 입력해주세요."
-              value={passwordCheck}
+              value={modifyPasswordCheck}
               onChange={onPasswordCheckChangeHandler}
-              error={passwordCheckError}
-              message={passwordCheckErrorMessage}
+              error={modifyPasswordCheckError}
+              message={modifyPasswordCheckErrorMessage}
             />
           </div>
 
