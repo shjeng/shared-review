@@ -8,6 +8,7 @@ import {
   nicknameDuplChkRequest,
   passwordCheckRequest,
   saveTempImage,
+  updatePassword,
 } from "../../apis";
 import { GetUserResponseDto } from "../../apis/response/user";
 import ResponseDto from "../../apis/response/response.dto";
@@ -384,26 +385,95 @@ const UserPage = () => {
       setPasswordErrorMessage("");
     };
 
-    const passwordCheckRef = useRef<HTMLInputElement | null>(null);
-    const [passwordCheck, setPasswordCheck] = useState<string>("");
-    const [passwordCheckError, setPasswordCheckError] =
+    const modifyPasswordCheckRef = useRef<HTMLInputElement | null>(null);
+    const [modifyPasswordCheck, setModifyPasswordCheck] = useState<string>("");
+    const [modifyPasswordCheckError, setModifyPasswordCheckError] =
       useState<boolean>(false);
 
-    const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] =
-      useState<string>("");
+    const [
+      modifyPasswordCheckErrorMessage,
+      setModifyPasswordCheckErrorMessage,
+    ] = useState<string>("");
     const onPasswordCheckChangeHandler = (
       event: ChangeEvent<HTMLInputElement>
     ) => {
       const { value } = event.target;
-      setPasswordCheck(value);
-      setPasswordCheckError(false);
-      setPasswordCheckErrorMessage("");
+      setModifyPasswordCheck(value);
+      setModifyPasswordCheckError(false);
+      setModifyPasswordCheckErrorMessage("");
     };
-
-    const editInfo = () => {};
 
     const back = () => {
       navigate(-1);
+    };
+
+    const passwordCheckResponse = (response: ResponseDto | null) => {
+      console.log("response 값 : " + response);
+      if (!response) {
+        alert("서버 에러");
+        return;
+      }
+      const { code } = response;
+      if (code === "NU") {
+        setPasswordError(true);
+        setPasswordErrorMessage("현재 비밀번호가 일치하지 않습니다.");
+        return code;
+      }
+      ResponseUtil(response);
+      if (code === "SU") {
+        setAuthSuccess(true);
+      }
+    };
+
+    const passwordModify = () => {
+      let error = false;
+      if (password.length === 0) {
+        setPasswordError(true);
+        setPasswordErrorMessage("사용중인 비밀번호를 입력해주세요.");
+        error = true;
+      }
+
+      alert("첫번째칸 이후 error값 : " + error);
+
+      if (password.length) {
+        passwordCheckRequest(cookies.accessToken, password).then(
+          passwordCheckResponse
+        );
+        error = true;
+      }
+
+      if (modifyPassword.length === 0) {
+        setModifyPasswordError(true);
+        setModifyPasswordErrorMessage("변경할 비밀번호를 입력해주세요.");
+        error = true;
+      }
+
+      alert("세번째칸 이후 error값 : " + error);
+
+      if (modifyPasswordCheck !== modifyPassword || !modifyPasswordCheck) {
+        setModifyPasswordCheckError(true);
+        setModifyPasswordCheckErrorMessage(
+          "변경할 비밀번호와 일치하지 않습니다."
+        );
+        error = true;
+      }
+
+      alert("네번째칸 이후 error값 : " + error);
+
+      if (error) {
+        return;
+      }
+
+      if (!error) {
+        alert("아무 문제 없어서 실행");
+        updatePassword(cookies.accessToken, password, modifyPassword).then(
+          updatePasswordResponse
+        );
+      }
+    };
+
+    const updatePasswordResponse = (response: ResponseDto | null) => {
+      alert(response);
     };
 
     return (
@@ -435,19 +505,19 @@ const UserPage = () => {
               message={modifyPasswordErrorMessage}
             />
             <InputBox
-              ref={passwordCheckRef}
+              ref={modifyPasswordCheckRef}
               label="새 비밀번호 확인"
               type={"password"}
               placeholder="변경할 비밀번호 확인을 위해 다시 입력해주세요."
-              value={passwordCheck}
+              value={modifyPasswordCheck}
               onChange={onPasswordCheckChangeHandler}
-              error={passwordCheckError}
-              message={passwordCheckErrorMessage}
+              error={modifyPasswordCheckError}
+              message={modifyPasswordCheckErrorMessage}
             />
           </div>
 
           <div className={"passwordModify-bottom"}>
-            <div className={"passwordModify-btn"} onClick={editInfo}>
+            <div className={"passwordModify-btn"} onClick={passwordModify}>
               수정
             </div>
             <div className={"passwordModify-cancel"} onClick={back}>
