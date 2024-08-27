@@ -76,4 +76,10 @@ public class UserController {
         ResponseDto result = userService.editUser(requestBody);
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/update-password")
+    public ResponseEntity<?> updatePassword(@AuthenticationPrincipal String email, @RequestBody Map<String, String> password){
+        System.out.println("클라이언트에서 받아온 email 값 : "+email+", password 값 : "+ password);
+        return ResponseEntity.ok("연결 완료");
+    }
 }
