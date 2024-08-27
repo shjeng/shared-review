@@ -8,6 +8,7 @@ import {
   nicknameDuplChkRequest,
   passwordCheckRequest,
   saveTempImage,
+  updatePassword,
 } from "../../apis";
 import { GetUserResponseDto } from "../../apis/response/user";
 import ResponseDto from "../../apis/response/response.dto";
@@ -406,18 +407,49 @@ const UserPage = () => {
       navigate(-1);
     };
 
-    const editInfo = () => {
+    const passwordCheckResponse = (response: ResponseDto | null) => {
+      console.log("response 값 : " + response);
+      if (!response) {
+        alert("서버 에러");
+        return;
+      }
+      const { code } = response;
+      if (code === "NU") {
+        setPasswordError(true);
+        setPasswordErrorMessage("현재 비밀번호가 일치하지 않습니다.");
+        return code;
+      }
+      ResponseUtil(response);
+      if (code === "SU") {
+        setAuthSuccess(true);
+      }
+    };
+
+    const passwordModify = () => {
       let error = false;
       if (password.length === 0) {
         setPasswordError(true);
-        setPasswordErrorMessage("비밀번호를 입력해주세요.");
+        setPasswordErrorMessage("사용중인 비밀번호를 입력해주세요.");
         error = true;
       }
+
+      alert("첫번째칸 이후 error값 : " + error);
+
+      if (password.length) {
+        passwordCheckRequest(cookies.accessToken, password).then(
+          passwordCheckResponse
+        );
+        error = true;
+      }
+
       if (modifyPassword.length === 0) {
         setModifyPasswordError(true);
         setModifyPasswordErrorMessage("변경할 비밀번호를 입력해주세요.");
         error = true;
       }
+
+      alert("세번째칸 이후 error값 : " + error);
+
       if (modifyPasswordCheck !== modifyPassword || !modifyPasswordCheck) {
         setModifyPasswordCheckError(true);
         setModifyPasswordCheckErrorMessage(
@@ -425,11 +457,23 @@ const UserPage = () => {
         );
         error = true;
       }
+
+      alert("네번째칸 이후 error값 : " + error);
+
       if (error) {
         return;
       }
 
-      alert("정상적으로 작동");
+      if (!error) {
+        alert("아무 문제 없어서 실행");
+        updatePassword(cookies.accessToken, password, modifyPassword).then(
+          updatePasswordResponse
+        );
+      }
+    };
+
+    const updatePasswordResponse = (response: ResponseDto | null) => {
+      alert(response);
     };
 
     return (
@@ -473,7 +517,7 @@ const UserPage = () => {
           </div>
 
           <div className={"passwordModify-bottom"}>
-            <div className={"passwordModify-btn"} onClick={editInfo}>
+            <div className={"passwordModify-btn"} onClick={passwordModify}>
               수정
             </div>
             <div className={"passwordModify-cancel"} onClick={back}>

@@ -745,3 +745,28 @@ export const refreshAccessToken = async (refreshToken: string) => {
     });
   return result;
 };
+
+// 비밀번호 변경
+const UPDATE_PASSWORD_URL = () => `${API_DOMAIN}/user/update-password`;
+export const updatePassword = async (
+  accessToken: string,
+  password: string,
+  modifyPassword: string
+) => {
+  return await axios
+    .post(
+      UPDATE_PASSWORD_URL(),
+      { password: password, modifyPassword: modifyPassword },
+      { ...tokenAndPageConfig.token(accessToken) }
+    )
+    .then((response) => {
+      console.log(
+        "서버에서 받아온 response값 : ",
+        JSON.stringify(response, null, 2)
+      );
+      return response.data as ResponseDto;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+};
