@@ -76,10 +76,6 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
     .post(SIGN_IN_URL(), requestBody) // 서버에 post요청
     .then((response) => {
       const responseBody: SignInResponseDto = response.data;
-      console.log(
-        "백에서 가져온 responseBody : ",
-        JSON.stringify(responseBody, null, 2)
-      );
       return responseBody;
     })
     .catch((error) => {
@@ -93,7 +89,6 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
 // 로그인 회원 정보 가져오기
 const GET_MY_INFO = () => `${API_DOMAIN}/user/get-login-user`;
 export const getMyInfo = async (accessToken: string) => {
-  console.log("보내는 토큰 값 : ", accessToken);
   const result = await axios
     .get(GET_MY_INFO(), authorication(accessToken))
     .then((response) => {
@@ -306,10 +301,6 @@ export const getFavoriteBoardTop3 = async (date: string) => {
     .get(GET_FAVORITE_BOARD_TOP3(), { params: { dateCondition: date } })
     .then((response) => {
       const responseBody: BoardListResponse = response.data;
-      console.log(
-        "서버에서 받아온 responseBody값 : ",
-        JSON.stringify(responseBody, null, 2)
-      );
       return responseBody;
     })
     .catch((error) => {
