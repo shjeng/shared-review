@@ -369,7 +369,7 @@ const UserPage = () => {
       const { value } = event.target;
       setModifyPassword(value);
       setModifyPasswordError(false);
-      setPasswordErrorMessage("");
+      setModifyPasswordErrorMessage("");
     };
 
     const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -394,7 +394,7 @@ const UserPage = () => {
       modifyPasswordCheckErrorMessage,
       setModifyPasswordCheckErrorMessage,
     ] = useState<string>("");
-    const onPasswordCheckChangeHandler = (
+    const onModifyPasswordCheckhangeHandler = (
       event: ChangeEvent<HTMLInputElement>
     ) => {
       const { value } = event.target;
@@ -407,28 +407,6 @@ const UserPage = () => {
       navigate(-1);
     };
 
-    const [passwordCheckCode, setPasswordCheckCode] = useState<string | null>(
-      null
-    );
-
-    const passwordCheckResponse = (response: ResponseDto | null) => {
-      alert("passwordCheckResponse 실행");
-      if (!response) {
-        alert("서버 에러");
-        return;
-      }
-      const { code } = response;
-      if (code === "NU") {
-        alert("code값 : " + code);
-        setPasswordCheckCode(code);
-        return;
-      }
-      ResponseUtil(response);
-      if (code === "SU") {
-        setAuthSuccess(true);
-      }
-    };
-
     const passwordModify = async () => {
       let error = false;
       if (password.length === 0) {
@@ -437,28 +415,8 @@ const UserPage = () => {
         error = true;
       }
 
-      alert("첫번째칸 이후 error값 : " + error);
-
-      // if (password.length) {
-      //   alert("비밀번호 일치한지 확인");
-      //   alert("확인전 passwordCheckCode 값 : " + passwordCheckCode);
-
-      //   // 비동기 처리 대기
-      //   await passwordCheckRequest(cookies.accessToken, password).then(
-      //     passwordCheckResponse
-      //   );
-
-      //   alert("확인 이후 passwordCheckCode 값 : " + passwordCheckCode);
-
-      //   if (passwordCheckCode === "NU") {
-      //     error = true;
-      //   }
-      // }
-
       // 비밀번호가 입력된 경우 비밀번호 확인
       if (password.length > 0) {
-        alert("비밀번호 일치한지 확인");
-
         const response = await passwordCheckRequest(
           cookies.accessToken,
           password
@@ -471,15 +429,11 @@ const UserPage = () => {
         }
       }
 
-      alert("두번째칸 이후 error값 : " + error);
-
       if (modifyPassword.length === 0) {
         setModifyPasswordError(true);
         setModifyPasswordErrorMessage("변경할 비밀번호를 입력해주세요.");
         error = true;
       }
-
-      alert("세번째칸 이후 error값 : " + error);
 
       if (modifyPasswordCheck !== modifyPassword || !modifyPasswordCheck) {
         setModifyPasswordCheckError(true);
@@ -488,8 +442,6 @@ const UserPage = () => {
         );
         error = true;
       }
-
-      alert("네번째칸 이후 error값 : " + error);
 
       if (error) {
         return;
@@ -541,7 +493,7 @@ const UserPage = () => {
               type={"password"}
               placeholder="변경할 비밀번호 확인을 위해 다시 입력해주세요."
               value={modifyPasswordCheck}
-              onChange={onPasswordCheckChangeHandler}
+              onChange={onModifyPasswordCheckhangeHandler}
               error={modifyPasswordCheckError}
               message={modifyPasswordCheckErrorMessage}
             />
