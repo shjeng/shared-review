@@ -23,4 +23,7 @@ public interface UserService {
 
     ResponseDto passwordCheck(String email, Map<String, String> password);
 
+    ResponseDto passwordUpdate(String email,  Map<String, String> password);
+
+
 }

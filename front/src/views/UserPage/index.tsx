@@ -254,6 +254,7 @@ const UserPage = () => {
                 error={nicknameError}
                 message={nicknameErrorMessage}
               />
+              <div>수정</div>
               <InputBox
                 ref={passwordRef}
                 label="새 비밀번호"
@@ -429,6 +430,14 @@ const UserPage = () => {
         }
       }
 
+      if (modifyPassword === password) {
+        setModifyPasswordError(true);
+        setModifyPasswordErrorMessage(
+          "현재 비밀번호와 변경하실 비밀번호가 같습니다."
+        );
+        error = true;
+      }
+
       if (modifyPassword.length === 0) {
         setModifyPasswordError(true);
         setModifyPasswordErrorMessage("변경할 비밀번호를 입력해주세요.");
@@ -448,7 +457,6 @@ const UserPage = () => {
       }
 
       if (!error) {
-        alert("아무 문제 없어서 실행");
         updatePassword(cookies.accessToken, password, modifyPassword).then(
           updatePasswordResponse
         );
@@ -456,7 +464,19 @@ const UserPage = () => {
     };
 
     const updatePasswordResponse = (response: ResponseDto | null) => {
-      alert(response);
+      // if (response?.code === "NU") {
+      //   setPasswordError(true);
+      //   setPasswordErrorMessage("현재 비밀번호가 일치하지 않습니다.");
+      //   return;
+      // }
+
+      if (response?.code === "SU") {
+        alert(response?.message);
+        // navigate();
+      } else {
+        alert("오류");
+        return;
+      }
     };
 
     return (
@@ -512,8 +532,8 @@ const UserPage = () => {
     );
   };
 
-  // return <>{!authSuccess ? <Index /> : <EditPage />}</>;
-  return <>{<PassWordModify />}</>;
+  return <>{!authSuccess ? <Index /> : <EditPage />}</>;
+  // return <>{<PassWordModify />}</>;
 };
 
 export default UserPage;
