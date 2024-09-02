@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity(name = "user_entity")
 @Getter
 @NoArgsConstructor
+@ToString
 public class User extends BaseEntity {
     // 회원 ID
     @Id
@@ -47,5 +49,9 @@ public class User extends BaseEntity {
     public void setProfileImage(String imageUrl){
         this.imageUrl = imageUrl;
 
+    }
+
+    public void setPassword(String hashedNewPassword){
+        this.password = hashedNewPassword;
     }
 }

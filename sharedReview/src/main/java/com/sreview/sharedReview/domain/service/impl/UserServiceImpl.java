@@ -153,4 +153,29 @@ public class UserServiceImpl implements UserService {
         ResponseDto response = new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         return response;
     }
+
+    @Override
+    public ResponseDto passwordUpdate(String email, Map<String, String> passwordMap) {
+        // 1. 사용자 조회
+        User user = userEntityService.findByEmail(email);
+
+        // 2. 현재 비밀번호 검증
+        String currentPassword = passwordMap.get("password");
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return new ResponseDto("NU", "현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 3. 새 비밀번호 해싱
+        String newPassword = passwordMap.get("modifyPassword");
+        String hashedNewPassword = passwordEncoder.encode(newPassword);
+
+        // 4. 비밀번호 업데이트
+        user.setPassword(hashedNewPassword);
+        System.out.println("쿼리 보내는 user 값 : " + user);
+        userRepository.save(user);
+
+        // 5. 결과 반환
+        return new ResponseDto("SU", "비밀번호가 변경되었습니다.");
+    }
+
 }
