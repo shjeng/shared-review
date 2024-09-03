@@ -8,10 +8,10 @@
 #top-right {
   display: flex;
   flex-direction: column;
-  margin: 30px 0px 105px 0px;
+  margin: 60px 0px 251px 0px;
 }
 .top-top {
-  padding: 30px 30px 40px 0px;
+  margin: 30px 0px 60px 0px;
   display: flex;
   gap: 10px;
 }
@@ -103,22 +103,6 @@
   border-radius: 10px;
 }
 
-.top-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 40px 0px 25px 0px;
-}
-
-.user-modify-cancel,
-.user-modify {
-  padding: 15px 25px;
-  border: 1px solid rgb(182, 182, 182);
-  border-radius: 10px;
-  color: rgb(78, 78, 78);
-  cursor: pointer;
-}
-
 .top-left-item1,
 .top-left-item2,
 .top-left-item3 {
@@ -168,4 +152,108 @@
 
 .passwordModify-mid {
   margin-top: 50px;
+}
+
+.my-profile-item1 {
+  position: relative;
+}
+
+.my-profile-item1,
+.my-profile-item2 {
+  margin-bottom: 40px;
+}
+
+.my-profile-modify-btn1,
+.my-profile-modify-btn2 {
+  position: absolute;
+  right: 0; /* 오른쪽 끝으로 정렬 */
+  top: 50%; /* 세로 중앙에 위치 */
+  transform: translateY(-50%); /* 세로 중앙에 정확히 위치하도록 조정 */
+  background-color: #f0f0f0;
+
+  border: 1px solid rgb(213, 213, 213);
+  border-radius: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  z-index: 1; /* InputBox 위로 올라오게 */
+}
+
+.my-profile-password-box,
+.my-profile-nickname-box {
+  position: relative;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.143);
+  width: 450px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.my-profile1-box {
+  position: relative;
+  width: 450px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.my-profile-password-text,
+.my-profile-nickname-text {
+  border: none;
+  background: none;
+  outline: none;
+  flex: 1 1;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 140%;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-use-select: none;
+  user-select: none;
+}
+
+.user-modify {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.user-modify::after {
+  content: " >"; /* 여기에 특수문자 >를 삽입합니다 */
+}
+
+.nicknameModify-container {
+  margin: auto;
+  width: 450px;
+  padding: 100px;
+}
+
+.nicknameModify-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.nicknameModify-mid {
+  margin-top: 50px;
+}
+
+.nicknameModify-bottom {
+  margin-top: 40px;
+}
+
+.nicknameModify-bottom > div {
+  height: 50px;
+  border: 1px solid rgb(182, 182, 182);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #646464;
+  border-radius: 5px;
+  cursor: pointer;
 }
