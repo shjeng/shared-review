@@ -23,6 +23,37 @@ import { useLoginUserStore } from "../../store";
 
 const UserPage = () => {
   const [authSuccess, setAuthSuccess] = useState<boolean>(false);
+  type PageType = "index" | "edit" | "passwordModify" | "nickNameModif";
+  const [currentPage, setCurrentPage] = useState<PageType>("index");
+  const { userEmail } = useParams();
+  const [profileImage, setProfileImage] = useState<string>("");
+  const [file, setFile] = useState<File | null>();
+  const [userInfo, setUserInfo] = useState<User>();
+  const [nickname, setNickname] = useState<string>("");
+  const [originNickname, setOriginNickname] = useState<string>("");
+
+  useEffect(() => {
+    if (!userEmail) {
+      return;
+    }
+    getLoginUser(userEmail).then(getMyInfoResponse);
+    (async () => {
+      const file = await convertUrlToFile(profileImage);
+      setFile(file);
+    })();
+  }, [userEmail]);
+  const getMyInfoResponse = (
+    response: GetUserResponseDto | ResponseDto | null
+  ) => {
+    if (!ResponseUtil(response)) {
+      return;
+    }
+    const result = response as GetUserResponseDto;
+    setUserInfo(result.userDto);
+    setNickname(result.userDto.nickname);
+    setOriginNickname(result.userDto.nickname);
+    setProfileImage(result.userDto.profileImage);
+  };
   const EditPage = () => {
     const [cookies, setCookies] = useCookies();
     const { setLoginUser } = useLoginUserStore();
@@ -33,14 +64,6 @@ const UserPage = () => {
     const nicknameRef = useRef<HTMLInputElement | null>(null);
     const profileImageRef = useRef<HTMLInputElement | null>(null);
 
-    const { userEmail } = useParams();
-    const [userInfo, setUserInfo] = useState<User>();
-
-    const [profileImage, setProfileImage] = useState<string>("");
-    const [file, setFile] = useState<File | null>();
-
-    const [originNickname, setOriginNickname] = useState<string>("");
-    const [nickname, setNickname] = useState<string>("");
     const [nicknameError, setNicknameError] = useState<boolean>(false);
     const [nicknameErrorMessage, setNicknameErrorMessage] =
       useState<string>("");
@@ -59,28 +82,6 @@ const UserPage = () => {
     const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] =
       useState<string>("");
 
-    useEffect(() => {
-      if (!userEmail) {
-        return;
-      }
-      getLoginUser(userEmail).then(getMyInfoResponse);
-      (async () => {
-        const file = await convertUrlToFile(profileImage);
-        setFile(file);
-      })();
-    }, [userEmail]);
-    const getMyInfoResponse = (
-      response: GetUserResponseDto | ResponseDto | null
-    ) => {
-      if (!ResponseUtil(response)) {
-        return;
-      }
-      const result = response as GetUserResponseDto;
-      setUserInfo(result.userDto);
-      setNickname(result.userDto.nickname);
-      setOriginNickname(result.userDto.nickname);
-      setProfileImage(result.userDto.profileImage);
-    };
     const editImageIconClick = () => {
       if (!profileImageRef.current) {
         return;
@@ -208,8 +209,13 @@ const UserPage = () => {
       const { userDto } = responseBody as GetUserResponseDto;
       setLoginUser(userDto);
     };
-    const back = () => {
-      navigate(-1);
+
+    const passwordModifyPage = () => {
+      setCurrentPage("passwordModify");
+    };
+
+    const nickNameModify = () => {
+      setCurrentPage("nickNameModif");
     };
     return (
       <div id="user-page-content-wrap">
@@ -240,55 +246,48 @@ const UserPage = () => {
                   {userInfo?.nickname}
                 </div>
                 <div className={"top-top-infobox-email"}>{userInfo?.email}</div>
+                <div className={"top-top-infobox-email"}>
+                  {userInfo?.admin === "NORMAL" && "일반회원"}
+                  {userInfo?.admin === "MANAGER" && "관리자"}
+                </div>
               </div>
             </div>
 
             <div className={"top-middle"}>
-              <InputBox
-                ref={nicknameRef}
-                label="닉네임"
-                type={"text"}
-                placeholder="닉네임을 입력해주세요."
-                value={nickname}
-                onChange={onNicknameChangeHandler}
-                error={nicknameError}
-                message={nicknameErrorMessage}
-              />
-              <div>수정</div>
-              <InputBox
-                ref={passwordRef}
-                label="새 비밀번호"
-                type={"password"}
-                placeholder="변경할 비밀번호를 입력해주세요."
-                value={password}
-                onChange={onPasswordChangeHandler}
-                error={passwordError}
-                message={passwordErrorMessage}
-              />
-              <InputBox
-                ref={passwordCheckRef}
-                label="새 비밀번호 확인"
-                type={"password"}
-                placeholder="변경할 비밀번호 확인을 위해 다시 입력해주세요."
-                value={passwordCheck}
-                onChange={onPasswordCheckChangeHandler}
-                error={passwordCheckError}
-                message={passwordCheckErrorMessage}
-              />
+              <div className="my-profile-item1">
+                <div className="my-profile-nickname">닉네임</div>
+
+                <div className="my-profile-nickname-box">
+                  <span className="my-profile-nickname-text">{nickname}</span>
+                  <div
+                    className="my-profile-modify-btn1"
+                    onClick={nickNameModify}
+                  >
+                    수정
+                  </div>
+                </div>
+              </div>
+
+              <div className="my-profile-item2">
+                <div className="my-profile-password">비밀번호</div>
+
+                <div className="my-profile-password-box">
+                  <span className="my-profile-password-text">●●●●●●●●</span>
+                  <div
+                    className="my-profile-modify-btn2"
+                    onClick={passwordModifyPage}
+                  >
+                    수정
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className={"top-bottom"}>
-              <div className={"user-modify"} onClick={editInfo}>
-                수정
-              </div>
-              <div className={"user-modify-cancel"} onClick={back}>
-                이전
-              </div>
+              <div className={"user-modify"}>회원탈퇴</div>
             </div>
           </div>
         </div>
-        <div id="middle"></div>
-        <div id="bottom"></div>
       </div>
     );
   };
@@ -313,7 +312,6 @@ const UserPage = () => {
       );
     };
     const passwordCheckResponse = (response: ResponseDto | null) => {
-      console.log("response 값 : " + response);
       if (!response) {
         alert("서버 에러");
         return;
@@ -325,7 +323,8 @@ const UserPage = () => {
       }
       ResponseUtil(response);
       if (code === "SU") {
-        setAuthSuccess(true);
+        // setAuthSuccess(true);
+        setCurrentPage("edit");
       }
     };
     return (
@@ -405,7 +404,7 @@ const UserPage = () => {
     };
 
     const back = () => {
-      navigate(-1);
+      setCurrentPage("edit");
     };
 
     const passwordModify = async () => {
@@ -472,7 +471,7 @@ const UserPage = () => {
 
       if (response?.code === "SU") {
         alert(response?.message);
-        // navigate();
+        setCurrentPage("edit");
       } else {
         alert("오류");
         return;
@@ -532,8 +531,144 @@ const UserPage = () => {
     );
   };
 
-  return <>{!authSuccess ? <Index /> : <EditPage />}</>;
+  interface NickNameModifyProps {
+    userInfo?: User;
+  }
+  const NickNameModify: React.FC<NickNameModifyProps> = ({ userInfo }) => {
+    const navigate = useNavigate();
+    const [cookies, setCookies] = useCookies();
+
+    const modafiyNicknameRef = useRef<HTMLInputElement | null>(null);
+    const [modifyNickname, setModifyNickname] = useState<string>("");
+    const [modifyNicknamedError, setModifyNicknamedError] =
+      useState<boolean>(false);
+    const [modifyNicknameErrorMessage, setModifyNicknameErrorMessage] =
+      useState<string>("");
+
+    const onModifyNicknameChangeHandler = (
+      event: ChangeEvent<HTMLInputElement>
+    ) => {
+      const { value } = event.target;
+      setModifyNickname(value);
+      setModifyNicknamedError(false);
+      setModifyNicknameErrorMessage("");
+    };
+
+    const passwordRef = useRef<HTMLInputElement | null>(null);
+    const [password, setPassword] = useState<string>("");
+    const [passwordError, setPasswordError] = useState<boolean>(false);
+    const [passwordErrorMessage, setPasswordErrorMessage] =
+      useState<string>("");
+
+    const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      const { value } = event.target;
+      setPassword(value);
+      setPasswordError(false);
+      setPasswordErrorMessage("");
+    };
+
+    const back = () => {
+      setCurrentPage("edit");
+    };
+
+    const nicknameModify = async () => {
+      let error = false;
+      if (modifyNickname.length === 0) {
+        setModifyNicknamedError(true);
+        setModifyNicknameErrorMessage("변경하실 닉네임을 입력해주세요.");
+        error = true;
+      }
+
+      if (modifyNickname === originNickname) {
+        setModifyNicknamedError(true);
+        setModifyNicknameErrorMessage(
+          "현재 닉네임과 변경하실 닉네임이 같습니다."
+        );
+        error = true;
+      }
+
+      if (password.length === 0) {
+        setPasswordError(true);
+        setPasswordErrorMessage("현재 사용중인 비밀번호를 입력해주세요.");
+        error = true;
+      }
+
+      if (error) {
+        return;
+      }
+
+      if (!error) {
+        updatePassword(cookies.accessToken, password, modifyNickname).then(
+          updatePasswordResponse
+        );
+      }
+    };
+
+    const updatePasswordResponse = (response: ResponseDto | null) => {
+      if (response?.code === "SU") {
+        alert(response?.message);
+        setCurrentPage("edit");
+      } else {
+        alert("오류");
+        return;
+      }
+    };
+
+    return (
+      <div className={"nicknameModify-wrap"}>
+        <div className={"nicknameModify-container"}>
+          <div className={"nicknameModify-top"}>
+            <div className={"nicknameModify-title"}>닉네임 변경</div>
+          </div>
+          <div className={"nicknameModify-mid"}>
+            <InputBox
+              ref={modafiyNicknameRef}
+              label="닉네임"
+              type={"text"}
+              placeholder="변경할 닉네임을 입력해주세요."
+              value={modifyNickname}
+              onChange={onModifyNicknameChangeHandler}
+              error={modifyNicknamedError}
+              message={modifyNicknameErrorMessage}
+            />
+
+            <InputBox
+              ref={passwordRef}
+              label="현재 비밀번호"
+              type={"password"}
+              placeholder="현재 사용중인 비밀번호를 입력해주세요."
+              value={password}
+              onChange={onPasswordChangeHandler}
+              error={passwordError}
+              message={passwordErrorMessage}
+            />
+          </div>
+
+          <div className={"nicknameModify-bottom"}>
+            <div className={"nicknameModify-btn"} onClick={nicknameModify}>
+              수정
+            </div>
+            <div className={"nicknameModify-cancel"} onClick={back}>
+              이전
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // return <>{!authSuccess ? <Index /> : <EditPage />}</>;
   // return <>{<PassWordModify />}</>;
+  return (
+    <>
+      {currentPage === "index" && <Index />}
+      {currentPage === "edit" && <EditPage />}
+      {currentPage === "passwordModify" && <PassWordModify />}
+      {currentPage === "nickNameModif" && (
+        <NickNameModify userInfo={userInfo} />
+      )}
+    </>
+  );
 };
 
 export default UserPage;
