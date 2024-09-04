@@ -178,4 +178,33 @@ public class UserServiceImpl implements UserService {
         return new ResponseDto("SU", "비밀번호가 변경되었습니다.");
     }
 
+    @Override
+    public ResponseDto updateNickname(String email, Map<String, String> requestData) {
+        // 1. 사용자 조회
+        User user = userEntityService.findByEmail(email);
+
+        // 2. 현재 비밀번호 검증
+        String currentPassword = requestData.get("password");
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return new ResponseDto("NU", "현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 3. 새 닉네임
+        String newNickname = requestData.get("modifyNickname");
+        Optional<User> nicknameOptional = userEntityService.findByNickname(newNickname);
+        if (nicknameOptional.isPresent()) {
+            User dupleCheck = nicknameOptional.get();
+            if (dupleCheck.getEmail().equals(email)) {
+                throw new BadRequestException("닉네임 중복입니다.");
+            }
+        }
+        user.setNickname(newNickname);
+
+        System.out.println("쿼리 보내는 user 값 : " + user);
+        userRepository.save(user);
+
+        // 5. 결과 반환
+        return new ResponseDto("SU", "닉네임이 변경되었습니다.");
+    }
+
 }
