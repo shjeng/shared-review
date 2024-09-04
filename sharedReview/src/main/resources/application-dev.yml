@@ -4,15 +4,15 @@ spring:
 
 
   datasource:
-#    url: jdbc:mariadb://172.30.1.93:3307/shared_review
-    url: jdbc:mariadb://127.0.0.1:3307/shared_review
+    url: jdbc:mariadb://172.30.1.32:3307/shared_review
+#    url: jdbc:mariadb://127.0.0.1:3307/shared_review
     username: sr
     password: 1234
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto:
     properties:
       hibernate:
         show_sql: true
@@ -62,5 +62,5 @@ file:
   maximum: 10000000
 
 jwt:
-  secretKey: S3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3y
-  refreshKey: S3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3yS3cr3tK3y
+  secretKey: dkiizckkK!@#Zddkzdiz!@KFADFZCXVasdsadvCXVASDQWDDASDZXCsDFDSdx1231412
+  refreshKey: dkiizckkK!@#Zddkzdiz!@KFADFZCXVasdsadvCXVASDQWDDASDZXCsDFDSdx1231412
