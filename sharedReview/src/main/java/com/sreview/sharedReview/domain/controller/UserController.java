@@ -88,4 +88,12 @@ public class UserController {
 
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/update-nickname")
+    public ResponseEntity<?> updateNickname(@AuthenticationPrincipal String email, @RequestBody Map<String, String> requestData){
+        System.out.println("클라이언트에서 받아온 email 값 : "+email+", requestData 값 : "+ requestData);
+        ResponseDto result = userService.updateNickname(email, requestData);
+
+        return ResponseEntity.ok(result);
+    }
 }

@@ -8,6 +8,7 @@ import {
   nicknameDuplChkRequest,
   passwordCheckRequest,
   saveTempImage,
+  updateNickname,
   updatePassword,
 } from "../../apis";
 import { GetUserResponseDto } from "../../apis/response/user";
@@ -41,7 +42,7 @@ const UserPage = () => {
       const file = await convertUrlToFile(profileImage);
       setFile(file);
     })();
-  }, [userEmail]);
+  }, [userEmail, currentPage]);
   const getMyInfoResponse = (
     response: GetUserResponseDto | ResponseDto | null
   ) => {
@@ -598,19 +599,23 @@ const UserPage = () => {
       }
 
       if (!error) {
-        updatePassword(cookies.accessToken, password, modifyNickname).then(
-          updatePasswordResponse
+        updateNickname(cookies.accessToken, password, modifyNickname).then(
+          updateNicknameResponse
         );
       }
     };
 
-    const updatePasswordResponse = (response: ResponseDto | null) => {
+    const updateNicknameResponse = (response: ResponseDto | null) => {
+      alert(response);
+
       if (response?.code === "SU") {
         alert(response?.message);
         setCurrentPage("edit");
-      } else {
-        alert("오류");
-        return;
+      }
+
+      if (response?.code === "NU") {
+        setPasswordError(true);
+        setPasswordErrorMessage(response?.message);
       }
     };
 

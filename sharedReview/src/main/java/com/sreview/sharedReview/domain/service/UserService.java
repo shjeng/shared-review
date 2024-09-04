@@ -25,5 +25,6 @@ public interface UserService {
 
     ResponseDto passwordUpdate(String email,  Map<String, String> password);
 
+    ResponseDto updateNickname(String email,  Map<String, String> requestData);
 
 }
