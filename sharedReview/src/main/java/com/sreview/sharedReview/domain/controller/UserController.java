@@ -71,10 +71,7 @@ public class UserController {
     }
     @PatchMapping("")
     public ResponseEntity<?> editUser(@AuthenticationPrincipal String email, @RequestBody SignUpRequest requestBody) {
-        System.out.println("requestBody 값 : "+ requestBody);
-
         log.info("requestBody = {}", requestBody);
-
         requestBody.setEmail(email);
         ResponseDto result = userService.editUser(requestBody);
         return ResponseEntity.ok(result);
@@ -82,18 +79,13 @@ public class UserController {
 
     @PostMapping("/update-password")
     public ResponseEntity<?> updatePassword(@AuthenticationPrincipal String email, @RequestBody Map<String, String> password){
-        System.out.println("클라이언트에서 받아온 email 값 : "+email+", password 값 : "+ password);
-
         ResponseDto result = userService.passwordUpdate(email, password);
-
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/update-nickname")
     public ResponseEntity<?> updateNickname(@AuthenticationPrincipal String email, @RequestBody Map<String, String> requestData){
-        System.out.println("클라이언트에서 받아온 email 값 : "+email+", requestData 값 : "+ requestData);
         ResponseDto result = userService.updateNickname(email, requestData);
-
         return ResponseEntity.ok(result);
     }
 }
