@@ -536,6 +536,8 @@ const UserPage = () => {
     userInfo?: User;
   }
   const NickNameModify: React.FC<NickNameModifyProps> = ({ userInfo }) => {
+    const { loginUser, setLoginUser } = useLoginUserStore();
+    const [newNickname, setNewNickname] = useState("");
     const navigate = useNavigate();
     const [cookies, setCookies] = useCookies();
 
@@ -606,9 +608,13 @@ const UserPage = () => {
     };
 
     const updateNicknameResponse = (response: ResponseDto | null) => {
-      alert(response);
-
       if (response?.code === "SU") {
+        if (loginUser) {
+          setLoginUser({
+            ...loginUser,
+            nickname: modifyNickname,
+          });
+        }
         alert(response?.message);
         setCurrentPage("edit");
       }
