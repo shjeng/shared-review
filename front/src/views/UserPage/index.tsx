@@ -24,7 +24,12 @@ import { useLoginUserStore } from "../../store";
 
 const UserPage = () => {
   const [authSuccess, setAuthSuccess] = useState<boolean>(false);
-  type PageType = "index" | "edit" | "passwordModify" | "nickNameModif";
+  type PageType =
+    | "index"
+    | "edit"
+    | "passwordModify"
+    | "nickNameModif"
+    | "deleteUser";
   const [currentPage, setCurrentPage] = useState<PageType>("index");
   const { userEmail } = useParams();
   const [profileImage, setProfileImage] = useState<string>("");
@@ -218,6 +223,11 @@ const UserPage = () => {
     const nickNameModify = () => {
       setCurrentPage("nickNameModif");
     };
+
+    const deleteUserPage = () => {
+      setCurrentPage("deleteUser");
+    };
+
     return (
       <div id="user-page-content-wrap">
         <div className="user-page-main">
@@ -285,7 +295,10 @@ const UserPage = () => {
             </div>
 
             <div className={"top-bottom"}>
-              <div className={"user-modify"}>회원탈퇴</div>
+              {/* user테이블에 active 컬럼 추가해서 탈퇴 표시하기? */}
+              <div className={"user-modify"} onClick={deleteUserPage}>
+                회원탈퇴
+              </div>
             </div>
           </div>
         </div>
@@ -464,12 +477,6 @@ const UserPage = () => {
     };
 
     const updatePasswordResponse = (response: ResponseDto | null) => {
-      // if (response?.code === "NU") {
-      //   setPasswordError(true);
-      //   setPasswordErrorMessage("현재 비밀번호가 일치하지 않습니다.");
-      //   return;
-      // }
-
       if (response?.code === "SU") {
         alert(response?.message);
         setCurrentPage("edit");
@@ -668,6 +675,10 @@ const UserPage = () => {
     );
   };
 
+  const DeleteUser = () => {
+    return <div>회원탈퇴 페이지</div>;
+  };
+
   // return <>{!authSuccess ? <Index /> : <EditPage />}</>;
   // return <>{<PassWordModify />}</>;
   return (
@@ -678,6 +689,7 @@ const UserPage = () => {
       {currentPage === "nickNameModif" && (
         <NickNameModify userInfo={userInfo} />
       )}
+      {currentPage === "deleteUser" && <DeleteUser />}
     </>
   );
 };

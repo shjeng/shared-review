@@ -10,7 +10,6 @@ import lombok.ToString;
 @Entity(name = "user_entity")
 @Getter
 @NoArgsConstructor
-@ToString
 public class User extends BaseEntity {
     // 회원 ID
     @Id
@@ -39,6 +38,10 @@ public class User extends BaseEntity {
 //    @ColumnDefault("NORMAL") => default 값을 넣으려고 했는데 오류
     @Enumerated(EnumType.STRING)
     private ADMIN admin = ADMIN.NORMAL;
+
+    // 회원 활동 여부
+    @Column(name = "User_Active", nullable = false)
+    private boolean active = true;
 
     // 초기값 세팅
     public void setUser(String email, String nickname, String password){

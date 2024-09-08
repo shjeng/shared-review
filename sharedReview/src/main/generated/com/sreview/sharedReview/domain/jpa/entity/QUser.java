@@ -21,6 +21,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
+    public final BooleanPath active = createBoolean("active");
+
     public final EnumPath<com.sreview.sharedReview.domain.jpa.entity.enumType.ADMIN> admin = createEnum("admin", com.sreview.sharedReview.domain.jpa.entity.enumType.ADMIN.class);
 
     //inherited
