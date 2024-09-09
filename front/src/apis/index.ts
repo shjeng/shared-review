@@ -23,8 +23,8 @@ import { FileResponseDto } from "./response/file";
 import { Board } from "../types/interface";
 import Pageable from "../types/interface/pageable.interface";
 
-// const DOMAIN = "http://172.31.35.179:8080";
-const DOMAIN = "http://127.0.0.1:8080";
+const DOMAIN = "http://172.31.35.179:8080";
+// const DOMAIN = "http://127.0.0.1:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
 export const BACK_DOMAIN = () => DOMAIN;
 const authorication = (accessToken: string) => {
