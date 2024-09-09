@@ -295,7 +295,6 @@ const UserPage = () => {
             </div>
 
             <div className={"top-bottom"}>
-              {/* user테이블에 active 컬럼 추가해서 탈퇴 표시하기? */}
               <div className={"user-modify"} onClick={deleteUserPage}>
                 회원탈퇴
               </div>
@@ -367,7 +366,6 @@ const UserPage = () => {
   };
 
   const PassWordModify = () => {
-    const navigate = useNavigate();
     const [cookies, setCookies] = useCookies();
 
     const modafiyPasswordRef = useRef<HTMLInputElement | null>(null);
@@ -544,8 +542,6 @@ const UserPage = () => {
   }
   const NickNameModify: React.FC<NickNameModifyProps> = ({ userInfo }) => {
     const { loginUser, setLoginUser } = useLoginUserStore();
-    const [newNickname, setNewNickname] = useState("");
-    const navigate = useNavigate();
     const [cookies, setCookies] = useCookies();
 
     const modafiyNicknameRef = useRef<HTMLInputElement | null>(null);
@@ -676,11 +672,302 @@ const UserPage = () => {
   };
 
   const DeleteUser = () => {
-    return <div>회원탈퇴 페이지</div>;
+    const [cookies, setCookies] = useCookies();
+
+    const modafiyPasswordRef = useRef<HTMLInputElement | null>(null);
+    const [modifyPassword, setModifyPassword] = useState<string>("");
+    const [modifyPasswordError, setModifyPasswordError] =
+      useState<boolean>(false);
+    const [modifyPasswordErrorMessage, setModifyPasswordErrorMessage] =
+      useState<string>("");
+
+    const onModifyPasswordChangeHandler = (
+      event: ChangeEvent<HTMLInputElement>
+    ) => {
+      const { value } = event.target;
+      setModifyPassword(value);
+      setModifyPasswordError(false);
+      setModifyPasswordErrorMessage("");
+    };
+
+    const passwordRef = useRef<HTMLInputElement | null>(null);
+    const [password, setPassword] = useState<string>("");
+    const [passwordError, setPasswordError] = useState<boolean>(false);
+    const [passwordErrorMessage, setPasswordErrorMessage] =
+      useState<string>("");
+
+    const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      const { value } = event.target;
+      setPassword(value);
+      setPasswordError(false);
+      setPasswordErrorMessage("");
+    };
+
+    const modifyPasswordCheckRef = useRef<HTMLInputElement | null>(null);
+    const [modifyPasswordCheck, setModifyPasswordCheck] = useState<string>("");
+    const [modifyPasswordCheckError, setModifyPasswordCheckError] =
+      useState<boolean>(false);
+
+    const [
+      modifyPasswordCheckErrorMessage,
+      setModifyPasswordCheckErrorMessage,
+    ] = useState<string>("");
+    const onModifyPasswordCheckhangeHandler = (
+      event: ChangeEvent<HTMLInputElement>
+    ) => {
+      const { value } = event.target;
+      setModifyPasswordCheck(value);
+      setModifyPasswordCheckError(false);
+      setModifyPasswordCheckErrorMessage("");
+    };
+
+    const back = () => {
+      setCurrentPage("edit");
+    };
+
+    const passwordModify = async () => {
+      let error = false;
+      if (password.length === 0) {
+        setPasswordError(true);
+        setPasswordErrorMessage("사용중인 비밀번호를 입력해주세요.");
+        error = true;
+      }
+
+      // 비밀번호가 입력된 경우 비밀번호 확인
+      if (password.length > 0) {
+        const response = await passwordCheckRequest(
+          cookies.accessToken,
+          password
+        );
+
+        if (response?.code === "NU") {
+          setPasswordError(true);
+          setPasswordErrorMessage("현재 비밀번호가 일치하지 않습니다.");
+          error = true;
+        }
+      }
+
+      if (modifyPassword === password) {
+        setModifyPasswordError(true);
+        setModifyPasswordErrorMessage(
+          "현재 비밀번호와 변경하실 비밀번호가 같습니다."
+        );
+        error = true;
+      }
+
+      if (modifyPassword.length === 0) {
+        setModifyPasswordError(true);
+        setModifyPasswordErrorMessage("변경할 비밀번호를 입력해주세요.");
+        error = true;
+      }
+
+      if (modifyPasswordCheck !== modifyPassword || !modifyPasswordCheck) {
+        setModifyPasswordCheckError(true);
+        setModifyPasswordCheckErrorMessage(
+          "변경할 비밀번호와 일치하지 않습니다."
+        );
+        error = true;
+      }
+
+      if (error) {
+        return;
+      }
+
+      if (!error) {
+        updatePassword(cookies.accessToken, password, modifyPassword).then(
+          updatePasswordResponse
+        );
+      }
+    };
+
+    const updatePasswordResponse = (response: ResponseDto | null) => {
+      if (response?.code === "SU") {
+        alert(response?.message);
+        setCurrentPage("edit");
+      } else {
+        alert("오류");
+        return;
+      }
+    };
+
+    const [deleteUserPage, setDeleteUserPage] = useState(1);
+
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleCheckboxChange = (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      setIsChecked(event.target.checked);
+    };
+
+    const handlePageTransitionToPage2 = () => {
+      // 페이지 전환 로직
+      setDeleteUserPage(2);
+    };
+
+    const warnIfNotChecked = () => {
+      alert("회원탈퇴 시 유의사항을 확인하고 동의에 체크해주세요.");
+    };
+
+    return (
+      <>
+        {deleteUserPage === 1 && (
+          <div className="delete-user-page1-wrap">
+            <div className="delete-user-page-container">
+              <div className="delete-user-page-top">
+                <div className="delete-user-page-top-item1">
+                  <div className="delete-user-page-top-title">회원탈퇴</div>
+                  <div>
+                    회원탈퇴 전에 반드시 유의사항을 확인하고 진행해 주세요.
+                  </div>
+                </div>
+              </div>
+              <hr className="delete-user-page-hr" />
+
+              <div className="delete-user-page-mid">
+                <div className="delete-user-page-mid-item1">
+                  <div className="delete-user-page-mid-title">
+                    개인정보 및 서비스 이용 기록 삭제
+                  </div>
+                  <div>
+                    개인정보 및 개인화 서비스 이용기록이 모두 삭제 되며, 삭제된
+                    데이터는 복구되지 않습니다. 필요한 데이터는 미리 백업해
+                    주시기 바랍니다.
+                  </div>
+                </div>
+
+                <div className="delete-user-page-mid-item2">
+                  <div className="delete-user-page-mid-title">
+                    소셜 계정 연결 정보 삭제
+                  </div>
+                  <div>
+                    이메일 ID에 소셜 계정을 연결한 경우 탈퇴 시 연결 정보도 함께
+                    삭제됩니다.
+                  </div>
+                </div>
+
+                <div className="delete-user-page-mid-item3">
+                  <div className="delete-user-page-mid-title">
+                    커뮤니티 서비스 등록 게시물 유지
+                  </div>
+                  <div>
+                    회원가입 이후 등록하신 게시물들은 회원탈퇴 후에도 삭제 되지
+                    않고 유지됩니다. 삭제를 원하는 경우에는 직접 삭제하신 후
+                    회원탈퇴를 진행하시기 바랍니다.
+                  </div>
+                </div>
+
+                <div className="delete-user-page-mid-item4">
+                  <div className="delete-user-page-mid-title">
+                    개인정보 보관
+                  </div>
+                  <div>
+                    회원 탈퇴 시 일부 개인정보는 개인정보처리방침에 따라
+                    탈퇴일로부터 30일간 보관되며, 그 이후 관계법령에 필요한
+                    경우에는 별도 보관합니다.
+                  </div>
+                </div>
+
+                <div className="delete-user-page-mid-item5">
+                  <div className="delete-user-page-mid-title">탈퇴 후 제한</div>
+                  <div>
+                    탈퇴 처리된 이메일 ID는 30일동안 재가입이 불가합니다.
+                  </div>
+                </div>
+              </div>
+
+              <hr className="delete-user-page-hr" />
+
+              <div className="delete-user-page-bottem">
+                <div className="delete-user-page-bottem-item1">
+                  <label className="custom-checkbox">
+                    <input
+                      type="checkbox"
+                      id="acceptTerms"
+                      checked={isChecked}
+                      onChange={handleCheckboxChange}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                  <div>
+                    회원탈퇴 시 유의사항을 확인하였으며, 모두 동의합니다.
+                  </div>
+                </div>
+                <div className="delete-user-page-bottem-item2">
+                  <div
+                    className="delete-user-page-bottem-item2-cancel"
+                    onClick={back}
+                  >
+                    비동의
+                  </div>
+
+                  {isChecked === true ? (
+                    <div
+                      className={
+                        "delete-user-page-bottem-item2-confirm checked"
+                      }
+                      onClick={handlePageTransitionToPage2}
+                    >
+                      동의
+                    </div>
+                  ) : (
+                    <div
+                      className={"delete-user-page-bottem-item2-confirm"}
+                      onClick={warnIfNotChecked}
+                    >
+                      동의
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {deleteUserPage === 2 && (
+          <div className={"passwordModify-wrap"}>
+            <div className={"passwordModify-container"}>
+              <div className={"passwordModify-top"}>
+                <div className={"passwordModify-title"}>회원탈퇴</div>
+              </div>
+              <div className={"passwordModify-mid"}>
+                <InputBox
+                  ref={modifyPasswordCheckRef}
+                  label="이메일"
+                  type={"password"}
+                  placeholder="변경할 비밀번호 확인을 위해 다시 입력해주세요."
+                  value={modifyPasswordCheck}
+                  onChange={onModifyPasswordCheckhangeHandler}
+                  error={modifyPasswordCheckError}
+                  message={modifyPasswordCheckErrorMessage}
+                />
+
+                <InputBox
+                  ref={passwordRef}
+                  label="비밀번호"
+                  type={"password"}
+                  placeholder="현재 사용중인 비밀번호를 입력해주세요."
+                  value={password}
+                  onChange={onPasswordChangeHandler}
+                  error={passwordError}
+                  message={passwordErrorMessage}
+                />
+              </div>
+
+              <div className={"passwordModify-bottom"}>
+                <div className={"passwordModify-btn"} onClick={passwordModify}>
+                  탈퇴
+                </div>
+                <div className={"passwordModify-cancel"} onClick={back}>
+                  이전
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
   };
 
-  // return <>{!authSuccess ? <Index /> : <EditPage />}</>;
-  // return <>{<PassWordModify />}</>;
   return (
     <>
       {currentPage === "index" && <Index />}

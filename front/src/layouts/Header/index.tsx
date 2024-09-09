@@ -106,7 +106,12 @@ const Header = () => {
     if (!loginUser) {
       return;
     }
-    navigator(USER_PAGE_PATH(loginUser.email));
+    const targetPath = USER_PAGE_PATH(loginUser.email);
+    if (window.location.pathname === targetPath) {
+      window.location.reload();
+    } else {
+      navigator(targetPath);
+    }
   };
   //      event handler: 로고 클릭 이벤트 처리 함수       //
   const onLogoClickHandler = () => {
