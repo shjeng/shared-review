@@ -88,4 +88,10 @@ public class UserController {
         ResponseDto result = userService.updateNickname(email, requestData);
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/email-check")
+    public ResponseEntity<?> emailCheck(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> email){
+        log.info("email: {}", email);
+        return userService.emailCheck(token, email);
+    }
 }

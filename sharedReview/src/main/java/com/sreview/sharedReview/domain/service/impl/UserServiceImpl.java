@@ -7,15 +7,19 @@ import com.sreview.sharedReview.domain.dto.object.AdminUserDto;
 import com.sreview.sharedReview.domain.dto.object.UserDto;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
+import com.sreview.sharedReview.domain.dto.response.auth.tokenStatusResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserResponse;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.UserRepository;
 import com.sreview.sharedReview.domain.jpa.service.UserEntityService;
+import com.sreview.sharedReview.domain.provider.JwtProvider;
 import com.sreview.sharedReview.domain.service.UserService;
 import com.sun.jdi.InternalException;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final UserEntityService userEntityService;
     private final UserRepository userRepository;
     private final FileService fileService;
+    private final JwtProvider jwtProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override // 로그인을 하면 가져올 데이터
@@ -205,6 +210,45 @@ public class UserServiceImpl implements UserService {
 
         // 5. 결과 반환
         return new ResponseDto("SU", "닉네임이 변경되었습니다.");
+    }
+
+    @Override
+    public ResponseEntity<?> emailCheck(String token, Map<String, String> emailRequest) {
+//        try {
+//            // 1. 토큰 유효성 검사
+//            System.out.println("1. 토큰 값 : " + token);
+//            jwtProvider.validate(token);
+//
+//            // 2. 유효한 토큰에서 이메일 추출
+//            String tokenEmail = jwtProvider.getEmailFromToken(token);
+//            System.out.println("2. 유효한 토큰에서 이메일 추출 값 : " + tokenEmail);
+//
+//            // 3. 클라이언트에서 전송된 이메일과 비교
+//            String providedEmail = emailRequest.get("email");
+//            System.out.println("3. 클라이언트에서 전송된 이메일과 비교 값 : " + providedEmail);
+//
+////            if (tokenEmail.equals(providedEmail)) {
+////                // 4. DB에서 이메일 확인
+////                boolean emailExists = userService.checkEmailExists(providedEmail);
+////                if (emailExists) {
+////                    // 5. 이메일이 존재하는 경우
+////                    return ResponseEntity.ok().body("Email is valid and exists.");
+////                } else {
+////                    // 이메일이 DB에 존재하지 않는 경우
+////                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email does not exist.");
+////                }
+////            } else {
+////                // 이메일이 일치하지 않는 경우
+////                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email does not match.");
+////            }
+//
+//        } catch (ExpiredJwtException ex) {
+//            System.out.println("2. 엑세스 토큰이 유효하지 않음.");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token expired.");
+//        } catch (Exception ex) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token.");
+//        }
+        return null;
     }
 
 }

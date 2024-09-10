@@ -3,6 +3,7 @@ import "./style.css";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   editUser,
+  emailCheckRequest,
   getLoginUser,
   getMyInfo,
   nicknameDuplChkRequest,
@@ -703,37 +704,35 @@ const UserPage = () => {
       setPasswordErrorMessage("");
     };
 
-    const modifyPasswordCheckRef = useRef<HTMLInputElement | null>(null);
-    const [modifyPasswordCheck, setModifyPasswordCheck] = useState<string>("");
-    const [modifyPasswordCheckError, setModifyPasswordCheckError] =
+    const deleteUserEmailRef = useRef<HTMLInputElement | null>(null);
+    const [deleteUserEmail, setDeleteUserEmail] = useState<string>("");
+    const [deleteUserEmailError, setDeleteUserEmailError] =
       useState<boolean>(false);
 
-    const [
-      modifyPasswordCheckErrorMessage,
-      setModifyPasswordCheckErrorMessage,
-    ] = useState<string>("");
-    const onModifyPasswordCheckhangeHandler = (
-      event: ChangeEvent<HTMLInputElement>
-    ) => {
+    const [deleteUserEmailErrorMessage, setDeleteUserEmailErrorMessage] =
+      useState<string>("");
+    const onDeleteUserEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target;
-      setModifyPasswordCheck(value);
-      setModifyPasswordCheckError(false);
-      setModifyPasswordCheckErrorMessage("");
+      setDeleteUserEmail(value);
+      setDeleteUserEmailError(false);
+      setDeleteUserEmailErrorMessage("");
     };
 
     const back = () => {
       setCurrentPage("edit");
     };
 
-    const passwordModify = async () => {
+    const deleteUser = async () => {
       let error = false;
+
+      // 비밀번호가 입력되지 않았을 경우
       if (password.length === 0) {
         setPasswordError(true);
         setPasswordErrorMessage("사용중인 비밀번호를 입력해주세요.");
         error = true;
       }
 
-      // 비밀번호가 입력된 경우 비밀번호 확인
+      // 비밀번호가 입력된 경우. 비밀번호 일치한지 api
       if (password.length > 0) {
         const response = await passwordCheckRequest(
           cookies.accessToken,
@@ -747,32 +746,35 @@ const UserPage = () => {
         }
       }
 
-      if (modifyPassword === password) {
-        setModifyPasswordError(true);
-        setModifyPasswordErrorMessage(
-          "현재 비밀번호와 변경하실 비밀번호가 같습니다."
-        );
+      // 이메일을 입력하지 않았을 경우
+      if (deleteUserEmail.length === 0) {
+        setDeleteUserEmailError(true);
+        setDeleteUserEmailErrorMessage("변경할 비밀번호를 입력해주세요.");
         error = true;
       }
 
-      if (modifyPassword.length === 0) {
-        setModifyPasswordError(true);
-        setModifyPasswordErrorMessage("변경할 비밀번호를 입력해주세요.");
-        error = true;
-      }
-
-      if (modifyPasswordCheck !== modifyPassword || !modifyPasswordCheck) {
-        setModifyPasswordCheckError(true);
-        setModifyPasswordCheckErrorMessage(
-          "변경할 비밀번호와 일치하지 않습니다."
+      // 이메일이 입력된 경우. 입력한 이메일이 현재 토큰 내용과 일치한지 api
+      if (deleteUserEmail.length > 0) {
+        const response = await emailCheckRequest(
+          cookies.accessToken,
+          deleteUserEmail
         );
-        error = true;
+
+        alert("서버에서 받아온 값 : " + response);
+        return;
+
+        if (response?.code === "NU") {
+          setDeleteUserEmailError(true);
+          setDeleteUserEmailErrorMessage("이메일이 일치하지 않습니다.");
+          error = true;
+        }
       }
 
       if (error) {
         return;
       }
 
+      // 에러가 없는 경우 회원탈퇴 api 실행
       if (!error) {
         updatePassword(cookies.accessToken, password, modifyPassword).then(
           updatePasswordResponse
@@ -813,20 +815,20 @@ const UserPage = () => {
       <>
         {deleteUserPage === 1 && (
           <div className="delete-user-page1-wrap">
-            <div className="delete-user-page-container">
-              <div className="delete-user-page-top">
-                <div className="delete-user-page-top-item1">
-                  <div className="delete-user-page-top-title">회원탈퇴</div>
+            <div className="delete-user-page1-container">
+              <div className="delete-user-page1-top">
+                <div className="delete-user-page1-top-item1">
+                  <div className="delete-user-page1-top-title">회원탈퇴</div>
                   <div>
                     회원탈퇴 전에 반드시 유의사항을 확인하고 진행해 주세요.
                   </div>
                 </div>
               </div>
-              <hr className="delete-user-page-hr" />
+              <hr className="delete-user-page1-hr" />
 
-              <div className="delete-user-page-mid">
-                <div className="delete-user-page-mid-item1">
-                  <div className="delete-user-page-mid-title">
+              <div className="delete-user-page1-mid">
+                <div className="delete-user-page1-mid-item1">
+                  <div className="delete-user-page1-mid-title">
                     개인정보 및 서비스 이용 기록 삭제
                   </div>
                   <div>
@@ -836,8 +838,8 @@ const UserPage = () => {
                   </div>
                 </div>
 
-                <div className="delete-user-page-mid-item2">
-                  <div className="delete-user-page-mid-title">
+                <div className="delete-user-page1-mid-item2">
+                  <div className="delete-user-page1-mid-title">
                     소셜 계정 연결 정보 삭제
                   </div>
                   <div>
@@ -846,8 +848,8 @@ const UserPage = () => {
                   </div>
                 </div>
 
-                <div className="delete-user-page-mid-item3">
-                  <div className="delete-user-page-mid-title">
+                <div className="delete-user-page1-mid-item3">
+                  <div className="delete-user-page1-mid-title">
                     커뮤니티 서비스 등록 게시물 유지
                   </div>
                   <div>
@@ -857,8 +859,8 @@ const UserPage = () => {
                   </div>
                 </div>
 
-                <div className="delete-user-page-mid-item4">
-                  <div className="delete-user-page-mid-title">
+                <div className="delete-user-page1-mid-item4">
+                  <div className="delete-user-page1-mid-title">
                     개인정보 보관
                   </div>
                   <div>
@@ -868,18 +870,20 @@ const UserPage = () => {
                   </div>
                 </div>
 
-                <div className="delete-user-page-mid-item5">
-                  <div className="delete-user-page-mid-title">탈퇴 후 제한</div>
+                <div className="delete-user-page1-mid-item5">
+                  <div className="delete-user-page1-mid-title">
+                    탈퇴 후 제한
+                  </div>
                   <div>
                     탈퇴 처리된 이메일 ID는 30일동안 재가입이 불가합니다.
                   </div>
                 </div>
               </div>
 
-              <hr className="delete-user-page-hr" />
+              <hr className="delete-user-page1-hr" />
 
-              <div className="delete-user-page-bottem">
-                <div className="delete-user-page-bottem-item1">
+              <div className="delete-user-page1-bottem">
+                <div className="delete-user-page1-bottem-item1">
                   <label className="custom-checkbox">
                     <input
                       type="checkbox"
@@ -893,9 +897,9 @@ const UserPage = () => {
                     회원탈퇴 시 유의사항을 확인하였으며, 모두 동의합니다.
                   </div>
                 </div>
-                <div className="delete-user-page-bottem-item2">
+                <div className="delete-user-page1-bottem-item2">
                   <div
-                    className="delete-user-page-bottem-item2-cancel"
+                    className="delete-user-page1-bottem-item2-cancel"
                     onClick={back}
                   >
                     비동의
@@ -904,7 +908,7 @@ const UserPage = () => {
                   {isChecked === true ? (
                     <div
                       className={
-                        "delete-user-page-bottem-item2-confirm checked"
+                        "delete-user-page1-bottem-item2-confirm checked"
                       }
                       onClick={handlePageTransitionToPage2}
                     >
@@ -912,7 +916,7 @@ const UserPage = () => {
                     </div>
                   ) : (
                     <div
-                      className={"delete-user-page-bottem-item2-confirm"}
+                      className={"delete-user-page1-bottem-item2-confirm"}
                       onClick={warnIfNotChecked}
                     >
                       동의
@@ -924,28 +928,28 @@ const UserPage = () => {
           </div>
         )}
         {deleteUserPage === 2 && (
-          <div className={"passwordModify-wrap"}>
-            <div className={"passwordModify-container"}>
-              <div className={"passwordModify-top"}>
-                <div className={"passwordModify-title"}>회원탈퇴</div>
+          <div className={"delete-user-page2-wrap"}>
+            <div className={"delete-user-page2-centainer"}>
+              <div className={"delete-user-page2-top"}>
+                <div className={"delete-user-page2-title"}>회원탈퇴</div>
               </div>
-              <div className={"passwordModify-mid"}>
+              <div className={"delete-user-page2-mid"}>
                 <InputBox
-                  ref={modifyPasswordCheckRef}
+                  ref={deleteUserEmailRef}
                   label="이메일"
-                  type={"password"}
-                  placeholder="변경할 비밀번호 확인을 위해 다시 입력해주세요."
-                  value={modifyPasswordCheck}
-                  onChange={onModifyPasswordCheckhangeHandler}
-                  error={modifyPasswordCheckError}
-                  message={modifyPasswordCheckErrorMessage}
+                  type={"text"}
+                  placeholder="본인 확인을 위해 이메일을 입력해주세요."
+                  value={deleteUserEmail}
+                  onChange={onDeleteUserEmailHandler}
+                  error={deleteUserEmailError}
+                  message={deleteUserEmailErrorMessage}
                 />
 
                 <InputBox
                   ref={passwordRef}
                   label="비밀번호"
                   type={"password"}
-                  placeholder="현재 사용중인 비밀번호를 입력해주세요."
+                  placeholder="본인 확인을 위해 현재 사용중인 비밀번호를 입력해주세요."
                   value={password}
                   onChange={onPasswordChangeHandler}
                   error={passwordError}
@@ -953,11 +957,11 @@ const UserPage = () => {
                 />
               </div>
 
-              <div className={"passwordModify-bottom"}>
-                <div className={"passwordModify-btn"} onClick={passwordModify}>
+              <div className={"delete-user-page2-bottom"}>
+                <div className={"delete-user-page2-btn"} onClick={deleteUser}>
                   탈퇴
                 </div>
-                <div className={"passwordModify-cancel"} onClick={back}>
+                <div className={"delete-user-page2-cancel"} onClick={back}>
                   이전
                 </div>
               </div>

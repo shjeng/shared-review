@@ -122,17 +122,20 @@
   margin-top: 100px;
 }
 
-.passwordModify-container {
+.passwordModify-container,
+.delete-user-page2-centainer {
   margin: auto;
   width: 450px;
   padding: 100px;
 }
 
-.passwordModify-bottom {
+.passwordModify-bottom,
+.delete-user-page2-bottom {
   margin-top: 40px;
 }
 
-.passwordModify-bottom > div {
+.passwordModify-bottom > div,
+.delete-user-page2-bottom > div {
   height: 50px;
   border: 1px solid rgb(182, 182, 182);
   margin-bottom: 20px;
@@ -144,13 +147,15 @@
   cursor: pointer;
 }
 
-.passwordModify-title {
+.passwordModify-title,
+.delete-user-page2-title {
   text-align: center;
   font-size: 30px;
   font-weight: 500;
 }
 
-.passwordModify-mid {
+.passwordModify-mid,
+.delete-user-page2-mid {
   margin-top: 50px;
 }
 
@@ -262,36 +267,27 @@
   height: 1000px;
 }
 
-.delete-user-page-container {
+.delete-user-page1-container {
   background-color: #fafafa;
   padding: 30px 0px 20px 0px;
   margin: 100px auto;
   width: 1100px;
 }
 
-.delete-user-page-top {
-}
-
-.delete-user-page-top-item1 > div:nth-of-type(2) {
+.delete-user-page1-top-item1 > div:nth-of-type(2) {
   color: rgb(63, 63, 63);
 }
 
-.delete-user-page-top-item1 {
+.delete-user-page1-top-item1 {
   margin-left: 30px;
 }
 
-.delete-user-page-mid {
-}
-
-.delete-user-page-bottem {
-}
-
-.delete-user-page-top-title {
+.delete-user-page1-top-title {
   font-size: 25px;
   margin-bottom: 10px;
 }
 
-.delete-user-page-hr {
+.delete-user-page1-hr {
   margin: 30px 0px 30px 30px;
   width: 30px;
   background: rgb(195, 195, 195);
@@ -299,28 +295,28 @@
   border: 0;
 }
 
-.delete-user-page-mid-title {
+.delete-user-page1-mid-title {
   font-size: 15px;
 }
 
-.delete-user-page-mid-item1 > div:nth-of-type(2),
-.delete-user-page-mid-item2 > div:nth-of-type(2),
-.delete-user-page-mid-item3 > div:nth-of-type(2),
-.delete-user-page-mid-item4 > div:nth-of-type(2),
-.delete-user-page-mid-item5 > div:nth-of-type(2) {
+.delete-user-page1-mid-item1 > div:nth-of-type(2),
+.delete-user-page1-mid-item2 > div:nth-of-type(2),
+.delete-user-page1-mid-item3 > div:nth-of-type(2),
+.delete-user-page1-mid-item4 > div:nth-of-type(2),
+.delete-user-page1-mid-item5 > div:nth-of-type(2) {
   color: rgb(160, 160, 160);
 }
 
-.delete-user-page-mid > div {
+.delete-user-page1-mid > div {
   margin: 40px 30px;
 }
 
-.delete-user-page-bottem-item1 {
+.delete-user-page1-bottem-item1 {
   display: flex;
   margin-left: 30px;
 }
 
-.delete-user-page-bottem-item1 > div {
+.delete-user-page1-bottem-item1 > div {
   font-size: 17px;
   font-weight: 600;
   display: flex;
@@ -350,7 +346,8 @@
   left: 0;
   width: 24px;
   height: 24px;
-  background-color: #e2e2e2;
+  background-color: #ffffff;
+  border: 1px solid rgb(181, 181, 181);
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -377,27 +374,27 @@
   transform: rotate(45deg);
 }
 
-.delete-user-page-bottem-item2-confirm {
+.delete-user-page1-bottem-item2-confirm {
   border-radius: 4px;
 }
 
 /* 체크된 상태 색상 */
-.delete-user-page-bottem-item2-confirm.checked {
+.delete-user-page1-bottem-item2-confirm.checked {
   background-color: #8e8e8e;
   color: white;
 }
 
 /*  */
 
-.delete-user-page-bottem-item2 {
+.delete-user-page1-bottem-item2 {
   display: flex;
   justify-content: center;
   margin: 40px 0px;
 }
 
-.delete-user-page-bottem-item2-cancel,
-.delete-user-page-bottem-item2-confirm {
-  border: 1px solid rgb(103, 103, 103);
+.delete-user-page1-bottem-item2-cancel,
+.delete-user-page1-bottem-item2-confirm {
+  border: 1px solid rgb(143, 143, 143);
   border-radius: 2px;
   width: 200px;
   height: 60px;
@@ -406,6 +403,6 @@
   align-items: center;
   cursor: pointer;
 }
-.delete-user-page-bottem-item2-confirm {
+.delete-user-page1-bottem-item2-confirm {
   margin-left: 30px;
 }
