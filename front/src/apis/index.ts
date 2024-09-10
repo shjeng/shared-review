@@ -686,15 +686,6 @@ export const checkAccessTokenValidity = async (
     )
     .then((response) => {
       const responseBody = response.data;
-      console.log(
-        "백에서 가져온 response : ",
-        JSON.stringify(responseBody, null, 2)
-      );
-
-      console.log(
-        "백에서 가져온 새로운 토큰 : ",
-        JSON.stringify(response.headers, null, 2)
-      );
       return responseBody;
     })
     .catch((error) => {
@@ -719,15 +710,6 @@ export const refreshAccessToken = async (refreshToken: string) => {
     )
     .then((response) => {
       const responseBody = response.data;
-      console.log(
-        "백에서 가져온 response : ",
-        JSON.stringify(responseBody, null, 2)
-      );
-
-      console.log(
-        "백에서 가져온 새로운 토큰 : ",
-        JSON.stringify(response.headers, null, 2)
-      );
       return responseBody;
     })
     .catch((error) => {
@@ -773,6 +755,30 @@ export const updateNickname = async (
       { ...tokenAndPageConfig.token(accessToken) }
     )
     .then((response) => {
+      return response.data as ResponseDto;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+};
+
+// 이메일이 있는지 확인
+const EMAIL_CHECK_URL = () => `${API_DOMAIN}/user/email-check`;
+export const emailCheckRequest = async (
+  accessToken: string,
+  deleteUserEmail: string
+) => {
+  return await axios
+    .post(
+      EMAIL_CHECK_URL(),
+      { deleteUserEmail: deleteUserEmail },
+      { ...tokenAndPageConfig.token(accessToken) }
+    )
+    .then((response) => {
+      // console.log(
+      //   "서버에서 받아온 response값 : ",
+      //   JSON.stringify(response, null, 2)
+      // );
       return response.data as ResponseDto;
     })
     .catch((error) => {

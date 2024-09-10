@@ -58,6 +58,18 @@ public class JwtProvider {
         return refresh;
     }
 
+    // JWT에서 이메일 추출
+    public String getEmailFromToken(String token) {
+        // JWT에서 클레임 추출
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        // 이메일 클레임 추출
+        return claims.getSubject(); // 이메일이 subject로 저장된 경우
+    }
+
 //    public String generateAccessToken(String jwt){ // JWT 토큰의 유효성 검사
 //        Claims claims = null;
 //        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
