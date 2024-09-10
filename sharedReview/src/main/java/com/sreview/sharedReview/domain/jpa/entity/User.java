@@ -41,7 +41,7 @@ public class User extends BaseEntity {
 
     // 회원 활동 여부
     @Column(name = "User_Active", nullable = false)
-    private boolean active = true;
+    private Boolean active = true;
 
     // 초기값 세팅
     public void setUser(String email, String nickname, String password){
