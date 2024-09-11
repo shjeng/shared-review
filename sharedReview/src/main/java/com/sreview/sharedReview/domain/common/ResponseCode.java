@@ -20,6 +20,7 @@ public interface ResponseCode {
 
     // HTTP Status 401
     String TOKEN_EXPIRED = "TE"; // 토큰 만료
+    String INVALID_TOKEN = "IT"; // 유효하지 않은 토큰
 
     // HTTP Stauts 500
     String MAIL_FAIL = "MF"; // 메일 전송 실패

@@ -760,10 +760,7 @@ const UserPage = () => {
           deleteUserEmail
         );
 
-        alert("서버에서 받아온 값 : " + response);
-        return;
-
-        if (response?.code === "NU") {
+        if (response?.code !== "SU") {
           setDeleteUserEmailError(true);
           setDeleteUserEmailErrorMessage("이메일이 일치하지 않습니다.");
           error = true;
@@ -776,10 +773,9 @@ const UserPage = () => {
 
       // 에러가 없는 경우 회원탈퇴 api 실행
       if (!error) {
-        updatePassword(cookies.accessToken, password, modifyPassword).then(
-          updatePasswordResponse
-        );
+        // 회원탈퇴 api가 들어갈 부분
       }
+      
     };
 
     const updatePasswordResponse = (response: ResponseDto | null) => {

@@ -92,6 +92,7 @@ public class UserController {
     @PostMapping("/email-check")
     public ResponseEntity<?> emailCheck(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> email){
         log.info("email: {}", email);
-        return userService.emailCheck(token, email);
+        ResponseDto result = userService.emailCheck(token, email);
+        return ResponseEntity.ok(result);
     }
 }
