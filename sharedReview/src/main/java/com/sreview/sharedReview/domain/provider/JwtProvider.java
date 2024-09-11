@@ -60,13 +60,12 @@ public class JwtProvider {
 
     // JWT에서 이메일 추출
     public String getEmailFromToken(String token) {
-        // JWT에서 클레임 추출
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         Claims claims = Jwts.parser()
-                .setSigningKey(secretKey)
+                .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody();
 
-        // 이메일 클레임 추출
         return claims.getSubject(); // 이메일이 subject로 저장된 경우
     }
 

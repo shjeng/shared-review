@@ -27,6 +27,6 @@ public interface UserService {
 
     ResponseDto updateNickname(String email,  Map<String, String> requestData);
 
-    ResponseEntity<?> emailCheck(String token, Map<String, String> email);
+    ResponseDto emailCheck(String token, Map<String, String> email);
 
 }

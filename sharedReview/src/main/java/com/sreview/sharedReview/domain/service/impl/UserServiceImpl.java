@@ -18,6 +18,7 @@ import com.sreview.sharedReview.domain.provider.JwtProvider;
 import com.sreview.sharedReview.domain.service.UserService;
 import com.sun.jdi.InternalException;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -213,42 +214,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> emailCheck(String token, Map<String, String> emailRequest) {
-//        try {
-//            // 1. 토큰 유효성 검사
-//            System.out.println("1. 토큰 값 : " + token);
-//            jwtProvider.validate(token);
-//
-//            // 2. 유효한 토큰에서 이메일 추출
-//            String tokenEmail = jwtProvider.getEmailFromToken(token);
-//            System.out.println("2. 유효한 토큰에서 이메일 추출 값 : " + tokenEmail);
-//
-//            // 3. 클라이언트에서 전송된 이메일과 비교
-//            String providedEmail = emailRequest.get("email");
-//            System.out.println("3. 클라이언트에서 전송된 이메일과 비교 값 : " + providedEmail);
-//
-////            if (tokenEmail.equals(providedEmail)) {
-////                // 4. DB에서 이메일 확인
-////                boolean emailExists = userService.checkEmailExists(providedEmail);
-////                if (emailExists) {
-////                    // 5. 이메일이 존재하는 경우
-////                    return ResponseEntity.ok().body("Email is valid and exists.");
-////                } else {
-////                    // 이메일이 DB에 존재하지 않는 경우
-////                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email does not exist.");
-////                }
-////            } else {
-////                // 이메일이 일치하지 않는 경우
-////                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email does not match.");
-////            }
-//
-//        } catch (ExpiredJwtException ex) {
-//            System.out.println("2. 엑세스 토큰이 유효하지 않음.");
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token expired.");
-//        } catch (Exception ex) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token.");
-//        }
-        return null;
+    public ResponseDto emailCheck(String token, Map<String, String> emailRequest) {
+        try {
+            // 1. 토큰 유효성 검사
+            System.out.println("1-1. 순수 토큰 값 : " + token);
+            String pureToken = token.replace("Bearer ", "").trim();
+            System.out.println("1-2. Bearer을 제외한 토큰 값 pureToken : " + pureToken);
+            jwtProvider.validate(pureToken);
+            System.out.println("1-3. 처리 완료");
+
+            // 2. 유효한 토큰에서 이메일 추출
+            String tokenEmail = jwtProvider.getEmailFromToken(pureToken);
+            System.out.println("2. 유효한 토큰에서 추출한 이메일 값 : " + tokenEmail);
+
+            // 3. 클라이언트에서 전송된 이메일과 비교
+            System.out.println("3-1. 클라이언트에서 전송된 이메일 값 : " + emailRequest);
+            String providedEmail = emailRequest.get("deleteUserEmail");
+            System.out.println("3-2. 클라이언트에서 전송된 이메일 값 추출 : " + providedEmail);
+
+            if (tokenEmail.equals(providedEmail)) {
+                // 4. DB에서 이메일 확인
+                boolean emailExists = userEntityService.findByEmail(providedEmail).getActive();
+                if (emailExists) {
+                    // 5. 이메일이 존재하는 경우
+                    return new ResponseDto("SU", "이메일 일치");
+                } else {
+                    // 이메일이 DB에 존재하지 않는 경우
+                    return new ResponseDto("VF", "db에 이메일 존재x");
+
+                }
+            } else {
+                // 이메일이 일치하지 않는 경우
+                return new ResponseDto("VF", "로그인중인 계정과 입력한 이메일이 다릅니다.");
+            }
+
+        } catch (ExpiredJwtException ex) {
+            System.out.println("2. 엑세스 토큰이 유효하지 않음.");
+            return new ResponseDto("TE", "다시 로그인 해주세요.");
+
+        } catch (Exception ex) {
+            ex.printStackTrace(); // 예외 메시지 출력
+            return new ResponseDto("IT", "유효하지 않은 토큰입니다.");
+        }
     }
+
+
 
 }

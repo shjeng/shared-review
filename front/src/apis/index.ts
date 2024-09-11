@@ -775,10 +775,26 @@ export const emailCheckRequest = async (
       { ...tokenAndPageConfig.token(accessToken) }
     )
     .then((response) => {
-      // console.log(
-      //   "서버에서 받아온 response값 : ",
-      //   JSON.stringify(response, null, 2)
-      // );
+      return response.data as ResponseDto;
+    })
+    .catch((error) => {
+      return errorResponse(error);
+    });
+};
+
+// 회원 탈퇴
+const DELETE_USER_URL = () => `${API_DOMAIN}/user/delete-user`;
+export const deleteUserRequest = async (
+  accessToken: string,
+  deleteUserEmail: string
+) => {
+  return await axios
+    .post(
+      DELETE_USER_URL(),
+      { deleteUserEmail: deleteUserEmail },
+      { ...tokenAndPageConfig.token(accessToken) }
+    )
+    .then((response) => {
       return response.data as ResponseDto;
     })
     .catch((error) => {
