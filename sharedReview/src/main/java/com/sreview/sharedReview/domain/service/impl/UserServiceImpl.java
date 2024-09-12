@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -214,39 +215,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseDto emailCheck(String token, Map<String, String> emailRequest) {
+    public ResponseDto deleteUser(String token, Map<String, String> emailRequest) {
         try {
             // 1. 토큰 유효성 검사
-            System.out.println("1-1. 순수 토큰 값 : " + token);
             String pureToken = token.replace("Bearer ", "").trim();
-            System.out.println("1-2. Bearer을 제외한 토큰 값 pureToken : " + pureToken);
             jwtProvider.validate(pureToken);
-            System.out.println("1-3. 처리 완료");
 
             // 2. 유효한 토큰에서 이메일 추출
             String tokenEmail = jwtProvider.getEmailFromToken(pureToken);
-            System.out.println("2. 유효한 토큰에서 추출한 이메일 값 : " + tokenEmail);
 
-            // 3. 클라이언트에서 전송된 이메일과 비교
-            System.out.println("3-1. 클라이언트에서 전송된 이메일 값 : " + emailRequest);
+            // 3. 클라이언트에서 전송된 이메일
             String providedEmail = emailRequest.get("deleteUserEmail");
-            System.out.println("3-2. 클라이언트에서 전송된 이메일 값 추출 : " + providedEmail);
 
             if (tokenEmail.equals(providedEmail)) {
                 // 4. DB에서 이메일 확인
                 boolean emailExists = userEntityService.findByEmail(providedEmail).getActive();
-                if (emailExists) {
-                    // 5. 이메일이 존재하는 경우
-                    return new ResponseDto("SU", "이메일 일치");
-                } else {
-                    // 이메일이 DB에 존재하지 않는 경우
+                if (emailExists) { // 5. 이메일이 존재하고 해당 user의 active가 1인(유효할) 경우
+                    // active값을 0으로 바꿔주는 쿼리 실행
+                    userEntityService.findByActiveEmail(providedEmail);
+                    return new ResponseDto("SU", "회원탈퇴 완료");
+                } else {// 이메일이 DB에 존재하지 않는 경우
                     return new ResponseDto("VF", "db에 이메일 존재x");
-
                 }
-            } else {
-                // 이메일이 일치하지 않는 경우
+            } else {// 이메일이 일치하지 않는 경우
                 return new ResponseDto("VF", "로그인중인 계정과 입력한 이메일이 다릅니다.");
             }
+        } catch (NoSuchElementException ex) {
+            return new ResponseDto("NE", "존재하지 않은 사용자 입니다."); // 사용자 없음 예외 처리
 
         } catch (ExpiredJwtException ex) {
             System.out.println("2. 엑세스 토큰이 유효하지 않음.");

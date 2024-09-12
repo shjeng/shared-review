@@ -71,4 +71,8 @@ public class UserEntityService {
         }
         return optionalUser.get();
     }
+
+    public void findByActiveEmail(String email) {
+        userRepository.findByActiveEmail(email);
+    }
 }
