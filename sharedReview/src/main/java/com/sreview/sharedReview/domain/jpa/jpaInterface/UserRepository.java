@@ -3,6 +3,7 @@ package com.sreview.sharedReview.domain.jpa.jpaInterface;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -26,6 +27,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM user_entity u WHERE u.email=:email AND u.password=:password")
     Optional<User> passwordCheck(@Param("email") String email, @Param("password") String password);
 
+    @Modifying
+    @Query("UPDATE user_entity u SET u.active = false WHERE u.email=:email")
+    void findByActiveEmail(@Param("email") String email);
 //
 //    public void save(User user) {
 //        em.persist(user);

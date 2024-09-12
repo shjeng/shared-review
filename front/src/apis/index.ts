@@ -762,35 +762,15 @@ export const updateNickname = async (
     });
 };
 
-// 이메일이 있는지 확인
-const EMAIL_CHECK_URL = () => `${API_DOMAIN}/user/email-check`;
-export const emailCheckRequest = async (
-  accessToken: string,
-  deleteUserEmail: string
-) => {
-  return await axios
-    .post(
-      EMAIL_CHECK_URL(),
-      { deleteUserEmail: deleteUserEmail },
-      { ...tokenAndPageConfig.token(accessToken) }
-    )
-    .then((response) => {
-      return response.data as ResponseDto;
-    })
-    .catch((error) => {
-      return errorResponse(error);
-    });
-};
-
-// 회원 탈퇴
-const DELETE_USER_URL = () => `${API_DOMAIN}/user/delete-user`;
+// 회원탈퇴
+const EMAIL_CHECK_URL = () => `${API_DOMAIN}/user/delete-user`;
 export const deleteUserRequest = async (
   accessToken: string,
   deleteUserEmail: string
 ) => {
   return await axios
     .post(
-      DELETE_USER_URL(),
+      EMAIL_CHECK_URL(),
       { deleteUserEmail: deleteUserEmail },
       { ...tokenAndPageConfig.token(accessToken) }
     )

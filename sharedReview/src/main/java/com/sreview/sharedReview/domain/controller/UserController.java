@@ -89,10 +89,11 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/email-check")
-    public ResponseEntity<?> emailCheck(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> email){
+    @PostMapping("/delete-user")
+    public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> email){
         log.info("email: {}", email);
-        ResponseDto result = userService.emailCheck(token, email);
+        ResponseDto result = userService.deleteUser(token, email);
         return ResponseEntity.ok(result);
     }
+
 }
