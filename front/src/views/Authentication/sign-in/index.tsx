@@ -3,7 +3,12 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import SignInResponseDto from "../../../apis/response/auth/sign-in.response.dto";
 import ResponseDto from "../../../apis/response/response.dto";
-import { MAIN_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from "../../../constant";
+import {
+  FIND_PASSOWRD_PATH,
+  MAIN_PATH,
+  SIGN_IN_PATH,
+  SIGN_UP_PATH,
+} from "../../../constant";
 import SignInRequestDto from "../../../apis/request/auth/sign-in-request.dto";
 import { signInRequest } from "../../../apis";
 import InputBox from "../../../components/InputBox";
@@ -102,8 +107,13 @@ const SignIn = () => {
   };
 
   //      event handler: 회원가입 페이지 이동 핸들러       //
-  const onLoginClickHandler = () => {
+  const onSignUpClickHandler = () => {
     navigate(SIGN_UP_PATH());
+  };
+
+  //      event handler: 비밀번호 찾기 이동 핸들러       //
+  const onFindPasswordClickHandler = () => {
+    navigate(FIND_PASSOWRD_PATH());
   };
 
   //      event handler: 패스워드 인풋 키 다운 이벤트 처리      //
@@ -169,19 +179,20 @@ const SignIn = () => {
         <div className="sign-in-access-options">
           <ul>
             <li>
-              <div className="auth-description-link" onClick={test}>
-                {"이메일 찾기"}
-              </div>
+              <div className="auth-description-link">{"이메일 찾기"}</div>
             </li>
             <li>
-              <div className="auth-description-link" onClick={test}>
+              <div
+                className="auth-description-link"
+                onClick={onFindPasswordClickHandler}
+              >
                 {"비밀번호 찾기"}
               </div>
             </li>
             <li>
               <div
                 className="auth-description-link"
-                onClick={onLoginClickHandler}
+                onClick={onSignUpClickHandler}
               >
                 {"회원가입"}
               </div>
