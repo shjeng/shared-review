@@ -135,7 +135,7 @@
 }
 
 .passwordModify-bottom > div,
-.delete-user-page2-bottom > div {
+.delete-user-page2-cancel {
   height: 50px;
   border: 1px solid rgb(182, 182, 182);
   margin-bottom: 20px;
@@ -145,6 +145,32 @@
   color: #646464;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.delete-user-page2-btn-off {
+  height: 50px;
+  border: 1px solid rgb(182, 182, 182);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #646464;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-user-page2-btn-on {
+  height: 50px;
+  border: 1px solid rgb(182, 182, 182);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+
+  color: #f2f2f2;
+  background-color: #8d8d8d;
 }
 
 .passwordModify-title,
@@ -324,6 +350,7 @@
   align-items: center;
   margin-left: 10px;
   height: 27px;
+  cursor: pointer;
 }
 
 /*  */

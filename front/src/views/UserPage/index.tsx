@@ -705,6 +705,7 @@ const UserPage = () => {
       setPassword(value);
       setPasswordError(false);
       setPasswordErrorMessage("");
+      setIsPasswordNotEmpty(!!value);
     };
 
     const deleteUserEmailRef = useRef<HTMLInputElement | null>(null);
@@ -714,11 +715,16 @@ const UserPage = () => {
 
     const [deleteUserEmailErrorMessage, setDeleteUserEmailErrorMessage] =
       useState<string>("");
+    const [isEmailNotEmpty, setIsEmailNotEmpty] = useState<boolean>(false);
+    const [isPasswordNotEmpty, setIsPasswordNotEmpty] =
+      useState<boolean>(false);
+
     const onDeleteUserEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target;
       setDeleteUserEmail(value);
       setDeleteUserEmailError(false);
       setDeleteUserEmailErrorMessage("");
+      setIsEmailNotEmpty(!!value);
     };
 
     const back = () => {
@@ -768,6 +774,11 @@ const UserPage = () => {
             cookies.accessToken,
             deleteUserEmail
           );
+          if (response?.code === "VF") {
+            setDeleteUserEmailError(true);
+            setDeleteUserEmailErrorMessage("현재 이메일과 일치하지 않습니다.");
+            return;
+          }
           alert(response?.message);
 
           removeCookie("accessToken", { path: "/" });
@@ -889,7 +900,7 @@ const UserPage = () => {
                     />
                     <span className="checkmark"></span>
                   </label>
-                  <div>
+                  <div onClick={() => setIsChecked(!isChecked)}>
                     회원탈퇴 시 유의사항을 확인하였으며, 모두 동의합니다.
                   </div>
                 </div>
@@ -954,9 +965,17 @@ const UserPage = () => {
               </div>
 
               <div className={"delete-user-page2-bottom"}>
-                <div className={"delete-user-page2-btn"} onClick={deleteUser}>
-                  탈퇴
-                </div>
+                {isEmailNotEmpty && isPasswordNotEmpty ? (
+                  <div
+                    className={"delete-user-page2-btn-on"}
+                    onClick={deleteUser}
+                  >
+                    탈퇴
+                  </div>
+                ) : (
+                  <div className={"delete-user-page2-btn-off"}>탈퇴</div>
+                )}
+
                 <div className={"delete-user-page2-cancel"} onClick={back}>
                   이전
                 </div>

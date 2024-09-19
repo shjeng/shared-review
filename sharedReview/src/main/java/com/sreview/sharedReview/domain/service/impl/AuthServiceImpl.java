@@ -1,6 +1,7 @@
 package com.sreview.sharedReview.domain.service.impl;
 
 
+import com.sreview.sharedReview.domain.common.customexception.NonExistUserException;
 import com.sreview.sharedReview.domain.dto.request.auth.*;
 import com.sreview.sharedReview.domain.dto.response.auth.*;
 import com.sreview.sharedReview.domain.jpa.entity.User;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -36,6 +38,8 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = "";
         try {
             User user = userEntityService.findByEmail(request.getEmail());
+            if (!user.getActive()) return SignInResponse.loginFail();
+
             String encodedPassword = user.getPassword();
             System.out.println("클라이언트에서 받은 encodedPassword값 : "+encodedPassword);
             boolean isMatched = passwordEncoder.matches(request.getPassword(), encodedPassword);
@@ -43,7 +47,11 @@ public class AuthServiceImpl implements AuthService {
 
             token = jwtProvider.create(user.getEmail());
             refreshToken = jwtProvider.createRefreshToken(user.getEmail());
+        } catch (NonExistUserException e) {
+            System.out.println("NoSuchElementException 실행");
+            return SignInResponse.loginFail(); // 사용자 없음 응답
         } catch (Exception e) {
+            System.out.println("Exception 실행");
             e.printStackTrace();
             SignInResponse.databaseError();
         }

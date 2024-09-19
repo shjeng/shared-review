@@ -1,0 +1,32 @@
+.find-passwordModify-container {
+  margin: auto;
+  width: 450px;
+  padding: 100px;
+}
+
+.find-passwordModify-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+/* =========================== */
+.find-passwordModify-mid {
+  margin-top: 50px;
+}
+/* =========================== */
+
+.find-passwordModify-bottom {
+  margin-top: 40px;
+}
+
+.find-passwordModify-bottom > div {
+  height: 50px;
+  border: 1px solid rgb(182, 182, 182);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #646464;
+  border-radius: 5px;
+  cursor: pointer;
+}
