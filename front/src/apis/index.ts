@@ -53,8 +53,6 @@ const tokenAndPageConfig = {
   },
 };
 
-const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
-
 // ===  Get  ===
 const SEARCH_URL = () => `${API_DOMAIN}/board/search`;
 export const searchRequest = async (params: {}) => {
@@ -462,6 +460,7 @@ export const sendEmailRequest = async (clientEmail: string) => {
   }
 };
 // 인증 번호 확인
+const AUTH_NUMBER_URL = () => `${API_DOMAIN}/auth/sign-up/verify-email`;
 export const sendEmailAuthNumber = async (emailAuthNumber: string) => {
   // 인증번호 확인 버튼 클릭 이벤트 처리 함수
   try {
