@@ -4,11 +4,18 @@ import InputBox from "../../../components/InputBox";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useLoginUserStore } from "../../../store";
+import { sendEmailAuthNumber, sendEmailRequest } from "../../../apis";
 
 const FindPassword = () => {
   const { loginUser, setLoginUser } = useLoginUserStore();
   const [cookies, setCookies] = useCookies();
   const navigate = useNavigate();
+  //        state: 이메일 readonly 상태      //
+  const [emailReadonlyState, setEmailReadonlyState] = useState<boolean>(false);
+
+  //        state: 인증번호 readonly 상태      //
+  const [authNumReadonlyState, setAuthNumReadonlyState] =
+    useState<boolean>(false);
 
   const authNumberRef = useRef<HTMLInputElement | null>(null);
   const [authNumber, setAuthNumber] = useState<string>("");
@@ -73,6 +80,40 @@ const FindPassword = () => {
     setModifyPasswordCheckErrorMessage("");
   };
 
+  //        function: 이메일 정규식 처리 함수       //
+  const validateEmail = (email: string): boolean => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  // event handler: 이메일 인증번호 보내기      //
+  const emailSend = async () => {
+    const clientEmail = userEmailRef.current!.value;
+    console.log("입력한 메일" + clientEmail);
+
+    // 이메일 형식 검사
+    if (!validateEmail(clientEmail)) {
+      alert("올바른 이메일 형식이 아닙니다.");
+      return;
+    }
+
+    const success = await sendEmailRequest(clientEmail);
+    if (success) {
+      setEmailReadonlyState(true);
+    }
+  };
+
+  // event handler: 이메일 인증번호 일치 확인      //
+  const handleVerifyEmail = async () => {
+    const emailAuthNumber = authNumberRef.current!.value;
+    console.log("입력한 인증번호" + emailAuthNumber);
+
+    const success = await sendEmailAuthNumber(emailAuthNumber);
+    if (success) {
+      setAuthNumReadonlyState(true);
+    }
+  };
+
   const onFindPasswordBtnClickHandler = async () => {
     let error = false;
     // if (modifyNickname.length === 0) {
@@ -103,27 +144,69 @@ const FindPassword = () => {
           <div className={"find-passwordModify-title"}>비밀번호 찾기</div>
         </div>
         <div className={"find-passwordModify-mid"}>
-          <InputBox
-            ref={userEmailRef}
-            label="이메일"
-            type={"text"}
-            placeholder="이메일을 입력해주세요."
-            value={userEmail}
-            onChange={onUserEmailHandler}
-            error={userEmailError}
-            message={userEmailErrorMessage}
-          />
+          <div
+            className={"find-passwordModify-mid-auth-container"}
+            style={{
+              borderBottom: emailReadonlyState
+                ? "none"
+                : "1px solid rgba(0, 0, 0, 0.143)",
+            }}
+          >
+            <InputBox
+              ref={userEmailRef}
+              label="이메일"
+              type={"text"}
+              placeholder="이메일을 입력해주세요."
+              value={userEmail}
+              onChange={onUserEmailHandler}
+              error={userEmailError}
+              message={userEmailErrorMessage}
+              readonly={emailReadonlyState}
+            />
 
-          <InputBox
-            ref={authNumberRef}
-            label="인증번호"
-            type={"password"}
-            placeholder="이메일로 발송해준 인증번호를 입력해주세요."
-            value={authNumber}
-            onChange={onAuthNumberChangeHandler}
-            error={authNumberError}
-            message={authNumberErrorMessage}
-          />
+            {emailReadonlyState ? (
+              <div className="find-passwordModify-mid-auth-btn-off">인증</div>
+            ) : (
+              <div
+                className="find-passwordModify-mid-auth-btn-on"
+                onClick={emailSend}
+              >
+                인증
+              </div>
+            )}
+          </div>
+
+          <div
+            className={"find-passwordModify-mid-auth-container"}
+            style={{
+              borderBottom: authNumReadonlyState
+                ? "none"
+                : "1px solid rgba(0, 0, 0, 0.143)",
+            }}
+          >
+            <InputBox
+              ref={authNumberRef}
+              label="인증번호"
+              type={"text"}
+              placeholder="인증번호를 입력해주세요."
+              value={authNumber}
+              onChange={onAuthNumberChangeHandler}
+              error={authNumberError}
+              message={authNumberErrorMessage}
+              readonly={authNumReadonlyState}
+            />
+
+            {authNumReadonlyState ? (
+              <div className="find-passwordModify-mid-auth-btn-off">인증</div>
+            ) : (
+              <div
+                className="find-passwordModify-mid-auth-btn-on"
+                onClick={handleVerifyEmail}
+              >
+                인증
+              </div>
+            )}
+          </div>
 
           <InputBox
             ref={modafiyPasswordRef}

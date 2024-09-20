@@ -22,13 +22,24 @@ interface Props {
   message?: string;
 
   onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
+
+  maxlength?: number;
 }
 
 //         component: Input Box 컴포넌트         //
 const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
   //         state: Properties         //
-  const { label, type, error, placeholder, value, icon, message, readonly } =
-    props;
+  const {
+    label,
+    type,
+    error,
+    placeholder,
+    value,
+    icon,
+    message,
+    readonly,
+    maxlength,
+  } = props;
   const { onChange, onButtonClick, onKeyDown } = props;
 
   // event handler : input 키 이벤트 처리 함수
@@ -59,6 +70,7 @@ const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
             value={value}
             onChange={onChange}
             onKeyDown={onKeyDownHandler}
+            maxLength={maxlength}
             readOnly
           />
         ) : (
@@ -70,6 +82,7 @@ const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
             value={value}
             onChange={onChange}
             onKeyDown={onKeyDownHandler}
+            maxLength={maxlength}
           />
         )}
 
