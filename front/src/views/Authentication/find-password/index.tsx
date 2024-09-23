@@ -30,7 +30,7 @@ const FindPassword = () => {
   const [userEmailErrorMessage, setUserEmailErrorMessage] =
     useState<string>("");
 
-  const onUserEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onUserEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setUserEmail(value);
     setUserEmailError(false);
@@ -158,7 +158,7 @@ const FindPassword = () => {
               type={"text"}
               placeholder="이메일을 입력해주세요."
               value={userEmail}
-              onChange={onUserEmailHandler}
+              onChange={onUserEmailChangeHandler}
               error={userEmailError}
               message={userEmailErrorMessage}
               readonly={emailReadonlyState}
