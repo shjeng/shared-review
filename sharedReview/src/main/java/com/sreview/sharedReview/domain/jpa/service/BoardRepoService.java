@@ -4,7 +4,6 @@ import com.sreview.sharedReview.domain.common.customexception.NonExistBoardExcep
 import com.sreview.sharedReview.domain.dto.request.board.BoardRequestParam;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.BoardRepository;
-import com.sreview.sharedReview.domain.jpa.jpaInterface.qrepo.BoardRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

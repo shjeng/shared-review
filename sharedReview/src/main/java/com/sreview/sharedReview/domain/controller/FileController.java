@@ -36,7 +36,7 @@ public class FileController {
     }
     @PostMapping(value = "/save/image")
     public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
-        Map<String, String> result = Map.of("savedName", fileService.uploadImage(file));
+        Map<String, String> result = Map.of("fileUrl", fileService.uploadImage(file));
         return ResponseEntity.ok(result) ;
     }
 }
