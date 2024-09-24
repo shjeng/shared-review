@@ -1,6 +1,7 @@
 package com.sreview.sharedReview.domain.controller;
 
 import com.sreview.sharedReview.domain.dto.object.UserDto;
+import com.sreview.sharedReview.domain.dto.request.auth.NonTokenUpdatePassword;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.AdminBoardListResponse;
@@ -88,6 +89,13 @@ public class UserController {
         ResponseDto result = userService.updateNickname(email, requestData);
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/nt-update-password")
+    public ResponseEntity<?> nonTokenUpdatePassword(@RequestBody NonTokenUpdatePassword request){
+//        ResponseDto result = userService.nonTokenUpdatePassword(request);
+        return ResponseEntity.ok("ok");
+    }
+
 
     @PostMapping("/delete-user")
     public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> email){

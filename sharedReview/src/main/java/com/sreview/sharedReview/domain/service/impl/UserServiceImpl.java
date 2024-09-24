@@ -5,6 +5,7 @@ import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.common.customexception.BadRequestException;
 import com.sreview.sharedReview.domain.dto.object.AdminUserDto;
 import com.sreview.sharedReview.domain.dto.object.UserDto;
+import com.sreview.sharedReview.domain.dto.request.auth.NonTokenUpdatePassword;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.auth.tokenStatusResponse;
@@ -26,6 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -253,6 +255,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    @Override
+    public ResponseDto nonTokenUpdatePassword(NonTokenUpdatePassword request) {
+        System.out.println("받은 데이터 : " + request);
+        ResponseDto response = new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        return response;
+    }
 
 
 }
