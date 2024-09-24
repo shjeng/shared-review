@@ -1,11 +1,13 @@
 package com.sreview.sharedReview.domain.service;
 
+import com.sreview.sharedReview.domain.dto.request.auth.NonTokenUpdatePassword;
 import com.sreview.sharedReview.domain.dto.request.auth.SignUpRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.AdminBoardListResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetLoginUserResponse;
 import com.sreview.sharedReview.domain.dto.response.user.GetUserListResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
@@ -28,5 +30,7 @@ public interface UserService {
     ResponseDto updateNickname(String email,  Map<String, String> requestData);
 
     ResponseDto deleteUser(String token, Map<String, String> email);
+
+    ResponseDto nonTokenUpdatePassword(NonTokenUpdatePassword request);
 
 }
