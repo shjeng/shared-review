@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                 ).authorizeHttpRequests(request -> request
                         .requestMatchers("/", "/api/auth/**", "/api/search/**", "/file/**","check").permitAll()
 //                        .requestMatchers(HttpMethod.POST,"/","/api/board/**").permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/api/user/nt-update-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/nt-update-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/board/**", "/api/user/**").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new FailedAuthenticationEntryPoint())).

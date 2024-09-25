@@ -9,7 +9,7 @@ public interface ResponseCode {
     String DUPLICATE_EMAIL = "DM"; // 이메일 중복
     String DUPLICATE_NICKNAME = "DN"; // 중복 닉네임
     String NON_EXISTED_USER = "NU"; // 존재하지 않는 유저
-    String NON_EXISTED_BOARD = "NB"; // 존재하지 않는 유저
+    String NON_EXISTED_BOARD = "NB"; // 존재하지 않는 게시물
     String NON_EXISTED_CATEGORY = "NC"; // 존재하지 않는 카테고리
     String BAD_REQUEST = "BR"; // 잘못된 요청
     String SIGN_IN_FAIL = "SF"; // 로그인 실패

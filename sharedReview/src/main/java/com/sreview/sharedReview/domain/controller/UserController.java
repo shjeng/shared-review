@@ -92,8 +92,8 @@ public class UserController {
 
     @PostMapping("/nt-update-password")
     public ResponseEntity<?> nonTokenUpdatePassword(@RequestBody NonTokenUpdatePassword request){
-//        ResponseDto result = userService.nonTokenUpdatePassword(request);
-        return ResponseEntity.ok("ok");
+        ResponseDto result = userService.nonTokenUpdatePassword(request);
+        return ResponseEntity.ok(result);
     }
 
 

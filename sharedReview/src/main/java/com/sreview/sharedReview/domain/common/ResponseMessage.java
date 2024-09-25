@@ -14,7 +14,7 @@ public interface ResponseMessage {
 
     String BAD_REQUEST = "Bad Request.";
     String NON_EXISTED_CATEGORY = "Non existed category"; // 존재하지 않는 카테고리
-    String NON_EXISTED_USER = "Non existed user";
+    String NON_EXISTED_USER = "존재하지 않는 유저입니다."; // Non existed user
     String NON_EXISTED_BOARD = "Non existed board";
     
     String DUPLICATE_CATEGORY = "Duplicate cateogry";
