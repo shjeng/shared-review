@@ -3,6 +3,7 @@ package com.sreview.sharedReview.domain.service.impl;
 import com.sreview.sharedReview.domain.common.ResponseCode;
 import com.sreview.sharedReview.domain.common.ResponseMessage;
 import com.sreview.sharedReview.domain.common.customexception.BadRequestException;
+import com.sreview.sharedReview.domain.common.customexception.NonExistUserException;
 import com.sreview.sharedReview.domain.dto.object.AdminUserDto;
 import com.sreview.sharedReview.domain.dto.object.UserDto;
 import com.sreview.sharedReview.domain.dto.request.auth.NonTokenUpdatePassword;
@@ -20,7 +21,9 @@ import com.sreview.sharedReview.domain.service.UserService;
 import com.sun.jdi.InternalException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import jdk.jshell.spi.ExecutionControlProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -258,9 +261,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDto nonTokenUpdatePassword(NonTokenUpdatePassword request) {
-        System.out.println("받은 데이터 : " + request);
-        ResponseDto response = new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        return response;
+        try {
+            System.out.println("request.getUserEmail() : " + request.getUserEmail());
+            User user = userEntityService.findByEmail(request.getUserEmail());
+            boolean userActive = user.getActive();
+            System.out.println("userActive 값 : "+userActive);
+            if(!userActive) {
+                return new ResponseDto(ResponseCode.NON_EXISTED_USER,ResponseMessage.NON_EXISTED_USER);
+            }
+            String modifyPassword = request.getModifyPassword();
+            String hashedNewPassword = passwordEncoder.encode(modifyPassword);
+
+            user.setPassword(hashedNewPassword);
+            userRepository.save(user);
+            return new ResponseDto("SU", "비밀번호 변경 완료");
+
+        }catch (NonExistUserException ex) {
+            System.out.println("NonExistUserException 발생: " + ex.getMessage());
+            return new ResponseDto("NE", "존재하지 않는 사용자입니다.");
+        }
     }
 
 
