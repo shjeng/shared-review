@@ -14,7 +14,7 @@ public class EditorRepoService {
     private final EditorRepository editorRepository;
 
     @Transactional
-    public EditorImage saveEditorImage(EditorImage editorImage){
+    public EditorImage save(EditorImage editorImage){
         editorRepository.save(editorImage);
         if (editorImage.getId() == null) {
             throw new CustomRuntimeException("엔티티 저장 실패");
