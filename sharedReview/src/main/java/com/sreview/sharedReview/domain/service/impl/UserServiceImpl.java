@@ -31,6 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.parser.Entity;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -81,37 +82,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDto getAdminUserSearch(String searchValue, String inputValue) {
-        System.out.println("Impl - 받아온 데이터 searchValue : " + searchValue);
-        System.out.println("Impl - 받아온 데이터 inputValue : " +  inputValue);
-
         List<AdminUserDto> users;
-        List<User> filteredUser;
-        try {
-//          게시글 제목으로 들어올때
-            if("nickName".equals(searchValue)) {
-                System.out.println("nickName 실행");
-                filteredUser = userRepository.findAdminByNickname(inputValue);
+        List<User> filteredUser = null;
 
-//          유저 아이디로 들어올때
-            } else if ("email".equals(searchValue)) {
-                System.out.println("email 실행");
+        try {
+            if("id".equals(searchValue)) { // 아이디로 들어올때
+                filteredUser = userRepository.findAdminById(inputValue);
+            }else if("nickName".equals(searchValue)) {  // 닉네임으로 들어올때
+                filteredUser = userRepository.findAdminByNickname(inputValue);
+            } else if ("email".equals(searchValue)) { // 이메일로 들어올때
                 filteredUser = userRepository.findAdminByEmail(inputValue);
             }
-            else {
-                System.out.println("!!!!!!!!!!!데이터 못찾음!!!!!!!!!!!!");
-                return null;
-            }
-            System.out.println("쿼리문 실행 후 filteredCategorys : " + filteredUser);
-
             // DTO로 변환
             users = AdminUserDto.ofList(filteredUser);
 
-//            return null;
             return GetUserListResponse.success(users);
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalException();
-//            return AdminCategotyResponse.databaseError();
         }
     }
 
@@ -236,8 +224,16 @@ public class UserServiceImpl implements UserService {
                 // 4. DB에서 이메일 확인
                 boolean emailExists = userEntityService.findByEmail(providedEmail).getActive();
                 if (emailExists) { // 5. 이메일이 존재하고 해당 user의 active가 1인(유효할) 경우
-                    // active값을 0으로 바꿔주는 쿼리 실행
-                    userEntityService.findByActiveEmail(providedEmail);
+                    User user = userEntityService.findByEmail(tokenEmail);
+                    // active값을 0으로 바꿈
+                    user.setActive(false);
+                    // withdrawalTime값을 현재 시간으로 변경
+                    if(user.getWithdrawalTime() == null) {
+                        user.setWithdrawalTime(LocalDateTime.now());
+                    } else if(user.getWithdrawalTime() != null) {
+                        return new ResponseDto("DA", "탈퇴 날짜가 있음");
+                    }
+                    userEntityService.save(user);
                     return new ResponseDto("SU", "회원탈퇴 완료");
                 } else {// 이메일이 DB에 존재하지 않는 경우
                     return new ResponseDto("VF", "db에 이메일 존재x");

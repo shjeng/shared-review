@@ -1,6 +1,7 @@
 package com.sreview.sharedReview.domain.jpa.service;
 
 import com.sreview.sharedReview.domain.common.customexception.NonExistUserException;
+import com.sreview.sharedReview.domain.dto.object.UserDto;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import com.sreview.sharedReview.domain.jpa.jpaInterface.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +73,8 @@ public class UserEntityService {
         return optionalUser.get();
     }
 
-    public void findByActiveEmail(String email) {
-        userRepository.findByActiveEmail(email);
-    }
+
+//    public void findByActiveEmail(String email) {
+//        userRepository.findByActiveEmail(email);
+//    }
 }

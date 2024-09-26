@@ -15,18 +15,22 @@ import java.util.List;
 @Setter
 public class AdminUserDto {
     private Long id;
+    private Boolean active;
     private String nickname;
     private String email;
     private LocalDateTime writeDateTime;
     private ADMIN admin;
+    private LocalDateTime withdrawalTime;
 
 
     public AdminUserDto of(User user) {
+        active = user.getActive();
         id = user.getId();
         nickname = user.getNickname();
         email = user.getEmail();
         writeDateTime = user.getCreateDate();
         admin = user.getAdmin();
+        withdrawalTime = user.getWithdrawalTime();
         return this;
     }
 
