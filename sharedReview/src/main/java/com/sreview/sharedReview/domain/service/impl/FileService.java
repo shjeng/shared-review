@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -55,24 +56,27 @@ public class FileService {
         }
     }
 
-    public String uploadImage(MultipartFile file) {
+    public Map<String, Object> uploadImage(MultipartFile file) {
         if(file.isEmpty()) return null;
         fileValidationCheck(file);
         String originalFileName = file.getOriginalFilename();
         String ext = Objects.requireNonNull(originalFileName).substring(originalFileName.lastIndexOf(".")); // 확장자
         String uuid = UUID.randomUUID().toString().replace("-", "");
         String saveFileName = uuid + ext;
-        String savePath = filePath + saveFileName;
+        String savePath = tempPath + saveFileName;
         EditorImage editorImage = EditorImage.builder()
                 .savedName(saveFileName)
                 .realName(file.getOriginalFilename())
                 .ext(ext)
-                .filePath(filePath)
+                .filePath(tempPath)
                 .build();
         editorRepoService.save(editorImage);
+        Map<String, Object> result = Map.of(
+                "fileUrl", fileUrl + saveFileName,
+                "editorId", editorImage.getId());
         try {
             file.transferTo(new File(savePath));
-            return fileUrl + saveFileName;
+            return result;
 
         } catch (Exception e) {
             throw new RuntimeException();
@@ -84,13 +88,11 @@ public class FileService {
         String originalFilename = file.getOriginalFilename();
         String ext = Objects.requireNonNull(originalFilename).substring(originalFilename.lastIndexOf(".")).toLowerCase(); // 확장자를 소문자로 변환
         if (!imgExts.contains(ext)) {
-            System.out.println("파일 확장자가 유효하지 않습니다: " + ext);
             throw new BadRequestException("이미지 파일이 아닙니다.");
         }
 
         System.out.println("파일 크기: " + file.getSize());
         if (file.getSize() > maximumFileSize) {
-            System.out.println("파일 용량 초과: " + file.getSize());
             throw new BadRequestException("파일 용량 초과");
         }
     }
@@ -101,5 +103,10 @@ public class FileService {
         Path path = Paths.get(filePath, tempFileName);
         Files.move(tempFilePath, path);
         return fileUrl + tempFileName;
+    }
+
+    public void updateImageStatusToNormal(EditorImage editorImage) throws IOException {
+//        editorRepoService.findById();
+//        File old = new File()
     }
 }

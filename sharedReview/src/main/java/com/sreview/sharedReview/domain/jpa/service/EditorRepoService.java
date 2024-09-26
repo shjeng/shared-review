@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -20,5 +22,9 @@ public class EditorRepoService {
             throw new CustomRuntimeException("엔티티 저장 실패");
         }
         return editorImage;
+    }
+
+    public List<EditorImage> findByIds(List<Long> editorIds) {
+        return editorRepository.findByIds(editorIds);
     }
 }

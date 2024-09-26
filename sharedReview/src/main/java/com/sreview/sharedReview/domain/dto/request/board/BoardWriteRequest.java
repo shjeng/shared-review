@@ -18,6 +18,7 @@ public class BoardWriteRequest {
     private String contentHtml;
     private String contentMarkdown;
     private CategoryDto category;
+    private List<Long> editorImageIds;
     private List<String> tags;
 
     public static Board getBoard(BoardWriteRequest request) {

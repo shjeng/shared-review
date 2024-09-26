@@ -42,6 +42,8 @@ public class BoardServiceImpl implements BoardService {
     private final TagRepoService tagRepoService;
     private final CommentRepoService commentRepoService;
     private final ImageRepoService imageRepoService;
+    private final EditorRepoService editorRepoService;
+
     // get
     @Override
     public ResponseDto getFavoriteBoardTop3(String condition) {
@@ -184,7 +186,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     // post
-    @Override
+    @Override // 게시글 작성
     public ResponseEntity<? super BoardWriteResponse> saveBoard(BoardWriteRequest request,String email) {
         try {
             User user = userEntityService.findByEmail(email);
@@ -199,6 +201,8 @@ public class BoardServiceImpl implements BoardService {
             List<Tag> tagList = request.getTagList(board);
             tagRepoService.saveAll(tagList); // 태그 저장
             boardRepoService.save(board); // 게시물 저장
+
+            List<EditorImage> tempEditorImgs = editorRepoService.findByIds(request.getEditorImageIds());
 
             // 이미지 저장해주기
             String markdownContent = request.getContentMarkdown();
