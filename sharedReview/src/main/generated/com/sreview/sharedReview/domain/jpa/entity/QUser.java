@@ -41,6 +41,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath password = createString("password");
 
+    public final DateTimePath<java.time.LocalDateTime> withdrawalTime = createDateTime("withdrawalTime", java.time.LocalDateTime.class);
+
     public QUser(String variable) {
         super(User.class, forVariable(variable));
     }

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Entity(name = "user_entity")
 @Getter
 @NoArgsConstructor
@@ -43,6 +45,10 @@ public class User extends BaseEntity {
     @Column(name = "User_Active", nullable = false)
     private Boolean active = true;
 
+    // 회원 탈퇴 시간
+    @Column(name = "User_Withdrawal_Time")
+    private LocalDateTime withdrawalTime;
+
     // 초기값 세팅
     public void setUser(String email, String nickname, String password){
         this.email = email;
@@ -52,6 +58,14 @@ public class User extends BaseEntity {
     public void setProfileImage(String imageUrl){
         this.imageUrl = imageUrl;
 
+    }
+
+    public void setActive(Boolean active){
+        this.active = active;
+    }
+
+    public void setWithdrawalTime(LocalDateTime withdrawalTime){
+        this.withdrawalTime = withdrawalTime;
     }
 
     public void setPassword(String hashedNewPassword){

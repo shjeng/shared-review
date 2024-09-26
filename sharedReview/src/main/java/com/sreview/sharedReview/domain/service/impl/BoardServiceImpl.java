@@ -9,6 +9,7 @@ import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
+import com.sreview.sharedReview.domain.dto.response.user.GetUserResponse;
 import com.sreview.sharedReview.domain.jpa.entity.*;
 import com.sreview.sharedReview.domain.jpa.service.*;
 import com.sreview.sharedReview.domain.service.BoardService;
@@ -322,15 +323,17 @@ public class BoardServiceImpl implements BoardService {
         List<AdminBoardDto> boards;
         List<Board> filteredBoard;
         try {
-//          게시글 제목으로 들어올때
-            if("title".equals(searchValue)) {
+            if("title".equals(searchValue)) {// 게시글 제목으로 들어올때
                 System.out.println("title 실행");
                 filteredBoard = boardRepoService.findByTitle(inputValue);
 
-//          유저 아이디로 들어올때
-            } else if ("nickName".equals(searchValue)) {
+            } else if ("nickName".equals(searchValue)) {// 유저 아이디로 들어올때
                 System.out.println("findByUserNickname 실행");
                 filteredBoard = boardRepoService.findByUserNickname(inputValue);
+            } else if("id".equals(searchValue)) {
+                System.out.println("findById 실행");
+                filteredBoard = boardRepoService.findById(inputValue);
+
             }
             else {
                 System.out.println("!!!!!!!!!!!데이터 못찾음!!!!!!!!!!!!");

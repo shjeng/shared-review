@@ -105,6 +105,10 @@ public class BoardRepoService { // DB에 넣어주는 아이
         return boardRepository.findByUserNickname(inputValue);
     }
 
+    public List<Board> findById(String inputValue) {
+        return boardRepository.findById(inputValue);
+    }
+
 
     public Page<Board> findList(BoardRequestParam boardRequestParam, Pageable pageable) {
         return boardRepository.findBoards(boardRequestParam, pageable);
