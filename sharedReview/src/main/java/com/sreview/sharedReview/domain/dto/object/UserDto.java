@@ -12,19 +12,20 @@ public class UserDto {
     private String nickname;
     private String profileImage;
     private ADMIN admin;
+    private Boolean active;
 
-    public UserDto(String email, String nickname, String profileImage, ADMIN admin) {
+    public UserDto(String email, String nickname, String profileImage, ADMIN admin, Boolean active) {
         this.email = email;
         this.nickname = nickname;
         this.profileImage = profileImage;
         this.admin = admin;
-
+        this.active = active;
 
     }
 
 
 
     public static UserDto of(User user){
-        return new UserDto(user.getEmail(), user.getNickname(), user.getImageUrl(), user.getAdmin());
+        return new UserDto(user.getEmail(), user.getNickname(), user.getImageUrl(), user.getAdmin(), user.getActive());
     }
 }
