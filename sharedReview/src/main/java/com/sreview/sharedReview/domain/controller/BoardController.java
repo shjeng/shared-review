@@ -125,8 +125,6 @@ public class BoardController {
     public ResponseEntity<? super BoardWriteResponse> boardWrite(
             @RequestBody BoardWriteRequest request,
             @AuthenticationPrincipal String email) {
-        System.out.println("받아온 데이터 => 1. request : " + request + " 2. email : " + email);
-        log.info("request = {}", request);
         return boardServcice.saveBoard(request, email);
     }
 

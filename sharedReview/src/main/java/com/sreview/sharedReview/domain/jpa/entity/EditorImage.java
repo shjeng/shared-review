@@ -1,10 +1,13 @@
 package com.sreview.sharedReview.domain.jpa.entity;
 
+import com.sreview.sharedReview.domain.jpa.entity.enumType.DELETE;
+import com.sreview.sharedReview.domain.jpa.entity.enumType.FILE_STATUS;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 
 @Entity
@@ -23,9 +26,9 @@ public class EditorImage extends BaseEntity{
     @Column
     @Comment("저장된 이름")
     public String savedName;
-    @Column(nullable = false, columnDefinition = "temp")
+    @Column(nullable = false)
     @Comment("파일 상태")
-    private String status;
+    private FILE_STATUS status;
     @Column
     @Comment("실제 이름")
     public String realName;
@@ -35,7 +38,16 @@ public class EditorImage extends BaseEntity{
     @Column
     @Comment("확장자")
     public String ext;
+    @Column
+    @Comment("삭제여부")
+    @ColumnDefault("'N'")
+    private Character deleteYn;
+
     @ManyToOne
     @JoinColumn(name="board_id")
     public Board boardId;
+
+    public void updateFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 }

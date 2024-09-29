@@ -9,7 +9,6 @@ import com.sreview.sharedReview.domain.dto.request.board.CategoryWriteRequest;
 import com.sreview.sharedReview.domain.dto.request.board.CommentWriteRequest;
 import com.sreview.sharedReview.domain.dto.response.ResponseDto;
 import com.sreview.sharedReview.domain.dto.response.board.*;
-import com.sreview.sharedReview.domain.dto.response.user.GetUserResponse;
 import com.sreview.sharedReview.domain.jpa.entity.*;
 import com.sreview.sharedReview.domain.jpa.service.*;
 import com.sreview.sharedReview.domain.service.BoardService;
@@ -21,14 +20,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +40,7 @@ public class BoardServiceImpl implements BoardService {
     private final CommentRepoService commentRepoService;
     private final ImageRepoService imageRepoService;
     private final EditorRepoService editorRepoService;
+    private final FileService fileService;
 
     // get
     @Override
@@ -203,19 +201,17 @@ public class BoardServiceImpl implements BoardService {
             boardRepoService.save(board); // 게시물 저장
 
             List<EditorImage> tempEditorImgs = editorRepoService.findByIds(request.getEditorImageIds());
+            // temp 이미지를 일반 폴더로 옮기기
+            tempEditorImgs.forEach(t -> {
+                try {
+                    fileService.tempImageToSave(t);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
 
             // 이미지 저장해주기
-            String markdownContent = request.getContentMarkdown();
-
-            String regex = "!\\[.*?\\]\\((.*?)\\)";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(markdownContent);
-
-            if (matcher.find()) {
-                String imageUrl = matcher.group(1);
-                System.out.println("본문을 제외한 이미지 url : " + imageUrl);
-                imageRepoService.saveAll(board, imageUrl);
-            }
 
             return BoardWriteResponse.success(board.getBoardId());
         } catch (Exception e){

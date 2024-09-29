@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -26,5 +27,9 @@ public class EditorRepoService {
 
     public List<EditorImage> findByIds(List<Long> editorIds) {
         return editorRepository.findByIds(editorIds);
+    }
+
+    public EditorImage findById(Long fileId) {
+        return editorRepository.findById(fileId).orElseThrow(() -> new CustomRuntimeException("Not Fount Editor Image"));
     }
 }
