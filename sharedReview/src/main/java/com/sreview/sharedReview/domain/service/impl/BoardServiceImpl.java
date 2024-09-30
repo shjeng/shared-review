@@ -197,8 +197,8 @@ public class BoardServiceImpl implements BoardService {
             Board board = BoardWriteRequest.getBoard(request);
             board.setUserAndCategory(user,category); // 글 작성자와 태그 넣어서 저장해주기
             List<Tag> tagList = request.getTagList(board);
-            tagRepoService.saveAll(tagList); // 태그 저장
             boardRepoService.save(board); // 게시물 저장
+            tagRepoService.saveAll(tagList); // 태그 저장
 
             List<EditorImage> tempEditorImgs = editorRepoService.findByIds(request.getEditorImageIds());
             // temp 이미지를 일반 폴더로 옮기기
