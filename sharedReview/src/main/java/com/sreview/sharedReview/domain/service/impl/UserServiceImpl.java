@@ -92,6 +92,15 @@ public class UserServiceImpl implements UserService {
                 filteredUser = userRepository.findAdminByNickname(inputValue);
             } else if ("email".equals(searchValue)) { // 이메일로 들어올때
                 filteredUser = userRepository.findAdminByEmail(inputValue);
+            } else if ("active".equals(searchValue)) {
+                Boolean activeInputValue = null;
+
+                if("유효".equals(inputValue)) {
+                    activeInputValue = true;
+                } else if ("탈퇴".equals(inputValue)) {
+                    activeInputValue = false;
+                }
+                filteredUser = userRepository.findAdminByActive(activeInputValue);
             }
             // DTO로 변환
             users = AdminUserDto.ofList(filteredUser);

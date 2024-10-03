@@ -19,13 +19,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email); // email로 user를 찾음.
 
     @Query("SELECT u FROM user_entity u WHERE u.id = :id")
-    List<User> findAdminById(@Param("id") String inputValue);
+    List<User> findAdminById(@Param("id") String userId);
 
-    @Query("SELECT u FROM user_entity u WHERE u.nickname = :nickname")
+    @Query("SELECT u FROM user_entity u WHERE u.nickname LIKE %:nickname%")
     List<User> findAdminByNickname(@Param("nickname") String userNickname);
 
-    @Query("SELECT u FROM user_entity u WHERE u.email = :email")
+    @Query("SELECT u FROM user_entity u WHERE u.email LIKE %:email%")
     List<User> findAdminByEmail(@Param("email") String userEmail);
+
+    @Query("SELECT u FROM user_entity u WHERE u.active = :active")
+    List<User> findAdminByActive(@Param("active") Boolean userAcrive);
 
     @Query("SELECT u FROM user_entity u WHERE u.email=:email AND u.password=:password")
     Optional<User> passwordCheck(@Param("email") String email, @Param("password") String password);
