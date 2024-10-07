@@ -1,10 +1,12 @@
 package com.sreview.sharedReview.domain.jpa.jpaInterface.qrepo;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sreview.sharedReview.domain.dto.request.board.BoardRequestParam;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
+import com.sreview.sharedReview.domain.jpa.entity.QEditorImage;
 import com.sreview.sharedReview.domain.jpa.entity.QFavorite;
 import com.sreview.sharedReview.domain.jpa.entity.User;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 import static com.sreview.sharedReview.domain.jpa.entity.QBoard.*;
+import static com.sreview.sharedReview.domain.jpa.entity.QEditorImage.editorImage;
 import static com.sreview.sharedReview.domain.jpa.entity.QFavorite.favorite;
 
 /*
@@ -33,7 +36,16 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     @Override
     public Page<Board> findBoards(BoardRequestParam boardRequestParam, Pageable pageable) {
-        List<Board> content = jpaQueryFactory.select(board).from(board).where(searchWordEq(boardRequestParam), categoryIdEq(boardRequestParam))
+        QEditorImage subEditor = new QEditorImage("subEditor");
+        List<Board> content = jpaQueryFactory
+                .select(board)
+                .from(board)
+                .leftJoin(editorImage).on(
+                        editorImage.boardId.eq(board).and(
+                        editorImage.id.eq(
+                                JPAExpressions.select(subEditor.id.min()).from(subEditor).where(subEditor.boardId.eq(board))
+                        )))
+                .where(searchWordEq(boardRequestParam), categoryIdEq(boardRequestParam))
                 .offset(pageable.getOffset()).limit(pageable.getPageSize())
                 .orderBy(board.createDate.desc()).fetch();
         JPAQuery<Long> count = jpaQueryFactory.select(board.count()).from(board).where(searchWordEq(boardRequestParam), categoryIdEq(boardRequestParam));
@@ -75,7 +87,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
      @Override
      public Board findBoardById(Long boardId) {
-         return jpaQueryFactory.select(board).from(board).leftJoin(favorite).on(board.boardId.eq(favorite.id)).fetchJoin().where(board.boardId.eq(boardId)).fetchOne();
+         return jpaQueryFactory.select(board)
+                 .from(board)
+                 .leftJoin(favorite)
+                 .on(board.boardId.eq(favorite.id))
+                 .fetchJoin()
+                 .where(board.boardId.eq(boardId))
+                 .fetchOne();
      }
     @Override
     public void update() {

@@ -70,6 +70,10 @@ public class  Board extends BaseEntity{ // 게시물 테이블
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<BoardTag> boardTag;
+
+    @OneToMany(mappedBy = "boardId", cascade = CascadeType.ALL)
+    private List<EditorImage> editorImages;
+
     public void setTitleContent(String title, String content) {
         this.title = title;
         this.content = content;
