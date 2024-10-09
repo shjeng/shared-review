@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -96,6 +97,7 @@ public class FileService {
                 .realName(file.getOriginalFilename())
                 .ext(ext)
                 .status(FILE_STATUS.TEMP)
+                .fileSize(file.getSize())
                 .filePath(tempPath)
                 .deleteYn('N')
                 .build();
@@ -139,7 +141,6 @@ public class FileService {
         Path path = Paths.get(filePath, editorImage.getSavedName());
         Files.move(tempFilePath, path);
         editorImage.updateFilePath(filePath);
-        editorRepoService.save(editorImage);
     }
 
     public void updateImageStatusToNormal(EditorImage editorImage) throws IOException {

@@ -15,6 +15,7 @@ import com.sreview.sharedReview.domain.service.BoardService;
 import com.sun.jdi.InternalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,8 @@ import java.util.Optional;
 @Slf4j
 public class BoardServiceImpl implements BoardService {
 
+    @Value("${file.editor.url}")
+    private String editorUrl;
     private final BoardRepoService boardRepoService;
     private final FavoriteRepoService favoriteRepoService;
     private final CategoryRepoService categoryRepoService;
@@ -53,10 +56,7 @@ public class BoardServiceImpl implements BoardService {
             } else{
                 favoriteBoardTop3 = boardRepoService.findFavoriteBoardTop3(condition);
             }
-            list = favoriteBoardTop3.stream().map(l -> new BoardDto().of(l)).toList();
-
-            System.out.println("클라이언트로 보내는 list값 : " + list);
-            System.out.println("클라이언트로 보내는 condition값 : " + condition);
+            list = favoriteBoardTop3.stream().map(l -> new BoardDto().of(l,editorUrl)).toList();
 
             return BoardListResponse.success(list, condition);
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class BoardServiceImpl implements BoardService {
     public ResponseDto findBoardByUserEmail(String userEmail, Pageable pageable) {
         try {
             Page<Board> boardsEntity = boardRepoService.findBoardsByUserEmail(userEmail, pageable);
-            Page<BoardDto> boardDtos = boardsEntity.map(board -> new BoardDto().of(board));
+            Page<BoardDto> boardDtos = boardsEntity.map(board -> new BoardDto().of(board, editorUrl));
             return BoardListResponse.success(boardDtos);
         } catch (Exception e) {
             throw e;
@@ -93,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
         try {
             Pageable pageable = PageRequest.of(0, 10 ,Sort.by(Sort.Direction.DESC, "id"));
             Page<Board> latestBoards = boardRepoService.findLatestBoards(pageable);
-            Page<BoardDto> boardDtos = latestBoards.map(l -> new BoardDto().of(l));
+            Page<BoardDto> boardDtos = latestBoards.map(l -> new BoardDto().of(l, editorUrl));
             return BoardListResponse.success(boardDtos);
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,9 +197,6 @@ public class BoardServiceImpl implements BoardService {
             Board board = BoardWriteRequest.getBoard(request);
             board.setUserAndCategory(user,category); // 글 작성자와 태그 넣어서 저장해주기
             List<Tag> tagList = request.getTagList(board);
-            boardRepoService.save(board); // 게시물 저장
-            tagRepoService.saveAll(tagList); // 태그 저장
-
             List<EditorImage> tempEditorImgs = editorRepoService.findByIds(request.getEditorImageIds());
             // temp 이미지를 일반 폴더로 옮기기
             tempEditorImgs.forEach(t -> {
@@ -209,8 +206,9 @@ public class BoardServiceImpl implements BoardService {
                     throw new RuntimeException(e);
                 }
             });
-
-
+            board.saveImgs(tempEditorImgs);
+            boardRepoService.save(board); // 게시물 저장
+            tagRepoService.saveAll(tagList); // 태그 저장
             // 이미지 저장해주기
 
             return BoardWriteResponse.success(board.getBoardId());
@@ -259,7 +257,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Page<BoardDto> getBoard(BoardRequestParam boardRequestParam, Pageable pageable) {
         Page<Board> boards = boardRepoService.findList(boardRequestParam, pageable);
-        return boards.map(b -> new BoardDto().of(b));
+        return boards.map(b -> new BoardDto().of(b, editorUrl));
 
     }
 
@@ -267,7 +265,7 @@ public class BoardServiceImpl implements BoardService {
     public ResponseDto getAllBoards(Pageable pageable) {
         try {
             Page<Board> allBoards = boardRepoService.findAll(pageable); // 모든 게시물 가져오기
-            Page<BoardDto> result = allBoards.map(b -> new BoardDto().of(b));
+            Page<BoardDto> result = allBoards.map(b -> new BoardDto().of(b, editorUrl));
             return BoardListResponse.success(result);
         } catch (Exception e) {
             e.printStackTrace();
@@ -298,7 +296,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseDto getBoards(Pageable pageable, BoardRequestParam params) {
         Page<Board> boardsByParams = boardRepoService.findBoardsByParams(pageable, params);
-        Page<BoardDto> result = boardsByParams.map(b -> new BoardDto().of(b));
+        Page<BoardDto> result = boardsByParams.map(b -> new BoardDto().of(b, editorUrl));
         return BoardListResponse.success(result);
     }
 

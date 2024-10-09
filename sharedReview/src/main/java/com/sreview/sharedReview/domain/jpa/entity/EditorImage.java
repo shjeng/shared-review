@@ -1,12 +1,8 @@
 package com.sreview.sharedReview.domain.jpa.entity;
 
-import com.sreview.sharedReview.domain.jpa.entity.enumType.DELETE;
 import com.sreview.sharedReview.domain.jpa.entity.enumType.FILE_STATUS;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 
@@ -43,6 +39,7 @@ public class EditorImage extends BaseEntity{
     @ColumnDefault("'N'")
     private Character deleteYn;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name="board_id")
     public Board boardId;
@@ -50,4 +47,5 @@ public class EditorImage extends BaseEntity{
     public void updateFilePath(String filePath) {
         this.filePath = filePath;
     }
+
 }

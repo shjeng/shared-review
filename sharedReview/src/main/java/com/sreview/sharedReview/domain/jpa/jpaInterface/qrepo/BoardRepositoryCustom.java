@@ -5,6 +5,8 @@ import com.sreview.sharedReview.domain.jpa.entity.Board;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface BoardRepositoryCustom {
@@ -13,5 +15,5 @@ public interface BoardRepositoryCustom {
 
     Board findBoardById(Long id);
 
-    void update();
+    List<Board> findFavoriteBoardTop3(LocalDateTime weekAgo);
 }

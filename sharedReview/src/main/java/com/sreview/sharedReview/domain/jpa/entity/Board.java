@@ -86,4 +86,8 @@ public class  Board extends BaseEntity{ // 게시물 테이블
         this.viewsCount++;
     }
 
+    public void saveImgs(List<EditorImage> tempEditorImgs) {
+        this.editorImages = tempEditorImgs;
+        tempEditorImgs.forEach(t -> t.setBoardId(this));
+    }
 }

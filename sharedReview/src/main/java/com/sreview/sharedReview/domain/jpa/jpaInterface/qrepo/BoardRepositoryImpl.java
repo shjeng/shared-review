@@ -7,17 +7,16 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sreview.sharedReview.domain.dto.request.board.BoardRequestParam;
 import com.sreview.sharedReview.domain.jpa.entity.Board;
 import com.sreview.sharedReview.domain.jpa.entity.QEditorImage;
-import com.sreview.sharedReview.domain.jpa.entity.QFavorite;
-import com.sreview.sharedReview.domain.jpa.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.sreview.sharedReview.domain.jpa.entity.QBoard.*;
+import static com.sreview.sharedReview.domain.jpa.entity.QBoard.board;
+import static com.sreview.sharedReview.domain.jpa.entity.QBoardTag.boardTag;
 import static com.sreview.sharedReview.domain.jpa.entity.QEditorImage.editorImage;
 import static com.sreview.sharedReview.domain.jpa.entity.QFavorite.favorite;
 
@@ -42,9 +41,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(board)
                 .leftJoin(editorImage).on(
                         editorImage.boardId.eq(board).and(
-                        editorImage.id.eq(
-                                JPAExpressions.select(subEditor.id.min()).from(subEditor).where(subEditor.boardId.eq(board))
-                        )))
+                                editorImage.id.eq(
+                                        JPAExpressions.select(subEditor.id.min()).from(subEditor).where(subEditor.boardId.eq(board)))))
+                .leftJoin(boardTag).on(boardTag.board.eq(board))
                 .where(searchWordEq(boardRequestParam), categoryIdEq(boardRequestParam))
                 .offset(pageable.getOffset()).limit(pageable.getPageSize())
                 .orderBy(board.createDate.desc()).fetch();
@@ -53,8 +52,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     /*
-    * 검색어와 검색어 타입을 받아서 결과를 반환
-    * */
+     * 검색어와 검색어 타입을 받아서 결과를 반환
+     * */
     private BooleanExpression searchWordEq(BoardRequestParam requestParam) {
         String searchType = requestParam.getSearchType();
         String searchWord = requestParam.getSearchWord();
@@ -76,27 +75,44 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         }
 
     }
-    /*카테고리 아이디를 가지고 게시물을 찾음.*/
-     private BooleanExpression categoryIdEq(BoardRequestParam requestParam) {
-         Long categoryId = requestParam.getCategoryId();
-         if (categoryId == null) {
-             return null;
-         }
-         return board.category.id.eq(categoryId);
-     }
 
-     @Override
-     public Board findBoardById(Long boardId) {
-         return jpaQueryFactory.select(board)
-                 .from(board)
-                 .leftJoin(favorite)
-                 .on(board.boardId.eq(favorite.id))
-                 .fetchJoin()
-                 .where(board.boardId.eq(boardId))
-                 .fetchOne();
-     }
+    /*카테고리 아이디를 가지고 게시물을 찾음.*/
+    private BooleanExpression categoryIdEq(BoardRequestParam requestParam) {
+        Long categoryId = requestParam.getCategoryId();
+        if (categoryId == null) {
+            return null;
+        }
+        return board.category.id.eq(categoryId);
+    }
+
     @Override
-    public void update() {
+    public Board findBoardById(Long boardId) {
+        return jpaQueryFactory.select(board)
+                .from(board)
+                .leftJoin(favorite)
+                .on(board.boardId.eq(favorite.id))
+                .fetchJoin()
+                .where(board.boardId.eq(boardId))
+                .fetchOne();
+    }
+
+    //    @Query("select b from Board b where b.createDate >= :weekAgo order by b.favoriteCount desc, b.createDate desc limit 3")
+//    List<Board> findFavoriteBoardTop3(@Param("weekAgo") LocalDateTime weekAgo);
+    @Override
+    public List<Board> findFavoriteBoardTop3(LocalDateTime weekAgo) {
+        QEditorImage subEditor = new QEditorImage("subEditor");
+        return jpaQueryFactory.select(board)
+                .from(board)
+                .leftJoin(editorImage)
+                .on(editorImage.boardId.eq(board).and(editorImage.id.eq(
+                        JPAExpressions.select(subEditor.id.min())
+                                .from(subEditor)
+                                .where(subEditor.boardId.eq(board))
+                )))
+                .where(board.createDate.goe(weekAgo))
+                .orderBy(board.favoriteCount.desc(), board.createDate.desc())
+                .limit(3)
+                .fetch();
     }
 
 }

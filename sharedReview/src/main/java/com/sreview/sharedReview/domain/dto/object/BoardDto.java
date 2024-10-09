@@ -26,7 +26,7 @@ public class BoardDto {
     private List<TagDto> tags;
     private CategoryDto category;
 
-    public BoardDto of(Board board){
+    public BoardDto of(Board board, String editorUrl){
         this.boardId = board.getBoardId();
         this.title = board.getTitle();
         commentCount = board.getCommentCount();
@@ -38,14 +38,8 @@ public class BoardDto {
         tags = boardTag.stream().map(bt -> new TagDto().ofEntity(bt.getTag())).toList();
 
         // 이미지 처리
-        if (board.getImages() != null && !board.getImages().isEmpty()) {
-            List<ImageDto> imageDtos = board.getImages().stream()
-                    .map(image -> new ImageDto().of(image))
-                    .collect(Collectors.toList());
-
-            if (!imageDtos.isEmpty()) {
-                this.backImg = imageDtos.get(0); // 첫 번째 이미지만 사용
-            }
+        if (board.getEditorImages() != null && !board.getEditorImages().isEmpty()) {
+            backImg =new ImageDto().of(board.getEditorImages().get(0), editorUrl);
         }
 
         if (board.getCategory() != null) {
